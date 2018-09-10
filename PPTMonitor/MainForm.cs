@@ -17,7 +17,7 @@ namespace PPTMonitor {
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
 
-        static int startingRating, currentRating;
+        static int startingRating, currentRating, wins = 0, losses = 0;
 
         static int[] score = new int[4] {0, 0, 0, 0};
         static int[] sets = new int[4] {0, 0, 0, 0};
@@ -25,16 +25,24 @@ namespace PPTMonitor {
         static int maxscore = 2;
 
         private void ScanTimer_Tick(object sender, EventArgs e) {
-            currentRating = PPT.ReadInt32(new IntPtr(0x140599FF0));
+            int value = PPT.ReadInt32(new IntPtr(0x140599FF0));
+            if (value > currentRating) {
+                wins++;
+                valueWins.Text = wins.ToString();
+            } else if (value < currentRating) {
+                losses++;
+                valueLosses.Text = losses.ToString();
+            }
+            currentRating = value;
+
             valueCurrentRating.Text = currentRating.ToString();
             valueRatingDifference.Text = (currentRating - startingRating).ToString();
 
             int scoreAddress = PPT.ReadInt32(new IntPtr(0x14057F048)) + 0x38;
-
             maxscore = PPT.ReadInt32(new IntPtr(scoreAddress + 0x10));
 
             for (int i = 0; i < 4; i++) {
-                int value = PPT.ReadInt32(new IntPtr(scoreAddress) + i * 4);
+                value = PPT.ReadInt32(new IntPtr(scoreAddress) + i * 4);
                 if (value > score[i]) {
                     total[i]++;
                     if (value >= maxscore) {
@@ -72,6 +80,10 @@ namespace PPTMonitor {
             valueStartingRating.Text = startingRating.ToString();
             valueCurrentRating.Text = currentRating.ToString();
             valueRatingDifference.Text = (currentRating - startingRating).ToString();
+
+            wins = losses = 0;
+            valueWins.Text = wins.ToString();
+            valueLosses.Text = losses.ToString();
         }
 
         private void MainForm_Load(object sender, EventArgs e) {
