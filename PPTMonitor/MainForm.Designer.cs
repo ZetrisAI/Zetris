@@ -195,6 +195,7 @@
             this.buttonResetPuzzle.Size = new System.Drawing.Size(35, 13);
             this.buttonResetPuzzle.TabIndex = 0;
             this.buttonResetPuzzle.Text = "Reset";
+            this.buttonResetPuzzle.Click += new System.EventHandler(this.buttonResetPuzzle_Click);
             // 
             // horiDelimiter1
             // 
@@ -296,7 +297,7 @@
             this.valueLosses.Name = "valueLosses";
             this.valueLosses.Size = new System.Drawing.Size(40, 13);
             this.valueLosses.TabIndex = 1;
-            this.valueLosses.Text = "?";
+            this.valueLosses.Text = "0";
             this.valueLosses.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // valueWins
@@ -306,7 +307,7 @@
             this.valueWins.Name = "valueWins";
             this.valueWins.Size = new System.Drawing.Size(40, 13);
             this.valueWins.TabIndex = 1;
-            this.valueWins.Text = "?";
+            this.valueWins.Text = "0";
             this.valueWins.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // labelPuzzle
@@ -944,6 +945,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "PPT Monitor";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter2)).EndInit();
