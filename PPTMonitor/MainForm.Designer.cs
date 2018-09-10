@@ -343,22 +343,20 @@
             // 
             // value2PScore1
             // 
-            this.value2PScore1.AutoSize = true;
             this.value2PScore1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PScore1.Location = new System.Drawing.Point(230, 134);
+            this.value2PScore1.Location = new System.Drawing.Point(217, 134);
             this.value2PScore1.Name = "value2PScore1";
-            this.value2PScore1.Size = new System.Drawing.Size(14, 13);
+            this.value2PScore1.Size = new System.Drawing.Size(27, 13);
             this.value2PScore1.TabIndex = 1;
             this.value2PScore1.Text = "?";
             this.value2PScore1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // value2PScore2
             // 
-            this.value2PScore2.AutoSize = true;
             this.value2PScore2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.value2PScore2.Location = new System.Drawing.Point(251, 134);
             this.value2PScore2.Name = "value2PScore2";
-            this.value2PScore2.Size = new System.Drawing.Size(14, 13);
+            this.value2PScore2.Size = new System.Drawing.Size(37, 13);
             this.value2PScore2.TabIndex = 1;
             this.value2PScore2.Text = "?";
             // 
@@ -384,22 +382,20 @@
             // 
             // value2PSets1
             // 
-            this.value2PSets1.AutoSize = true;
             this.value2PSets1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PSets1.Location = new System.Drawing.Point(230, 155);
+            this.value2PSets1.Location = new System.Drawing.Point(217, 155);
             this.value2PSets1.Name = "value2PSets1";
-            this.value2PSets1.Size = new System.Drawing.Size(14, 13);
+            this.value2PSets1.Size = new System.Drawing.Size(27, 13);
             this.value2PSets1.TabIndex = 1;
             this.value2PSets1.Text = "?";
             this.value2PSets1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // value2PSets2
             // 
-            this.value2PSets2.AutoSize = true;
             this.value2PSets2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.value2PSets2.Location = new System.Drawing.Point(251, 155);
             this.value2PSets2.Name = "value2PSets2";
-            this.value2PSets2.Size = new System.Drawing.Size(14, 13);
+            this.value2PSets2.Size = new System.Drawing.Size(37, 13);
             this.value2PSets2.TabIndex = 1;
             this.value2PSets2.Text = "?";
             // 
@@ -434,22 +430,20 @@
             // 
             // value2PTotal1
             // 
-            this.value2PTotal1.AutoSize = true;
             this.value2PTotal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PTotal1.Location = new System.Drawing.Point(230, 176);
+            this.value2PTotal1.Location = new System.Drawing.Point(217, 176);
             this.value2PTotal1.Name = "value2PTotal1";
-            this.value2PTotal1.Size = new System.Drawing.Size(14, 13);
+            this.value2PTotal1.Size = new System.Drawing.Size(27, 13);
             this.value2PTotal1.TabIndex = 1;
             this.value2PTotal1.Text = "?";
             this.value2PTotal1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // value2PTotal2
             // 
-            this.value2PTotal2.AutoSize = true;
             this.value2PTotal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.value2PTotal2.Location = new System.Drawing.Point(251, 176);
             this.value2PTotal2.Name = "value2PTotal2";
-            this.value2PTotal2.Size = new System.Drawing.Size(14, 13);
+            this.value2PTotal2.Size = new System.Drawing.Size(37, 13);
             this.value2PTotal2.TabIndex = 1;
             this.value2PTotal2.Text = "?";
             // 
