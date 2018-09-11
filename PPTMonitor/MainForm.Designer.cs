@@ -104,6 +104,11 @@
             this.value4PPlayer1Rating = new System.Windows.Forms.Label();
             this.buttonReset4P = new System.Windows.Forms.Label();
             this.buttonPopout4P = new System.Windows.Forms.Label();
+            this.LeagueP2 = new System.Windows.Forms.Label();
+            this.LeagueP1 = new System.Windows.Forms.Label();
+            this.players = new System.Windows.Forms.Label();
+            this.LeagueP3 = new System.Windows.Forms.Label();
+            this.LeagueP4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter2)).BeginInit();
@@ -849,12 +854,57 @@
             this.buttonPopout4P.TabIndex = 0;
             this.buttonPopout4P.Text = "Pop out";
             // 
+            // LeagueP2
+            // 
+            this.LeagueP2.Location = new System.Drawing.Point(141, 256);
+            this.LeagueP2.Name = "LeagueP2";
+            this.LeagueP2.Size = new System.Drawing.Size(23, 13);
+            this.LeagueP2.TabIndex = 4;
+            this.LeagueP2.Text = "0";
+            // 
+            // LeagueP1
+            // 
+            this.LeagueP1.Location = new System.Drawing.Point(141, 235);
+            this.LeagueP1.Name = "LeagueP1";
+            this.LeagueP1.Size = new System.Drawing.Size(23, 13);
+            this.LeagueP1.TabIndex = 4;
+            this.LeagueP1.Text = "0";
+            // 
+            // players
+            // 
+            this.players.Location = new System.Drawing.Point(265, 332);
+            this.players.Name = "players";
+            this.players.Size = new System.Drawing.Size(23, 13);
+            this.players.TabIndex = 4;
+            this.players.Text = "0";
+            // 
+            // LeagueP3
+            // 
+            this.LeagueP3.Location = new System.Drawing.Point(141, 277);
+            this.LeagueP3.Name = "LeagueP3";
+            this.LeagueP3.Size = new System.Drawing.Size(23, 13);
+            this.LeagueP3.TabIndex = 4;
+            this.LeagueP3.Text = "0";
+            // 
+            // LeagueP4
+            // 
+            this.LeagueP4.Location = new System.Drawing.Point(141, 298);
+            this.LeagueP4.Name = "LeagueP4";
+            this.LeagueP4.Size = new System.Drawing.Size(23, 13);
+            this.LeagueP4.TabIndex = 4;
+            this.LeagueP4.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(300, 353);
+            this.Controls.Add(this.LeagueP1);
+            this.Controls.Add(this.players);
+            this.Controls.Add(this.LeagueP4);
+            this.Controls.Add(this.LeagueP3);
+            this.Controls.Add(this.LeagueP2);
             this.Controls.Add(this.label4PPlayer4Rating);
             this.Controls.Add(this.label4PPlayer3Rating);
             this.Controls.Add(this.label4PPlayer1Rating);
@@ -1021,6 +1071,11 @@
         private System.Windows.Forms.Label value4PPlayer1Rating;
         private System.Windows.Forms.Label buttonReset4P;
         private System.Windows.Forms.Label buttonPopout4P;
+        private System.Windows.Forms.Label LeagueP2;
+        private System.Windows.Forms.Label LeagueP1;
+        private System.Windows.Forms.Label players;
+        private System.Windows.Forms.Label LeagueP3;
+        private System.Windows.Forms.Label LeagueP4;
     }
 }
 

@@ -77,6 +77,12 @@ namespace PPTMonitor {
             label4PPlayer2Rating.Text = label2PPlayer2Rating.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0x50, 0x20);
             label4PPlayer3Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xA0, 0x20);
             label4PPlayer4Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xF0, 0x20);
+
+            int leagueAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x68)) + 0x20)) + 0x970)) - 0x38;
+            LeagueP1.Text = PPT.ReadInt16(new IntPtr(leagueAddress)).ToString();
+            LeagueP2.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x140).ToString();
+            LeagueP3.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x280).ToString();
+            LeagueP4.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x3C0).ToString();
         }
 
         private void buttonResetPuzzle_Click(object sender, EventArgs e) {
