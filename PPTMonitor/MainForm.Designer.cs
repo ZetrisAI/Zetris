@@ -208,30 +208,27 @@
             // 
             // label2PPlayer2Rating
             // 
-            this.label2PPlayer2Rating.AutoSize = true;
             this.label2PPlayer2Rating.Location = new System.Drawing.Point(6, 166);
             this.label2PPlayer2Rating.Name = "label2PPlayer2Rating";
-            this.label2PPlayer2Rating.Size = new System.Drawing.Size(82, 13);
+            this.label2PPlayer2Rating.Size = new System.Drawing.Size(93, 13);
             this.label2PPlayer2Rating.TabIndex = 1;
-            this.label2PPlayer2Rating.Text = "Player 2 Rating:";
+            this.label2PPlayer2Rating.Text = "Player 2";
             // 
             // label4PPlayer3Rating
             // 
-            this.label4PPlayer3Rating.AutoSize = true;
             this.label4PPlayer3Rating.Location = new System.Drawing.Point(6, 277);
             this.label4PPlayer3Rating.Name = "label4PPlayer3Rating";
-            this.label4PPlayer3Rating.Size = new System.Drawing.Size(82, 13);
+            this.label4PPlayer3Rating.Size = new System.Drawing.Size(93, 13);
             this.label4PPlayer3Rating.TabIndex = 1;
-            this.label4PPlayer3Rating.Text = "Player 3 Rating:";
+            this.label4PPlayer3Rating.Text = "Player 3";
             // 
             // label4PPlayer4Rating
             // 
-            this.label4PPlayer4Rating.AutoSize = true;
             this.label4PPlayer4Rating.Location = new System.Drawing.Point(6, 298);
             this.label4PPlayer4Rating.Name = "label4PPlayer4Rating";
-            this.label4PPlayer4Rating.Size = new System.Drawing.Size(82, 13);
+            this.label4PPlayer4Rating.Size = new System.Drawing.Size(93, 13);
             this.label4PPlayer4Rating.TabIndex = 1;
-            this.label4PPlayer4Rating.Text = "Player 4 Rating:";
+            this.label4PPlayer4Rating.Text = "Player 4";
             // 
             // value4PPlayer3Rating
             // 
@@ -460,12 +457,11 @@
             // 
             // label4PPlayer2Rating
             // 
-            this.label4PPlayer2Rating.AutoSize = true;
             this.label4PPlayer2Rating.Location = new System.Drawing.Point(6, 256);
             this.label4PPlayer2Rating.Name = "label4PPlayer2Rating";
-            this.label4PPlayer2Rating.Size = new System.Drawing.Size(82, 13);
+            this.label4PPlayer2Rating.Size = new System.Drawing.Size(93, 13);
             this.label4PPlayer2Rating.TabIndex = 1;
-            this.label4PPlayer2Rating.Text = "Player 2 Rating:";
+            this.label4PPlayer2Rating.Text = "Player 2";
             // 
             // label4PSets
             // 
@@ -769,12 +765,11 @@
             // 
             // label2PPlayer1Rating
             // 
-            this.label2PPlayer1Rating.AutoSize = true;
             this.label2PPlayer1Rating.Location = new System.Drawing.Point(6, 145);
             this.label2PPlayer1Rating.Name = "label2PPlayer1Rating";
-            this.label2PPlayer1Rating.Size = new System.Drawing.Size(82, 13);
+            this.label2PPlayer1Rating.Size = new System.Drawing.Size(93, 13);
             this.label2PPlayer1Rating.TabIndex = 1;
-            this.label2PPlayer1Rating.Text = "Player 1 Rating:";
+            this.label2PPlayer1Rating.Text = "Player 1";
             // 
             // value2PPlayer1Rating
             // 
@@ -818,12 +813,11 @@
             // 
             // label4PPlayer1Rating
             // 
-            this.label4PPlayer1Rating.AutoSize = true;
             this.label4PPlayer1Rating.Location = new System.Drawing.Point(6, 235);
             this.label4PPlayer1Rating.Name = "label4PPlayer1Rating";
-            this.label4PPlayer1Rating.Size = new System.Drawing.Size(82, 13);
+            this.label4PPlayer1Rating.Size = new System.Drawing.Size(93, 13);
             this.label4PPlayer1Rating.TabIndex = 1;
-            this.label4PPlayer1Rating.Text = "Player 1 Rating:";
+            this.label4PPlayer1Rating.Text = "Player 1";
             // 
             // value4PPlayer1Rating
             // 
@@ -861,6 +855,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(300, 353);
+            this.Controls.Add(this.label4PPlayer4Rating);
+            this.Controls.Add(this.label4PPlayer3Rating);
+            this.Controls.Add(this.label4PPlayer1Rating);
+            this.Controls.Add(this.label4PPlayer2Rating);
+            this.Controls.Add(this.label2PPlayer1Rating);
+            this.Controls.Add(this.label2PPlayer2Rating);
             this.Controls.Add(this.vertDelimiter3);
             this.Controls.Add(this.vertDelimiter2);
             this.Controls.Add(this.vertDelimiter1);
@@ -914,18 +914,12 @@
             this.Controls.Add(this.labelPuzzle);
             this.Controls.Add(this.labelStartingRating);
             this.Controls.Add(this.valueRatingDifference);
-            this.Controls.Add(this.label4PPlayer4Rating);
             this.Controls.Add(this.label4PTotal);
-            this.Controls.Add(this.label4PPlayer3Rating);
             this.Controls.Add(this.label4PScore);
             this.Controls.Add(this.label2PTotal);
             this.Controls.Add(this.label4PSets);
             this.Controls.Add(this.label2PScore);
-            this.Controls.Add(this.label4PPlayer1Rating);
-            this.Controls.Add(this.label4PPlayer2Rating);
             this.Controls.Add(this.label2PSets);
-            this.Controls.Add(this.label2PPlayer1Rating);
-            this.Controls.Add(this.label2PPlayer2Rating);
             this.Controls.Add(this.labelRatingDifference);
             this.Controls.Add(this.labelCurrentRating);
             this.Controls.Add(this.buttonRehook);

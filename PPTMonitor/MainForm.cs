@@ -67,11 +67,16 @@ namespace PPTMonitor {
             value4PTotal3.Text                      = total[2].ToString();
             value4PTotal4.Text                      = total[3].ToString();
 
-            int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0x108;
-            value4PPlayer1Rating.Text = value2PPlayer1Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress)).ToString();
-            value4PPlayer2Rating.Text = value2PPlayer2Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x50).ToString();
-            value4PPlayer3Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0xA0).ToString();
-            value4PPlayer4Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0xF0).ToString();
+            int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0xD8;
+            value4PPlayer1Rating.Text = value2PPlayer1Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x30).ToString();
+            value4PPlayer2Rating.Text = value2PPlayer2Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x80).ToString();
+            value4PPlayer3Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0xD0).ToString();
+            value4PPlayer4Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0x120).ToString();
+
+            label4PPlayer1Rating.Text = label2PPlayer1Rating.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress), 0x20);
+            label4PPlayer2Rating.Text = label2PPlayer2Rating.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0x50, 0x20);
+            label4PPlayer3Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xA0, 0x20);
+            label4PPlayer4Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xF0, 0x20);
         }
 
         private void buttonResetPuzzle_Click(object sender, EventArgs e) {
