@@ -39,55 +39,38 @@
             this.valueStartingRating = new System.Windows.Forms.Label();
             this.buttonResetPuzzle = new System.Windows.Forms.Label();
             this.horiDelimiter1 = new System.Windows.Forms.PictureBox();
-            this.label2PPlayer2Rating = new System.Windows.Forms.Label();
-            this.label4PPlayer3Rating = new System.Windows.Forms.Label();
-            this.label4PPlayer4Rating = new System.Windows.Forms.Label();
-            this.value4PPlayer3Rating = new System.Windows.Forms.Label();
-            this.value4PPlayer4Rating = new System.Windows.Forms.Label();
-            this.value2PPlayer2Rating = new System.Windows.Forms.Label();
+            this.valueP3Name = new System.Windows.Forms.Label();
+            this.valueP4Name = new System.Windows.Forms.Label();
+            this.valueP3Rating = new System.Windows.Forms.Label();
+            this.valueP4Rating = new System.Windows.Forms.Label();
             this.labelWins = new System.Windows.Forms.Label();
             this.labelLosses = new System.Windows.Forms.Label();
             this.vertDelimiter1 = new System.Windows.Forms.PictureBox();
             this.valueLosses = new System.Windows.Forms.Label();
             this.valueWins = new System.Windows.Forms.Label();
             this.labelPuzzle = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label2PScore = new System.Windows.Forms.Label();
-            this.value2PScore1 = new System.Windows.Forms.Label();
-            this.value2PScore2 = new System.Windows.Forms.Label();
-            this.labelDelimiter1 = new System.Windows.Forms.Label();
-            this.label2PSets = new System.Windows.Forms.Label();
-            this.value2PSets1 = new System.Windows.Forms.Label();
-            this.value2PSets2 = new System.Windows.Forms.Label();
-            this.labelDelimiter2 = new System.Windows.Forms.Label();
-            this.vertDelimiter2 = new System.Windows.Forms.PictureBox();
-            this.label2PTotal = new System.Windows.Forms.Label();
-            this.value2PTotal1 = new System.Windows.Forms.Label();
-            this.value2PTotal2 = new System.Windows.Forms.Label();
-            this.labelDelimiter3 = new System.Windows.Forms.Label();
-            this.label4PPlayer2Rating = new System.Windows.Forms.Label();
+            this.valueP2Name = new System.Windows.Forms.Label();
             this.label4PSets = new System.Windows.Forms.Label();
             this.label4PScore = new System.Windows.Forms.Label();
             this.label4PTotal = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.value4PPlayer2Rating = new System.Windows.Forms.Label();
-            this.value4PScore1 = new System.Windows.Forms.Label();
-            this.value4PTotal1 = new System.Windows.Forms.Label();
-            this.value4PSets1 = new System.Windows.Forms.Label();
-            this.value4PScore2 = new System.Windows.Forms.Label();
-            this.value4PTotal2 = new System.Windows.Forms.Label();
-            this.value4PSets2 = new System.Windows.Forms.Label();
+            this.labelBattle = new System.Windows.Forms.Label();
+            this.valueP2Rating = new System.Windows.Forms.Label();
+            this.valueScore1 = new System.Windows.Forms.Label();
+            this.valueTotal1 = new System.Windows.Forms.Label();
+            this.valueSets1 = new System.Windows.Forms.Label();
+            this.valueScore2 = new System.Windows.Forms.Label();
+            this.valueTotal2 = new System.Windows.Forms.Label();
+            this.valueSets2 = new System.Windows.Forms.Label();
             this.labelDelimiter4 = new System.Windows.Forms.Label();
             this.labelDelimiter10 = new System.Windows.Forms.Label();
             this.labelDelimiter7 = new System.Windows.Forms.Label();
             this.vertDelimiter3 = new System.Windows.Forms.PictureBox();
-            this.horiDelimiter2 = new System.Windows.Forms.PictureBox();
-            this.value4PScore3 = new System.Windows.Forms.Label();
-            this.value4PTotal3 = new System.Windows.Forms.Label();
-            this.value4PSets3 = new System.Windows.Forms.Label();
-            this.value4PScore4 = new System.Windows.Forms.Label();
-            this.value4PTotal4 = new System.Windows.Forms.Label();
-            this.value4PSets4 = new System.Windows.Forms.Label();
+            this.valueScore3 = new System.Windows.Forms.Label();
+            this.valueTotal3 = new System.Windows.Forms.Label();
+            this.valueSets3 = new System.Windows.Forms.Label();
+            this.valueScore4 = new System.Windows.Forms.Label();
+            this.valueTotal4 = new System.Windows.Forms.Label();
+            this.valueSets4 = new System.Windows.Forms.Label();
             this.labelDelimiter6 = new System.Windows.Forms.Label();
             this.labelDelimiter12 = new System.Windows.Forms.Label();
             this.labelDelimiter9 = new System.Windows.Forms.Label();
@@ -95,25 +78,23 @@
             this.labelDelimiter11 = new System.Windows.Forms.Label();
             this.labelDelimiter8 = new System.Windows.Forms.Label();
             this.horiDelimiter3 = new System.Windows.Forms.PictureBox();
-            this.label2PPlayer1Rating = new System.Windows.Forms.Label();
-            this.value2PPlayer1Rating = new System.Windows.Forms.Label();
             this.buttonPopoutPuzzle = new System.Windows.Forms.Label();
-            this.buttonReset2P = new System.Windows.Forms.Label();
-            this.buttonPopout2P = new System.Windows.Forms.Label();
-            this.label4PPlayer1Rating = new System.Windows.Forms.Label();
-            this.value4PPlayer1Rating = new System.Windows.Forms.Label();
-            this.buttonReset4P = new System.Windows.Forms.Label();
-            this.buttonPopout4P = new System.Windows.Forms.Label();
-            this.LeagueP2 = new System.Windows.Forms.Label();
-            this.LeagueP1 = new System.Windows.Forms.Label();
-            this.players = new System.Windows.Forms.Label();
-            this.LeagueP3 = new System.Windows.Forms.Label();
-            this.LeagueP4 = new System.Windows.Forms.Label();
+            this.valueP1Name = new System.Windows.Forms.Label();
+            this.valueP1Rating = new System.Windows.Forms.Label();
+            this.buttonResetBattle = new System.Windows.Forms.Label();
+            this.buttonPopoutBattle = new System.Windows.Forms.Label();
+            this.valueP2League = new System.Windows.Forms.Label();
+            this.valueP1League = new System.Windows.Forms.Label();
+            this.valuePlayers = new System.Windows.Forms.Label();
+            this.valueP3League = new System.Windows.Forms.Label();
+            this.valueP4League = new System.Windows.Forms.Label();
+            this.valueP2Ratio = new System.Windows.Forms.Label();
+            this.valueP3Ratio = new System.Windows.Forms.Label();
+            this.valueP4Ratio = new System.Windows.Forms.Label();
+            this.valueP1Ratio = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -154,7 +135,7 @@
             // 
             this.buttonRehook.AutoSize = true;
             this.buttonRehook.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonRehook.Location = new System.Drawing.Point(103, 332);
+            this.buttonRehook.Location = new System.Drawing.Point(103, 229);
             this.buttonRehook.Name = "buttonRehook";
             this.buttonRehook.Size = new System.Drawing.Size(98, 13);
             this.buttonRehook.TabIndex = 0;
@@ -211,59 +192,41 @@
             this.horiDelimiter1.TabIndex = 2;
             this.horiDelimiter1.TabStop = false;
             // 
-            // label2PPlayer2Rating
+            // valueP3Name
             // 
-            this.label2PPlayer2Rating.Location = new System.Drawing.Point(6, 166);
-            this.label2PPlayer2Rating.Name = "label2PPlayer2Rating";
-            this.label2PPlayer2Rating.Size = new System.Drawing.Size(93, 13);
-            this.label2PPlayer2Rating.TabIndex = 1;
-            this.label2PPlayer2Rating.Text = "Player 2";
+            this.valueP3Name.Location = new System.Drawing.Point(6, 174);
+            this.valueP3Name.Name = "valueP3Name";
+            this.valueP3Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP3Name.TabIndex = 1;
+            this.valueP3Name.Text = "Player 3";
             // 
-            // label4PPlayer3Rating
+            // valueP4Name
             // 
-            this.label4PPlayer3Rating.Location = new System.Drawing.Point(6, 277);
-            this.label4PPlayer3Rating.Name = "label4PPlayer3Rating";
-            this.label4PPlayer3Rating.Size = new System.Drawing.Size(93, 13);
-            this.label4PPlayer3Rating.TabIndex = 1;
-            this.label4PPlayer3Rating.Text = "Player 3";
+            this.valueP4Name.Location = new System.Drawing.Point(6, 195);
+            this.valueP4Name.Name = "valueP4Name";
+            this.valueP4Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP4Name.TabIndex = 1;
+            this.valueP4Name.Text = "Player 4";
             // 
-            // label4PPlayer4Rating
+            // valueP3Rating
             // 
-            this.label4PPlayer4Rating.Location = new System.Drawing.Point(6, 298);
-            this.label4PPlayer4Rating.Name = "label4PPlayer4Rating";
-            this.label4PPlayer4Rating.Size = new System.Drawing.Size(93, 13);
-            this.label4PPlayer4Rating.TabIndex = 1;
-            this.label4PPlayer4Rating.Text = "Player 4";
+            this.valueP3Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueP3Rating.Location = new System.Drawing.Point(83, 174);
+            this.valueP3Rating.Name = "valueP3Rating";
+            this.valueP3Rating.Size = new System.Drawing.Size(60, 13);
+            this.valueP3Rating.TabIndex = 1;
+            this.valueP3Rating.Text = "?";
+            this.valueP3Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PPlayer3Rating
+            // valueP4Rating
             // 
-            this.value4PPlayer3Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PPlayer3Rating.Location = new System.Drawing.Point(83, 277);
-            this.value4PPlayer3Rating.Name = "value4PPlayer3Rating";
-            this.value4PPlayer3Rating.Size = new System.Drawing.Size(60, 13);
-            this.value4PPlayer3Rating.TabIndex = 1;
-            this.value4PPlayer3Rating.Text = "?";
-            this.value4PPlayer3Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // value4PPlayer4Rating
-            // 
-            this.value4PPlayer4Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PPlayer4Rating.Location = new System.Drawing.Point(83, 298);
-            this.value4PPlayer4Rating.Name = "value4PPlayer4Rating";
-            this.value4PPlayer4Rating.Size = new System.Drawing.Size(60, 13);
-            this.value4PPlayer4Rating.TabIndex = 1;
-            this.value4PPlayer4Rating.Text = "?";
-            this.value4PPlayer4Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // value2PPlayer2Rating
-            // 
-            this.value2PPlayer2Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PPlayer2Rating.Location = new System.Drawing.Point(95, 166);
-            this.value2PPlayer2Rating.Name = "value2PPlayer2Rating";
-            this.value2PPlayer2Rating.Size = new System.Drawing.Size(48, 13);
-            this.value2PPlayer2Rating.TabIndex = 1;
-            this.value2PPlayer2Rating.Text = "?";
-            this.value2PPlayer2Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueP4Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueP4Rating.Location = new System.Drawing.Point(83, 195);
+            this.valueP4Rating.Name = "valueP4Rating";
+            this.valueP4Rating.Size = new System.Drawing.Size(60, 13);
+            this.valueP4Rating.TabIndex = 1;
+            this.valueP4Rating.Text = "?";
+            this.valueP4Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // labelWins
             // 
@@ -323,155 +286,18 @@
             this.labelPuzzle.Text = "Puzzle League";
             this.labelPuzzle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label21
+            // valueP2Name
             // 
-            this.label21.AutoSize = true;
-            this.label21.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label21.Location = new System.Drawing.Point(125, 110);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(50, 13);
-            this.label21.TabIndex = 1;
-            this.label21.Text = "2P Battle";
-            this.label21.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label2PScore
-            // 
-            this.label2PScore.AutoSize = true;
-            this.label2PScore.Location = new System.Drawing.Point(183, 134);
-            this.label2PScore.Name = "label2PScore";
-            this.label2PScore.Size = new System.Drawing.Size(38, 13);
-            this.label2PScore.TabIndex = 1;
-            this.label2PScore.Text = "Score:";
-            // 
-            // value2PScore1
-            // 
-            this.value2PScore1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PScore1.Location = new System.Drawing.Point(217, 134);
-            this.value2PScore1.Name = "value2PScore1";
-            this.value2PScore1.Size = new System.Drawing.Size(27, 13);
-            this.value2PScore1.TabIndex = 1;
-            this.value2PScore1.Text = "?";
-            this.value2PScore1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // value2PScore2
-            // 
-            this.value2PScore2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PScore2.Location = new System.Drawing.Point(251, 134);
-            this.value2PScore2.Name = "value2PScore2";
-            this.value2PScore2.Size = new System.Drawing.Size(37, 13);
-            this.value2PScore2.TabIndex = 1;
-            this.value2PScore2.Text = "?";
-            // 
-            // labelDelimiter1
-            // 
-            this.labelDelimiter1.AutoSize = true;
-            this.labelDelimiter1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter1.Location = new System.Drawing.Point(242, 134);
-            this.labelDelimiter1.Name = "labelDelimiter1";
-            this.labelDelimiter1.Size = new System.Drawing.Size(11, 13);
-            this.labelDelimiter1.TabIndex = 1;
-            this.labelDelimiter1.Text = "-";
-            this.labelDelimiter1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label2PSets
-            // 
-            this.label2PSets.AutoSize = true;
-            this.label2PSets.Location = new System.Drawing.Point(183, 155);
-            this.label2PSets.Name = "label2PSets";
-            this.label2PSets.Size = new System.Drawing.Size(31, 13);
-            this.label2PSets.TabIndex = 1;
-            this.label2PSets.Text = "Sets:";
-            // 
-            // value2PSets1
-            // 
-            this.value2PSets1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PSets1.Location = new System.Drawing.Point(217, 155);
-            this.value2PSets1.Name = "value2PSets1";
-            this.value2PSets1.Size = new System.Drawing.Size(27, 13);
-            this.value2PSets1.TabIndex = 1;
-            this.value2PSets1.Text = "?";
-            this.value2PSets1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // value2PSets2
-            // 
-            this.value2PSets2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PSets2.Location = new System.Drawing.Point(251, 155);
-            this.value2PSets2.Name = "value2PSets2";
-            this.value2PSets2.Size = new System.Drawing.Size(37, 13);
-            this.value2PSets2.TabIndex = 1;
-            this.value2PSets2.Text = "?";
-            // 
-            // labelDelimiter2
-            // 
-            this.labelDelimiter2.AutoSize = true;
-            this.labelDelimiter2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter2.Location = new System.Drawing.Point(242, 155);
-            this.labelDelimiter2.Name = "labelDelimiter2";
-            this.labelDelimiter2.Size = new System.Drawing.Size(11, 13);
-            this.labelDelimiter2.TabIndex = 1;
-            this.labelDelimiter2.Text = "-";
-            this.labelDelimiter2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // vertDelimiter2
-            // 
-            this.vertDelimiter2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.vertDelimiter2.Location = new System.Drawing.Point(150, 131);
-            this.vertDelimiter2.Name = "vertDelimiter2";
-            this.vertDelimiter2.Size = new System.Drawing.Size(2, 60);
-            this.vertDelimiter2.TabIndex = 3;
-            this.vertDelimiter2.TabStop = false;
-            // 
-            // label2PTotal
-            // 
-            this.label2PTotal.AutoSize = true;
-            this.label2PTotal.Location = new System.Drawing.Point(183, 176);
-            this.label2PTotal.Name = "label2PTotal";
-            this.label2PTotal.Size = new System.Drawing.Size(34, 13);
-            this.label2PTotal.TabIndex = 1;
-            this.label2PTotal.Text = "Total:";
-            // 
-            // value2PTotal1
-            // 
-            this.value2PTotal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PTotal1.Location = new System.Drawing.Point(217, 176);
-            this.value2PTotal1.Name = "value2PTotal1";
-            this.value2PTotal1.Size = new System.Drawing.Size(27, 13);
-            this.value2PTotal1.TabIndex = 1;
-            this.value2PTotal1.Text = "?";
-            this.value2PTotal1.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // value2PTotal2
-            // 
-            this.value2PTotal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PTotal2.Location = new System.Drawing.Point(251, 176);
-            this.value2PTotal2.Name = "value2PTotal2";
-            this.value2PTotal2.Size = new System.Drawing.Size(37, 13);
-            this.value2PTotal2.TabIndex = 1;
-            this.value2PTotal2.Text = "?";
-            // 
-            // labelDelimiter3
-            // 
-            this.labelDelimiter3.AutoSize = true;
-            this.labelDelimiter3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter3.Location = new System.Drawing.Point(242, 176);
-            this.labelDelimiter3.Name = "labelDelimiter3";
-            this.labelDelimiter3.Size = new System.Drawing.Size(11, 13);
-            this.labelDelimiter3.TabIndex = 1;
-            this.labelDelimiter3.Text = "-";
-            this.labelDelimiter3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label4PPlayer2Rating
-            // 
-            this.label4PPlayer2Rating.Location = new System.Drawing.Point(6, 256);
-            this.label4PPlayer2Rating.Name = "label4PPlayer2Rating";
-            this.label4PPlayer2Rating.Size = new System.Drawing.Size(93, 13);
-            this.label4PPlayer2Rating.TabIndex = 1;
-            this.label4PPlayer2Rating.Text = "Player 2";
+            this.valueP2Name.Location = new System.Drawing.Point(6, 153);
+            this.valueP2Name.Name = "valueP2Name";
+            this.valueP2Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP2Name.TabIndex = 1;
+            this.valueP2Name.Text = "Player 2";
             // 
             // label4PSets
             // 
             this.label4PSets.AutoSize = true;
-            this.label4PSets.Location = new System.Drawing.Point(167, 265);
+            this.label4PSets.Location = new System.Drawing.Point(167, 162);
             this.label4PSets.Name = "label4PSets";
             this.label4PSets.Size = new System.Drawing.Size(31, 13);
             this.label4PSets.TabIndex = 1;
@@ -480,7 +306,7 @@
             // label4PScore
             // 
             this.label4PScore.AutoSize = true;
-            this.label4PScore.Location = new System.Drawing.Point(167, 244);
+            this.label4PScore.Location = new System.Drawing.Point(167, 141);
             this.label4PScore.Name = "label4PScore";
             this.label4PScore.Size = new System.Drawing.Size(38, 13);
             this.label4PScore.TabIndex = 1;
@@ -489,101 +315,101 @@
             // label4PTotal
             // 
             this.label4PTotal.AutoSize = true;
-            this.label4PTotal.Location = new System.Drawing.Point(167, 286);
+            this.label4PTotal.Location = new System.Drawing.Point(167, 183);
             this.label4PTotal.Name = "label4PTotal";
             this.label4PTotal.Size = new System.Drawing.Size(34, 13);
             this.label4PTotal.TabIndex = 1;
             this.label4PTotal.Text = "Total:";
             // 
-            // label38
+            // labelBattle
             // 
-            this.label38.AutoSize = true;
-            this.label38.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
-            this.label38.Location = new System.Drawing.Point(125, 211);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(50, 13);
-            this.label38.TabIndex = 1;
-            this.label38.Text = "4P Battle";
-            this.label38.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelBattle.AutoSize = true;
+            this.labelBattle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.labelBattle.Location = new System.Drawing.Point(125, 108);
+            this.labelBattle.Name = "labelBattle";
+            this.labelBattle.Size = new System.Drawing.Size(34, 13);
+            this.labelBattle.TabIndex = 1;
+            this.labelBattle.Text = "Battle";
+            this.labelBattle.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // value4PPlayer2Rating
+            // valueP2Rating
             // 
-            this.value4PPlayer2Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PPlayer2Rating.Location = new System.Drawing.Point(83, 256);
-            this.value4PPlayer2Rating.Name = "value4PPlayer2Rating";
-            this.value4PPlayer2Rating.Size = new System.Drawing.Size(60, 13);
-            this.value4PPlayer2Rating.TabIndex = 1;
-            this.value4PPlayer2Rating.Text = "?";
-            this.value4PPlayer2Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueP2Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueP2Rating.Location = new System.Drawing.Point(83, 153);
+            this.valueP2Rating.Name = "valueP2Rating";
+            this.valueP2Rating.Size = new System.Drawing.Size(60, 13);
+            this.valueP2Rating.TabIndex = 1;
+            this.valueP2Rating.Text = "?";
+            this.valueP2Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PScore1
+            // valueScore1
             // 
-            this.value4PScore1.AutoSize = true;
-            this.value4PScore1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PScore1.Location = new System.Drawing.Point(209, 244);
-            this.value4PScore1.Name = "value4PScore1";
-            this.value4PScore1.Size = new System.Drawing.Size(14, 13);
-            this.value4PScore1.TabIndex = 1;
-            this.value4PScore1.Text = "?";
-            this.value4PScore1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueScore1.AutoSize = true;
+            this.valueScore1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueScore1.Location = new System.Drawing.Point(209, 141);
+            this.valueScore1.Name = "valueScore1";
+            this.valueScore1.Size = new System.Drawing.Size(14, 13);
+            this.valueScore1.TabIndex = 1;
+            this.valueScore1.Text = "?";
+            this.valueScore1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PTotal1
+            // valueTotal1
             // 
-            this.value4PTotal1.AutoSize = true;
-            this.value4PTotal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PTotal1.Location = new System.Drawing.Point(209, 286);
-            this.value4PTotal1.Name = "value4PTotal1";
-            this.value4PTotal1.Size = new System.Drawing.Size(14, 13);
-            this.value4PTotal1.TabIndex = 1;
-            this.value4PTotal1.Text = "?";
-            this.value4PTotal1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueTotal1.AutoSize = true;
+            this.valueTotal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueTotal1.Location = new System.Drawing.Point(209, 183);
+            this.valueTotal1.Name = "valueTotal1";
+            this.valueTotal1.Size = new System.Drawing.Size(14, 13);
+            this.valueTotal1.TabIndex = 1;
+            this.valueTotal1.Text = "?";
+            this.valueTotal1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PSets1
+            // valueSets1
             // 
-            this.value4PSets1.AutoSize = true;
-            this.value4PSets1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PSets1.Location = new System.Drawing.Point(209, 265);
-            this.value4PSets1.Name = "value4PSets1";
-            this.value4PSets1.Size = new System.Drawing.Size(14, 13);
-            this.value4PSets1.TabIndex = 1;
-            this.value4PSets1.Text = "?";
-            this.value4PSets1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSets1.AutoSize = true;
+            this.valueSets1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSets1.Location = new System.Drawing.Point(209, 162);
+            this.valueSets1.Name = "valueSets1";
+            this.valueSets1.Size = new System.Drawing.Size(14, 13);
+            this.valueSets1.TabIndex = 1;
+            this.valueSets1.Text = "?";
+            this.valueSets1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PScore2
+            // valueScore2
             // 
-            this.value4PScore2.AutoSize = true;
-            this.value4PScore2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PScore2.Location = new System.Drawing.Point(230, 244);
-            this.value4PScore2.Name = "value4PScore2";
-            this.value4PScore2.Size = new System.Drawing.Size(14, 13);
-            this.value4PScore2.TabIndex = 1;
-            this.value4PScore2.Text = "?";
+            this.valueScore2.AutoSize = true;
+            this.valueScore2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueScore2.Location = new System.Drawing.Point(230, 141);
+            this.valueScore2.Name = "valueScore2";
+            this.valueScore2.Size = new System.Drawing.Size(14, 13);
+            this.valueScore2.TabIndex = 1;
+            this.valueScore2.Text = "?";
             // 
-            // value4PTotal2
+            // valueTotal2
             // 
-            this.value4PTotal2.AutoSize = true;
-            this.value4PTotal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PTotal2.Location = new System.Drawing.Point(230, 286);
-            this.value4PTotal2.Name = "value4PTotal2";
-            this.value4PTotal2.Size = new System.Drawing.Size(14, 13);
-            this.value4PTotal2.TabIndex = 1;
-            this.value4PTotal2.Text = "?";
+            this.valueTotal2.AutoSize = true;
+            this.valueTotal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueTotal2.Location = new System.Drawing.Point(230, 183);
+            this.valueTotal2.Name = "valueTotal2";
+            this.valueTotal2.Size = new System.Drawing.Size(14, 13);
+            this.valueTotal2.TabIndex = 1;
+            this.valueTotal2.Text = "?";
             // 
-            // value4PSets2
+            // valueSets2
             // 
-            this.value4PSets2.AutoSize = true;
-            this.value4PSets2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PSets2.Location = new System.Drawing.Point(230, 265);
-            this.value4PSets2.Name = "value4PSets2";
-            this.value4PSets2.Size = new System.Drawing.Size(14, 13);
-            this.value4PSets2.TabIndex = 1;
-            this.value4PSets2.Text = "?";
+            this.valueSets2.AutoSize = true;
+            this.valueSets2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSets2.Location = new System.Drawing.Point(230, 162);
+            this.valueSets2.Name = "valueSets2";
+            this.valueSets2.Size = new System.Drawing.Size(14, 13);
+            this.valueSets2.TabIndex = 1;
+            this.valueSets2.Text = "?";
             // 
             // labelDelimiter4
             // 
             this.labelDelimiter4.AutoSize = true;
             this.labelDelimiter4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter4.Location = new System.Drawing.Point(221, 244);
+            this.labelDelimiter4.Location = new System.Drawing.Point(221, 141);
             this.labelDelimiter4.Name = "labelDelimiter4";
             this.labelDelimiter4.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter4.TabIndex = 1;
@@ -594,7 +420,7 @@
             // 
             this.labelDelimiter10.AutoSize = true;
             this.labelDelimiter10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter10.Location = new System.Drawing.Point(221, 286);
+            this.labelDelimiter10.Location = new System.Drawing.Point(221, 183);
             this.labelDelimiter10.Name = "labelDelimiter10";
             this.labelDelimiter10.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter10.TabIndex = 1;
@@ -605,7 +431,7 @@
             // 
             this.labelDelimiter7.AutoSize = true;
             this.labelDelimiter7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter7.Location = new System.Drawing.Point(221, 265);
+            this.labelDelimiter7.Location = new System.Drawing.Point(221, 162);
             this.labelDelimiter7.Name = "labelDelimiter7";
             this.labelDelimiter7.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter7.TabIndex = 1;
@@ -615,89 +441,80 @@
             // vertDelimiter3
             // 
             this.vertDelimiter3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.vertDelimiter3.Location = new System.Drawing.Point(150, 233);
+            this.vertDelimiter3.Location = new System.Drawing.Point(150, 130);
             this.vertDelimiter3.Name = "vertDelimiter3";
             this.vertDelimiter3.Size = new System.Drawing.Size(2, 80);
             this.vertDelimiter3.TabIndex = 3;
             this.vertDelimiter3.TabStop = false;
             // 
-            // horiDelimiter2
+            // valueScore3
             // 
-            this.horiDelimiter2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.horiDelimiter2.Location = new System.Drawing.Point(5, 200);
-            this.horiDelimiter2.Name = "horiDelimiter2";
-            this.horiDelimiter2.Size = new System.Drawing.Size(290, 2);
-            this.horiDelimiter2.TabIndex = 2;
-            this.horiDelimiter2.TabStop = false;
+            this.valueScore3.AutoSize = true;
+            this.valueScore3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueScore3.Location = new System.Drawing.Point(251, 141);
+            this.valueScore3.Name = "valueScore3";
+            this.valueScore3.Size = new System.Drawing.Size(14, 13);
+            this.valueScore3.TabIndex = 1;
+            this.valueScore3.Text = "?";
+            this.valueScore3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PScore3
+            // valueTotal3
             // 
-            this.value4PScore3.AutoSize = true;
-            this.value4PScore3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PScore3.Location = new System.Drawing.Point(251, 244);
-            this.value4PScore3.Name = "value4PScore3";
-            this.value4PScore3.Size = new System.Drawing.Size(14, 13);
-            this.value4PScore3.TabIndex = 1;
-            this.value4PScore3.Text = "?";
-            this.value4PScore3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueTotal3.AutoSize = true;
+            this.valueTotal3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueTotal3.Location = new System.Drawing.Point(251, 183);
+            this.valueTotal3.Name = "valueTotal3";
+            this.valueTotal3.Size = new System.Drawing.Size(14, 13);
+            this.valueTotal3.TabIndex = 1;
+            this.valueTotal3.Text = "?";
+            this.valueTotal3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PTotal3
+            // valueSets3
             // 
-            this.value4PTotal3.AutoSize = true;
-            this.value4PTotal3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PTotal3.Location = new System.Drawing.Point(251, 286);
-            this.value4PTotal3.Name = "value4PTotal3";
-            this.value4PTotal3.Size = new System.Drawing.Size(14, 13);
-            this.value4PTotal3.TabIndex = 1;
-            this.value4PTotal3.Text = "?";
-            this.value4PTotal3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSets3.AutoSize = true;
+            this.valueSets3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSets3.Location = new System.Drawing.Point(251, 162);
+            this.valueSets3.Name = "valueSets3";
+            this.valueSets3.Size = new System.Drawing.Size(14, 13);
+            this.valueSets3.TabIndex = 1;
+            this.valueSets3.Text = "?";
+            this.valueSets3.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // value4PSets3
+            // valueScore4
             // 
-            this.value4PSets3.AutoSize = true;
-            this.value4PSets3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PSets3.Location = new System.Drawing.Point(251, 265);
-            this.value4PSets3.Name = "value4PSets3";
-            this.value4PSets3.Size = new System.Drawing.Size(14, 13);
-            this.value4PSets3.TabIndex = 1;
-            this.value4PSets3.Text = "?";
-            this.value4PSets3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueScore4.AutoSize = true;
+            this.valueScore4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueScore4.Location = new System.Drawing.Point(272, 141);
+            this.valueScore4.Name = "valueScore4";
+            this.valueScore4.Size = new System.Drawing.Size(14, 13);
+            this.valueScore4.TabIndex = 1;
+            this.valueScore4.Text = "?";
             // 
-            // value4PScore4
+            // valueTotal4
             // 
-            this.value4PScore4.AutoSize = true;
-            this.value4PScore4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PScore4.Location = new System.Drawing.Point(272, 244);
-            this.value4PScore4.Name = "value4PScore4";
-            this.value4PScore4.Size = new System.Drawing.Size(14, 13);
-            this.value4PScore4.TabIndex = 1;
-            this.value4PScore4.Text = "?";
+            this.valueTotal4.AutoSize = true;
+            this.valueTotal4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueTotal4.Location = new System.Drawing.Point(272, 183);
+            this.valueTotal4.Name = "valueTotal4";
+            this.valueTotal4.Size = new System.Drawing.Size(14, 13);
+            this.valueTotal4.TabIndex = 1;
+            this.valueTotal4.Text = "?";
             // 
-            // value4PTotal4
+            // valueSets4
             // 
-            this.value4PTotal4.AutoSize = true;
-            this.value4PTotal4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PTotal4.Location = new System.Drawing.Point(272, 286);
-            this.value4PTotal4.Name = "value4PTotal4";
-            this.value4PTotal4.Size = new System.Drawing.Size(14, 13);
-            this.value4PTotal4.TabIndex = 1;
-            this.value4PTotal4.Text = "?";
-            // 
-            // value4PSets4
-            // 
-            this.value4PSets4.AutoSize = true;
-            this.value4PSets4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PSets4.Location = new System.Drawing.Point(272, 265);
-            this.value4PSets4.Name = "value4PSets4";
-            this.value4PSets4.Size = new System.Drawing.Size(14, 13);
-            this.value4PSets4.TabIndex = 1;
-            this.value4PSets4.Text = "?";
+            this.valueSets4.AutoSize = true;
+            this.valueSets4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSets4.Location = new System.Drawing.Point(272, 162);
+            this.valueSets4.Name = "valueSets4";
+            this.valueSets4.Size = new System.Drawing.Size(14, 13);
+            this.valueSets4.TabIndex = 1;
+            this.valueSets4.Text = "?";
             // 
             // labelDelimiter6
             // 
             this.labelDelimiter6.AutoSize = true;
             this.labelDelimiter6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter6.Location = new System.Drawing.Point(263, 244);
+            this.labelDelimiter6.Location = new System.Drawing.Point(263, 141);
             this.labelDelimiter6.Name = "labelDelimiter6";
             this.labelDelimiter6.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter6.TabIndex = 1;
@@ -708,7 +525,7 @@
             // 
             this.labelDelimiter12.AutoSize = true;
             this.labelDelimiter12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter12.Location = new System.Drawing.Point(263, 286);
+            this.labelDelimiter12.Location = new System.Drawing.Point(263, 183);
             this.labelDelimiter12.Name = "labelDelimiter12";
             this.labelDelimiter12.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter12.TabIndex = 1;
@@ -719,7 +536,7 @@
             // 
             this.labelDelimiter9.AutoSize = true;
             this.labelDelimiter9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter9.Location = new System.Drawing.Point(263, 265);
+            this.labelDelimiter9.Location = new System.Drawing.Point(263, 162);
             this.labelDelimiter9.Name = "labelDelimiter9";
             this.labelDelimiter9.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter9.TabIndex = 1;
@@ -730,7 +547,7 @@
             // 
             this.labelDelimiter5.AutoSize = true;
             this.labelDelimiter5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter5.Location = new System.Drawing.Point(242, 244);
+            this.labelDelimiter5.Location = new System.Drawing.Point(242, 141);
             this.labelDelimiter5.Name = "labelDelimiter5";
             this.labelDelimiter5.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter5.TabIndex = 1;
@@ -741,7 +558,7 @@
             // 
             this.labelDelimiter11.AutoSize = true;
             this.labelDelimiter11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter11.Location = new System.Drawing.Point(242, 286);
+            this.labelDelimiter11.Location = new System.Drawing.Point(242, 183);
             this.labelDelimiter11.Name = "labelDelimiter11";
             this.labelDelimiter11.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter11.TabIndex = 1;
@@ -752,7 +569,7 @@
             // 
             this.labelDelimiter8.AutoSize = true;
             this.labelDelimiter8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDelimiter8.Location = new System.Drawing.Point(242, 265);
+            this.labelDelimiter8.Location = new System.Drawing.Point(242, 162);
             this.labelDelimiter8.Name = "labelDelimiter8";
             this.labelDelimiter8.Size = new System.Drawing.Size(11, 13);
             this.labelDelimiter8.TabIndex = 1;
@@ -762,29 +579,11 @@
             // horiDelimiter3
             // 
             this.horiDelimiter3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.horiDelimiter3.Location = new System.Drawing.Point(5, 322);
+            this.horiDelimiter3.Location = new System.Drawing.Point(5, 219);
             this.horiDelimiter3.Name = "horiDelimiter3";
             this.horiDelimiter3.Size = new System.Drawing.Size(290, 2);
             this.horiDelimiter3.TabIndex = 2;
             this.horiDelimiter3.TabStop = false;
-            // 
-            // label2PPlayer1Rating
-            // 
-            this.label2PPlayer1Rating.Location = new System.Drawing.Point(6, 145);
-            this.label2PPlayer1Rating.Name = "label2PPlayer1Rating";
-            this.label2PPlayer1Rating.Size = new System.Drawing.Size(93, 13);
-            this.label2PPlayer1Rating.TabIndex = 1;
-            this.label2PPlayer1Rating.Text = "Player 1";
-            // 
-            // value2PPlayer1Rating
-            // 
-            this.value2PPlayer1Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value2PPlayer1Rating.Location = new System.Drawing.Point(95, 145);
-            this.value2PPlayer1Rating.Name = "value2PPlayer1Rating";
-            this.value2PPlayer1Rating.Size = new System.Drawing.Size(48, 13);
-            this.value2PPlayer1Rating.TabIndex = 1;
-            this.value2PPlayer1Rating.Text = "?";
-            this.value2PPlayer1Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // buttonPopoutPuzzle
             // 
@@ -796,199 +595,193 @@
             this.buttonPopoutPuzzle.TabIndex = 0;
             this.buttonPopoutPuzzle.Text = "Pop out";
             // 
-            // buttonReset2P
+            // valueP1Name
             // 
-            this.buttonReset2P.AutoSize = true;
-            this.buttonReset2P.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonReset2P.Location = new System.Drawing.Point(12, 110);
-            this.buttonReset2P.Name = "buttonReset2P";
-            this.buttonReset2P.Size = new System.Drawing.Size(35, 13);
-            this.buttonReset2P.TabIndex = 0;
-            this.buttonReset2P.Text = "Reset";
+            this.valueP1Name.Location = new System.Drawing.Point(6, 132);
+            this.valueP1Name.Name = "valueP1Name";
+            this.valueP1Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP1Name.TabIndex = 1;
+            this.valueP1Name.Text = "Player 1";
             // 
-            // buttonPopout2P
+            // valueP1Rating
             // 
-            this.buttonPopout2P.AutoSize = true;
-            this.buttonPopout2P.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonPopout2P.Location = new System.Drawing.Point(244, 110);
-            this.buttonPopout2P.Name = "buttonPopout2P";
-            this.buttonPopout2P.Size = new System.Drawing.Size(44, 13);
-            this.buttonPopout2P.TabIndex = 0;
-            this.buttonPopout2P.Text = "Pop out";
+            this.valueP1Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueP1Rating.Location = new System.Drawing.Point(83, 132);
+            this.valueP1Rating.Name = "valueP1Rating";
+            this.valueP1Rating.Size = new System.Drawing.Size(60, 13);
+            this.valueP1Rating.TabIndex = 1;
+            this.valueP1Rating.Text = "?";
+            this.valueP1Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // label4PPlayer1Rating
+            // buttonResetBattle
             // 
-            this.label4PPlayer1Rating.Location = new System.Drawing.Point(6, 235);
-            this.label4PPlayer1Rating.Name = "label4PPlayer1Rating";
-            this.label4PPlayer1Rating.Size = new System.Drawing.Size(93, 13);
-            this.label4PPlayer1Rating.TabIndex = 1;
-            this.label4PPlayer1Rating.Text = "Player 1";
+            this.buttonResetBattle.AutoSize = true;
+            this.buttonResetBattle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
+            this.buttonResetBattle.Location = new System.Drawing.Point(12, 108);
+            this.buttonResetBattle.Name = "buttonResetBattle";
+            this.buttonResetBattle.Size = new System.Drawing.Size(35, 13);
+            this.buttonResetBattle.TabIndex = 0;
+            this.buttonResetBattle.Text = "Reset";
             // 
-            // value4PPlayer1Rating
+            // buttonPopoutBattle
             // 
-            this.value4PPlayer1Rating.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.value4PPlayer1Rating.Location = new System.Drawing.Point(83, 235);
-            this.value4PPlayer1Rating.Name = "value4PPlayer1Rating";
-            this.value4PPlayer1Rating.Size = new System.Drawing.Size(60, 13);
-            this.value4PPlayer1Rating.TabIndex = 1;
-            this.value4PPlayer1Rating.Text = "?";
-            this.value4PPlayer1Rating.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.buttonPopoutBattle.AutoSize = true;
+            this.buttonPopoutBattle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
+            this.buttonPopoutBattle.Location = new System.Drawing.Point(244, 108);
+            this.buttonPopoutBattle.Name = "buttonPopoutBattle";
+            this.buttonPopoutBattle.Size = new System.Drawing.Size(44, 13);
+            this.buttonPopoutBattle.TabIndex = 0;
+            this.buttonPopoutBattle.Text = "Pop out";
             // 
-            // buttonReset4P
+            // valueP2League
             // 
-            this.buttonReset4P.AutoSize = true;
-            this.buttonReset4P.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonReset4P.Location = new System.Drawing.Point(12, 211);
-            this.buttonReset4P.Name = "buttonReset4P";
-            this.buttonReset4P.Size = new System.Drawing.Size(35, 13);
-            this.buttonReset4P.TabIndex = 0;
-            this.buttonReset4P.Text = "Reset";
+            this.valueP2League.Location = new System.Drawing.Point(141, 153);
+            this.valueP2League.Name = "valueP2League";
+            this.valueP2League.Size = new System.Drawing.Size(11, 13);
+            this.valueP2League.TabIndex = 4;
+            this.valueP2League.Text = "0";
             // 
-            // buttonPopout4P
+            // valueP1League
             // 
-            this.buttonPopout4P.AutoSize = true;
-            this.buttonPopout4P.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonPopout4P.Location = new System.Drawing.Point(244, 211);
-            this.buttonPopout4P.Name = "buttonPopout4P";
-            this.buttonPopout4P.Size = new System.Drawing.Size(44, 13);
-            this.buttonPopout4P.TabIndex = 0;
-            this.buttonPopout4P.Text = "Pop out";
+            this.valueP1League.Location = new System.Drawing.Point(141, 132);
+            this.valueP1League.Name = "valueP1League";
+            this.valueP1League.Size = new System.Drawing.Size(11, 13);
+            this.valueP1League.TabIndex = 4;
+            this.valueP1League.Text = "0";
             // 
-            // LeagueP2
+            // valuePlayers
             // 
-            this.LeagueP2.Location = new System.Drawing.Point(141, 256);
-            this.LeagueP2.Name = "LeagueP2";
-            this.LeagueP2.Size = new System.Drawing.Size(23, 13);
-            this.LeagueP2.TabIndex = 4;
-            this.LeagueP2.Text = "0";
+            this.valuePlayers.Location = new System.Drawing.Point(265, 229);
+            this.valuePlayers.Name = "valuePlayers";
+            this.valuePlayers.Size = new System.Drawing.Size(23, 13);
+            this.valuePlayers.TabIndex = 4;
+            this.valuePlayers.Text = "0";
             // 
-            // LeagueP1
+            // valueP3League
             // 
-            this.LeagueP1.Location = new System.Drawing.Point(141, 235);
-            this.LeagueP1.Name = "LeagueP1";
-            this.LeagueP1.Size = new System.Drawing.Size(23, 13);
-            this.LeagueP1.TabIndex = 4;
-            this.LeagueP1.Text = "0";
+            this.valueP3League.Location = new System.Drawing.Point(141, 174);
+            this.valueP3League.Name = "valueP3League";
+            this.valueP3League.Size = new System.Drawing.Size(11, 13);
+            this.valueP3League.TabIndex = 4;
+            this.valueP3League.Text = "0";
             // 
-            // players
+            // valueP4League
             // 
-            this.players.Location = new System.Drawing.Point(265, 332);
-            this.players.Name = "players";
-            this.players.Size = new System.Drawing.Size(23, 13);
-            this.players.TabIndex = 4;
-            this.players.Text = "0";
+            this.valueP4League.Location = new System.Drawing.Point(141, 195);
+            this.valueP4League.Name = "valueP4League";
+            this.valueP4League.Size = new System.Drawing.Size(11, 13);
+            this.valueP4League.TabIndex = 4;
+            this.valueP4League.Text = "0";
             // 
-            // LeagueP3
+            // valueP2Ratio
             // 
-            this.LeagueP3.Location = new System.Drawing.Point(141, 277);
-            this.LeagueP3.Name = "LeagueP3";
-            this.LeagueP3.Size = new System.Drawing.Size(23, 13);
-            this.LeagueP3.TabIndex = 4;
-            this.LeagueP3.Text = "0";
+            this.valueP2Ratio.Location = new System.Drawing.Point(152, 153);
+            this.valueP2Ratio.Name = "valueP2Ratio";
+            this.valueP2Ratio.Size = new System.Drawing.Size(11, 13);
+            this.valueP2Ratio.TabIndex = 4;
+            this.valueP2Ratio.Text = "P";
             // 
-            // LeagueP4
+            // valueP3Ratio
             // 
-            this.LeagueP4.Location = new System.Drawing.Point(141, 298);
-            this.LeagueP4.Name = "LeagueP4";
-            this.LeagueP4.Size = new System.Drawing.Size(23, 13);
-            this.LeagueP4.TabIndex = 4;
-            this.LeagueP4.Text = "0";
+            this.valueP3Ratio.Location = new System.Drawing.Point(152, 174);
+            this.valueP3Ratio.Name = "valueP3Ratio";
+            this.valueP3Ratio.Size = new System.Drawing.Size(11, 13);
+            this.valueP3Ratio.TabIndex = 4;
+            this.valueP3Ratio.Text = "P";
+            // 
+            // valueP4Ratio
+            // 
+            this.valueP4Ratio.Location = new System.Drawing.Point(152, 195);
+            this.valueP4Ratio.Name = "valueP4Ratio";
+            this.valueP4Ratio.Size = new System.Drawing.Size(11, 13);
+            this.valueP4Ratio.TabIndex = 4;
+            this.valueP4Ratio.Text = "P";
+            // 
+            // valueP1Ratio
+            // 
+            this.valueP1Ratio.Location = new System.Drawing.Point(152, 132);
+            this.valueP1Ratio.Name = "valueP1Ratio";
+            this.valueP1Ratio.Size = new System.Drawing.Size(11, 13);
+            this.valueP1Ratio.TabIndex = 4;
+            this.valueP1Ratio.Text = "P";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(300, 353);
-            this.Controls.Add(this.LeagueP1);
-            this.Controls.Add(this.players);
-            this.Controls.Add(this.LeagueP4);
-            this.Controls.Add(this.LeagueP3);
-            this.Controls.Add(this.LeagueP2);
-            this.Controls.Add(this.label4PPlayer4Rating);
-            this.Controls.Add(this.label4PPlayer3Rating);
-            this.Controls.Add(this.label4PPlayer1Rating);
-            this.Controls.Add(this.label4PPlayer2Rating);
-            this.Controls.Add(this.label2PPlayer1Rating);
-            this.Controls.Add(this.label2PPlayer2Rating);
+            this.ClientSize = new System.Drawing.Size(300, 255);
+            this.Controls.Add(this.valueP1Ratio);
+            this.Controls.Add(this.valueP1League);
+            this.Controls.Add(this.valueP4Ratio);
+            this.Controls.Add(this.valuePlayers);
+            this.Controls.Add(this.valueP3Ratio);
+            this.Controls.Add(this.valueP4League);
+            this.Controls.Add(this.valueP2Ratio);
+            this.Controls.Add(this.valueP3League);
+            this.Controls.Add(this.valueP2League);
+            this.Controls.Add(this.valueP4Name);
+            this.Controls.Add(this.valueP3Name);
+            this.Controls.Add(this.valueP1Name);
+            this.Controls.Add(this.valueP2Name);
             this.Controls.Add(this.vertDelimiter3);
-            this.Controls.Add(this.vertDelimiter2);
             this.Controls.Add(this.vertDelimiter1);
             this.Controls.Add(this.horiDelimiter3);
-            this.Controls.Add(this.horiDelimiter2);
             this.Controls.Add(this.horiDelimiter1);
             this.Controls.Add(this.labelDelimiter8);
             this.Controls.Add(this.labelDelimiter9);
             this.Controls.Add(this.labelDelimiter7);
-            this.Controls.Add(this.labelDelimiter2);
             this.Controls.Add(this.labelDelimiter11);
             this.Controls.Add(this.labelDelimiter12);
             this.Controls.Add(this.labelDelimiter10);
-            this.Controls.Add(this.labelDelimiter3);
             this.Controls.Add(this.labelDelimiter5);
             this.Controls.Add(this.labelDelimiter6);
             this.Controls.Add(this.labelDelimiter4);
-            this.Controls.Add(this.labelDelimiter1);
-            this.Controls.Add(this.value4PSets4);
-            this.Controls.Add(this.value4PSets2);
-            this.Controls.Add(this.value2PSets2);
-            this.Controls.Add(this.value4PTotal4);
-            this.Controls.Add(this.value4PTotal2);
-            this.Controls.Add(this.value2PTotal2);
-            this.Controls.Add(this.value4PScore4);
-            this.Controls.Add(this.value4PScore2);
-            this.Controls.Add(this.value2PScore2);
-            this.Controls.Add(this.value4PSets3);
-            this.Controls.Add(this.value4PSets1);
-            this.Controls.Add(this.value2PSets1);
-            this.Controls.Add(this.value4PTotal3);
-            this.Controls.Add(this.value4PTotal1);
-            this.Controls.Add(this.value2PTotal1);
-            this.Controls.Add(this.value4PScore3);
-            this.Controls.Add(this.value4PScore1);
-            this.Controls.Add(this.value2PScore1);
-            this.Controls.Add(this.value4PPlayer1Rating);
-            this.Controls.Add(this.value4PPlayer2Rating);
-            this.Controls.Add(this.value2PPlayer1Rating);
-            this.Controls.Add(this.value2PPlayer2Rating);
-            this.Controls.Add(this.value4PPlayer4Rating);
+            this.Controls.Add(this.valueSets4);
+            this.Controls.Add(this.valueSets2);
+            this.Controls.Add(this.valueTotal4);
+            this.Controls.Add(this.valueTotal2);
+            this.Controls.Add(this.valueScore4);
+            this.Controls.Add(this.valueScore2);
+            this.Controls.Add(this.valueSets3);
+            this.Controls.Add(this.valueSets1);
+            this.Controls.Add(this.valueTotal3);
+            this.Controls.Add(this.valueTotal1);
+            this.Controls.Add(this.valueScore3);
+            this.Controls.Add(this.valueScore1);
+            this.Controls.Add(this.valueP1Rating);
+            this.Controls.Add(this.valueP2Rating);
+            this.Controls.Add(this.valueP4Rating);
             this.Controls.Add(this.valueWins);
             this.Controls.Add(this.valueStartingRating);
             this.Controls.Add(this.valueLosses);
             this.Controls.Add(this.valueCurrentRating);
-            this.Controls.Add(this.value4PPlayer3Rating);
+            this.Controls.Add(this.valueP3Rating);
             this.Controls.Add(this.labelLosses);
             this.Controls.Add(this.labelWins);
-            this.Controls.Add(this.label38);
-            this.Controls.Add(this.label21);
+            this.Controls.Add(this.labelBattle);
             this.Controls.Add(this.labelPuzzle);
             this.Controls.Add(this.labelStartingRating);
             this.Controls.Add(this.valueRatingDifference);
             this.Controls.Add(this.label4PTotal);
             this.Controls.Add(this.label4PScore);
-            this.Controls.Add(this.label2PTotal);
             this.Controls.Add(this.label4PSets);
-            this.Controls.Add(this.label2PScore);
-            this.Controls.Add(this.label2PSets);
             this.Controls.Add(this.labelRatingDifference);
             this.Controls.Add(this.labelCurrentRating);
             this.Controls.Add(this.buttonRehook);
-            this.Controls.Add(this.buttonPopout4P);
-            this.Controls.Add(this.buttonPopout2P);
+            this.Controls.Add(this.buttonPopoutBattle);
             this.Controls.Add(this.buttonPopoutPuzzle);
-            this.Controls.Add(this.buttonReset4P);
-            this.Controls.Add(this.buttonReset2P);
+            this.Controls.Add(this.buttonResetBattle);
             this.Controls.Add(this.buttonResetPuzzle);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "PPT Monitor";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1006,55 +799,38 @@
         private System.Windows.Forms.Label valueStartingRating;
         private System.Windows.Forms.Label buttonResetPuzzle;
         private System.Windows.Forms.PictureBox horiDelimiter1;
-        private System.Windows.Forms.Label label2PPlayer2Rating;
-        private System.Windows.Forms.Label label4PPlayer3Rating;
-        private System.Windows.Forms.Label label4PPlayer4Rating;
-        private System.Windows.Forms.Label value4PPlayer3Rating;
-        private System.Windows.Forms.Label value4PPlayer4Rating;
-        private System.Windows.Forms.Label value2PPlayer2Rating;
+        private System.Windows.Forms.Label valueP3Name;
+        private System.Windows.Forms.Label valueP4Name;
+        private System.Windows.Forms.Label valueP3Rating;
+        private System.Windows.Forms.Label valueP4Rating;
         private System.Windows.Forms.Label labelWins;
         private System.Windows.Forms.Label labelLosses;
         private System.Windows.Forms.PictureBox vertDelimiter1;
         private System.Windows.Forms.Label valueLosses;
         private System.Windows.Forms.Label valueWins;
         private System.Windows.Forms.Label labelPuzzle;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label2PScore;
-        private System.Windows.Forms.Label value2PScore1;
-        private System.Windows.Forms.Label value2PScore2;
-        private System.Windows.Forms.Label labelDelimiter1;
-        private System.Windows.Forms.Label label2PSets;
-        private System.Windows.Forms.Label value2PSets1;
-        private System.Windows.Forms.Label value2PSets2;
-        private System.Windows.Forms.Label labelDelimiter2;
-        private System.Windows.Forms.PictureBox vertDelimiter2;
-        private System.Windows.Forms.Label label2PTotal;
-        private System.Windows.Forms.Label value2PTotal1;
-        private System.Windows.Forms.Label value2PTotal2;
-        private System.Windows.Forms.Label labelDelimiter3;
-        private System.Windows.Forms.Label label4PPlayer2Rating;
+        private System.Windows.Forms.Label valueP2Name;
         private System.Windows.Forms.Label label4PSets;
         private System.Windows.Forms.Label label4PScore;
         private System.Windows.Forms.Label label4PTotal;
-        private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.Label value4PPlayer2Rating;
-        private System.Windows.Forms.Label value4PScore1;
-        private System.Windows.Forms.Label value4PTotal1;
-        private System.Windows.Forms.Label value4PSets1;
-        private System.Windows.Forms.Label value4PScore2;
-        private System.Windows.Forms.Label value4PTotal2;
-        private System.Windows.Forms.Label value4PSets2;
+        private System.Windows.Forms.Label labelBattle;
+        private System.Windows.Forms.Label valueP2Rating;
+        private System.Windows.Forms.Label valueScore1;
+        private System.Windows.Forms.Label valueTotal1;
+        private System.Windows.Forms.Label valueSets1;
+        private System.Windows.Forms.Label valueScore2;
+        private System.Windows.Forms.Label valueTotal2;
+        private System.Windows.Forms.Label valueSets2;
         private System.Windows.Forms.Label labelDelimiter4;
         private System.Windows.Forms.Label labelDelimiter10;
         private System.Windows.Forms.Label labelDelimiter7;
         private System.Windows.Forms.PictureBox vertDelimiter3;
-        private System.Windows.Forms.PictureBox horiDelimiter2;
-        private System.Windows.Forms.Label value4PScore3;
-        private System.Windows.Forms.Label value4PTotal3;
-        private System.Windows.Forms.Label value4PSets3;
-        private System.Windows.Forms.Label value4PScore4;
-        private System.Windows.Forms.Label value4PTotal4;
-        private System.Windows.Forms.Label value4PSets4;
+        private System.Windows.Forms.Label valueScore3;
+        private System.Windows.Forms.Label valueTotal3;
+        private System.Windows.Forms.Label valueSets3;
+        private System.Windows.Forms.Label valueScore4;
+        private System.Windows.Forms.Label valueTotal4;
+        private System.Windows.Forms.Label valueSets4;
         private System.Windows.Forms.Label labelDelimiter6;
         private System.Windows.Forms.Label labelDelimiter12;
         private System.Windows.Forms.Label labelDelimiter9;
@@ -1062,20 +838,20 @@
         private System.Windows.Forms.Label labelDelimiter11;
         private System.Windows.Forms.Label labelDelimiter8;
         private System.Windows.Forms.PictureBox horiDelimiter3;
-        private System.Windows.Forms.Label label2PPlayer1Rating;
-        private System.Windows.Forms.Label value2PPlayer1Rating;
         private System.Windows.Forms.Label buttonPopoutPuzzle;
-        private System.Windows.Forms.Label buttonReset2P;
-        private System.Windows.Forms.Label buttonPopout2P;
-        private System.Windows.Forms.Label label4PPlayer1Rating;
-        private System.Windows.Forms.Label value4PPlayer1Rating;
-        private System.Windows.Forms.Label buttonReset4P;
-        private System.Windows.Forms.Label buttonPopout4P;
-        private System.Windows.Forms.Label LeagueP2;
-        private System.Windows.Forms.Label LeagueP1;
-        private System.Windows.Forms.Label players;
-        private System.Windows.Forms.Label LeagueP3;
-        private System.Windows.Forms.Label LeagueP4;
+        private System.Windows.Forms.Label valueP1Name;
+        private System.Windows.Forms.Label valueP1Rating;
+        private System.Windows.Forms.Label buttonResetBattle;
+        private System.Windows.Forms.Label buttonPopoutBattle;
+        private System.Windows.Forms.Label valueP2League;
+        private System.Windows.Forms.Label valueP1League;
+        private System.Windows.Forms.Label valuePlayers;
+        private System.Windows.Forms.Label valueP3League;
+        private System.Windows.Forms.Label valueP4League;
+        private System.Windows.Forms.Label valueP2Ratio;
+        private System.Windows.Forms.Label valueP3Ratio;
+        private System.Windows.Forms.Label valueP4Ratio;
+        private System.Windows.Forms.Label valueP1Ratio;
     }
 }
 

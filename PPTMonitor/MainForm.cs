@@ -15,6 +15,15 @@ namespace PPTMonitor {
             InitializeComponent();
         }
 
+        private static string RatioType(int ratio) {
+            if (ratio < 34) {
+                return "T";
+            } else if (ratio > 66) {
+                return "P";
+            }
+            return "X";
+        }
+
         static VAMemory PPT = new VAMemory("puyopuyotetris");
 
         static int startingRating, currentRating, wins = 0, losses = 0;
@@ -38,7 +47,14 @@ namespace PPTMonitor {
             valueCurrentRating.Text = currentRating.ToString();
             valueRatingDifference.Text = (currentRating - startingRating).ToString();
 
-            int scoreAddress = PPT.ReadInt32(new IntPtr(0x14057F048)) + 0x38;
+            int scoreAddress = PPT.ReadInt32(new IntPtr(0x14057F048));
+
+            if (scoreAddress == 0x0) {
+                buttonResetBattle_Click(sender, e);
+            } else {
+                scoreAddress += 0x38;
+            }
+
             maxscore = PPT.ReadInt32(new IntPtr(scoreAddress + 0x10));
 
             for (int i = 0; i < 4; i++) {
@@ -52,39 +68,67 @@ namespace PPTMonitor {
                 score[i] = value;
             }
 
-            value4PScore1.Text = value2PScore1.Text = score[0].ToString();
-            value4PScore2.Text = value2PScore2.Text = score[1].ToString();
-            value4PScore3.Text                      = score[2].ToString();
-            value4PScore4.Text                      = score[3].ToString();
+            valueScore1.Text = score[0].ToString();
+            valueScore2.Text = score[1].ToString();
+            valueScore3.Text = score[2].ToString();
+            valueScore4.Text = score[3].ToString();
 
-            value4PSets1.Text = value2PSets1.Text = sets[0].ToString();
-            value4PSets2.Text = value2PSets2.Text = sets[1].ToString();
-            value4PSets3.Text                     = sets[2].ToString();
-            value4PSets4.Text                     = sets[3].ToString();
+            valueSets1.Text = sets[0].ToString();
+            valueSets2.Text = sets[1].ToString();
+            valueSets3.Text = sets[2].ToString();
+            valueSets4.Text = sets[3].ToString();
 
-            value4PTotal1.Text = value2PTotal1.Text = total[0].ToString();
-            value4PTotal2.Text = value2PTotal2.Text = total[1].ToString();
-            value4PTotal3.Text                      = total[2].ToString();
-            value4PTotal4.Text                      = total[3].ToString();
+            valueTotal1.Text = total[0].ToString();
+            valueTotal2.Text = total[1].ToString();
+            valueTotal3.Text = total[2].ToString();
+            valueTotal4.Text = total[3].ToString();
 
             int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0xD8;
-            value4PPlayer1Rating.Text = value2PPlayer1Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x30).ToString();
-            value4PPlayer2Rating.Text = value2PPlayer2Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x80).ToString();
-            value4PPlayer3Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0xD0).ToString();
-            value4PPlayer4Rating.Text                             = PPT.ReadInt16(new IntPtr(playerAddress) + 0x120).ToString();
+            valuePlayers.Text = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24).ToString();
 
-            label4PPlayer1Rating.Text = label2PPlayer1Rating.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress), 0x20);
-            label4PPlayer2Rating.Text = label2PPlayer2Rating.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0x50, 0x20);
-            label4PPlayer3Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xA0, 0x20);
-            label4PPlayer4Rating.Text                             = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xF0, 0x20);
+            valueP1Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x30).ToString();
+            valueP2Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x80).ToString();
+            valueP3Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0xD0).ToString();
+            valueP4Rating.Text = PPT.ReadInt16(new IntPtr(playerAddress) + 0x120).ToString();
 
-            players.Text = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24).ToString();
+            valueP1Name.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress), 0x20);
+            valueP2Name.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0x50, 0x20);
+            valueP3Name.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xA0, 0x20);
+            valueP4Name.Text = PPT.ReadStringUnicode(new IntPtr(playerAddress) + 0xF0, 0x20);
 
             int leagueAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x68)) + 0x20)) + 0x970)) - 0x38;
-            LeagueP1.Text = PPT.ReadInt16(new IntPtr(leagueAddress)).ToString();
-            LeagueP2.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x140).ToString();
-            LeagueP3.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x280).ToString();
-            LeagueP4.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x3C0).ToString();
+            valueP1League.Text = PPT.ReadInt16(new IntPtr(leagueAddress)).ToString("X");
+            valueP2League.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x140).ToString("X");
+            valueP3League.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x280).ToString("X");
+            valueP4League.Text = PPT.ReadInt16(new IntPtr(leagueAddress) + 0x3C0).ToString("X");
+
+            valueP1Ratio.Text = RatioType(PPT.ReadInt16(new IntPtr(playerAddress) + 0x32));
+            valueP2Ratio.Text = RatioType(PPT.ReadInt16(new IntPtr(playerAddress) + 0x82));
+            valueP3Ratio.Text = RatioType(PPT.ReadInt16(new IntPtr(playerAddress) + 0xD2));
+            valueP4Ratio.Text = RatioType(PPT.ReadInt16(new IntPtr(playerAddress) + 0x122));
+        }
+
+        private void buttonResetBattle_Click(object sender, EventArgs e) {
+            for (int i = 0; i < 4; i++) {
+                score[i] = 0;
+                sets[i] = 0;
+                total[i] = 0;
+            }
+
+            valueScore1.Text = score[0].ToString();
+            valueScore2.Text = score[1].ToString();
+            valueScore3.Text = score[2].ToString();
+            valueScore4.Text = score[3].ToString();
+
+            valueSets1.Text = sets[0].ToString();
+            valueSets2.Text = sets[1].ToString();
+            valueSets3.Text = sets[2].ToString();
+            valueSets4.Text = sets[3].ToString();
+
+            valueTotal1.Text = total[0].ToString();
+            valueTotal2.Text = total[1].ToString();
+            valueTotal3.Text = total[2].ToString();
+            valueTotal4.Text = total[3].ToString();
         }
 
         private void buttonResetPuzzle_Click(object sender, EventArgs e) {
