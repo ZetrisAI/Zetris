@@ -77,6 +77,51 @@ namespace PPTMonitor {
 
         static Player[] players = new Player[4];
 
+        private void updateUI() {
+            valueScore1.Text = score[0].ToString();
+            valueScore2.Text = score[1].ToString();
+            valueScore3.Text = score[2].ToString();
+            valueScore4.Text = score[3].ToString();
+
+            valueSets1.Text = sets[0].ToString();
+            valueSets2.Text = sets[1].ToString();
+            valueSets3.Text = sets[2].ToString();
+            valueSets4.Text = sets[3].ToString();
+
+            valueTotal1.Text = total[0].ToString();
+            valueTotal2.Text = total[1].ToString();
+            valueTotal3.Text = total[2].ToString();
+            valueTotal4.Text = total[3].ToString();
+
+            valueP1Rating.Text = players[0].rating.ToString();
+            valueP2Rating.Text = players[1].rating.ToString();
+            valueP3Rating.Text = players[2].rating.ToString();
+            valueP4Rating.Text = players[3].rating.ToString();
+
+            valueP1Name.Text = players[0].name;
+            valueP2Name.Text = players[1].name;
+            valueP3Name.Text = players[2].name;
+            valueP4Name.Text = players[3].name;
+
+            valueP1League.Text = ((int)players[0].league).ToString("X");
+            valueP2League.Text = ((int)players[1].league).ToString("X");
+            valueP3League.Text = ((int)players[2].league).ToString("X");
+            valueP4League.Text = ((int)players[3].league).ToString("X");
+
+            valueP1Ratio.Text = RatioType(players[0].playstyle);
+            valueP2Ratio.Text = RatioType(players[1].playstyle);
+            valueP3Ratio.Text = RatioType(players[2].playstyle);
+            valueP4Ratio.Text = RatioType(players[3].playstyle);
+
+            valuePlayers.Text = numplayers.ToString();
+
+            valueWins.Text = wins.ToString();
+            valueLosses.Text = losses.ToString();
+            
+            valueCurrentRating.Text = currentRating.ToString();
+            valueRatingDifference.Text = (currentRating - startingRating).ToString();
+        }
+
         private void ScanTimer_Tick(object sender, EventArgs e) {
             int temp;
 
@@ -108,26 +153,11 @@ namespace PPTMonitor {
                 score[i] = temp;
             }
 
-            valueScore1.Text = score[0].ToString();
-            valueScore2.Text = score[1].ToString();
-            valueScore3.Text = score[2].ToString();
-            valueScore4.Text = score[3].ToString();
-
-            valueSets1.Text = sets[0].ToString();
-            valueSets2.Text = sets[1].ToString();
-            valueSets3.Text = sets[2].ToString();
-            valueSets4.Text = sets[3].ToString();
-
-            valueTotal1.Text = total[0].ToString();
-            valueTotal2.Text = total[1].ToString();
-            valueTotal3.Text = total[2].ToString();
-            valueTotal4.Text = total[3].ToString();
-
             int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0xD8;
             int leagueAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x68)) + 0x20)) + 0x970)) - 0x38;
 
             numplayers = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24);
-            valuePlayers.Text = numplayers.ToString();
+            
 
             for (int i = 0; i < 4; i++) {
                 players[i].name = PPT.ReadStringUnicode(new IntPtr(playerAddress) + i * 0x50, 0x20);
@@ -141,26 +171,6 @@ namespace PPTMonitor {
                 players[i].playstyle = PPT.ReadInt16(new IntPtr(playerAddress) + 0x32 + i * 0x50);
             }
 
-            valueP1Rating.Text = players[0].rating.ToString();
-            valueP2Rating.Text = players[1].rating.ToString();
-            valueP3Rating.Text = players[2].rating.ToString();
-            valueP4Rating.Text = players[3].rating.ToString();
-
-            valueP1Name.Text = players[0].name;
-            valueP2Name.Text = players[1].name;
-            valueP3Name.Text = players[2].name;
-            valueP4Name.Text = players[3].name;
-
-            valueP1League.Text = ((int)players[0].league).ToString("X");
-            valueP2League.Text = ((int)players[1].league).ToString("X");
-            valueP3League.Text = ((int)players[2].league).ToString("X");
-            valueP4League.Text = ((int)players[3].league).ToString("X");
-
-            valueP1Ratio.Text = RatioType(players[0].playstyle);
-            valueP2Ratio.Text = RatioType(players[1].playstyle);
-            valueP3Ratio.Text = RatioType(players[2].playstyle);
-            valueP4Ratio.Text = RatioType(players[3].playstyle);
-
             temp = PPT.ReadInt32(new IntPtr(0x140599FF0));
 
             if (temp != currentRating) {
@@ -171,21 +181,16 @@ namespace PPTMonitor {
 
                 if (temp > currentRating) {
                     wins++;
-                    valueWins.Text = wins.ToString();
                 } else if (temp < currentRating) {
                     losses++;
-                    valueLosses.Text = losses.ToString();
                 }
             }
 
             currentRating = temp;
-
-            valueCurrentRating.Text = currentRating.ToString();
-            valueRatingDifference.Text = (currentRating - startingRating).ToString();
         }
 
         private void writeMatch(MatchType type, int players, int bestof, List<int> matchLog, int ratingChange, Player[] matchPlayers) {
-            log.Text += $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}";
+            log.Text += $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}\n";
         }
 
         private void buttonResetBattle_Click(object sender, EventArgs e) {
