@@ -92,6 +92,8 @@
             this.valueP3Ratio = new System.Windows.Forms.Label();
             this.valueP4Ratio = new System.Windows.Forms.Label();
             this.valueP1Ratio = new System.Windows.Forms.Label();
+            this.labelLog = new System.Windows.Forms.Label();
+            this.log = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter3)).BeginInit();
@@ -705,12 +707,37 @@
             this.valueP1Ratio.TabIndex = 4;
             this.valueP1Ratio.Text = "P";
             // 
+            // labelLog
+            // 
+            this.labelLog.AutoSize = true;
+            this.labelLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            this.labelLog.Location = new System.Drawing.Point(427, 9);
+            this.labelLog.Name = "labelLog";
+            this.labelLog.Size = new System.Drawing.Size(25, 13);
+            this.labelLog.TabIndex = 1;
+            this.labelLog.Text = "Log";
+            this.labelLog.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // log
+            // 
+            this.log.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.log.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.log.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.log.ForeColor = System.Drawing.Color.Gainsboro;
+            this.log.Location = new System.Drawing.Point(301, 31);
+            this.log.Multiline = true;
+            this.log.Name = "log";
+            this.log.ReadOnly = true;
+            this.log.Size = new System.Drawing.Size(274, 212);
+            this.log.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(300, 255);
+            this.ClientSize = new System.Drawing.Size(587, 255);
+            this.Controls.Add(this.log);
             this.Controls.Add(this.valueP1Ratio);
             this.Controls.Add(this.valueP1League);
             this.Controls.Add(this.valueP4Ratio);
@@ -760,6 +787,7 @@
             this.Controls.Add(this.labelLosses);
             this.Controls.Add(this.labelWins);
             this.Controls.Add(this.labelBattle);
+            this.Controls.Add(this.labelLog);
             this.Controls.Add(this.labelPuzzle);
             this.Controls.Add(this.labelStartingRating);
             this.Controls.Add(this.valueRatingDifference);
@@ -852,6 +880,8 @@
         private System.Windows.Forms.Label valueP3Ratio;
         private System.Windows.Forms.Label valueP4Ratio;
         private System.Windows.Forms.Label valueP1Ratio;
+        private System.Windows.Forms.Label labelLog;
+        private System.Windows.Forms.TextBox log;
     }
 }
 
