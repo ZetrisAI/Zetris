@@ -113,6 +113,11 @@ namespace PPTMonitor {
             valueP3Ratio.Text = RatioType(players[2].playstyle);
             valueP4Ratio.Text = RatioType(players[3].playstyle);
 
+            valueP1Location.Text = players[0].location.ToString();
+            valueP2Location.Text = players[1].location.ToString();
+            valueP3Location.Text = players[2].location.ToString();
+            valueP4Location.Text = players[3].location.ToString();
+
             valuePlayers.Text = numplayers.ToString();
 
             valueWins.Text = wins.ToString();
@@ -128,10 +133,11 @@ namespace PPTMonitor {
             int scoreAddress = PPT.ReadInt32(new IntPtr(0x14057F048));
 
             if (scoreAddress == 0x0) {
-                if (match == MatchState.Finished)
+                if (match == MatchState.Finished) {
                     match = MatchState.Menu;
 
-                buttonResetBattle_Click(sender, e);
+                    buttonResetBattle_Click(sender, e);
+                }
             } else {
                 if (match == MatchState.Menu)
                     match = MatchState.Match;
@@ -156,8 +162,9 @@ namespace PPTMonitor {
             int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0xD8;
             int leagueAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x68)) + 0x20)) + 0x970)) - 0x38;
 
+            labelPuzzle.Text = leagueAddress.ToString("X");
+
             numplayers = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24);
-            
 
             for (int i = 0; i < 4; i++) {
                 players[i].name = PPT.ReadStringUnicode(new IntPtr(playerAddress) + i * 0x50, 0x20);
@@ -169,10 +176,10 @@ namespace PPTMonitor {
                     players[i].league = (League)(temp - 1);
                 
                 players[i].playstyle = PPT.ReadInt16(new IntPtr(playerAddress) + 0x32 + i * 0x50);
+                players[i].location = PPT.ReadByte(new IntPtr(leagueAddress) - 0xC + i * 0x140);
             }
 
             temp = PPT.ReadInt32(new IntPtr(0x140599FF0));
-
             if (temp != currentRating) {
                 if (match == MatchState.Match) {
                     writeMatch(MatchType.PuzzleLeague, numplayers, maxscore, history, temp - currentRating, players);
@@ -185,8 +192,17 @@ namespace PPTMonitor {
                     losses++;
                 }
             }
-
             currentRating = temp;
+
+            temp = PPT.ReadInt32(new IntPtr(0x140573A78));
+            if (temp != 0x0) {
+                if (match == MatchState.Match) {
+                    writeMatch(MatchType.FreePlay, numplayers, maxscore, history, temp - currentRating, players);
+                    match = MatchState.Finished;
+                }
+            }
+
+            updateUI();
         }
 
         private void writeMatch(MatchType type, int players, int bestof, List<int> matchLog, int ratingChange, Player[] matchPlayers) {

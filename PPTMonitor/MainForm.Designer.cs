@@ -94,6 +94,10 @@
             this.valueP1Ratio = new System.Windows.Forms.Label();
             this.labelLog = new System.Windows.Forms.Label();
             this.log = new System.Windows.Forms.TextBox();
+            this.valueP1Location = new System.Windows.Forms.Label();
+            this.valueP2Location = new System.Windows.Forms.Label();
+            this.valueP3Location = new System.Windows.Forms.Label();
+            this.valueP4Location = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.horiDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vertDelimiter3)).BeginInit();
@@ -731,6 +735,38 @@
             this.log.Size = new System.Drawing.Size(274, 212);
             this.log.TabIndex = 5;
             // 
+            // valueP1Location
+            // 
+            this.valueP1Location.Location = new System.Drawing.Point(167, 132);
+            this.valueP1Location.Name = "valueP1Location";
+            this.valueP1Location.Size = new System.Drawing.Size(36, 13);
+            this.valueP1Location.TabIndex = 4;
+            this.valueP1Location.Text = "0";
+            // 
+            // valueP2Location
+            // 
+            this.valueP2Location.Location = new System.Drawing.Point(167, 153);
+            this.valueP2Location.Name = "valueP2Location";
+            this.valueP2Location.Size = new System.Drawing.Size(36, 13);
+            this.valueP2Location.TabIndex = 4;
+            this.valueP2Location.Text = "0";
+            // 
+            // valueP3Location
+            // 
+            this.valueP3Location.Location = new System.Drawing.Point(167, 174);
+            this.valueP3Location.Name = "valueP3Location";
+            this.valueP3Location.Size = new System.Drawing.Size(36, 13);
+            this.valueP3Location.TabIndex = 4;
+            this.valueP3Location.Text = "0";
+            // 
+            // valueP4Location
+            // 
+            this.valueP4Location.Location = new System.Drawing.Point(167, 195);
+            this.valueP4Location.Name = "valueP4Location";
+            this.valueP4Location.Size = new System.Drawing.Size(36, 13);
+            this.valueP4Location.TabIndex = 4;
+            this.valueP4Location.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -740,6 +776,10 @@
             this.Controls.Add(this.log);
             this.Controls.Add(this.valueP1Ratio);
             this.Controls.Add(this.valueP1League);
+            this.Controls.Add(this.valueP4Location);
+            this.Controls.Add(this.valueP3Location);
+            this.Controls.Add(this.valueP2Location);
+            this.Controls.Add(this.valueP1Location);
             this.Controls.Add(this.valueP4Ratio);
             this.Controls.Add(this.valuePlayers);
             this.Controls.Add(this.valueP3Ratio);
@@ -882,6 +922,10 @@
         private System.Windows.Forms.Label valueP1Ratio;
         private System.Windows.Forms.Label labelLog;
         private System.Windows.Forms.TextBox log;
+        private System.Windows.Forms.Label valueP1Location;
+        private System.Windows.Forms.Label valueP2Location;
+        private System.Windows.Forms.Label valueP3Location;
+        private System.Windows.Forms.Label valueP4Location;
     }
 }
 
