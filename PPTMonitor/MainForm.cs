@@ -247,6 +247,7 @@ namespace PPTMonitor {
             public int region;
             public int regional;
             public int worldwide;
+            public int id;
         }
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
@@ -378,13 +379,15 @@ namespace PPTMonitor {
 
                 players[i].regional = PPT.ReadInt32(new IntPtr(playerAddress) + 0x28 + i * 0x50);
                 players[i].worldwide = PPT.ReadInt32(new IntPtr(playerAddress) + 0x2C + i * 0x50);
+
+                players[i].id = PPT.ReadInt32(new IntPtr(playerAddress) + 0x40 + i * 0x50);
             }
 
             for (int i = numplayers; i < 4; i++) {
-
+                players[i] = new Player();
             }
 
-            temp = PPT.ReadInt32(new IntPtr(0x140599FF0));
+            temp = PPT.ReadInt16(new IntPtr(0x140599FF0));
             if (temp != currentRating) {
                 if (match == MatchState.Match) {
                     writeMatch(MatchType.PuzzleLeague, numplayers, maxscore, history, temp - currentRating, players);
@@ -411,9 +414,9 @@ namespace PPTMonitor {
         }
 
         private void writeMatch(MatchType type, int players, int bestof, List<int> matchLog, int ratingChange, Player[] matchPlayers) {
-            log.Text += $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}\n";
+            log.Text += Environment.NewLine + $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}";
         }
-
+        
         private void buttonResetBattle_Click(object sender, EventArgs e) {
             for (int i = 0; i < 4; i++) {
                 score[i] = 0;
