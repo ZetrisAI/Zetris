@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -248,6 +249,7 @@ namespace PPTMonitor {
             public int regional;
             public int worldwide;
             public int id;
+            public string steam;
         }
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
@@ -381,6 +383,8 @@ namespace PPTMonitor {
                 players[i].worldwide = PPT.ReadInt32(new IntPtr(playerAddress) + 0x2C + i * 0x50);
 
                 players[i].id = PPT.ReadInt32(new IntPtr(playerAddress) + 0x40 + i * 0x50);
+
+                players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}"; ;
             }
 
             for (int i = numplayers; i < 4; i++) {
@@ -416,7 +420,23 @@ namespace PPTMonitor {
         private void writeMatch(MatchType type, int players, int bestof, List<int> matchLog, int ratingChange, Player[] matchPlayers) {
             log.Text += Environment.NewLine + $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}";
         }
-        
+
+        private void valueP1Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(players[0].steam);
+        }
+
+        private void valueP2Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(players[1].steam);
+        }
+
+        private void valueP3Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(players[2].steam);
+        }
+
+        private void valueP4Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            Process.Start(players[3].steam);
+        }
+
         private void buttonResetBattle_Click(object sender, EventArgs e) {
             for (int i = 0; i < 4; i++) {
                 score[i] = 0;

@@ -44,7 +44,7 @@
             this.valueLosses = new System.Windows.Forms.Label();
             this.valueWins = new System.Windows.Forms.Label();
             this.labelPuzzle = new System.Windows.Forms.Label();
-            this.valueP2Name = new System.Windows.Forms.Label();
+            this.valueP2Name = new System.Windows.Forms.LinkLabel();
             this.label4PSets = new System.Windows.Forms.Label();
             this.label4PScore = new System.Windows.Forms.Label();
             this.label4PTotal = new System.Windows.Forms.Label();
@@ -72,7 +72,7 @@
             this.labelDelimiter11 = new System.Windows.Forms.Label();
             this.labelDelimiter8 = new System.Windows.Forms.Label();
             this.buttonPopoutPuzzle = new System.Windows.Forms.Label();
-            this.valueP1Name = new System.Windows.Forms.Label();
+            this.valueP1Name = new System.Windows.Forms.LinkLabel();
             this.buttonResetBattle = new System.Windows.Forms.Label();
             this.buttonPopoutBattle = new System.Windows.Forms.Label();
             this.valueP2League = new System.Windows.Forms.Label();
@@ -97,8 +97,8 @@
             this.valueP2Worldwide = new System.Windows.Forms.Label();
             this.valueP4Rating = new System.Windows.Forms.Label();
             this.valueP3Rating = new System.Windows.Forms.Label();
-            this.valueP4Name = new System.Windows.Forms.Label();
-            this.valueP3Name = new System.Windows.Forms.Label();
+            this.valueP4Name = new System.Windows.Forms.LinkLabel();
+            this.valueP3Name = new System.Windows.Forms.LinkLabel();
             this.valueP4League = new System.Windows.Forms.Label();
             this.valueP4Ratio = new System.Windows.Forms.Label();
             this.valueP3Region = new System.Windows.Forms.Label();
@@ -260,7 +260,9 @@
             this.valueP2Name.Name = "valueP2Name";
             this.valueP2Name.Size = new System.Drawing.Size(93, 13);
             this.valueP2Name.TabIndex = 1;
+            this.valueP2Name.TabStop = true;
             this.valueP2Name.Text = "Player 2";
+            this.valueP2Name.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.valueP2Name_LinkClicked);
             // 
             // label4PSets
             // 
@@ -551,7 +553,9 @@
             this.valueP1Name.Name = "valueP1Name";
             this.valueP1Name.Size = new System.Drawing.Size(93, 13);
             this.valueP1Name.TabIndex = 1;
+            this.valueP1Name.TabStop = true;
             this.valueP1Name.Text = "Player 1";
+            this.valueP1Name.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.valueP1Name_LinkClicked);
             // 
             // buttonResetBattle
             // 
@@ -779,7 +783,9 @@
             this.valueP4Name.Name = "valueP4Name";
             this.valueP4Name.Size = new System.Drawing.Size(93, 13);
             this.valueP4Name.TabIndex = 1;
+            this.valueP4Name.TabStop = true;
             this.valueP4Name.Text = "Player 4";
+            this.valueP4Name.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.valueP4Name_LinkClicked);
             // 
             // valueP3Name
             // 
@@ -787,7 +793,9 @@
             this.valueP3Name.Name = "valueP3Name";
             this.valueP3Name.Size = new System.Drawing.Size(93, 13);
             this.valueP3Name.TabIndex = 1;
+            this.valueP3Name.TabStop = true;
             this.valueP3Name.Text = "Player 3";
+            this.valueP3Name.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.valueP3Name_LinkClicked);
             // 
             // valueP4League
             // 
@@ -1000,7 +1008,7 @@
         private System.Windows.Forms.Label valueLosses;
         private System.Windows.Forms.Label valueWins;
         private System.Windows.Forms.Label labelPuzzle;
-        private System.Windows.Forms.Label valueP2Name;
+        private System.Windows.Forms.LinkLabel valueP2Name;
         private System.Windows.Forms.Label label4PSets;
         private System.Windows.Forms.Label label4PScore;
         private System.Windows.Forms.Label label4PTotal;
@@ -1028,7 +1036,7 @@
         private System.Windows.Forms.Label labelDelimiter11;
         private System.Windows.Forms.Label labelDelimiter8;
         private System.Windows.Forms.Label buttonPopoutPuzzle;
-        private System.Windows.Forms.Label valueP1Name;
+        private System.Windows.Forms.LinkLabel valueP1Name;
         private System.Windows.Forms.Label buttonResetBattle;
         private System.Windows.Forms.Label buttonPopoutBattle;
         private System.Windows.Forms.Label valueP2League;
@@ -1053,8 +1061,8 @@
         private System.Windows.Forms.Label valueP2Worldwide;
         private System.Windows.Forms.Label valueP4Rating;
         private System.Windows.Forms.Label valueP3Rating;
-        private System.Windows.Forms.Label valueP4Name;
-        private System.Windows.Forms.Label valueP3Name;
+        private System.Windows.Forms.LinkLabel valueP4Name;
+        private System.Windows.Forms.LinkLabel valueP3Name;
         private System.Windows.Forms.Label valueP4League;
         private System.Windows.Forms.Label valueP4Ratio;
         private System.Windows.Forms.Label valueP3Region;
