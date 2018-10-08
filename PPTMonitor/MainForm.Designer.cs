@@ -52,8 +52,12 @@
             this.valueP2Worldwide = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.board2 = new System.Windows.Forms.PictureBox();
+            this.valueP1CharacterPref = new System.Windows.Forms.PictureBox();
+            this.valueP2CharacterPref = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2CharacterPref)).BeginInit();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -85,9 +89,9 @@
             // 
             // valueP2Name
             // 
-            this.valueP2Name.Location = new System.Drawing.Point(184, 383);
+            this.valueP2Name.Location = new System.Drawing.Point(205, 383);
             this.valueP2Name.Name = "valueP2Name";
-            this.valueP2Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP2Name.Size = new System.Drawing.Size(92, 13);
             this.valueP2Name.TabIndex = 1;
             this.valueP2Name.TabStop = true;
             this.valueP2Name.Text = "Player 2";
@@ -137,9 +141,9 @@
             // 
             // valueP1Name
             // 
-            this.valueP1Name.Location = new System.Drawing.Point(19, 383);
+            this.valueP1Name.Location = new System.Drawing.Point(40, 383);
             this.valueP1Name.Name = "valueP1Name";
-            this.valueP1Name.Size = new System.Drawing.Size(93, 13);
+            this.valueP1Name.Size = new System.Drawing.Size(92, 13);
             this.valueP1Name.TabIndex = 1;
             this.valueP1Name.TabStop = true;
             this.valueP1Name.Text = "Player 1";
@@ -268,6 +272,26 @@
             this.board2.TabIndex = 7;
             this.board2.TabStop = false;
             // 
+            // valueP1CharacterPref
+            // 
+            this.valueP1CharacterPref.BackColor = System.Drawing.Color.Transparent;
+            this.valueP1CharacterPref.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP1CharacterPref.Location = new System.Drawing.Point(15, 380);
+            this.valueP1CharacterPref.Name = "valueP1CharacterPref";
+            this.valueP1CharacterPref.Size = new System.Drawing.Size(20, 20);
+            this.valueP1CharacterPref.TabIndex = 7;
+            this.valueP1CharacterPref.TabStop = false;
+            // 
+            // valueP2CharacterPref
+            // 
+            this.valueP2CharacterPref.BackColor = System.Drawing.Color.Transparent;
+            this.valueP2CharacterPref.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP2CharacterPref.Location = new System.Drawing.Point(180, 380);
+            this.valueP2CharacterPref.Name = "valueP2CharacterPref";
+            this.valueP2CharacterPref.Size = new System.Drawing.Size(20, 20);
+            this.valueP2CharacterPref.TabIndex = 7;
+            this.valueP2CharacterPref.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,6 +299,8 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(340, 521);
             this.Controls.Add(this.board2);
+            this.Controls.Add(this.valueP2CharacterPref);
+            this.Controls.Add(this.valueP1CharacterPref);
             this.Controls.Add(this.board1);
             this.Controls.Add(this.valueP2Worldwide);
             this.Controls.Add(this.valueP1Worldwide);
@@ -304,6 +330,8 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.board1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2CharacterPref)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,6 +361,8 @@
         private System.Windows.Forms.Label valueP2Worldwide;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.PictureBox board2;
+        private System.Windows.Forms.PictureBox valueP1CharacterPref;
+        private System.Windows.Forms.PictureBox valueP2CharacterPref;
     }
 }
 

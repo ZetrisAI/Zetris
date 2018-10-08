@@ -244,18 +244,15 @@ namespace PPTMonitor {
             public int worldwide;
             public int id;
             public string steam;
+            public int pref;
         }
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
 
         static int currentRating, numplayers;
-        
-        static int[] score = new int[2] {0, 0};
-       
-        static int maxscore = 2;
-        static List<int> history = new List<int>();
-
         static Player[] players = new Player[2];
+        static int[] score = new int[2] {0, 0};
+        static int maxscore = 2;
 
         private void updateUI() {
             valueScore1.Text = score[0].ToString();
@@ -281,6 +278,16 @@ namespace PPTMonitor {
             
             valueP1Worldwide.Text = players[0].worldwide.ToString();
             valueP2Worldwide.Text = players[1].worldwide.ToString();
+
+            valueP1CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"_{players[0].pref}"));
+            valueP2CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"_{players[1].pref}"));
+
+            if (players[0].pref == -1) {
+                valueP1CharacterPref.BackgroundImage = null;
+            }
+            if (players[1].pref == -1) {
+                valueP2CharacterPref.BackgroundImage = null;
+            }
 
             valuePlayers.Text = numplayers.ToString();
             valueRating.Text = currentRating.ToString();
@@ -318,11 +325,54 @@ namespace PPTMonitor {
 
                 players[i].id = PPT.ReadInt32(new IntPtr(playerAddress) + 0x40 + i * 0x50);
 
-                players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}"; ;
+                players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}";
             }
+
+            players[0].pref = PPT.ReadByte(new IntPtr(
+                PPT.ReadInt32(new IntPtr(
+                    PPT.ReadInt32(new IntPtr(
+                        PPT.ReadInt32(new IntPtr(
+                            PPT.ReadInt32(new IntPtr(
+                                PPT.ReadInt32(new IntPtr(
+                                    PPT.ReadInt32(new IntPtr(
+                                        PPT.ReadInt32(new IntPtr(
+                                            0x1435B31CC
+                                        )) + 0x48
+                                    )) + 0x10
+                                )) + 0x90
+                            )) + 0x08
+                        )) + 0x40
+                    )) + 0x68
+                )) + 0xD4
+            ));
+
+            players[1].pref = PPT.ReadByte(new IntPtr(
+                PPT.ReadInt32(new IntPtr(
+                    PPT.ReadInt32(new IntPtr(
+                        PPT.ReadInt32(new IntPtr(
+                            PPT.ReadInt32(new IntPtr(
+                                PPT.ReadInt32(new IntPtr(
+                                    PPT.ReadInt32(new IntPtr(
+                                        PPT.ReadInt32(new IntPtr(
+                                            PPT.ReadInt32(new IntPtr(
+                                                PPT.ReadInt32(new IntPtr(
+                                                    PPT.ReadInt32(new IntPtr(
+                                                        0x140573A78
+                                                    )) + 0x20
+                                                )) + 0x20
+                                            )) + 0x20
+                                        )) + 0xA8
+                                    )) + 0x68
+                                )) + 0x90
+                            )) + 0x28
+                        )) + 0x18
+                    )) + 0x08
+                )) + 0xD4
+            ));
 
             for (int i = numplayers; i < 2; i++) {
                 players[i] = new Player();
+                players[i].pref = -1;
             }
 
             currentRating = PPT.ReadInt16(new IntPtr(0x140599FF0));
