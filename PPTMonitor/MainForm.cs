@@ -328,25 +328,7 @@ namespace PPTMonitor {
                 players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}";
             }
 
-            players[0].pref = PPT.ReadByte(new IntPtr(
-                PPT.ReadInt32(new IntPtr(
-                    PPT.ReadInt32(new IntPtr(
-                        PPT.ReadInt32(new IntPtr(
-                            PPT.ReadInt32(new IntPtr(
-                                PPT.ReadInt32(new IntPtr(
-                                    PPT.ReadInt32(new IntPtr(
-                                        PPT.ReadInt32(new IntPtr(
-                                            0x1435B31CC
-                                        )) + 0x48
-                                    )) + 0x10
-                                )) + 0x90
-                            )) + 0x08
-                        )) + 0x40
-                    )) + 0x68
-                )) + 0xD4
-            ));
-
-            players[1].pref = PPT.ReadByte(new IntPtr(
+            int prefAddress = PPT.ReadInt32(new IntPtr(
                 PPT.ReadInt32(new IntPtr(
                     PPT.ReadInt32(new IntPtr(
                         PPT.ReadInt32(new IntPtr(
@@ -356,19 +338,20 @@ namespace PPTMonitor {
                                         PPT.ReadInt32(new IntPtr(
                                             PPT.ReadInt32(new IntPtr(
                                                 PPT.ReadInt32(new IntPtr(
-                                                    PPT.ReadInt32(new IntPtr(
-                                                        0x140573A78
-                                                    )) + 0x20
+                                                    0x140573A78
                                                 )) + 0x20
                                             )) + 0x20
-                                        )) + 0xA8
-                                    )) + 0x68
-                                )) + 0x90
-                            )) + 0x28
-                        )) + 0x18
-                    )) + 0x08
-                )) + 0xD4
+                                        )) + 0x20
+                                    )) + 0xA8
+                                )) + 0x68
+                            )) + 0x90
+                        )) + 0x28
+                    )) + 0x18
+                )) + 0x08
             ));
+
+            players[0].pref = PPT.ReadByte(new IntPtr(prefAddress - 0x9484));
+            players[1].pref = PPT.ReadByte(new IntPtr(prefAddress + 0xD4));
 
             for (int i = numplayers; i < 2; i++) {
                 players[i] = new Player();
