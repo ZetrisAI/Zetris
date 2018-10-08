@@ -225,12 +225,6 @@ namespace PPTMonitor {
             "Grand Master"
         };
 
-        private enum MatchState {
-            Menu,
-            Match,
-            Finished
-        }
-
         private static string RatioType(int ratio) {
             if (ratio < 34) {
                 return "T";
@@ -254,130 +248,70 @@ namespace PPTMonitor {
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
 
-        static int startingRating, currentRating, wins = 0, losses = 0, numplayers;
-
-        static MatchState match = MatchState.Finished;
-        static int[] score = new int[4] {0, 0, 0, 0};
-        static int[] sets = new int[4] {0, 0, 0, 0};
-        static int[] total = new int[4] {0, 0, 0, 0};
+        static int currentRating, numplayers;
+        
+        static int[] score = new int[2] {0, 0};
        
         static int maxscore = 2;
         static List<int> history = new List<int>();
 
-        static Player[] players = new Player[4];
+        static Player[] players = new Player[2];
 
         private void updateUI() {
             valueScore1.Text = score[0].ToString();
             valueScore2.Text = score[1].ToString();
-            valueScore3.Text = score[2].ToString();
-            valueScore4.Text = score[3].ToString();
-
-            valueSets1.Text = sets[0].ToString();
-            valueSets2.Text = sets[1].ToString();
-            valueSets3.Text = sets[2].ToString();
-            valueSets4.Text = sets[3].ToString();
-
-            valueTotal1.Text = total[0].ToString();
-            valueTotal2.Text = total[1].ToString();
-            valueTotal3.Text = total[2].ToString();
-            valueTotal4.Text = total[3].ToString();
 
             valueP1Rating.Text = players[0].rating.ToString();
             valueP2Rating.Text = players[1].rating.ToString();
-            valueP3Rating.Text = players[2].rating.ToString();
-            valueP4Rating.Text = players[3].rating.ToString();
 
             valueP1Name.Text = players[0].name;
             valueP2Name.Text = players[1].name;
-            valueP3Name.Text = players[2].name;
-            valueP4Name.Text = players[3].name;
 
             valueP1League.Text = Leagues[players[0].league];
             valueP2League.Text = Leagues[players[1].league];
-            valueP3League.Text = Leagues[players[2].league];
-            valueP4League.Text = Leagues[players[3].league];
 
             valueP1Ratio.Text = RatioType(players[0].playstyle);
             valueP2Ratio.Text = RatioType(players[1].playstyle);
-            valueP3Ratio.Text = RatioType(players[2].playstyle);
-            valueP4Ratio.Text = RatioType(players[3].playstyle);
 
             valueP1Region.Text = Regions[players[0].region];
             valueP2Region.Text = Regions[players[1].region];
-            valueP3Region.Text = Regions[players[2].region];
-            valueP4Region.Text = Regions[players[3].region];
 
             valueP1Regional.Text = players[0].regional.ToString();
             valueP2Regional.Text = players[1].regional.ToString();
-            valueP3Regional.Text = players[2].regional.ToString();
-            valueP4Regional.Text = players[3].regional.ToString();
             
             valueP1Worldwide.Text = players[0].worldwide.ToString();
             valueP2Worldwide.Text = players[1].worldwide.ToString();
-            valueP3Worldwide.Text = players[2].worldwide.ToString();
-            valueP4Worldwide.Text = players[3].worldwide.ToString();
 
             valuePlayers.Text = numplayers.ToString();
-
-            valueWins.Text = wins.ToString();
-            valueLosses.Text = losses.ToString();
-            
-            valueCurrentRating.Text = currentRating.ToString();
-            valueRatingDifference.Text = (currentRating - startingRating).ToString();
+            valueRating.Text = currentRating.ToString();
         }
 
         private void ScanTimer_Tick(object sender, EventArgs e) {
-            int temp;
-
             int scoreAddress = PPT.ReadInt32(new IntPtr(0x14057F048));
-            valueScoreAddress.Text = "0x" + scoreAddress.ToString("X8");
 
-            if (scoreAddress == 0x0) {
-                if (match == MatchState.Finished) {
-                    match = MatchState.Menu;
-
-                    buttonResetBattle_Click(sender, e);
-                }
-            } else {
-                if (match == MatchState.Menu)
-                    match = MatchState.Match;
-
-                scoreAddress += 0x38;
-            }
-
+            scoreAddress += 0x38;
+                
             maxscore = PPT.ReadInt32(new IntPtr(scoreAddress + 0x10));
 
-            for (int i = 0; i < 4; i++) {
-                temp = PPT.ReadInt32(new IntPtr(scoreAddress) + i * 4);
-                if (temp > score[i]) {
-                    total[i]++;
-                    history.Add(i);
-                    if (temp >= maxscore) {
-                        sets[i]++;
-                    }
-                }
-                score[i] = temp;
-            }
+            for (int i = 0; i < 2; i++)
+                score[i] = PPT.ReadInt32(new IntPtr(scoreAddress + i * 4));
 
             int playerAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x20)) + 0xD8;
             int leagueAddress = PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(PPT.ReadInt32(new IntPtr(0x140473760)) + 0x68)) + 0x20)) + 0x970)) - 0x38;
 
-            valuePlayerAddress.Text = "0x" + playerAddress.ToString("X8");
-            valueLeagueAddress.Text = "0x" + leagueAddress.ToString("X8");
-
             numplayers = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24);
 
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 players[i].name = PPT.ReadStringUnicode(new IntPtr(playerAddress) + i * 0x50, 0x20);
                 players[i].rating = PPT.ReadInt16(new IntPtr(playerAddress) + 0x30 + i * 0x50);
 
-                temp = PPT.ReadInt16(new IntPtr(leagueAddress) + i * 0x140);
+                short temp = PPT.ReadInt16(new IntPtr(leagueAddress) + i * 0x140);
 
                 if (temp != 0)
                     players[i].league = temp - 1;
                 
                 players[i].playstyle = PPT.ReadInt16(new IntPtr(playerAddress) + 0x32 + i * 0x50);
-                players[i].region = PPT.ReadByte(new IntPtr(leagueAddress) - 0xC + i * 0x140);
+                players[i].region = PPT.ReadByte(new IntPtr(leagueAddress) - 0x0C + i * 0x140);
 
                 players[i].regional = PPT.ReadInt32(new IntPtr(playerAddress) + 0x28 + i * 0x50);
                 players[i].worldwide = PPT.ReadInt32(new IntPtr(playerAddress) + 0x2C + i * 0x50);
@@ -387,38 +321,17 @@ namespace PPTMonitor {
                 players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}"; ;
             }
 
-            for (int i = numplayers; i < 4; i++) {
+            for (int i = numplayers; i < 2; i++) {
                 players[i] = new Player();
             }
 
-            temp = PPT.ReadInt16(new IntPtr(0x140599FF0));
-            if (temp != currentRating) {
-                if (match == MatchState.Match) {
-                    writeMatch(MatchType.PuzzleLeague, numplayers, maxscore, history, temp - currentRating, players);
-                    match = MatchState.Finished;
-                }
-
-                if (temp > currentRating) {
-                    wins++;
-                } else if (temp < currentRating) {
-                    losses++;
-                }
-            }
-            currentRating = temp;
-
-            temp = PPT.ReadInt32(new IntPtr(0x140573A78));
-            if (temp != 0x0) {
-                if (match == MatchState.Match) {
-                    writeMatch(MatchType.FreePlay, numplayers, maxscore, history, 0, players);
-                    match = MatchState.Finished;
-                }
-            }
+            currentRating = PPT.ReadInt16(new IntPtr(0x140599FF0));
 
             updateUI();
         }
 
         private void writeMatch(MatchType type, int players, int bestof, List<int> matchLog, int ratingChange, Player[] matchPlayers) {
-            log.Text += Environment.NewLine + $"writeMatch called {type}, {players}, {bestof}, {{{string.Join(", ", matchLog.ToArray())}}}, {ratingChange}, {matchPlayers[1].name}";
+            // TODO: Log Match
         }
 
         private void valueP1Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
@@ -429,54 +342,9 @@ namespace PPTMonitor {
             Process.Start(players[1].steam);
         }
 
-        private void valueP3Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start(players[2].steam);
-        }
-
-        private void valueP4Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start(players[3].steam);
-        }
-
-        private void buttonResetBattle_Click(object sender, EventArgs e) {
-            for (int i = 0; i < 4; i++) {
-                score[i] = 0;
-                sets[i] = 0;
-                total[i] = 0;
-            }
-
-            history.Clear();
-
-            valueScore1.Text = score[0].ToString();
-            valueScore2.Text = score[1].ToString();
-            valueScore3.Text = score[2].ToString();
-            valueScore4.Text = score[3].ToString();
-
-            valueSets1.Text = sets[0].ToString();
-            valueSets2.Text = sets[1].ToString();
-            valueSets3.Text = sets[2].ToString();
-            valueSets4.Text = sets[3].ToString();
-
-            valueTotal1.Text = total[0].ToString();
-            valueTotal2.Text = total[1].ToString();
-            valueTotal3.Text = total[2].ToString();
-            valueTotal4.Text = total[3].ToString();
-        }
-
-        private void buttonResetPuzzle_Click(object sender, EventArgs e) {
-            startingRating = currentRating;
-
-            valueStartingRating.Text = startingRating.ToString();
-            valueCurrentRating.Text = currentRating.ToString();
-            valueRatingDifference.Text = (currentRating - startingRating).ToString();
-
-            wins = losses = 0;
-            valueWins.Text = wins.ToString();
-            valueLosses.Text = losses.ToString();
-        }
-
         private void MainForm_Load(object sender, EventArgs e) {
             ScanTimer_Tick(null, EventArgs.Empty);
-            buttonResetPuzzle_Click(null, EventArgs.Empty);
+            // Reset Puzzle
         }
 
         private void buttonRehook_Click(object sender, EventArgs e) {
