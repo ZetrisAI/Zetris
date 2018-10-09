@@ -253,6 +253,7 @@ namespace PPTMonitor {
         static Player[] players = new Player[2];
         static int[] score = new int[2] {0, 0};
         static int maxscore = 2;
+        static int[,,] board = new int[2, 10, 40];
 
         private void updateUI() {
             valueScore1.Text = score[0].ToString();
@@ -359,6 +360,23 @@ namespace PPTMonitor {
             }
 
             currentRating = PPT.ReadInt16(new IntPtr(0x140599FF0));
+
+            int columnAddress = PPT.ReadInt32(new IntPtr(
+                PPT.ReadInt32(new IntPtr(
+                    PPT.ReadInt32(new IntPtr(
+                        PPT.ReadInt32(new IntPtr(
+                            0x1405989D0
+                        )) + 0x3C0
+                    )) + 0x18
+                ))
+            ));
+
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 40; j++) {
+                    board[0, i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
+                }
+                columnAddress = PPT.ReadInt32(new IntPtr(columnAddress - 0x28)) + 0x30;
+            }
 
             updateUI();
         }
