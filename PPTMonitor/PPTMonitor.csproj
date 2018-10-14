@@ -174,5 +174,14 @@
   <ItemGroup>
     <None Include="Resources\23.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\voice_alt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gamemode_puyo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gamemode_tet.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

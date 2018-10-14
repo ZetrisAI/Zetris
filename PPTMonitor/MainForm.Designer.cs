@@ -54,16 +54,28 @@
             this.board2 = new System.Windows.Forms.PictureBox();
             this.valueP1CharacterPref = new System.Windows.Forms.PictureBox();
             this.valueP2CharacterPref = new System.Windows.Forms.PictureBox();
+            this.valueP1Character = new System.Windows.Forms.PictureBox();
+            this.valueP2Gamemode = new System.Windows.Forms.PictureBox();
+            this.valueP1Voice = new System.Windows.Forms.PictureBox();
+            this.valueP2Voice = new System.Windows.Forms.PictureBox();
+            this.valueP1Gamemode = new System.Windows.Forms.PictureBox();
+            this.valueP2Character = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP2CharacterPref)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Character)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Gamemode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Voice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Voice)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Gamemode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Character)).BeginInit();
             this.SuspendLayout();
             // 
             // ScanTimer
             // 
             this.ScanTimer.Enabled = true;
-            this.ScanTimer.Interval = 500;
+            this.ScanTimer.Interval = 30;
             this.ScanTimer.Tick += new System.EventHandler(this.ScanTimer_Tick);
             // 
             // buttonRehook
@@ -292,14 +304,80 @@
             this.valueP2CharacterPref.TabIndex = 7;
             this.valueP2CharacterPref.TabStop = false;
             // 
+            // valueP1Character
+            // 
+            this.valueP1Character.BackColor = System.Drawing.Color.Transparent;
+            this.valueP1Character.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP1Character.Location = new System.Drawing.Point(92, 474);
+            this.valueP1Character.Name = "valueP1Character";
+            this.valueP1Character.Size = new System.Drawing.Size(20, 20);
+            this.valueP1Character.TabIndex = 7;
+            this.valueP1Character.TabStop = false;
+            // 
+            // valueP2Gamemode
+            // 
+            this.valueP2Gamemode.BackColor = System.Drawing.Color.Transparent;
+            this.valueP2Gamemode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP2Gamemode.Location = new System.Drawing.Point(188, 474);
+            this.valueP2Gamemode.Name = "valueP2Gamemode";
+            this.valueP2Gamemode.Size = new System.Drawing.Size(20, 20);
+            this.valueP2Gamemode.TabIndex = 7;
+            this.valueP2Gamemode.TabStop = false;
+            // 
+            // valueP1Voice
+            // 
+            this.valueP1Voice.BackColor = System.Drawing.Color.Transparent;
+            this.valueP1Voice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP1Voice.Location = new System.Drawing.Point(114, 474);
+            this.valueP1Voice.Name = "valueP1Voice";
+            this.valueP1Voice.Size = new System.Drawing.Size(10, 10);
+            this.valueP1Voice.TabIndex = 7;
+            this.valueP1Voice.TabStop = false;
+            // 
+            // valueP2Voice
+            // 
+            this.valueP2Voice.BackColor = System.Drawing.Color.Transparent;
+            this.valueP2Voice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP2Voice.Location = new System.Drawing.Point(210, 474);
+            this.valueP2Voice.Name = "valueP2Voice";
+            this.valueP2Voice.Size = new System.Drawing.Size(10, 10);
+            this.valueP2Voice.TabIndex = 8;
+            this.valueP2Voice.TabStop = false;
+            // 
+            // valueP1Gamemode
+            // 
+            this.valueP1Gamemode.BackColor = System.Drawing.Color.Transparent;
+            this.valueP1Gamemode.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP1Gamemode.Location = new System.Drawing.Point(126, 474);
+            this.valueP1Gamemode.Name = "valueP1Gamemode";
+            this.valueP1Gamemode.Size = new System.Drawing.Size(20, 20);
+            this.valueP1Gamemode.TabIndex = 7;
+            this.valueP1Gamemode.TabStop = false;
+            // 
+            // valueP2Character
+            // 
+            this.valueP2Character.BackColor = System.Drawing.Color.Transparent;
+            this.valueP2Character.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.valueP2Character.Location = new System.Drawing.Point(222, 474);
+            this.valueP2Character.Name = "valueP2Character";
+            this.valueP2Character.Size = new System.Drawing.Size(20, 20);
+            this.valueP2Character.TabIndex = 7;
+            this.valueP2Character.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(340, 521);
+            this.Controls.Add(this.valueP2Voice);
             this.Controls.Add(this.board2);
+            this.Controls.Add(this.valueP2Character);
+            this.Controls.Add(this.valueP2Gamemode);
             this.Controls.Add(this.valueP2CharacterPref);
+            this.Controls.Add(this.valueP1Voice);
+            this.Controls.Add(this.valueP1Gamemode);
+            this.Controls.Add(this.valueP1Character);
             this.Controls.Add(this.valueP1CharacterPref);
             this.Controls.Add(this.board1);
             this.Controls.Add(this.valueP2Worldwide);
@@ -332,6 +410,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP2CharacterPref)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Character)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Gamemode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Voice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Voice)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP1Gamemode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.valueP2Character)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -363,6 +447,12 @@
         private System.Windows.Forms.PictureBox board2;
         private System.Windows.Forms.PictureBox valueP1CharacterPref;
         private System.Windows.Forms.PictureBox valueP2CharacterPref;
+        private System.Windows.Forms.PictureBox valueP1Character;
+        private System.Windows.Forms.PictureBox valueP2Gamemode;
+        private System.Windows.Forms.PictureBox valueP1Voice;
+        private System.Windows.Forms.PictureBox valueP2Voice;
+        private System.Windows.Forms.PictureBox valueP1Gamemode;
+        private System.Windows.Forms.PictureBox valueP2Character;
     }
 }
 

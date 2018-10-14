@@ -245,6 +245,46 @@ namespace PPTMonitor {
             public int id;
             public string steam;
             public int pref;
+            public int character;
+            public int gamemode;
+            public int voice;
+        }
+
+        private Color tetromino(int x) {
+            switch (x) {
+                case 0:
+                    return Color.FromArgb(0, 255, 0);
+
+                case 1:
+                    return Color.FromArgb(255, 0, 0);
+
+                case 2:
+                    return Color.FromArgb(0, 0, 255);
+
+                case 3:
+                    return Color.FromArgb(255, 63, 0);
+
+                case 4:
+                    return Color.FromArgb(63, 0, 255);
+
+                case 5:
+                    return Color.FromArgb(255, 255, 0);
+
+                case 6:
+                    return Color.FromArgb(0, 255, 255);
+
+                case 7:
+                    return Color.FromArgb(239, 206, 26);
+
+                case 9:
+                    return Color.FromArgb(255, 255, 255);
+
+                case -1:
+                case -2:
+                    return Color.Transparent;
+            }
+
+            return Color.Transparent;
         }
 
         static VAMemory PPT = new VAMemory("puyopuyotetris");
@@ -276,13 +316,12 @@ namespace PPTMonitor {
 
             valueP1Regional.Text = players[0].regional.ToString();
             valueP2Regional.Text = players[1].regional.ToString();
-            
+
             valueP1Worldwide.Text = players[0].worldwide.ToString();
             valueP2Worldwide.Text = players[1].worldwide.ToString();
 
-            valueP1CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"_{players[0].pref}"));
-            valueP2CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"_{players[1].pref}"));
-
+            valueP1CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"character_{players[0].pref}"));
+            valueP2CharacterPref.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"character_{players[1].pref}"));
             if (players[0].pref == -1) {
                 valueP1CharacterPref.BackgroundImage = null;
             }
@@ -290,8 +329,61 @@ namespace PPTMonitor {
                 valueP2CharacterPref.BackgroundImage = null;
             }
 
+            valueP1Character.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"character_{players[0].character}"));
+            valueP2Character.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"character_{players[1].character}"));
+            if (players[0].character == -1) {
+                valueP1Character.BackgroundImage = null;
+            }
+            if (players[1].character == -1) {
+                valueP2Character.BackgroundImage = null;
+            }
+
+            valueP1Gamemode.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"gamemode_{players[0].gamemode}"));
+            valueP2Gamemode.BackgroundImage = (Image)(PPTMonitor.Properties.Resources.ResourceManager.GetObject($"gamemode_{players[1].gamemode}"));
+            if (players[0].gamemode == -1) {
+                valueP1Gamemode.BackgroundImage = null;
+            }
+            if (players[1].gamemode == -1) {
+                valueP2Gamemode.BackgroundImage = null;
+            }
+
+            if (players[0].voice == 1) {
+                valueP1Voice.BackgroundImage = PPTMonitor.Properties.Resources.voice;
+            } else {
+                valueP1Voice.BackgroundImage = null;
+            }
+            if (players[1].voice == 1) {
+                valueP2Voice.BackgroundImage = PPTMonitor.Properties.Resources.voice;
+            } else {
+                valueP2Voice.BackgroundImage = null;
+            }
+
             valuePlayers.Text = numplayers.ToString();
             valueRating.Text = currentRating.ToString();
+
+            board1.Image = new Bitmap(board1.Width, board1.Height);
+            using (Graphics gfx = Graphics.FromImage(board1.Image)) {
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 40; j++) {
+                        gfx.FillRectangle(new SolidBrush(tetromino(board[0, i, j])), i * (board1.Width / 10), (39 - j) * (board1.Height / 40), board1.Width / 10, board1.Height / 40);
+                    }
+                }
+
+                gfx.DrawLine(new Pen(Color.Red), 0, board1.Height / 2, board1.Width, board1.Height / 2);
+                gfx.Flush();
+            }
+
+            board2.Image = new Bitmap(board2.Width, board2.Height);
+            using (Graphics gfx = Graphics.FromImage(board2.Image)) {
+                for (int i = 0; i < 10; i++) {
+                    for (int j = 0; j < 40; j++) {
+                        gfx.FillRectangle(new SolidBrush(tetromino(board[1, i, j])), i * (board2.Width / 10), (39 - j) * (board2.Height / 40), board2.Width / 10, board2.Height / 40);
+                    }
+                }
+
+                gfx.DrawLine(new Pen(Color.Red), 0, board2.Height / 2, board2.Width, board2.Height / 2);
+                gfx.Flush();
+            }
         }
 
         private void ScanTimer_Tick(object sender, EventArgs e) {
@@ -354,28 +446,46 @@ namespace PPTMonitor {
             players[0].pref = PPT.ReadByte(new IntPtr(prefAddress - 0x9484));
             players[1].pref = PPT.ReadByte(new IntPtr(prefAddress + 0xD4));
 
+            int charAddress = PPT.ReadInt32(new IntPtr(0x140460690));
+
+            for (int i = 0; i < 2; i++) {
+                players[i].character = PPT.ReadByte(new IntPtr(charAddress + 0x1c8 + i * 0x30));
+                players[i].gamemode = PPT.ReadByte(new IntPtr(charAddress + 0x980 + i * 0x28));
+                players[i].voice = (PPT.ReadByte(new IntPtr(charAddress + 0x594)) & (i + 1)) >> i;
+            }
+
             for (int i = numplayers; i < 2; i++) {
                 players[i] = new Player();
                 players[i].pref = -1;
+                players[i].character = -1;
             }
 
             currentRating = PPT.ReadInt16(new IntPtr(0x140599FF0));
 
-            int columnAddress = PPT.ReadInt32(new IntPtr(
+            int boardBase = PPT.ReadInt32(new IntPtr(0x1405989D0));
+
+            int[] boardAddress = new int[] {
+                PPT.ReadInt32(new IntPtr(
+                    PPT.ReadInt32(new IntPtr(
+                        boardBase + 0x3C0
+                    )) + 0x18
+                )),
                 PPT.ReadInt32(new IntPtr(
                     PPT.ReadInt32(new IntPtr(
                         PPT.ReadInt32(new IntPtr(
-                            0x1405989D0
-                        )) + 0x3C0
-                    )) + 0x18
-                ))
-            ));
+                            boardBase + 0x30
+                        )) + 0x20
+                    )) + 0x3C0
+                )) + 0x50
+            };
 
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < 40; j++) {
-                    board[0, i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
+            for (int p = 0; p < 2; p++) {
+                for (int i = 0; i < 10; i++) {
+                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress[p] + i * 0x08));
+                    for (int j = 0; j < 40; j++) {
+                        board[p, i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
+                    }
                 }
-                columnAddress = PPT.ReadInt32(new IntPtr(columnAddress - 0x28)) + 0x30;
             }
 
             updateUI();
