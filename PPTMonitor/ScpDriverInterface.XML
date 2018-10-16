@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScpDriverInterface</name>
+    </assembly>
+    <members>
+        <member name="T:ScpDriverInterface.ScpBus">
+            <summary>
+            Emulates Xbox 360 controllers via Scarlet.Crush's SCP Virtual Bus Driver.
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.#ctor">
+            <summary>
+            Creates a new ScpBus object, which will then try to get a handle to the SCP Virtual Bus device. If it is unable to get the handle, an IOException will be thrown.
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.#ctor(System.Int32)">
+            <summary>
+            Creates a new ScpBus object, which will then try to get a handle to the SCP Virtual Bus device. If it is unable to get the handle, an IOException will be thrown.
+            </summary>
+            <param name="instance">Specifies which SCP Virtual Bus device to use. This is 0-based.</param>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.#ctor(System.String)">
+            <summary>
+            Creates a new ScpBus object, which will then try to get a handle to the specified SCP Virtual Bus device. If it is unable to get the handle, an IOException will be thrown.
+            </summary>
+            <param name="devicePath">The path to the SCP Virtual Bus device that you want to use.</param>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Close">
+            <summary>
+            Closes the handle to the SCP Virtual Bus device. Call this when you are done with your instance of ScpBus.
+            
+            (This method does the same thing as the Dispose() method. Use one or the other.)
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Dispose">
+            <summary>
+            Closes the handle to the SCP Virtual Bus device. Call this when you are done with your instance of ScpBus.
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Dispose(System.Boolean)">
+            <summary>
+            Internal disposer, called by either the finalizer or the Dispose() method.
+            </summary>
+            <param name="disposing">True if called from Dispose(), false if called from finalizer.</param>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.PlugIn(System.Int32)">
+            <summary>
+            Plugs in an emulated Xbox 360 controller.
+            </summary>
+            <param name="controllerNumber">Used to identify the controller. Give each controller you plug in a different number. Number must be non-zero.</param>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Unplug(System.Int32)">
+            <summary>
+            Unplugs an emulated Xbox 360 controller.
+            </summary>
+            <param name="controllerNumber">The controller you want to unplug.</param>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.UnplugAll">
+            <summary>
+            Unplugs all emulated Xbox 360 controllers.
+            </summary>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Report(System.Int32,System.Byte[])">
+            <summary>
+            Sends an input report for the current state of the specified emulated Xbox 360 controller. Note: Only use this if you don't care about rumble data, otherwise use the 3-parameter version of Report().
+            </summary>
+            <param name="controllerNumber">The controller to report.</param>
+            <param name="controllerReport">The controller report. If using the included X360Controller class, this can be generated with the GetReport() method. Otherwise see http://free60.org/wiki/GamePad#Input_report for details.</param>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="M:ScpDriverInterface.ScpBus.Report(System.Int32,System.Byte[],System.Byte[])">
+            <summary>
+            Sends an input report for the current state of the specified emulated Xbox 360 controller. If you care about rumble data, make sure you check the output report for rumble data every time you call this.
+            </summary>
+            <param name="controllerNumber">The controller to report.</param>
+            <param name="controllerReport">The controller report. If using the included X360Controller class, this can be generated with the GetReport() method. Otherwise see http://free60.org/wiki/GamePad#Input_report for details.</param>
+            <param name="outputBuffer">The buffer for the output report, which takes the form specified here: http://free60.org/wiki/GamePad#Output_report. Use an 8-byte buffer if you care about rumble data, or null otherwise.</param>
+            <returns>True if the operation was successful, false otherwise.</returns>
+        </member>
+        <member name="T:ScpDriverInterface.X360Controller">
+            <summary>
+            A virtual Xbox 360 Controller. After setting the desired values, use the GetReport() method to generate a controller report that can be used with ScpBus's Report() method.
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.X360Controller.#ctor">
+            <summary>
+            Generates a new X360Controller object with the default initial state (no buttons pressed, all analog inputs 0).
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.X360Controller.#ctor(ScpDriverInterface.X360Buttons,System.Byte,System.Byte,System.Int16,System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Generates a new X360Controller object. Optionally, you can specify the initial state of the controller.
+            </summary>
+            <param name="buttons">The pressed buttons. Use like flags (i.e. (X360Buttons.A | X360Buttons.X) would be mean both A and X are pressed).</param>
+            <param name="leftTrigger">Left trigger analog input. 0 to 255.</param>
+            <param name="rightTrigger">Right trigger analog input. 0 to 255.</param>
+            <param name="leftStickX">Left stick X-axis. -32,768 to 32,767.</param>
+            <param name="leftStickY">Left stick Y-axis. -32,768 to 32,767.</param>
+            <param name="rightStickX">Right stick X-axis. -32,768 to 32,767.</param>
+            <param name="rightStickY">Right stick Y-axis. -32,768 to 32,767.</param>
+        </member>
+        <member name="M:ScpDriverInterface.X360Controller.#ctor(ScpDriverInterface.X360Controller)">
+            <summary>
+            Generates a new X360Controller object with the same values as the specified X360Controller object.
+            </summary>
+            <param name="controller">An X360Controller object to copy values from.</param>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.Buttons">
+            <summary>
+            The controller's currently pressed buttons. Use the X360Button values like flags (i.e. (X360Buttons.A | X360Buttons.X) would be mean both A and X are pressed).
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.LeftTrigger">
+            <summary>
+            The controller's left trigger analog input. Value can range from 0 to 255.
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.RightTrigger">
+            <summary>
+            The controller's right trigger analog input. Value can range from 0 to 255.
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.LeftStickX">
+            <summary>
+            The controller's left stick X-axis. Value can range from -32,768 to 32,767.
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.LeftStickY">
+            <summary>
+            The controller's left stick Y-axis. Value can range from -32,768 to 32,767.
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.RightStickX">
+            <summary>
+            The controller's right stick X-axis. Value can range from -32,768 to 32,767.
+            </summary>
+        </member>
+        <member name="P:ScpDriverInterface.X360Controller.RightStickY">
+            <summary>
+            The controller's right stick Y-axis. Value can range from -32,768 to 32,767.
+            </summary>
+        </member>
+        <member name="M:ScpDriverInterface.X360Controller.GetReport">
+            <summary>
+            Generates an Xbox 360 controller report as specified here: http://free60.org/wiki/GamePad#Input_report. This can be used with ScpBus's Report() method.
+            </summary>
+            <returns>A 20-byte Xbox 360 controller report.</returns>
+        </member>
+        <member name="T:ScpDriverInterface.X360Buttons">
+            <summary>
+            The buttons to be used with an X360Controller object.
+            </summary>
+        </member>
+    </members>
+</doc>
