@@ -26,8 +26,8 @@ namespace PPTMonitor {
 
         static int[,] intendedBoard = new int[10, 40];
         int[] queue = new int[5];
-        int desiredX = -1;
-        int desiredR = -1;
+        LogicHelper.Solution solution = new LogicHelper.Solution();
+
         private void MainForm_Load(object sender, EventArgs e) {
             scp.PlugIn(1);
         }
@@ -102,8 +102,8 @@ namespace PPTMonitor {
 
             valueFramecount.Text = frames.ToString();
 
-            valueIntendedPosition.Text = desiredX.ToString();
-            valueIntendedRotation.Text = desiredR.ToString();
+            valueIntendedPosition.Text = solution.desiredX.ToString();
+            valueIntendedRotation.Text = solution.desiredR.ToString();
         }
 
         private void updateGame() {
@@ -179,76 +179,9 @@ namespace PPTMonitor {
                 valueCurrentPiece.Text = current.ToString(); // UI
 
                 if (current != -1 && current == queue[0]) {
-                    SortedList<int, (int, int, int[,])> testBoards = new SortedList<int, (int, int, int[,])>(new DuplicateKeyComparer<int>());
-                    int[,] tempBoard;
-
-                    switch (current) {
-                        case 0: // S
-                        case 1: // Z
-                            for (int i = 1; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 0);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 0, tempBoard));
-                            }
-                            for (int i = 4; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 1);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 1, tempBoard));
-                            }
-                            for (int i = 1; i <= 4; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 3);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 3, tempBoard));
-                            }
-                            break;
-
-                        case 2: // J
-                        case 3: // L
-                        case 4: // T
-                            for (int i = 1; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 0);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 0, tempBoard));
-                            }
-                            for (int i = 0; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 1);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 1, tempBoard));
-                            }
-                            for (int i = 1; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 2);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 2, tempBoard));
-                            }
-                            for (int i = 1; i <= 9; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 3);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 3, tempBoard));
-                            }
-                            break;
-
-                        case 5: // O
-                            for (int i = 0; i <= 8; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 0);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 0, tempBoard));
-                            }
-                            break;
-
-                        case 6: // I
-                            for (int i = 1; i <= 7; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 0);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 0, tempBoard));
-                            }
-                            for (int i = 5; i <= 9; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 1);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 1, tempBoard));
-                            }
-                            for (int i = 0; i <= 4; i++) {
-                                tempBoard = LogicHelper.placePiece(board[0], current, i, 3);
-                                testBoards.Add(LogicHelper.rateBoard(tempBoard), (i, 3, tempBoard));
-                            }
-                            break;
-                    }
-
                     queue = (int[])pieces.Clone();
-
-                    var goal = testBoards.Last().Value;
-                    desiredX = goal.Item1;
-                    desiredR = goal.Item2;
-                    intendedBoard = goal.Item3;
+                    
+                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray());
                 }
             }
 
@@ -266,18 +199,18 @@ namespace PPTMonitor {
             valueCurrentRotation.Text = pieceR.ToString();
                 
             if (nextFrame > frames) {
-                if (desiredX == pieceX && desiredR == pieceR) {
+                if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
                     gamepad.Buttons = X360Buttons.Up;
                 } else {
-                    if (desiredX != pieceX)
-                        if (desiredX < pieceX) {
+                    if (solution.desiredX != pieceX)
+                        if (solution.desiredX < pieceX) {
                             gamepad.Buttons = X360Buttons.Left;
                         } else {
                             gamepad.Buttons = X360Buttons.Right;
                         }
 
-                    if (desiredR != pieceR)
-                        if (desiredR == 3) {
+                    if (solution.desiredR != pieceR)
+                        if (solution.desiredR == 3) {
                             gamepad.Buttons |= X360Buttons.A;
                         } else {
                             gamepad.Buttons |= X360Buttons.B;
