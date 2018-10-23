@@ -166,6 +166,16 @@ namespace PPTMonitor {
             }
         }
 
+        private void button1_Click(object sender, EventArgs e) {
+            scp.UnplugAll();
+            scp = new ScpBus();
+            gamepad = new X360Controller();
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+            scp.PlugIn(1);
+        }
+
         private void runLogic() {
             int piecesAddress = GameHelper.piecesAddress(PPT);
 
@@ -181,7 +191,7 @@ namespace PPTMonitor {
                 if (current != -1 && current == queue[0]) {
                     queue = (int[])pieces.Clone();
                     
-                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray());
+                    solution = LogicHelper.findMove(board[0], current, queue.Take(2).ToArray());
                 }
             }
 

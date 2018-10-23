@@ -68,6 +68,8 @@
             this.valueCurrentPiece = new System.Windows.Forms.Label();
             this.valueCurrentPosition = new System.Windows.Forms.Label();
             this.valueCurrentRotation = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
@@ -436,12 +438,34 @@
             this.valueCurrentRotation.TabIndex = 4;
             this.valueCurrentRotation.Text = "0";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(248, 504);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(19, 24);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "RE";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(273, 504);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(19, 24);
+            this.button2.TabIndex = 9;
+            this.button2.Text = "RE";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(340, 532);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.valueP2Voice);
             this.Controls.Add(this.board2);
             this.Controls.Add(this.valueP2Character);
@@ -541,6 +565,8 @@
         private System.Windows.Forms.Label valueCurrentPiece;
         private System.Windows.Forms.Label valueCurrentPosition;
         private System.Windows.Forms.Label valueCurrentRotation;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

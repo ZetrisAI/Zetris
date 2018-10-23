@@ -96,16 +96,12 @@ namespace PPTMonitor {
         public static int piecesAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x1405989D0
-                        )) + 0x3C0
-                    )) + 0x18
-                )) + 0x30
-            )) + 0xA0
-        )) + 0x4EC;
+                    0x140461B20
+                )) + 0x378
+            )) + 0xB8
+        )) + 0x15C;
 
-        public static int getCurrentPiece(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getCurrentPiece(VAMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -121,14 +117,10 @@ namespace PPTMonitor {
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                0x1405989D0
-                            )) + 0x78
-                        )) + 0xB0
-                    )) + 0x8
-                )) + 0x158
-            )) + 0x130
+                        0x140461B20
+                    )) + 0x378
+                )) + 0x40
+            )) + 0x100
         ));
 
         public static int getPieceRotation(VAMemory Game) => Game.ReadByte(new IntPtr(
@@ -147,11 +139,9 @@ namespace PPTMonitor {
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x1405989D0
-                        )) + 0x28
-                    )) + 0x20
-                )) + 0x18
+                        0x140598A20
+                    )) + 0x138
+                )) + 0x30
             )) + 0x208
         ));
     }
