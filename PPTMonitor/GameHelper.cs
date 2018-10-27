@@ -78,10 +78,12 @@ namespace PPTMonitor {
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
-                        0x1405989D0
+                        Game.ReadInt32(new IntPtr(
+                            0x140598A20
+                        )) + 0x38
                     )) + 0x3C0
-                )) + 0x18
-            )),
+                )) + 0x20
+            )) + 0x80,
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -125,12 +127,14 @@ namespace PPTMonitor {
 
         public static int getPieceRotation(VAMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(   
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
-                            0x1405989D0
-                        )) + 0x78
-                    )) + 0xA8
+                            Game.ReadInt32(new IntPtr(
+                                0x140460C08
+                            )) + 0x18
+                        )) + 0x268
+                    )) + 0x38
                 )) + 0x3C8
             )) + 0x18
         ));
