@@ -82,8 +82,8 @@ namespace PPTMonitor {
                             0x140598A20
                         )) + 0x38
                     )) + 0x3C0
-                )) + 0x20
-            )) + 0x80,
+                )) + 0x18
+            )),
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(

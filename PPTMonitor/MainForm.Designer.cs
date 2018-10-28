@@ -72,6 +72,8 @@
             this.button2 = new System.Windows.Forms.Button();
             this.labelDownstacking = new System.Windows.Forms.Label();
             this.labelTetrisable = new System.Windows.Forms.Label();
+            this.labelHold = new System.Windows.Forms.Label();
+            this.labelUseHold = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
@@ -420,7 +422,7 @@
             // 
             this.valueCurrentPiece.Location = new System.Drawing.Point(89, 510);
             this.valueCurrentPiece.Name = "valueCurrentPiece";
-            this.valueCurrentPiece.Size = new System.Drawing.Size(23, 13);
+            this.valueCurrentPiece.Size = new System.Drawing.Size(13, 13);
             this.valueCurrentPiece.TabIndex = 4;
             this.valueCurrentPiece.Text = "0";
             // 
@@ -476,6 +478,22 @@
             this.labelTetrisable.TabIndex = 4;
             this.labelTetrisable.Text = "0";
             // 
+            // labelHold
+            // 
+            this.labelHold.Location = new System.Drawing.Point(72, 510);
+            this.labelHold.Name = "labelHold";
+            this.labelHold.Size = new System.Drawing.Size(15, 15);
+            this.labelHold.TabIndex = 4;
+            this.labelHold.Text = "0";
+            // 
+            // labelUseHold
+            // 
+            this.labelUseHold.Location = new System.Drawing.Point(106, 510);
+            this.labelUseHold.Name = "labelUseHold";
+            this.labelUseHold.Size = new System.Drawing.Size(15, 15);
+            this.labelUseHold.TabIndex = 4;
+            this.labelUseHold.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,6 +528,8 @@
             this.Controls.Add(this.valueCurrentPiece);
             this.Controls.Add(this.valueIntendedRotation);
             this.Controls.Add(this.labelTetrisable);
+            this.Controls.Add(this.labelUseHold);
+            this.Controls.Add(this.labelHold);
             this.Controls.Add(this.labelDownstacking);
             this.Controls.Add(this.valueIntendedPosition);
             this.Controls.Add(this.valuePlayers);
@@ -589,6 +609,8 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label labelDownstacking;
         private System.Windows.Forms.Label labelTetrisable;
+        private System.Windows.Forms.Label labelHold;
+        private System.Windows.Forms.Label labelUseHold;
     }
 }
 

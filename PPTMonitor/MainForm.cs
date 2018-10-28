@@ -178,6 +178,8 @@ namespace PPTMonitor {
             scp.PlugIn(1);
         }
 
+        int holdPiece = -1;
+
         private void runLogic() {
             int piecesAddress = GameHelper.piecesAddress(PPT);
 
@@ -193,12 +195,18 @@ namespace PPTMonitor {
                 if (current != -1 && current == queue[0]) {
                     queue = (int[])pieces.Clone();
                     
-                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), ref labelDownstacking, ref labelTetrisable);
+                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), holdPiece, ref labelDownstacking, ref labelTetrisable);
+                    intendedBoard = solution.desiredBoard;
+                    holdPiece = solution.pieceLeft;
+
+                    labelHold.Text = holdPiece.ToString();
+                    labelUseHold.Text = solution.useHold.ToString();
                 }
             }
 
             if (frames < 20) {
                 queue = (int[])pieces.Clone();
+                holdPiece = -1;
             }
         }
 
@@ -209,28 +217,32 @@ namespace PPTMonitor {
 
             valueCurrentPosition.Text = pieceX.ToString();
             valueCurrentRotation.Text = pieceR.ToString();
-                
+            
             if (nextFrame > frames) {
-                if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
-                    gamepad.Buttons = X360Buttons.Up;
-                } else {
-                    if (solution.desiredX != pieceX)
-                        if (solution.desiredX < pieceX) {
-                            gamepad.Buttons = X360Buttons.Left;
-                        } else {
-                            gamepad.Buttons = X360Buttons.Right;
-                        }
-
-                    if (solution.desiredR != pieceR)
-                        if (solution.desiredR == 3) {
-                            gamepad.Buttons |= X360Buttons.A;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.B;
-                        }
-                }
+                gamepad.Buttons = X360Buttons.None;
 
                 if (nextFrame % 2 == 0) {
-                    gamepad.Buttons = X360Buttons.None;
+                    if (solution.useHold) {
+                        gamepad.Buttons |= X360Buttons.RightBumper;
+                    }
+
+                    if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
+                        gamepad.Buttons |= X360Buttons.Up;
+                    } else {
+                        if (solution.desiredX != pieceX)
+                            if (solution.desiredX < pieceX) {
+                                gamepad.Buttons |= X360Buttons.Left;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Right;
+                            }
+
+                        if (solution.desiredR != pieceR)
+                            if (solution.desiredR == 3) {
+                                gamepad.Buttons |= X360Buttons.A;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.B;
+                            }
+                    }
                 }
 
                 scp.Report(1, gamepad.GetReport());

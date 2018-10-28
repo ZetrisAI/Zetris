@@ -10,14 +10,27 @@ namespace PPTMonitor {
         public class Solution : IComparable<Solution> {
             public int desiredX = -1, desiredR = -1;
             public int originalX = -1, originalR = -1;
+            public int pieceLeft = -1;
+            public bool useHold = false, wasEmpty = false;
             public int[,] desiredBoard = new int[10, 40];
             public List<Solution> solutions = new List<Solution>();
             public int? rating = null;
 
             public void Expand(List<int> queue) {
+                if (queue.Count > 0 && wasEmpty) {
+                    queue.Remove(0);
+                }
+
                 if (queue.Count > 0) {
-                    foreach (Solution solution in LogicHelper.findAllMoves(desiredBoard, queue[0], originalX, originalR)) {
-                        solutions.Add(solution);
+                    List<Solution> solutions = new List<Solution>();
+
+                    findAllMoves(desiredBoard, queue[0], pieceLeft, false, false, originalX, originalR, ref solutions);
+
+                    if (pieceLeft == -1) {
+                        if (queue.Count > 1)
+                            findAllMoves(desiredBoard, queue[1], queue[0], true, true, originalX, originalR, ref solutions);
+                    } else {
+                        findAllMoves(desiredBoard, pieceLeft, queue[0], true, false, originalX, originalR, ref solutions);
                     }
 
                     List<int> next = queue.ToList();
@@ -25,6 +38,16 @@ namespace PPTMonitor {
                     foreach (Solution solution in solutions) {
                         solution.Expand(next.Skip(1).ToList());
                     }
+
+                    /*foreach (Solution solution in LogicHelper.findAllMoves(desiredBoard, queue[0], originalX, originalR)) {
+                        solutions.Add(solution);
+                    }
+
+                    List<int> next = queue.ToList();
+
+                    foreach (Solution solution in solutions) {
+                        solution.Expand(next.Skip(1).ToList());
+                    }*/
 
                     rating = solutions.Max().rating;
 
@@ -41,7 +64,7 @@ namespace PPTMonitor {
 
             public Solution() {}
 
-            public Solution(int x, int r, int ox, int or, int[,] board) {
+            public Solution(int x, int r, int ox, int or, int left, bool hold, bool empty, int[,] board) {
                 desiredX = x;
                 desiredR = r;
 
@@ -56,6 +79,9 @@ namespace PPTMonitor {
                     originalR = or;
                 }
 
+                pieceLeft = left;
+                useHold = hold;
+                wasEmpty = empty;
                 desiredBoard = board;
             }
         }
@@ -380,8 +406,7 @@ namespace PPTMonitor {
             return heuristic;
         }
 
-        private static List<Solution> findAllMoves(int[,] board, int piece, int ox, int or) {
-            List<Solution> ret = new List<Solution>();
+        private static void findAllMoves(int[,] board, int piece, int pieceLeft, bool useHold, bool wasEmpty, int ox, int or, ref List<Solution> ret) {
             int[,] tempBoard;
 
             switch (piece) {
@@ -389,15 +414,15 @@ namespace PPTMonitor {
                 case 1: // Z
                     for (int i = 1; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 0);
-                        ret.Add(new Solution(i, 0, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 0, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 4; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 1);
-                        ret.Add(new Solution(i, 1, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 1, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 1; i <= 4; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 3);
-                        ret.Add(new Solution(i, 3, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 3, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     break;
 
@@ -406,46 +431,44 @@ namespace PPTMonitor {
                 case 4: // T
                     for (int i = 1; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 0);
-                        ret.Add(new Solution(i, 0, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 0, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 0; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 1);
-                        ret.Add(new Solution(i, 1, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 1, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 1; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 2);
-                        ret.Add(new Solution(i, 2, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 2, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 1; i <= 9; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 3);
-                        ret.Add(new Solution(i, 3, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 3, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     break;
 
                 case 5: // O
                     for (int i = 0; i <= 8; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 0);
-                        ret.Add(new Solution(i, 0, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 0, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     break;
 
                 case 6: // I
                     for (int i = 1; i <= 7; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 0);
-                        ret.Add(new Solution(i, 0, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 0, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 5; i <= 9; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 1);
-                        ret.Add(new Solution(i, 1, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 1, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     for (int i = 0; i <= 4; i++) {
                         tempBoard = LogicHelper.placePiece(board, piece, i, 3);
-                        ret.Add(new Solution(i, 3, ox, or, tempBoard));
+                        ret.Add(new Solution(i, 3, ox, or, pieceLeft, useHold, wasEmpty, tempBoard));
                     }
                     break;
             }
-
-            return ret;
         }
 
         private static bool tetrisable(int[,] board, int level) {
@@ -462,8 +485,7 @@ namespace PPTMonitor {
             return true;
         }
         
-        public static Solution findMove(int[,] board, int piece, int[] queue, ref Label down, ref Label tet) {
-            
+        public static Solution findMove(int[,] board, int piece, int[] queue, int hold, ref Label down, ref Label tet) {
             tetrisHeight = columnHeight(board)[9];
 
             bool x = tetrisable(board, tetrisHeight);
@@ -476,11 +498,19 @@ namespace PPTMonitor {
                 if (boardMax(board) < 9)
                     downstack = 0;
             }
-           
 
             down.Text = downstack.ToString();
 
-            List<Solution> solutions = findAllMoves(board, piece, -1, -1);
+            List<Solution> solutions = new List<Solution>();
+
+            findAllMoves(board, piece, hold, false, false, -1, -1, ref solutions);
+
+            if (hold == -1) {
+                if (queue.Length > 0)
+                    findAllMoves(board, queue[0], piece, true, true, -1, -1, ref solutions);
+            } else {
+                findAllMoves(board, hold, piece, true, false, -1, -1, ref solutions);
+            }
 
             List<int> next = queue.ToList();
             
