@@ -193,7 +193,7 @@ namespace PPTMonitor {
                 if (current != -1 && current == queue[0]) {
                     queue = (int[])pieces.Clone();
                     
-                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray());
+                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), ref labelDownstacking, ref labelTetrisable);
                 }
             }
 

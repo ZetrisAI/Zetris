@@ -309,6 +309,10 @@ namespace PPTMonitor {
             return columnHeight(board).Sum();
         }
 
+        private static int boardMax(int[,] board) {
+            return columnHeight(board).Max();
+        }
+
         private static int boardLines(int[,] board) {
             int ret = 0;
 
@@ -344,12 +348,15 @@ namespace PPTMonitor {
             int ret = 0;
             int[] height = columnHeight(board);
 
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 8; i++) {
                 ret += Math.Abs(height[i] - height[i + 1]);
             }
 
             return ret;
         }
+
+        private static int downstack = 0;
+        private static int tetrisHeight = 0;
 
         private static int rateBoard(int[,] board) {
             int height = boardHeight(board);
@@ -357,7 +364,20 @@ namespace PPTMonitor {
             int holes = boardHoles(board);
             int bumpiness = boardBumpiness(board);
 
-            return -102 * height + 152 * lines - 71 * holes - 37 *bumpiness;
+            int heuristic = -102 * height + 152 * lines - 200 * holes - 37 * bumpiness;
+            int heuristicStack = 102 * height - 152 * lines - 200 * holes - 37 * bumpiness;
+
+            if (downstack == 1) {
+                return heuristic;
+            }
+
+            if (lines == 4) {
+                return 100000000 + heuristic;
+            } else if (columnHeight(board)[9] > tetrisHeight) {
+                return -100000000 + heuristicStack;
+            }
+
+            return heuristic;
         }
 
         private static List<Solution> findAllMoves(int[,] board, int piece, int ox, int or) {
@@ -427,8 +447,39 @@ namespace PPTMonitor {
 
             return ret;
         }
+
+        private static bool tetrisable(int[,] board, int level) {
+            if (level > 30) return false;
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = level; j < 4 + level; j++) {
+                    if (board[i,j] == -1 && board[i,j+1] != -1) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
         
-        public static Solution findMove(int[,] board, int piece, int[] queue) {
+        public static Solution findMove(int[,] board, int piece, int[] queue, ref Label down, ref Label tet) {
+            
+            tetrisHeight = columnHeight(board)[9];
+
+            bool x = tetrisable(board, tetrisHeight);
+            tet.Text = x.ToString();
+
+            if (downstack == 0) {
+                if (!x || boardMax(board) > 17)
+                    downstack = 1;
+            } else {
+                if (boardMax(board) < 9)
+                    downstack = 0;
+            }
+           
+
+            down.Text = downstack.ToString();
+
             List<Solution> solutions = findAllMoves(board, piece, -1, -1);
 
             List<int> next = queue.ToList();

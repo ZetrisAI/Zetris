@@ -70,6 +70,8 @@
             this.valueCurrentRotation = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.labelDownstacking = new System.Windows.Forms.Label();
+            this.labelTetrisable = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
@@ -458,6 +460,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // labelDownstacking
+            // 
+            this.labelDownstacking.Location = new System.Drawing.Point(0, 459);
+            this.labelDownstacking.Name = "labelDownstacking";
+            this.labelDownstacking.Size = new System.Drawing.Size(23, 13);
+            this.labelDownstacking.TabIndex = 4;
+            this.labelDownstacking.Text = "0";
+            // 
+            // labelTetrisable
+            // 
+            this.labelTetrisable.Location = new System.Drawing.Point(29, 459);
+            this.labelTetrisable.Name = "labelTetrisable";
+            this.labelTetrisable.Size = new System.Drawing.Size(23, 13);
+            this.labelTetrisable.TabIndex = 4;
+            this.labelTetrisable.Text = "0";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -491,6 +509,8 @@
             this.Controls.Add(this.valueCurrentPosition);
             this.Controls.Add(this.valueCurrentPiece);
             this.Controls.Add(this.valueIntendedRotation);
+            this.Controls.Add(this.labelTetrisable);
+            this.Controls.Add(this.labelDownstacking);
             this.Controls.Add(this.valueIntendedPosition);
             this.Controls.Add(this.valuePlayers);
             this.Controls.Add(this.valueP2Ratio);
@@ -567,6 +587,8 @@
         private System.Windows.Forms.Label valueCurrentRotation;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label labelDownstacking;
+        private System.Windows.Forms.Label labelTetrisable;
     }
 }
 
