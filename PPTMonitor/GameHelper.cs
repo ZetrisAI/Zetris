@@ -24,6 +24,32 @@ namespace PPTMonitor {
             public Player() {}
         }
 
+        private enum MatchState {
+            Menu,
+            Match,
+            Finished
+        }
+        private static MatchState matchState = MatchState.Menu;
+
+        public static bool EnsureMatch(VAMemory Game) {
+            if (Game.ReadInt32(new IntPtr(0x140573A78)) != 0x0) {
+                if (matchState == MatchState.Match) {
+                    matchState = MatchState.Finished;
+                }
+            }
+
+            int scoreAddress = Game.ReadInt32(new IntPtr(0x14057F048));
+
+            if (scoreAddress == 0x0) {
+                if (matchState == MatchState.Finished)
+                    matchState = MatchState.Menu;
+
+            } else if (matchState == MatchState.Menu)
+                matchState = MatchState.Match;
+
+            return matchState == MatchState.Match;
+        }
+
         public static int scoreAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
             0x14057F048
         )) + 0x38;
@@ -147,6 +173,10 @@ namespace PPTMonitor {
                     )) + 0x138
                 )) + 0x30
             )) + 0x208
+        ));
+
+        public static int getMenuFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+            0x140461B7C
         ));
     }
 }

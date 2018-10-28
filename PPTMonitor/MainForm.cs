@@ -181,74 +181,86 @@ namespace PPTMonitor {
         int holdPiece = -1;
 
         private void runLogic() {
-            int piecesAddress = GameHelper.piecesAddress(PPT);
+            if (GameHelper.EnsureMatch(PPT)) {
+                int piecesAddress = GameHelper.piecesAddress(PPT);
 
-            int[] pieces = new int[5];
-            for (int i = 0; i < 4; i++) {
-                pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
-            }
-
-            if (!pieces.SequenceEqual(queue)) {
-                int current = GameHelper.getCurrentPiece(PPT);
-                valueCurrentPiece.Text = current.ToString(); // UI
-
-                if (current != -1 && current == queue[0]) {
-                    queue = (int[])pieces.Clone();
-                    
-                    solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), holdPiece, ref labelDownstacking, ref labelTetrisable);
-                    intendedBoard = solution.desiredBoard;
-                    holdPiece = solution.pieceLeft;
-
-                    labelHold.Text = holdPiece.ToString();
-                    labelUseHold.Text = solution.useHold.ToString();
+                int[] pieces = new int[5];
+                for (int i = 0; i < 4; i++) {
+                    pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
                 }
-            }
 
-            if (frames < 20) {
-                queue = (int[])pieces.Clone();
+                if (!pieces.SequenceEqual(queue)) {
+                    int current = GameHelper.getCurrentPiece(PPT);
+                    valueCurrentPiece.Text = current.ToString(); // UI
+
+                    if (current != -1 && current == queue[0]) {
+                        queue = (int[])pieces.Clone();
+
+                        solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), holdPiece, ref labelDownstacking, ref labelTetrisable);
+                        intendedBoard = solution.desiredBoard;
+                        holdPiece = solution.pieceLeft;
+
+                        labelHold.Text = holdPiece.ToString();
+                        labelUseHold.Text = solution.useHold.ToString();
+                    }
+                }
+
+                if (frames < 20) {
+                    queue = (int[])pieces.Clone();
+                    holdPiece = -1;
+                }
+            } else {
+                queue = new int[5];
                 holdPiece = -1;
             }
         }
 
         private void applyInputs() {
-            int pieceX = GameHelper.getPiecePosition(PPT);
-            int pieceR = GameHelper.getPieceRotation(PPT);
+            gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            valueCurrentPosition.Text = pieceX.ToString();
-            valueCurrentRotation.Text = pieceR.ToString();
-            
-            if (nextFrame > frames) {
-                gamepad.Buttons = X360Buttons.None;
+            if (GameHelper.EnsureMatch(PPT) && nextFrame > 0) {
+                int pieceX = GameHelper.getPiecePosition(PPT);
+                int pieceR = GameHelper.getPieceRotation(PPT);
 
-                if (nextFrame % 2 == 0) {
-                    if (solution.useHold) {
-                        gamepad.Buttons |= X360Buttons.RightBumper;
-                    }
+                valueCurrentPosition.Text = pieceX.ToString();
+                valueCurrentRotation.Text = pieceR.ToString();
 
-                    if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
-                        gamepad.Buttons |= X360Buttons.Up;
-                    } else {
-                        if (solution.desiredX != pieceX)
-                            if (solution.desiredX < pieceX) {
-                                gamepad.Buttons |= X360Buttons.Left;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Right;
-                            }
+                if (nextFrame > frames) {
+                    if (nextFrame % 2 == 0) {
+                        if (solution.useHold) {
+                            gamepad.Buttons |= X360Buttons.RightBumper;
+                        }
 
-                        if (solution.desiredR != pieceR)
-                            if (solution.desiredR == 3) {
-                                gamepad.Buttons |= X360Buttons.A;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.B;
-                            }
+                        if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
+                            gamepad.Buttons |= X360Buttons.Up;
+                        } else {
+                            if (solution.desiredX != pieceX)
+                                if (solution.desiredX < pieceX) {
+                                    gamepad.Buttons |= X360Buttons.Left;
+                                } else {
+                                    gamepad.Buttons |= X360Buttons.Right;
+                                }
+
+                            if (solution.desiredR != pieceR)
+                                if (solution.desiredR == 3) {
+                                    gamepad.Buttons |= X360Buttons.A;
+                                } else {
+                                    gamepad.Buttons |= X360Buttons.B;
+                                }
+                        }
                     }
                 }
 
-                scp.Report(1, gamepad.GetReport());
+                frames = nextFrame;
+
+            } else {
+                if (GameHelper.getMenuFrameCount(PPT) % 2 == 0) {
+                    gamepad.Buttons |= X360Buttons.A;
+                }
             }
 
-            frames = nextFrame;
+            scp.Report(1, gamepad.GetReport());
         }
 
         private void AILoop(object sender, EventArgs e) {
