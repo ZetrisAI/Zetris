@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using ScpDriverInterface;
 
@@ -32,6 +33,7 @@ namespace PPTMonitor {
 
         private void MainForm_Load(object sender, EventArgs e) {
             scp.PlugIn(1);
+            menuStartFrames = GameHelper.getMenuFrameCount(PPT);
         }
 
         private void MainForm_FormClosing(object sender, EventArgs e) {
@@ -177,10 +179,12 @@ namespace PPTMonitor {
             scp.PlugIn(1);
         }
 
-        int holdPiece = -1;
+        private int holdPiece = -1;
+        private bool inMatch = false;
+        private int menuStartFrames = 0;
 
         private void runLogic() {
-            if (GameHelper.EnsureMatch(PPT)) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT)) {
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
@@ -208,11 +212,20 @@ namespace PPTMonitor {
                     queue = (int[])pieces.Clone();
                     holdPiece = -1;
                 }
+
+                inMatch = true;
+
             } else {
                 queue = new int[5];
                 holdPiece = -1;
                 LogicHelper.downstack = 0;
                 LogicHelper.tetrisHeight = 0;
+
+                if (inMatch) {
+                    inMatch = false;
+
+                    menuStartFrames = GameHelper.getMenuFrameCount(PPT);
+                }
             }
         }
 
@@ -220,7 +233,7 @@ namespace PPTMonitor {
             gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            if (/*GameHelper.EnsureMatch(PPT)*/ GameHelper.boardAddress(PPT, playerID) != 0x0 && nextFrame > 0) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && nextFrame > 0) {
                 int pieceX = GameHelper.getPiecePosition(PPT, playerID);
                 int pieceR = GameHelper.getPieceRotation(PPT, playerID);
 
@@ -256,7 +269,29 @@ namespace PPTMonitor {
                 frames = nextFrame;
 
             } else {
-                if (GameHelper.getMenuFrameCount(PPT) % 2 == 0) {
+                if (menuStartFrames + 1000 < GameHelper.getMenuFrameCount(PPT)) {
+                    scp.Report(1, gamepad.GetReport());
+                    Thread.Sleep(1000);
+
+                    gamepad.Buttons = X360Buttons.B;
+                    scp.Report(1, gamepad.GetReport());
+                    Thread.Sleep(1000);
+
+                    gamepad.Buttons = X360Buttons.None;
+                    scp.Report(1, gamepad.GetReport());
+                    Thread.Sleep(1000);
+
+                    gamepad.Buttons = X360Buttons.B;
+                    scp.Report(1, gamepad.GetReport());
+                    Thread.Sleep(1000);
+
+                    gamepad.Buttons = X360Buttons.None;
+                    scp.Report(1, gamepad.GetReport());
+                    Thread.Sleep(1000);
+
+                    menuStartFrames = GameHelper.getMenuFrameCount(PPT);
+
+                } else if (GameHelper.getMenuFrameCount(PPT) % 2 == 0) {
                     gamepad.Buttons |= X360Buttons.A;
                 }
             }
