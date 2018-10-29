@@ -23,31 +23,42 @@ namespace PPTMonitor {
 
             public Player() {}
         }
-
-        private enum MatchState {
-            Menu,
-            Match,
-            Finished
-        }
-        private static MatchState matchState = MatchState.Menu;
-
+        
         public static bool EnsureMatch(VAMemory Game) {
-            if (Game.ReadInt32(new IntPtr(0x140573A78)) != 0x0) {
-                if (matchState == MatchState.Match) {
-                    matchState = MatchState.Finished;
-                }
-            }
+            return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
+        }
 
-            int scoreAddress = Game.ReadInt32(new IntPtr(0x14057F048));
+        public static int PlayerCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140473760
+                )) + 0x20
+            )) + 0xB4
+        ));
 
-            if (scoreAddress == 0x0) {
-                if (matchState == MatchState.Finished)
-                    matchState = MatchState.Menu;
+        public static int LocalSteam(VAMemory Game) => Game.ReadInt32(new IntPtr(
+            0x1405A2010
+        ));
 
-            } else if (matchState == MatchState.Menu)
-                matchState = MatchState.Match;
+        public static int PlayerSteam(VAMemory Game, int index) => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140473760
+                )) + 0x20
+            )) + 0x118 + index * 0x50
+        ));
 
-            return matchState == MatchState.Match;
+        public static int FindPlayer(VAMemory Game) {
+            if (PlayerCount(Game) < 2)
+                return 0;
+
+            int localSteam = LocalSteam(Game);
+
+            for (int i = 0; i < 2; i++)
+                if (localSteam == PlayerSteam(Game, i))
+                    return i;
+
+            return 0;
         }
 
         public static int scoreAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
@@ -100,79 +111,165 @@ namespace PPTMonitor {
             0x140599FF0
         ));
 
-        public static int[] boardAddress(VAMemory Game) => new int[] {
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140598A20
-                        )) + 0x38
-                    )) + 0x3C0
-                )) + 0x18
-            )),
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x1405989D0
-                        )) + 0x30
-                    )) + 0x20
-                )) + 0x3C0
-            )) + 0x50
-        };
-
-        public static int piecesAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140461B20
-                )) + 0x378
-            )) + 0xB8
-        )) + 0x15C;
-
-        public static int getCurrentPiece(VAMemory Game) => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140461B20
-                        )) + 0x378
-                    )) + 0xC0
-                )) + 0x120
-            )) + 0x110
-        ));
-
-        public static int getPiecePosition(VAMemory Game) => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140461B20
-                    )) + 0x378
-                )) + 0x40
-            )) + 0x100
-        ));
-
-        public static int getPieceRotation(VAMemory Game) => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(   
-                    Game.ReadInt32(new IntPtr(
+        public static int boardAddress(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                0x140460C08
-                            )) + 0x18
-                        )) + 0x268
-                    )) + 0x38
-                )) + 0x3C8
-            )) + 0x18
-        ));
+                                Game.ReadInt32(new IntPtr(
+                                    0x140598A20
+                                )) + 0x38
+                            )) + 0x3C0
+                        )) + 0x18
+                    ));
+
+
+                case 1:
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x1405989D0
+                                )) + 0x30
+                            )) + 0x20
+                        )) + 0x3C0
+                    )) + 0x50;
+            }
+
+            return -1;
+        }
+
+        public static int piecesAddress(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140461B20
+                            )) + 0x378
+                        )) + 0xB8
+                    )) + 0x15C;
+
+                case 1:
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x1405989D0
+                                )) + 0x78
+                            )) + 0x28
+                        )) + 0xB8
+                    )) + 0x15C;
+            }
+
+            return -1;
+        }
+
+        public static int getCurrentPiece(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x378
+                                )) + 0xC0
+                            )) + 0x120
+                        )) + 0x110
+                    ));
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x1404611B0
+                                        )) + 0x18
+                                    )) + 0x40
+                                )) + 0x60
+                            )) + 0xB8
+                        )) + 0x158
+                    ));
+            }
+
+            return -1;
+        }
+
+        public static int getPiecePosition(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x140461B20
+                                )) + 0x378
+                            )) + 0x40
+                        )) + 0x100
+                    ));
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x380
+                                )) + 0xC0
+                            )) + 0x120
+                        )) + 0x1E
+                    ));
+            }
+
+            return -1;
+        }
+
+        public static int getPieceRotation(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140460C08
+                                        )) + 0x18
+                                    )) + 0x268
+                                )) + 0x38
+                            )) + 0x3C8
+                        )) + 0x18
+                    ));
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x1405989D0
+                                        )) + 0x78
+                                    )) + 0x20
+                                )) + 0xA8
+                            )) + 0x3C8
+                        )) + 0x18
+                    ));
+            }
+
+            return -1;
+        }
 
         public static int getFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140598A20
-                    )) + 0x138
-                )) + 0x30
-            )) + 0x208
+                0x1405989F0
+            )) + 0x594
         ));
 
         public static int getMenuFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(

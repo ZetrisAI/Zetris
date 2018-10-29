@@ -11,6 +11,8 @@ namespace PPTMonitor {
             InitializeComponent();
         }
 
+        static int playerID = 0;
+
         static VAMemory PPT = new VAMemory("puyopuyotetris");
         static ScpBus scp = new ScpBus();
         static X360Controller gamepad = new X360Controller();
@@ -154,18 +156,15 @@ namespace PPTMonitor {
 
             currentRating = GameHelper.getRating(PPT);
             
-            int[] boardAddress = GameHelper.boardAddress(PPT);
-
             for (int p = 0; p < 2; p++) {
+                int boardAddress = GameHelper.boardAddress(PPT, playerID);
                 for (int i = 0; i < 10; i++) {
-                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress[p] + i * 0x08));
+                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
                     for (int j = 0; j < 40; j++) {
                         board[p][i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
                     }
                 }
             }
-
-            int a = GameHelper.boardAddress(PPT)[0];
         }
 
         private void button1_Click(object sender, EventArgs e) {
@@ -182,7 +181,7 @@ namespace PPTMonitor {
 
         private void runLogic() {
             if (GameHelper.EnsureMatch(PPT)) {
-                int piecesAddress = GameHelper.piecesAddress(PPT);
+                int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
                 for (int i = 0; i < 4; i++) {
@@ -190,7 +189,7 @@ namespace PPTMonitor {
                 }
 
                 if (!pieces.SequenceEqual(queue)) {
-                    int current = GameHelper.getCurrentPiece(PPT);
+                    int current = GameHelper.getCurrentPiece(PPT, playerID);
                     valueCurrentPiece.Text = current.ToString(); // UI
 
                     if (current != -1 && current == queue[0]) {
@@ -205,13 +204,15 @@ namespace PPTMonitor {
                     }
                 }
 
-                if (frames < 20) {
+                if (frames == 0) {
                     queue = (int[])pieces.Clone();
                     holdPiece = -1;
                 }
             } else {
                 queue = new int[5];
                 holdPiece = -1;
+                LogicHelper.downstack = 0;
+                LogicHelper.tetrisHeight = 0;
             }
         }
 
@@ -219,9 +220,9 @@ namespace PPTMonitor {
             gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            if (GameHelper.EnsureMatch(PPT) && nextFrame > 0) {
-                int pieceX = GameHelper.getPiecePosition(PPT);
-                int pieceR = GameHelper.getPieceRotation(PPT);
+            if (/*GameHelper.EnsureMatch(PPT)*/ GameHelper.boardAddress(PPT, playerID) != 0x0 && nextFrame > 0) {
+                int pieceX = GameHelper.getPiecePosition(PPT, playerID);
+                int pieceR = GameHelper.getPieceRotation(PPT, playerID);
 
                 valueCurrentPosition.Text = pieceX.ToString();
                 valueCurrentRotation.Text = pieceR.ToString();
@@ -264,6 +265,8 @@ namespace PPTMonitor {
         }
 
         private void AILoop(object sender, EventArgs e) {
+            playerID = GameHelper.FindPlayer(PPT);
+
             updateGame();
             runLogic();
             applyInputs();

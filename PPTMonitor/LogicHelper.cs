@@ -381,8 +381,8 @@ namespace PPTMonitor {
             return ret;
         }
 
-        private static int downstack = 0;
-        private static int tetrisHeight = 0;
+        public static int downstack = 0;
+        public static int tetrisHeight = 0;
 
         private static int rateBoard(int[,] board) {
             int height = boardHeight(board);
