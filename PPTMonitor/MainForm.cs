@@ -184,15 +184,23 @@ namespace PPTMonitor {
         private int menuStartFrames = 0;
 
         private void runLogic() {
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT)) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 5; i++) {
                     pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
                 }
+                
+                if (queue[4] == -1) {
+                    pieces[4] = -1;
+                }
 
-                if (!pieces.SequenceEqual(queue)) {
+                if (GameHelper.getBigFrameCount(PPT) < 6) {
+                    queue = (int[])pieces.Clone();
+                    holdPiece = -1;
+
+                } else if (!pieces.SequenceEqual(queue)) {
                     int current = GameHelper.getCurrentPiece(PPT, playerID);
                     valueCurrentPiece.Text = current.ToString(); // UI
 
@@ -201,16 +209,18 @@ namespace PPTMonitor {
 
                         solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), holdPiece, ref labelDownstacking, ref labelTetrisable);
                         intendedBoard = solution.desiredBoard;
+
+                        if (holdPiece == -1 && solution.pieceLeft != -1) {
+                            for (int i = 0; i < 4; i++) {
+                                queue[i] = queue[i + 1];
+                            }
+                            queue[4] = -1;
+                        }
                         holdPiece = solution.pieceLeft;
 
                         labelHold.Text = holdPiece.ToString();
                         labelUseHold.Text = solution.useHold.ToString();
                     }
-                }
-
-                if (frames == 0) {
-                    queue = (int[])pieces.Clone();
-                    holdPiece = -1;
                 }
 
                 inMatch = true;
@@ -233,7 +243,7 @@ namespace PPTMonitor {
             gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && nextFrame > 0) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int pieceX = GameHelper.getPiecePosition(PPT, playerID);
                 int pieceR = GameHelper.getPieceRotation(PPT, playerID);
 
@@ -269,30 +279,18 @@ namespace PPTMonitor {
                 frames = nextFrame;
 
             } else {
-                if (menuStartFrames + 1000 < GameHelper.getMenuFrameCount(PPT)) {
-                    scp.Report(1, gamepad.GetReport());
-                    Thread.Sleep(1000);
+                int menuFrames = GameHelper.getMenuFrameCount(PPT);
 
-                    gamepad.Buttons = X360Buttons.B;
-                    scp.Report(1, gamepad.GetReport());
-                    Thread.Sleep(1000);
+                if (menuStartFrames + 1150 < menuFrames) {
+                    menuStartFrames = menuFrames;
+                }
 
-                    gamepad.Buttons = X360Buttons.None;
-                    scp.Report(1, gamepad.GetReport());
-                    Thread.Sleep(1000);
-
-                    gamepad.Buttons = X360Buttons.B;
-                    scp.Report(1, gamepad.GetReport());
-                    Thread.Sleep(1000);
-
-                    gamepad.Buttons = X360Buttons.None;
-                    scp.Report(1, gamepad.GetReport());
-                    Thread.Sleep(1000);
-
-                    menuStartFrames = GameHelper.getMenuFrameCount(PPT);
-
-                } else if (GameHelper.getMenuFrameCount(PPT) % 2 == 0) {
-                    gamepad.Buttons |= X360Buttons.A;
+                if (menuFrames % 2 == 0) {
+                    if (menuStartFrames + 1000 < menuFrames) {
+                        gamepad.Buttons |= X360Buttons.B;
+                    } else {
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
                 }
             }
 

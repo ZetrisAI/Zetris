@@ -386,13 +386,18 @@ namespace PPTMonitor {
 
         private static int rateBoard(int[,] board) {
             int height = boardHeight(board);
+
+            if (height == 0) { // PC
+                return 1000000000;
+            }
+
             int lines = boardLines(board);
             int holes = boardHoles(board);
             int bumpiness = boardBumpiness(board);
 
             int heuristic = -102 * height + 152 * lines - 200 * holes - 37 * bumpiness;
             int heuristicStack = 102 * height - 152 * lines - 200 * holes - 37 * bumpiness;
-
+            
             if (downstack == 1) {
                 return heuristic;
             }
