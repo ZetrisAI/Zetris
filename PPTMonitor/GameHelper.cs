@@ -174,13 +174,11 @@ namespace PPTMonitor {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1405989F0
-                                        )) + 0x28
+                                        0x140461B20
                                     )) + 0x378
                                 )) + 0x40
-                            )) + 0x50
-                        )) + 0x250
+                            )) + 0x140
+                        )) + 0x110
                     ));
 
                 case 1:
@@ -270,8 +268,8 @@ namespace PPTMonitor {
 
         public static int getFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
-                0x1405989F0
-            )) + 0x594
+                0x140461B20
+            )) + 0x424
         ));
 
         public static int getBigFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(

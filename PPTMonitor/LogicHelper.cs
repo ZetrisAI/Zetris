@@ -497,7 +497,7 @@ namespace PPTMonitor {
             tet.Text = x.ToString();
 
             if (downstack == 0) {
-                if (!x || boardMax(board) > 17)
+                if (!x || boardMax(board) > 16)
                     downstack = 1;
             } else {
                 if (boardMax(board) < 9)
