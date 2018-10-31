@@ -23,10 +23,22 @@ namespace PPTMonitor {
 
             public Player() {}
         }
-        
-        public static bool EnsureMatch(VAMemory Game) {
+
+        public static bool OutsideMenu(VAMemory Game) {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
+
+        public static int CurrentMode(VAMemory Game) => Game.ReadByte(new IntPtr(
+            0x140573854
+        ));
+
+        public static int MenuHighlighted(VAMemory Game) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140573A78
+                )) + 0x98
+            )) + 0x8C
+        ));
 
         public static int PlayerCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(

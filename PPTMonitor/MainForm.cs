@@ -184,7 +184,7 @@ namespace PPTMonitor {
         private int menuStartFrames = 0;
 
         private void runLogic() {
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
@@ -242,58 +242,75 @@ namespace PPTMonitor {
         private void applyInputs() {
             gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
+            int menuFrames = GameHelper.getMenuFrameCount(PPT);
 
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.EnsureMatch(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int pieceX = GameHelper.getPiecePosition(PPT, playerID);
                 int pieceR = GameHelper.getPieceRotation(PPT, playerID);
 
                 valueCurrentPosition.Text = pieceX.ToString();
                 valueCurrentRotation.Text = pieceR.ToString();
 
-                if (nextFrame > frames) {
-                    if (nextFrame % 2 == 0) {
-                        if (solution.useHold) {
-                            gamepad.Buttons |= X360Buttons.RightBumper;
-                        }
+                if (nextFrame > frames && nextFrame % 2 == 0) {
+                    if (solution.useHold) {
+                        gamepad.Buttons |= X360Buttons.RightBumper;
+                    }
 
-                        if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
-                            gamepad.Buttons |= X360Buttons.Up;
-                        } else {
-                            if (solution.desiredX != pieceX)
-                                if (solution.desiredX < pieceX) {
-                                    gamepad.Buttons |= X360Buttons.Left;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.Right;
-                                }
+                    if (solution.desiredX == pieceX && solution.desiredR == pieceR) {
+                        gamepad.Buttons |= X360Buttons.Up;
+                    } else {
+                        if (solution.desiredX != pieceX)
+                            if (solution.desiredX < pieceX) {
+                                gamepad.Buttons |= X360Buttons.Left;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Right;
+                            }
 
-                            if (solution.desiredR != pieceR)
-                                if (solution.desiredR == 3) {
-                                    gamepad.Buttons |= X360Buttons.A;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.B;
-                                }
-                        }
+                        if (solution.desiredR != pieceR)
+                            if (solution.desiredR == 3) {
+                                gamepad.Buttons |= X360Buttons.A;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.B;
+                            }
                     }
                 }
 
                 frames = nextFrame;
 
-            } else {
-                int menuFrames = GameHelper.getMenuFrameCount(PPT);
+            } else if (menuFrames % 2 == 0) {
+                int mode = GameHelper.CurrentMode(PPT);
 
-                if (menuStartFrames + 1150 < menuFrames) {
-                    menuStartFrames = menuFrames;
-                }
+                if (GameHelper.OutsideMenu(PPT)) {
+                    gamepad.Buttons |= X360Buttons.A;
 
-                if (menuFrames % 2 == 0) {
-                    if (menuStartFrames + 1000 < menuFrames) {
+                } else if (mode == 4) {
+                    if (menuStartFrames + 1150 < menuFrames) {
+                        menuStartFrames = menuFrames;
+                    }
+
+                    if (menuStartFrames + 1150 < menuFrames) {
+                        menuStartFrames = menuFrames;
+                    }
+
+                    if (menuStartFrames + 1030 < menuFrames) {
                         gamepad.Buttons |= X360Buttons.B;
+                    } else {
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
+
+                } else if (mode == 1) {
+                    gamepad.Buttons |= X360Buttons.B;
+
+                } else {
+                    if (GameHelper.MenuHighlighted(PPT) != 4) {
+                        gamepad.Buttons |= X360Buttons.Down;
                     } else {
                         gamepad.Buttons |= X360Buttons.A;
                     }
                 }
             }
 
+            labelInputs.Text = gamepad.Buttons.ToString();
             scp.Report(1, gamepad.GetReport());
         }
 

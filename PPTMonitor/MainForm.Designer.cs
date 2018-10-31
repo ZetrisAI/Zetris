@@ -74,6 +74,7 @@
             this.labelTetrisable = new System.Windows.Forms.Label();
             this.labelHold = new System.Windows.Forms.Label();
             this.labelUseHold = new System.Windows.Forms.Label();
+            this.labelInputs = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueP1CharacterPref)).BeginInit();
@@ -494,12 +495,22 @@
             this.labelUseHold.TabIndex = 4;
             this.labelUseHold.Text = "0";
             // 
+            // labelInputs
+            // 
+            this.labelInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInputs.Location = new System.Drawing.Point(12, 540);
+            this.labelInputs.Name = "labelInputs";
+            this.labelInputs.Size = new System.Drawing.Size(316, 14);
+            this.labelInputs.TabIndex = 1;
+            this.labelInputs.Text = "?";
+            this.labelInputs.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(340, 532);
+            this.ClientSize = new System.Drawing.Size(340, 574);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.valueP2Voice);
@@ -542,6 +553,7 @@
             this.Controls.Add(this.valueScore1);
             this.Controls.Add(this.valueP1Rating);
             this.Controls.Add(this.valueP2Rating);
+            this.Controls.Add(this.labelInputs);
             this.Controls.Add(this.valueRating);
             this.Controls.Add(this.buttonRehook);
             this.ForeColor = System.Drawing.Color.Gainsboro;
@@ -611,6 +623,7 @@
         private System.Windows.Forms.Label labelTetrisable;
         private System.Windows.Forms.Label labelHold;
         private System.Windows.Forms.Label labelUseHold;
+        private System.Windows.Forms.Label labelInputs;
     }
 }
 
