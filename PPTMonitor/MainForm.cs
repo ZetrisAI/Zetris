@@ -185,6 +185,26 @@ namespace PPTMonitor {
 
         private void runLogic() {
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
+                if (numplayers < 2) {
+                    ScanTimer.Enabled = false;
+
+                    foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
+                        process.Kill();
+                    }
+
+                    Thread.Sleep(10000);
+
+                    Process.Start("steam://rungameid/546050");
+
+                    Thread.Sleep(15000);
+
+                    buttonRehook_Click(this, EventArgs.Empty);
+
+                    ScanTimer.Enabled = true;
+
+                    return;
+                }
+
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
