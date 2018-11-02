@@ -18,18 +18,13 @@ namespace PPTMonitor {
         static ScpBus scp = new ScpBus();
         static X360Controller gamepad = new X360Controller();
 
-        static int currentRating, numplayers, maxscore = 2, frames;
-        static GameHelper.Player[] players = new GameHelper.Player[2] {
-            new GameHelper.Player(), new GameHelper.Player()
-        };
-        static int[] score = new int[2] { 0, 0 };
+        static int currentRating, numplayers, frames;
+
         static int[][,] board = new int[2][,] {
             new int[10, 40], new int[10, 40]
         };
 
-        static int[,] intendedBoard = new int[10, 40];
         int[] queue = new int[5];
-        LogicHelper.Solution solution = new LogicHelper.Solution();
 
         private void MainForm_Load(object sender, EventArgs e) {
             scp.PlugIn(1);
@@ -44,119 +39,19 @@ namespace PPTMonitor {
             PPT = new VAMemory("puyopuyotetris");
         }
 
-        private void valueP1Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start(players[0].steam);
-        }
-
-        private void valueP2Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start(players[1].steam);
-        }
-
         private void updateUI() {
-            valueScore1.Text = score[0].ToString();
-            valueScore2.Text = score[1].ToString();
-
-            valueP1Rating.Text = players[0].rating.ToString();
-            valueP2Rating.Text = players[1].rating.ToString();
-
-            valueP1Name.Text = players[0].name;
-            valueP2Name.Text = players[1].name;
-
-            valueP1League.Text = UIHelper.Leagues[players[0].league];
-            valueP2League.Text = UIHelper.Leagues[players[1].league];
-
-            valueP1Ratio.Text = UIHelper.getRatioType(players[0].playstyle);
-            valueP2Ratio.Text = UIHelper.getRatioType(players[1].playstyle);
-
-            valueP1Region.Text = UIHelper.Regions[players[0].region];
-            valueP2Region.Text = UIHelper.Regions[players[1].region];
-
-            if (players[0].region == 0) {
-                valueP1Regional.Text = "-";
-            } else {
-                valueP1Regional.Text = players[0].regional.ToString();
-            }
-            if (players[1].region == 0) {
-                valueP2Regional.Text = "-";
-            } else {
-                valueP2Regional.Text = players[1].regional.ToString();
-            }
-
-            valueP1Worldwide.Text = players[0].worldwide.ToString();
-            valueP2Worldwide.Text = players[1].worldwide.ToString();
-
-            valuePlayers.Text = numplayers.ToString();
-            valueRating.Text = currentRating.ToString();
-
-            UIHelper.updateImage(valueP1CharacterPref, "character", players[0].pref);
-            UIHelper.updateImage(valueP2CharacterPref, "character", players[1].pref);
-
-            UIHelper.updateImage(valueP1Character, "character", players[0].character);
-            UIHelper.updateImage(valueP2Character, "character", players[1].character);
-
-            UIHelper.updateImage(valueP1Gamemode, "gamemode", players[0].gamemode);
-            UIHelper.updateImage(valueP2Gamemode, "gamemode", players[1].gamemode);
-
-            UIHelper.updateVoice(valueP1Voice, players[0].voice);
-            UIHelper.updateVoice(valueP2Voice, players[1].voice);
-
-            UIHelper.drawBoard(board1, board[0]);
-            //UIHelper.drawBoard(board2, board[1]);
-            UIHelper.drawBoard(board2, intendedBoard);
-
-            valueFramecount.Text = frames.ToString();
-
-            valueIntendedPosition.Text = solution.desiredX.ToString();
-            valueIntendedRotation.Text = solution.desiredR.ToString();
+            // stub
         }
 
         private void updateGame() {
-            int temp;
-
-            int scoreAddress = GameHelper.scoreAddress(PPT);
             int playerAddress = GameHelper.playerAddress(PPT);
             int leagueAddress = GameHelper.leagueAddress(PPT);
             int prefAddress = GameHelper.prefAddress(PPT);
             int charAddress = GameHelper.charAddress(PPT);
-
-            maxscore = PPT.ReadInt32(new IntPtr(scoreAddress + 0x10));
-
-            for (int i = 0; i < 2; i++)
-                score[i] = PPT.ReadInt32(new IntPtr(scoreAddress + i * 4));
-
+            
             numplayers = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24);
 
-            for (int i = 0; i < 2; i++) {
-                players[i].name = PPT.ReadStringUnicode(new IntPtr(playerAddress) + i * 0x50, 0x20);
-                players[i].rating = PPT.ReadInt16(new IntPtr(playerAddress) + 0x30 + i * 0x50);
-
-                temp = PPT.ReadInt16(new IntPtr(leagueAddress) + i * 0x140);
-
-                if (temp != 0)
-                    players[i].league = temp - 1;
-
-                players[i].playstyle = PPT.ReadInt16(new IntPtr(playerAddress) + 0x32 + i * 0x50);
-                players[i].region = PPT.ReadByte(new IntPtr(leagueAddress) - 0x0C + i * 0x140);
-
-                players[i].regional = PPT.ReadInt32(new IntPtr(playerAddress) + 0x28 + i * 0x50);
-                players[i].worldwide = PPT.ReadInt32(new IntPtr(playerAddress) + 0x2C + i * 0x50);
-
-                players[i].id = PPT.ReadInt32(new IntPtr(playerAddress) + 0x40 + i * 0x50);
-
-                players[i].steam = $"https://steamcommunity.com/profiles/{(76561197960265728 + players[i].id).ToString()}";
-
-                players[i].pref = PPT.ReadByte(new IntPtr(prefAddress + (i - 1) * 0x9558));
-
-                players[i].character = PPT.ReadByte(new IntPtr(charAddress + 0x1c8 + i * 0x30));
-                players[i].gamemode = PPT.ReadByte(new IntPtr(charAddress + 0x980 + i * 0x28));
-                players[i].voice = (PPT.ReadByte(new IntPtr(charAddress + 0x594)) & (i + 1)) >> i;
-            }
-
-            for (int i = numplayers; i < 2; i++) {
-                players[i] = new GameHelper.Player();
-            }
-
-            temp = GameHelper.getRating(PPT);
+            int temp = GameHelper.getRating(PPT);
 
             if (temp != currentRating) {
                 ratingSafe = GameHelper.getMenuFrameCount(PPT);
@@ -190,47 +85,35 @@ namespace PPTMonitor {
         private int menuStartFrames = 0;
         private int ratingSafe = 0;
 
+        private void Kill() {
+            ScanTimer.Enabled = false;
+
+            foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
+                process.Kill();
+            }
+
+            Thread.Sleep(10000);
+
+            Process.Start("steam://rungameid/546050");
+            ratingSafe = 0;
+            currentRating = 0;
+
+            Thread.Sleep(15000);
+
+            buttonRehook_Click(this, EventArgs.Empty);
+
+            ScanTimer.Enabled = true;
+        }
+
         private void runLogic() {
             if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
-                ScanTimer.Enabled = false;
-
-                foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
-                    process.Kill();
-                }
-
-                Thread.Sleep(10000);
-
-                Process.Start("steam://rungameid/546050");
-                ratingSafe = 0;
-                currentRating = 0;
-
-                Thread.Sleep(15000);
-
-                buttonRehook_Click(this, EventArgs.Empty);
-
-                ScanTimer.Enabled = true;
-                
+                Kill();                
                 return;
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 if (numplayers < 2) {
-                    ScanTimer.Enabled = false;
-
-                    foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
-                        process.Kill();
-                    }
-
-                    Thread.Sleep(10000);
-
-                    Process.Start("steam://rungameid/546050");
-
-                    Thread.Sleep(15000);
-
-                    buttonRehook_Click(this, EventArgs.Empty);
-
-                    ScanTimer.Enabled = true;
-
+                    Kill();
                     return;
                 }
 
@@ -251,13 +134,11 @@ namespace PPTMonitor {
 
                 } else if (!pieces.SequenceEqual(queue)) {
                     int current = GameHelper.getCurrentPiece(PPT, playerID);
-                    valueCurrentPiece.Text = current.ToString(); // UI
 
                     if (current != -1 && current == queue[0]) {
                         queue = (int[])pieces.Clone();
 
-                        solution = LogicHelper.findMove(board[0], current, queue.Take(1).ToArray(), holdPiece, ref labelDownstacking, ref labelTetrisable);
-                        intendedBoard = solution.desiredBoard;
+                        /* solution = MisaMinoNET;
 
                         if (holdPiece == -1 && solution.pieceLeft != -1) {
                             for (int i = 0; i < 4; i++) {
@@ -265,10 +146,7 @@ namespace PPTMonitor {
                             }
                             queue[4] = -1;
                         }
-                        holdPiece = solution.pieceLeft;
-
-                        labelHold.Text = holdPiece.ToString();
-                        labelUseHold.Text = solution.useHold.ToString();
+                        holdPiece = solution.pieceLeft;*/
                     }
                 }
 
@@ -277,8 +155,6 @@ namespace PPTMonitor {
             } else {
                 queue = new int[5];
                 holdPiece = -1;
-                LogicHelper.downstack = 0;
-                LogicHelper.tetrisHeight = 0;
 
                 if (inMatch) {
                     inMatch = false;
@@ -297,10 +173,7 @@ namespace PPTMonitor {
                 int pieceX = GameHelper.getPiecePosition(PPT, playerID);
                 int pieceR = GameHelper.getPieceRotation(PPT, playerID);
 
-                valueCurrentPosition.Text = pieceX.ToString();
-                valueCurrentRotation.Text = pieceR.ToString();
-
-                if (nextFrame > frames && nextFrame % 2 == 0) {
+                /*if (nextFrame > frames && nextFrame % 2 == 0) {
                     if (solution.useHold) {
                         gamepad.Buttons |= X360Buttons.RightBumper;
                     }
@@ -322,7 +195,7 @@ namespace PPTMonitor {
                                 gamepad.Buttons |= X360Buttons.B;
                             }
                     }
-                }
+                }*/
 
                 frames = nextFrame;
 

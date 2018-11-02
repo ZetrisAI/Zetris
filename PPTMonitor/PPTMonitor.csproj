@@ -75,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameHelper.cs" />
-    <Compile Include="LogicHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\gamemode_tet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
+      <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
+      <Name>MisaMinoNET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

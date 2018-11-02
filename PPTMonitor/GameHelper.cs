@@ -6,24 +6,6 @@ using System.Threading.Tasks;
 
 namespace PPTMonitor {
     class GameHelper {
-        public class Player {
-            public string name;
-            public int rating;
-            public int league;
-            public int playstyle;
-            public int region;
-            public int regional;
-            public int worldwide;
-            public int id;
-            public string steam;
-            public int pref;
-            public int character = -1;
-            public int gamemode = -1;
-            public int voice = 0;
-
-            public Player() {}
-        }
-
         public static bool OutsideMenu(VAMemory Game) {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
