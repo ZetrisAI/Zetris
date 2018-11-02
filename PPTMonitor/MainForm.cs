@@ -156,7 +156,13 @@ namespace PPTMonitor {
                 players[i] = new GameHelper.Player();
             }
 
-            currentRating = GameHelper.getRating(PPT);
+            temp = GameHelper.getRating(PPT);
+
+            if (temp != currentRating) {
+                ratingSafe = GameHelper.getMenuFrameCount(PPT);
+            }
+
+            currentRating = temp;
             
             for (int p = 0; p < 2; p++) {
                 int boardAddress = GameHelper.boardAddress(PPT, playerID);
@@ -182,9 +188,10 @@ namespace PPTMonitor {
         private int holdPiece = -1;
         private bool inMatch = false;
         private int menuStartFrames = 0;
+        private int ratingSafe = 0;
 
         private void runLogic() {
-            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2) {
+            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 ScanTimer.Enabled = false;
 
                 foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
@@ -194,17 +201,39 @@ namespace PPTMonitor {
                 Thread.Sleep(10000);
 
                 Process.Start("steam://rungameid/546050");
+                ratingSafe = 0;
+                currentRating = 0;
 
                 Thread.Sleep(15000);
 
                 buttonRehook_Click(this, EventArgs.Empty);
 
                 ScanTimer.Enabled = true;
-
+                
                 return;
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
+                if (numplayers < 2) {
+                    ScanTimer.Enabled = false;
+
+                    foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
+                        process.Kill();
+                    }
+
+                    Thread.Sleep(10000);
+
+                    Process.Start("steam://rungameid/546050");
+
+                    Thread.Sleep(15000);
+
+                    buttonRehook_Click(this, EventArgs.Empty);
+
+                    ScanTimer.Enabled = true;
+
+                    return;
+                }
+
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
                 int[] pieces = new int[5];
