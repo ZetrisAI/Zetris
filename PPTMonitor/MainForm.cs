@@ -30,7 +30,7 @@ namespace PPTMonitor {
             scp.PlugIn(1);
             menuStartFrames = GameHelper.getMenuFrameCount(PPT);
 
-            MessageBox.Show(MisaMinoNET.MisaMino.test().ToString());
+            MisaMinoNET.MisaMino.Test();
         }
 
         private void MainForm_FormClosing(object sender, EventArgs e) {
