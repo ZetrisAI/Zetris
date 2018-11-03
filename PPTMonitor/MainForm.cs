@@ -29,8 +29,6 @@ namespace PPTMonitor {
         private void MainForm_Load(object sender, EventArgs e) {
             scp.PlugIn(1);
             menuStartFrames = GameHelper.getMenuFrameCount(PPT);
-
-            MessageBox.Show(String.Join(", ", MisaMinoNET.MisaMino.Test()));
         }
 
         private void MainForm_FormClosing(object sender, EventArgs e) {
@@ -108,16 +106,16 @@ namespace PPTMonitor {
         }
 
         private void runLogic() {
-            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
+            /*if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 Kill();                
                 return;
-            }
+            }*/
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (numplayers < 2) {
+                /*if (numplayers < 2) {
                     Kill();
                     return;
-                }
+                }*/
 
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
 
@@ -139,6 +137,10 @@ namespace PPTMonitor {
 
                     if (current != -1 && current == queue[0]) {
                         queue = (int[])pieces.Clone();
+
+                        byte[] solution = MisaMinoNET.MisaMino.FindMove(queue, current, board[playerID], 0, 0);
+
+                        labelMisaMino.Text = String.Join(", ", solution);
 
                         /* solution = MisaMinoNET;
 
@@ -241,10 +243,10 @@ namespace PPTMonitor {
         private void AILoop(object sender, EventArgs e) {
             playerID = GameHelper.FindPlayer(PPT);
 
-            /*updateGame();
+            updateGame();
             runLogic();
             applyInputs();
-            updateUI();*/
+            updateUI();
         }
     }
 }

@@ -39,12 +39,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.labelInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
+            this.labelMisaMino = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.SuspendLayout();
             // 
             // ScanTimer
             // 
+            this.ScanTimer.Enabled = true;
             this.ScanTimer.Interval = 3;
             this.ScanTimer.Tick += new System.EventHandler(this.AILoop);
             // 
@@ -129,6 +131,16 @@
             this.board1.TabIndex = 7;
             this.board1.TabStop = false;
             // 
+            // labelMisaMino
+            // 
+            this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMisaMino.Location = new System.Drawing.Point(116, 386);
+            this.labelMisaMino.Name = "labelMisaMino";
+            this.labelMisaMino.Size = new System.Drawing.Size(212, 14);
+            this.labelMisaMino.TabIndex = 1;
+            this.labelMisaMino.Text = "?";
+            this.labelMisaMino.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -142,6 +154,7 @@
             this.Controls.Add(this.valueP2Pieces);
             this.Controls.Add(this.valueP1Pieces);
             this.Controls.Add(this.valuePlayers);
+            this.Controls.Add(this.labelMisaMino);
             this.Controls.Add(this.labelInputs);
             this.Controls.Add(this.buttonRehook);
             this.ForeColor = System.Drawing.Color.Gainsboro;
@@ -168,6 +181,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label labelInputs;
         private System.Windows.Forms.PictureBox board1;
+        private System.Windows.Forms.Label labelMisaMino;
     }
 }
 
