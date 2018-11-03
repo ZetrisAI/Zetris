@@ -120,6 +120,7 @@ namespace PPTMonitor {
             REFRESH
         };
 
+        List<movement> movements = new List<movement>();
         int state = 0;
         int piece = 0;
         int[] queue = new int[5];
@@ -151,6 +152,8 @@ namespace PPTMonitor {
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
                     MisaMinoNET.MisaMino.Reset();
                     register = false;
+                    movements.Clear();
+                    inputStarted = false;
                 }
 
                 if (drop != state && drop == 1) {
@@ -160,7 +163,7 @@ namespace PPTMonitor {
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
                     string[] solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], 0, 0).Split('|');
 
-                    List<movement> movements = new List<movement>();
+                    movements.Clear();
                     foreach (string mov in solution[0].Split(',')) {
                         movements.Add((movement)int.Parse(mov));
                     }
@@ -204,6 +207,113 @@ namespace PPTMonitor {
             }
         }
 
+        bool inputStarted = false;
+        int inputGoal = -1;
+
+        private void processInput() {
+            if (movements.Count > 0) {
+                switch (movements[0]) {
+                    case movement.NULL:
+                        movements.RemoveAt(0);
+                        inputStarted = false;
+                        processInput();
+                        break;
+
+                    case movement.L:
+                        if (!inputStarted) {
+                            inputGoal = GameHelper.getPiecePosition(PPT, playerID) - 1;
+                            inputStarted = true;
+                        }
+
+                        if (inputStarted) {
+                            if (GameHelper.getPiecePosition(PPT, playerID) == inputGoal) {
+                                movements.RemoveAt(0);
+                                inputStarted = false;
+                                processInput();
+                                break;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Left;
+                            }
+                        }
+                        break;
+
+                    case movement.R:
+                        if (!inputStarted) {
+                            inputGoal = GameHelper.getPiecePosition(PPT, playerID) + 1;
+                            inputStarted = true;
+                        }
+
+                        if (inputStarted) {
+                            if (GameHelper.getPiecePosition(PPT, playerID) == inputGoal) {
+                                movements.RemoveAt(0);
+                                inputStarted = false;
+                                processInput();
+                                break;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Right;
+                            }
+                        }
+                        break;
+
+                    case movement.LL:
+                        if (!inputStarted) {
+                            inputGoal = GameHelper.getPiecePosition(PPT, playerID) + 1;
+                            inputStarted = true;
+                        }
+
+                        if (inputStarted) {
+                            if (GameHelper.getPiecePosition(PPT, playerID) == inputGoal) {
+                                movements.RemoveAt(0);
+                                inputStarted = false;
+                                processInput();
+                                break;
+                            } else {
+                                inputGoal = GameHelper.getPiecePosition(PPT, playerID);
+                                gamepad.Buttons |= X360Buttons.Left;
+                            }
+                        }
+                        break;
+
+                    case movement.RR:
+                        if (!inputStarted) {
+                            inputGoal = GameHelper.getPiecePosition(PPT, playerID) - 1;
+                            inputStarted = true;
+                        }
+
+                        if (inputStarted) {
+                            if (GameHelper.getPiecePosition(PPT, playerID) == inputGoal) {
+                                movements.RemoveAt(0);
+                                inputStarted = false;
+                                processInput();
+                                break;
+                            } else {
+                                inputGoal = GameHelper.getPiecePosition(PPT, playerID);
+                                gamepad.Buttons |= X360Buttons.Right;
+                            }
+                        }
+                        break;
+
+                    case movement.DROP:
+                        if (!inputStarted) {
+                            inputGoal = 1;
+                            inputStarted = true;
+                        }
+
+                        if (inputStarted) {
+                            if (GameHelper.getPieceDropped(PPT, playerID) == inputGoal) {
+                                movements.RemoveAt(0);
+                                inputStarted = false;
+                                processInput();
+                                break;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Up;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
         private void applyInputs() {
             gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
@@ -212,6 +322,10 @@ namespace PPTMonitor {
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int pieceX = GameHelper.getPiecePosition(PPT, playerID);
                 int pieceR = GameHelper.getPieceRotation(PPT, playerID);
+
+                if (nextFrame % 2 == 0) {
+                    processInput();
+                }
 
                 /*if (nextFrame > frames && nextFrame % 2 == 0) {
                     if (solution.useHold) {
