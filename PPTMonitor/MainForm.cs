@@ -158,23 +158,28 @@ namespace PPTMonitor {
                 }
 
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
-                    string solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], 0, 0);
+                    string[] solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], 0, 0).Split('|');
+
+                    List<movement> movements = new List<movement>();
+                    foreach (string mov in solution[0].Split(',')) {
+                        movements.Add((movement)int.Parse(mov));
+                    }
+                    labelMisaMino.Text = String.Join(", ", movements);
 
                     i = 19;
-                    foreach (string row in solution.Split(';')) {
+                    foreach (string row in solution[1].Split(';')) {
                         int j = 0;
                         foreach (string col in row.Split(',')) {
                             if (col.Equals("0")) {
-                                intendedBoard[j, i] = -1;
+                                // Mirror for whatever reason. Blaming MisaMino.
+                                intendedBoard[9 - j, i] = -1;
                             } else {
-                                intendedBoard[j, i] = 9;
+                                intendedBoard[9 - j, i] = 9;
                             }
                             j++;
                         }
                         i--;
                     }
-
-                    labelMisaMino.Text = $"{current}, {String.Join(",", pieces)}";
 
                     UIHelper.drawBoard(board1, board[playerID]);
                     UIHelper.drawBoard(board2, intendedBoard);
