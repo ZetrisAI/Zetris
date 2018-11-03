@@ -30,7 +30,7 @@ namespace PPTMonitor {
             scp.PlugIn(1);
             menuStartFrames = GameHelper.getMenuFrameCount(PPT);
 
-            MisaMinoNET.MisaMino.Test();
+            MessageBox.Show(MisaMinoNET.MisaMino.Test());
         }
 
         private void MainForm_FormClosing(object sender, EventArgs e) {
@@ -241,10 +241,10 @@ namespace PPTMonitor {
         private void AILoop(object sender, EventArgs e) {
             playerID = GameHelper.FindPlayer(PPT);
 
-            updateGame();
+            /*updateGame();
             runLogic();
             applyInputs();
-            updateUI();
+            updateUI();*/
         }
     }
 }

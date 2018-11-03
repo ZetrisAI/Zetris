@@ -45,7 +45,6 @@
             // 
             // ScanTimer
             // 
-            this.ScanTimer.Enabled = true;
             this.ScanTimer.Interval = 3;
             this.ScanTimer.Tick += new System.EventHandler(this.AILoop);
             // 
