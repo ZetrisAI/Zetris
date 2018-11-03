@@ -260,6 +260,42 @@ namespace PPTMonitor {
             return -1;
         }
 
+        public static int getPieceDropped(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140460C08
+                                        )) + 0x18
+                                    )) + 0x268
+                                )) + 0x38
+                            )) + 0x3C8
+                        )) + 0x1C
+                    ));
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x1405989D0
+                                        )) + 0x78
+                                    )) + 0x20
+                                )) + 0xA8
+                            )) + 0x3C8
+                        )) + 0x1C
+                    ));
+            }
+
+            return -1;
+        }
+
         public static int getFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140461B20

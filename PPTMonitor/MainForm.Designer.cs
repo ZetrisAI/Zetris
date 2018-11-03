@@ -134,9 +134,9 @@
             // labelMisaMino
             // 
             this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisaMino.Location = new System.Drawing.Point(116, 386);
+            this.labelMisaMino.Location = new System.Drawing.Point(12, 429);
             this.labelMisaMino.Name = "labelMisaMino";
-            this.labelMisaMino.Size = new System.Drawing.Size(212, 14);
+            this.labelMisaMino.Size = new System.Drawing.Size(316, 17);
             this.labelMisaMino.TabIndex = 1;
             this.labelMisaMino.Text = "?";
             this.labelMisaMino.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -146,7 +146,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(340, 431);
+            this.ClientSize = new System.Drawing.Size(340, 454);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.board2);

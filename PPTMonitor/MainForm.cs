@@ -24,7 +24,7 @@ namespace PPTMonitor {
             new int[10, 40], new int[10, 40]
         };
 
-        int[] queue = new int[5];
+        static int[,] intendedBoard = new int[10, 40];
 
         private void MainForm_Load(object sender, EventArgs e) {
             scp.PlugIn(1);
@@ -80,7 +80,6 @@ namespace PPTMonitor {
             scp.PlugIn(1);
         }
 
-        private int holdPiece = -1;
         private bool inMatch = false;
         private int menuStartFrames = 0;
         private int ratingSafe = 0;
@@ -105,6 +104,27 @@ namespace PPTMonitor {
             ScanTimer.Enabled = true;
         }
 
+        enum movement {
+            NULL,
+            L,
+            R,
+            LL,
+            RR,
+            D,
+            DD,
+            LSPIN,
+            RSPIN,
+            DROP,
+            HOLD,
+            SPIN2,
+            REFRESH
+        };
+
+        int state = 0;
+        int piece = 0;
+        int[] queue = new int[5];
+        bool register = false;
+
         private void runLogic() {
             /*if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 Kill();                
@@ -117,49 +137,60 @@ namespace PPTMonitor {
                     return;
                 }*/
 
+                int drop = GameHelper.getPieceDropped(PPT, playerID);
+                int current = GameHelper.getCurrentPiece(PPT, playerID);
+
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
+                int i;
 
                 int[] pieces = new int[5];
-                for (int i = 0; i < 5; i++) {
+                for (i = 0; i < 5; i++) {
                     pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
-                }
-                
-                if (queue[4] == -1) {
-                    pieces[4] = -1;
                 }
 
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
-                    queue = (int[])pieces.Clone();
-                    holdPiece = -1;
-
-                } else if (!pieces.SequenceEqual(queue)) {
-                    int current = GameHelper.getCurrentPiece(PPT, playerID);
-
-                    if (current != -1 && current == queue[0]) {
-                        queue = (int[])pieces.Clone();
-
-                        byte[] solution = MisaMinoNET.MisaMino.FindMove(queue, current, board[playerID], 0, 0);
-
-                        labelMisaMino.Text = String.Join(", ", solution);
-
-                        /* solution = MisaMinoNET;
-
-                        if (holdPiece == -1 && solution.pieceLeft != -1) {
-                            for (int i = 0; i < 4; i++) {
-                                queue[i] = queue[i + 1];
-                            }
-                            queue[4] = -1;
-                        }
-                        holdPiece = solution.pieceLeft;*/
-                    }
+                    MisaMinoNET.MisaMino.Reset();
+                    register = false;
                 }
+
+                if (drop != state && drop == 1) {
+                    register = true;
+                }
+
+                if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
+                    string solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], 0, 0);
+
+                    i = 19;
+                    foreach (string row in solution.Split(';')) {
+                        int j = 0;
+                        foreach (string col in row.Split(',')) {
+                            if (col.Equals("0")) {
+                                intendedBoard[j, i] = -1;
+                            } else {
+                                intendedBoard[j, i] = 9;
+                            }
+                            j++;
+                        }
+                        i--;
+                    }
+
+                    labelMisaMino.Text = $"{current}, {String.Join(",", pieces)}";
+
+                    UIHelper.drawBoard(board1, board[playerID]);
+                    UIHelper.drawBoard(board2, intendedBoard);
+
+                    register = false;
+                }
+
+                state = drop;
+                piece = current;
+
+                if (!register)
+                    queue = (int[])pieces.Clone();
 
                 inMatch = true;
 
             } else {
-                queue = new int[5];
-                holdPiece = -1;
-
                 if (inMatch) {
                     inMatch = false;
 
