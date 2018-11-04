@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+
+using MisaMinoNET;
 using ScpDriverInterface;
 
 namespace PPTMonitor {
@@ -106,26 +108,11 @@ namespace PPTMonitor {
 
             ScanTimer.Enabled = true;
         }
-
-        enum movement {
-            NULL,
-            L,
-            R,
-            LL,
-            RR,
-            D,
-            DD,
-            LSPIN,
-            RSPIN,
-            DROP,
-            HOLD,
-            SPIN2,
-            REFRESH
-        };
-
-        List<movement> movements = new List<movement>();
+        
+        List<Instruction> movements = new List<Instruction>();
         int state = 0;
         int piece = 0;
+        char pieceUsed;
         int[] queue = new int[5];
         bool register = false;
 
@@ -153,7 +140,7 @@ namespace PPTMonitor {
                 }
 
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
-                    MisaMinoNET.MisaMino.Reset();
+                    MisaMino.Reset();
                     register = false;
                     movements.Clear();
                     inputStarted = false;
@@ -165,30 +152,18 @@ namespace PPTMonitor {
                 }
 
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
-                    string[] solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], GameHelper.getCombo(PPT, playerID), GameHelper.getGarbageOverhead(PPT, playerID)).Split('|');
+                    movements = MisaMino.FindMove(
+                        pieces, 
+                        current, 
+                        board[playerID], 
+                        GameHelper.getCombo(PPT, playerID), 
+                        GameHelper.getGarbageOverhead(PPT, playerID), 
+                        ref pieceUsed
+                    );
 
-                    movements.Clear();
-                    foreach (string mov in solution[0].Split(',')) {
-                        movements.Add((movement)int.Parse(mov));
-                    }
+                    labelPiece.Text = pieceUsed.ToString();
 
-                    i = 19;
-                    foreach (string row in solution[1].Split(';')) {
-                        int j = 0;
-                        foreach (string col in row.Split(',')) {
-                            if (col.Equals("0")) {
-                                // Mirror for whatever reason. Blaming MisaMino.
-                                intendedBoard[9 - j, i] = -1;
-                            } else {
-                                intendedBoard[9 - j, i] = 9;
-                            }
-                            j++;
-                        }
-                        i--;
-                    }
-
-                    UIHelper.drawBoard(board1, board[playerID]);
-                    UIHelper.drawBoard(board2, intendedBoard);
+                    //UIHelper.drawBoard(board1, board[playerID]);
 
                     register = false;
                 }
@@ -217,13 +192,13 @@ namespace PPTMonitor {
         private void processInput() {
             if (movements.Count > 0) {
                 switch (movements[0]) {
-                    case movement.NULL:
+                    case Instruction.NULL:
                         movements.RemoveAt(0);
                         inputStarted = false;
                         processInput();
                         break;
 
-                    case movement.L:
+                    case Instruction.L:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
                             inputStarted = true;
@@ -241,7 +216,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.R:
+                    case Instruction.R:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
                             inputStarted = true;
@@ -259,7 +234,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.LL:
+                    case Instruction.LL:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
                             inputStarted = true;
@@ -278,7 +253,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.RR:
+                    case Instruction.RR:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
                             inputStarted = true;
@@ -297,7 +272,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.D:
+                    case Instruction.D:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionY(PPT, playerID) + 1;
                             inputStarted = true;
@@ -315,7 +290,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.DD:
+                    case Instruction.DD:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionY(PPT, playerID) - 1;
                             inputStarted = true;
@@ -335,7 +310,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.LSPIN:
+                    case Instruction.LSPIN:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPieceRotation(PPT, playerID) - 1;
                             if (inputGoal == -1) inputGoal = 3;
@@ -354,7 +329,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.RSPIN:
+                    case Instruction.RSPIN:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPieceRotation(PPT, playerID) + 1;
                             if (inputGoal == 4) inputGoal = 0;
@@ -373,7 +348,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.DROP:
+                    case Instruction.DROP:
                         if (!inputStarted) {
                             inputGoal = 1;
                             inputStarted = true;
@@ -391,7 +366,7 @@ namespace PPTMonitor {
                         }
                         break;
 
-                    case movement.HOLD:
+                    case Instruction.HOLD:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getHoldPointer(PPT, playerID);
                             inputStarted = true;

@@ -40,6 +40,7 @@
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelHoldPTR = new System.Windows.Forms.Label();
             this.labelFrames = new System.Windows.Forms.Label();
+            this.labelPiece = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.SuspendLayout();
@@ -147,6 +148,16 @@
             this.labelFrames.Text = "?";
             this.labelFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // labelPiece
+            // 
+            this.labelPiece.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPiece.Location = new System.Drawing.Point(111, 386);
+            this.labelPiece.Name = "labelPiece";
+            this.labelPiece.Size = new System.Drawing.Size(13, 17);
+            this.labelPiece.TabIndex = 1;
+            this.labelPiece.Text = "?";
+            this.labelPiece.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -158,6 +169,7 @@
             this.Controls.Add(this.board2);
             this.Controls.Add(this.board1);
             this.Controls.Add(this.valuePlayers);
+            this.Controls.Add(this.labelPiece);
             this.Controls.Add(this.labelFrames);
             this.Controls.Add(this.labelHoldPTR);
             this.Controls.Add(this.labelMisaMino);
@@ -188,6 +200,7 @@
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelHoldPTR;
         private System.Windows.Forms.Label labelFrames;
+        private System.Windows.Forms.Label labelPiece;
     }
 }
 
