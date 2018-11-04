@@ -181,13 +181,11 @@ namespace PPTMonitor {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1404611B0
-                                        )) + 0x18
-                                    )) + 0x40
-                                )) + 0x60
-                            )) + 0xB8
-                        )) + 0x158
+                                        0x140461B28
+                                    )) + 0x380
+                                )) + 0x40
+                            )) + 0x140
+                        )) + 0x110
                     ));
             }
 
