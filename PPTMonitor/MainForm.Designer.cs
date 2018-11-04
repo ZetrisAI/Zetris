@@ -40,6 +40,7 @@
             this.labelInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
+            this.labelHoldPTR = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.SuspendLayout();
@@ -141,6 +142,16 @@
             this.labelMisaMino.Text = "?";
             this.labelMisaMino.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // labelHoldPTR
+            // 
+            this.labelHoldPTR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHoldPTR.Location = new System.Drawing.Point(130, 386);
+            this.labelHoldPTR.Name = "labelHoldPTR";
+            this.labelHoldPTR.Size = new System.Drawing.Size(198, 17);
+            this.labelHoldPTR.TabIndex = 1;
+            this.labelHoldPTR.Text = "?";
+            this.labelHoldPTR.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +165,7 @@
             this.Controls.Add(this.valueP2Pieces);
             this.Controls.Add(this.valueP1Pieces);
             this.Controls.Add(this.valuePlayers);
+            this.Controls.Add(this.labelHoldPTR);
             this.Controls.Add(this.labelMisaMino);
             this.Controls.Add(this.labelInputs);
             this.Controls.Add(this.buttonRehook);
@@ -182,6 +194,7 @@
         private System.Windows.Forms.Label labelInputs;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label labelMisaMino;
+        private System.Windows.Forms.Label labelHoldPTR;
     }
 }
 
