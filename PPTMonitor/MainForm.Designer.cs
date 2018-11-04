@@ -32,15 +32,14 @@
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
             this.buttonRehook = new System.Windows.Forms.Label();
             this.valuePlayers = new System.Windows.Forms.Label();
-            this.valueP1Pieces = new System.Windows.Forms.Label();
             this.board2 = new System.Windows.Forms.PictureBox();
-            this.valueP2Pieces = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.labelInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelHoldPTR = new System.Windows.Forms.Label();
+            this.labelFrames = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.SuspendLayout();
@@ -70,13 +69,6 @@
             this.valuePlayers.TabIndex = 4;
             this.valuePlayers.Text = "0";
             // 
-            // valueP1Pieces
-            // 
-            this.valueP1Pieces.Location = new System.Drawing.Point(12, 7);
-            this.valueP1Pieces.Name = "valueP1Pieces";
-            this.valueP1Pieces.Size = new System.Drawing.Size(150, 13);
-            this.valueP1Pieces.TabIndex = 4;
-            // 
             // board2
             // 
             this.board2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
@@ -85,13 +77,6 @@
             this.board2.Size = new System.Drawing.Size(150, 360);
             this.board2.TabIndex = 7;
             this.board2.TabStop = false;
-            // 
-            // valueP2Pieces
-            // 
-            this.valueP2Pieces.Location = new System.Drawing.Point(175, 7);
-            this.valueP2Pieces.Name = "valueP2Pieces";
-            this.valueP2Pieces.Size = new System.Drawing.Size(150, 13);
-            this.valueP2Pieces.TabIndex = 4;
             // 
             // button1
             // 
@@ -152,6 +137,16 @@
             this.labelHoldPTR.Text = "?";
             this.labelHoldPTR.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // labelFrames
+            // 
+            this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFrames.Location = new System.Drawing.Point(201, 5);
+            this.labelFrames.Name = "labelFrames";
+            this.labelFrames.Size = new System.Drawing.Size(124, 23);
+            this.labelFrames.TabIndex = 1;
+            this.labelFrames.Text = "?";
+            this.labelFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -162,9 +157,8 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.board2);
             this.Controls.Add(this.board1);
-            this.Controls.Add(this.valueP2Pieces);
-            this.Controls.Add(this.valueP1Pieces);
             this.Controls.Add(this.valuePlayers);
+            this.Controls.Add(this.labelFrames);
             this.Controls.Add(this.labelHoldPTR);
             this.Controls.Add(this.labelMisaMino);
             this.Controls.Add(this.labelInputs);
@@ -186,15 +180,14 @@
         private System.Windows.Forms.Timer ScanTimer;
         private System.Windows.Forms.Label buttonRehook;
         private System.Windows.Forms.Label valuePlayers;
-        private System.Windows.Forms.Label valueP1Pieces;
         private System.Windows.Forms.PictureBox board2;
-        private System.Windows.Forms.Label valueP2Pieces;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label labelInputs;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelHoldPTR;
+        private System.Windows.Forms.Label labelFrames;
     }
 }
 

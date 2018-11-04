@@ -42,6 +42,7 @@ namespace PPTMonitor {
         private void updateUI() {
             labelHoldPTR.Text = GameHelper.getHoldPointer(PPT, playerID).ToString("X8");
             labelMisaMino.Text = String.Join(", ", movements);
+            labelFrames.Text = GameHelper.getFrameCount(PPT).ToString();
             // stub
         }
 
@@ -211,6 +212,7 @@ namespace PPTMonitor {
 
         bool inputStarted = false;
         int inputGoal = -1;
+        int inputSafety = 0;
         bool softdrop = false;
 
         private void processInput() {
@@ -261,11 +263,16 @@ namespace PPTMonitor {
                     case movement.LL:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
+                            inputSafety = 0;
                             inputStarted = true;
                         }
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
+                                inputSafety++;
+                            }
+
+                            if (inputSafety > 1) {
                                 movements.RemoveAt(0);
                                 inputStarted = false;
                                 processInput();
@@ -280,11 +287,16 @@ namespace PPTMonitor {
                     case movement.RR:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
+                            inputSafety = 0;
                             inputStarted = true;
                         }
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
+                                inputSafety++;
+                            }
+                            
+                            if (inputSafety > 1) {
                                 movements.RemoveAt(0);
                                 inputStarted = false;
                                 processInput();
@@ -317,11 +329,16 @@ namespace PPTMonitor {
                     case movement.DD:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionY(PPT, playerID) - 1;
+                            inputSafety = 0;
                             inputStarted = true;
                         }
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionY(PPT, playerID) == inputGoal) {
+                                inputSafety++;
+                            }
+
+                            if (inputSafety > 1) {
                                 softdrop = false;
                                 movements.RemoveAt(0);
                                 inputStarted = false;
@@ -412,13 +429,18 @@ namespace PPTMonitor {
         }
 
         private void applyInputs() {
-            gamepad.Buttons = X360Buttons.None;
             int nextFrame = GameHelper.getFrameCount(PPT);
             int menuFrames = GameHelper.getMenuFrameCount(PPT);
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (nextFrame % 2 == 0)
-                    processInput();
+                if (nextFrame % 2 == 0) {
+                    if (nextFrame != frames) {
+                        gamepad.Buttons = X360Buttons.None;
+                        processInput();
+                    }
+                } else {
+                    gamepad.Buttons = X360Buttons.None;
+                }
 
                 if (softdrop)
                     gamepad.Buttons |= X360Buttons.Down;
@@ -427,6 +449,7 @@ namespace PPTMonitor {
 
             } else if (menuFrames % 2 == 0) {
                 int mode = GameHelper.CurrentMode(PPT);
+                gamepad.Buttons = X360Buttons.None;
 
                 if (GameHelper.OutsideMenu(PPT)) {
                     gamepad.Buttons |= X360Buttons.A;
