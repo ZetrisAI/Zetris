@@ -212,7 +212,6 @@ namespace PPTMonitor {
 
         bool inputStarted = false;
         int inputGoal = -1;
-        int inputSafety = 0;
         bool softdrop = false;
 
         private void processInput() {
@@ -263,7 +262,6 @@ namespace PPTMonitor {
                     case movement.LL:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
-                            inputSafety = 0;
                             inputStarted = true;
                         }
 
@@ -283,7 +281,6 @@ namespace PPTMonitor {
                     case movement.RR:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
-                            inputSafety = 0;
                             inputStarted = true;
                         }
 
@@ -321,7 +318,6 @@ namespace PPTMonitor {
                     case movement.DD:
                         if (!inputStarted) {
                             inputGoal = GameHelper.getPiecePositionY(PPT, playerID) - 1;
-                            inputSafety = 0;
                             inputStarted = true;
                         }
 
@@ -435,36 +431,38 @@ namespace PPTMonitor {
 
                 frames = nextFrame;
 
-            } else if (menuFrames % 2 == 0) {
+            } else {
                 int mode = GameHelper.CurrentMode(PPT);
                 gamepad.Buttons = X360Buttons.None;
 
-                if (GameHelper.OutsideMenu(PPT)) {
-                    gamepad.Buttons |= X360Buttons.A;
+                if (menuFrames % 2 == 0) {
+                    if (GameHelper.OutsideMenu(PPT)) {
+                        gamepad.Buttons |= X360Buttons.A;
 
-                } else if (mode == 4) {
-                    if (menuStartFrames + 1150 < menuFrames) {
-                        menuStartFrames = menuFrames;
-                    }
+                    } else if (mode == 4) {
+                        if (menuStartFrames + 1150 < menuFrames) {
+                            menuStartFrames = menuFrames;
+                        }
 
-                    if (menuStartFrames + 1150 < menuFrames) {
-                        menuStartFrames = menuFrames;
-                    }
+                        if (menuStartFrames + 1150 < menuFrames) {
+                            menuStartFrames = menuFrames;
+                        }
 
-                    if (menuStartFrames + 1030 < menuFrames) {
+                        if (menuStartFrames + 1030 < menuFrames) {
+                            gamepad.Buttons |= X360Buttons.B;
+                        } else {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
+
+                    } else if (mode == 1) {
                         gamepad.Buttons |= X360Buttons.B;
-                    } else {
-                        gamepad.Buttons |= X360Buttons.A;
-                    }
 
-                } else if (mode == 1) {
-                    gamepad.Buttons |= X360Buttons.B;
-
-                } else {
-                    if (GameHelper.MenuHighlighted(PPT) != 4) {
-                        gamepad.Buttons |= X360Buttons.Down;
                     } else {
-                        gamepad.Buttons |= X360Buttons.A;
+                        if (GameHelper.MenuHighlighted(PPT) != 4) {
+                            gamepad.Buttons |= X360Buttons.Down;
+                        } else {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
                     }
                 }
             }
