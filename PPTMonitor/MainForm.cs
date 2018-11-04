@@ -164,7 +164,7 @@ namespace PPTMonitor {
                 }
 
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
-                    string[] solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], 0, 0).Split('|');
+                    string[] solution = MisaMinoNET.MisaMino.FindMove(pieces, current, board[playerID], GameHelper.getCombo(PPT, playerID), GameHelper.getGarbageOverhead(PPT, playerID)).Split('|');
 
                     movements.Clear();
                     foreach (string mov in solution[0].Split(',')) {

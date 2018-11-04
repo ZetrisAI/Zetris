@@ -358,6 +358,68 @@ namespace PPTMonitor {
             return -1;
         }
 
+        public static int getGarbageOverhead(VAMemory Game, int index) {
+            switch (index) {
+                case 0:
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B20
+                                        )) + 0x378
+                                    )) + 0x28
+                                )) + 0x18
+                            )) + 0xD0
+                        )) + 0x64
+                    ));
+
+                case 1:
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x378
+                                )) + 0x28
+                            )) + 0xD0
+                        )) + 0x3C
+                    ));
+            }
+
+            return -1;
+        }
+
+        public static int getCombo(VAMemory Game, int index) {
+            int ret = -1;
+
+            switch (index) {
+                case 0:
+                    ret = Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x38
+                        )) + 0x3DC
+                    ));
+                    break;
+
+                case 1:
+                    ret = Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A28
+                            )) + 0x38
+                        )) + 0x3DC
+                    ));
+                    break;
+            }
+
+            return Math.Max(ret, 0);
+        }
+
         public static int getFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140461B20
