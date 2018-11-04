@@ -269,10 +269,6 @@ namespace PPTMonitor {
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                inputSafety++;
-                            }
-
-                            if (inputSafety > 1) {
                                 movements.RemoveAt(0);
                                 inputStarted = false;
                                 processInput();
@@ -293,10 +289,6 @@ namespace PPTMonitor {
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                inputSafety++;
-                            }
-                            
-                            if (inputSafety > 1) {
                                 movements.RemoveAt(0);
                                 inputStarted = false;
                                 processInput();
@@ -335,10 +327,6 @@ namespace PPTMonitor {
 
                         if (inputStarted) {
                             if (GameHelper.getPiecePositionY(PPT, playerID) == inputGoal) {
-                                inputSafety++;
-                            }
-
-                            if (inputSafety > 1) {
                                 softdrop = false;
                                 movements.RemoveAt(0);
                                 inputStarted = false;
