@@ -117,16 +117,16 @@ namespace PPTMonitor {
         bool register = false;
 
         private void runLogic() {
-            /*if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
+            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers == 1 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 Kill();                
                 return;
-            }*/
+            }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                /*if (numplayers < 2) {
+                if (numplayers == 1) {
                     Kill();
                     return;
-                }*/
+                }
 
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
                 int current = GameHelper.getCurrentPiece(PPT, playerID);
