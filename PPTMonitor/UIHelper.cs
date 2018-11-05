@@ -40,12 +40,12 @@ namespace PPTMonitor {
             canvas.Image = new Bitmap(canvas.Width, canvas.Height);
             using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
                 for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 40; j++) {
-                        gfx.FillRectangle(new SolidBrush(UIHelper.getTetrominoColor(board[i, j])), i * (canvas.Width / 10), (39 - j) * (canvas.Height / 40), canvas.Width / 10, canvas.Height / 40);
+                    for (int j = 0; j < 25; j++) {
+                        gfx.FillRectangle(new SolidBrush(UIHelper.getTetrominoColor(board[i, j])), i * (canvas.Width / 10), (24 - j) * (canvas.Height / 25), canvas.Width / 10, canvas.Height / 25);
                     }
                 }
 
-                gfx.DrawLine(new Pen(Color.Red), 0, canvas.Height / 2, canvas.Width, canvas.Height / 2);
+                gfx.DrawLine(new Pen(Color.Red), 0, canvas.Height / 5, canvas.Width, canvas.Height / 5);
                 gfx.Flush();
             }
         }

@@ -59,11 +59,20 @@ namespace PPTMonitor {
             0x14057F048
         )) + 0x38;
 
-        public static int playerAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                0x140473760
-            )) + 0x20
-        )) + 0xD8;
+        public static int getPlayerCount(VAMemory Game) {
+            int ret = Game.ReadInt16(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        0x140473760
+                    )) + 0x20
+                )) + 0xD8
+            )) - 0x24;
+
+            if (ret > 4) ret = 0;
+            if (ret < 0) ret = 0;
+
+            return ret;
+        }
 
         public static int leagueAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(

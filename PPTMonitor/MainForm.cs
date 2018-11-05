@@ -14,82 +14,30 @@ namespace PPTMonitor {
             InitializeComponent();
         }
 
-        static int playerID = 0;
+        int playerID = 0;
+        VAMemory PPT = new VAMemory("puyopuyotetris");
 
-        static VAMemory PPT = new VAMemory("puyopuyotetris");
-        static ScpBus scp = new ScpBus();
-        static X360Controller gamepad = new X360Controller();
-
-        static int currentRating, numplayers, frames;
-
-        static int[][,] board = new int[2][,] {
-            new int[10, 40], new int[10, 40]
-        };
-
-        static int[,] intendedBoard = new int[10, 40];
-
-        private void MainForm_Load(object sender, EventArgs e) {
-            scp.PlugIn(1);
-            menuStartFrames = GameHelper.getMenuFrameCount(PPT);
-        }
-
-        private void MainForm_FormClosing(object sender, EventArgs e) {
-            scp.UnplugAll();
-        }
-
-        private void buttonRehook_Click(object sender, EventArgs e) {
-            PPT = new VAMemory("puyopuyotetris");
-        }
-
-        private void updateUI() {
-            labelHoldPTR.Text = GameHelper.getHoldPointer(PPT, playerID).ToString("X8");
-            labelMisaMino.Text = String.Join(", ", movements);
-            labelFrames.Text = GameHelper.getFrameCount(PPT).ToString();
-            // stub
-        }
-
-        private void updateGame() {
-            int playerAddress = GameHelper.playerAddress(PPT);
-            int leagueAddress = GameHelper.leagueAddress(PPT);
-            int prefAddress = GameHelper.prefAddress(PPT);
-            int charAddress = GameHelper.charAddress(PPT);
-            
-            numplayers = PPT.ReadInt16(new IntPtr(playerAddress) - 0x24);
-
-            int temp = GameHelper.getRating(PPT);
-
-            if (temp != currentRating) {
-                ratingSafe = GameHelper.getMenuFrameCount(PPT);
-            }
-
-            currentRating = temp;
-            
-            for (int p = 0; p < 2; p++) {
-                int boardAddress = GameHelper.boardAddress(PPT, playerID);
-                for (int i = 0; i < 10; i++) {
-                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
-                    for (int j = 0; j < 40; j++) {
-                        board[p][i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
-                    }
+        bool EnsureGame() {
+            if (PPT == null) {
+                if (Process.GetProcessesByName("puyopuyotetris").Length != 0) {
+                    PPT = new VAMemory("puyopuyotetris");
+                } else {
+                    return false;
                 }
+
+            } else if (Process.GetProcessesByName("puyopuyotetris").Length == 0) {
+                PPT = null;
+                return false;
             }
+
+            return true;
         }
 
-        private void button1_Click(object sender, EventArgs e) {
-            scp.UnplugAll();
-            scp = new ScpBus();
-            gamepad = new X360Controller();
+        void RehookProcess(object sender, EventArgs e) {
+            EnsureGame();
         }
 
-        private void button2_Click(object sender, EventArgs e) {
-            scp.PlugIn(1);
-        }
-
-        private bool inMatch = false;
-        private int menuStartFrames = 0;
-        private int ratingSafe = 0;
-
-        private void Kill() {
+        void ResetGame() {
             ScanTimer.Enabled = false;
 
             foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
@@ -104,11 +52,40 @@ namespace PPTMonitor {
 
             Thread.Sleep(15000);
 
-            buttonRehook_Click(this, EventArgs.Empty);
+            EnsureGame();
 
             ScanTimer.Enabled = true;
         }
+
+        ScpBus scp = new ScpBus();
+        bool gamepadPluggedIn = false;
+        X360Controller gamepad = new X360Controller();
         
+        void GamepadDisconnect(object sender, EventArgs e) {
+            scp.UnplugAll();
+            scp = new ScpBus();
+            gamepad = new X360Controller();
+            gamepadPluggedIn = false;
+        }
+
+        void GamepadConnect(object sender, EventArgs e) {
+            scp.UnplugAll();
+            scp.PlugIn(1);
+            gamepadPluggedIn = true;
+        }
+
+        int currentRating, numplayers, frames, globalFrames;
+
+        int[][,] board = new int[2][,] {
+            new int[10, 40], new int[10, 40]
+        };
+
+        //int[,] intendedBoard = new int[10, 40];
+       
+        bool inMatch = false;
+        int menuStartFrames = 0;
+        int ratingSafe = 0;
+
         List<Instruction> movements = new List<Instruction>();
         int state = 0;
         int piece = 0;
@@ -117,14 +94,37 @@ namespace PPTMonitor {
         bool register = false;
 
         private void runLogic() {
+            numplayers = GameHelper.getPlayerCount(PPT);
+            playerID = GameHelper.FindPlayer(PPT);
+
+            int temp = GameHelper.getRating(PPT);
+
+            if (temp != currentRating) {
+                ratingSafe = GameHelper.getMenuFrameCount(PPT);
+            }
+
+            currentRating = temp;
+
+            for (int p = 0; p < 2; p++) {
+                int boardAddress = GameHelper.boardAddress(PPT, p);
+                for (int i = 0; i < 10; i++) {
+                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
+                    for (int j = 0; j < 40; j++) {
+                        board[p][i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
+                    }
+                }
+            }
+
+            globalFrames = GameHelper.getMenuFrameCount(PPT);
+
             if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers == 1 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
-                Kill();                
+                ResetGame();                
                 return;
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 if (numplayers == 1) {
-                    Kill();
+                    ResetGame();
                     return;
                 }
 
@@ -160,11 +160,7 @@ namespace PPTMonitor {
                         GameHelper.getGarbageOverhead(PPT, playerID), 
                         ref pieceUsed
                     );
-
-                    labelPiece.Text = pieceUsed.ToString();
-
-                    //UIHelper.drawBoard(board1, board[playerID]);
-
+                    
                     register = false;
                 }
 
@@ -471,17 +467,50 @@ namespace PPTMonitor {
                 }
             }
 
-            labelInputs.Text = gamepad.Buttons.ToString();
+            valueGamepadInputs.Text = gamepad.Buttons.ToString();
             scp.Report(1, gamepad.GetReport());
         }
 
-        private void AILoop(object sender, EventArgs e) {
-            playerID = GameHelper.FindPlayer(PPT);
 
-            updateGame();
-            runLogic();
-            applyInputs();
+        private void updateUI() {
+            if (inMatch) {
+                UIHelper.drawBoard(board1, board[playerID]);
+                UIHelper.drawBoard(board2, board[1]);
+            } else {
+                board1.Image = board2.Image = null;
+            }
+
+            valueGamepadState.Text = gamepadPluggedIn? "Connected" : "Disconnected";
+            valueGamepadInputs.Text = gamepad.Buttons.ToString();
+
+            valueGameRunning.Text = (PPT == null)? "Closed" : "Running";
+            valuePlayers.Text = numplayers.ToString();
+            valueMatchFrames.Text = frames.ToString();
+            valueGlobalFrames.Text = globalFrames.ToString();
+
+            labelMisaMino.Text = String.Join(", ", movements);
+        }
+
+        private void Loop(object sender, EventArgs e) {
+            if (EnsureGame()) {
+                runLogic();
+                applyInputs();
+            }
+
             updateUI();
+        }
+
+        void MainForm_Load(object sender, EventArgs e) {
+            scp.UnplugAll();
+            scp.PlugIn(1);
+            gamepadPluggedIn = true;
+
+            //menuStartFrames = GameHelper.getMenuFrameCount(PPT);
+        }
+
+        void MainForm_Closing(object sender, EventArgs e) {
+            scp.UnplugAll();
+            gamepadPluggedIn = false;
         }
     }
 }

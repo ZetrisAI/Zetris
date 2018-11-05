@@ -30,177 +30,289 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
-            this.buttonRehook = new System.Windows.Forms.Label();
             this.valuePlayers = new System.Windows.Forms.Label();
             this.board2 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.labelInputs = new System.Windows.Forms.Label();
+            this.buttonGamepadDisconnect = new System.Windows.Forms.Button();
+            this.valueGamepadInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
-            this.labelHoldPTR = new System.Windows.Forms.Label();
-            this.labelFrames = new System.Windows.Forms.Label();
-            this.labelPiece = new System.Windows.Forms.Label();
+            this.valueMatchFrames = new System.Windows.Forms.Label();
+            this.panelGamepad = new System.Windows.Forms.Panel();
+            this.valueGamepadState = new System.Windows.Forms.Label();
+            this.labelGamepad = new System.Windows.Forms.Label();
+            this.buttonGamepadConnect = new System.Windows.Forms.Button();
+            this.panelGame = new System.Windows.Forms.Panel();
+            this.valueGameRunning = new System.Windows.Forms.Label();
+            this.labelGame = new System.Windows.Forms.Label();
+            this.buttonRehook = new System.Windows.Forms.Button();
+            this.labelGlobalFrames = new System.Windows.Forms.Label();
+            this.labelMatchFrames = new System.Windows.Forms.Label();
+            this.valueGlobalFrames = new System.Windows.Forms.Label();
+            this.labelPlayers = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
+            this.panelGamepad.SuspendLayout();
+            this.panelGame.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
             // 
             this.ScanTimer.Enabled = true;
             this.ScanTimer.Interval = 3;
-            this.ScanTimer.Tick += new System.EventHandler(this.AILoop);
-            // 
-            // buttonRehook
-            // 
-            this.buttonRehook.AutoSize = true;
-            this.buttonRehook.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(128)))), ((int)(((byte)(204)))));
-            this.buttonRehook.Location = new System.Drawing.Point(12, 386);
-            this.buttonRehook.Name = "buttonRehook";
-            this.buttonRehook.Size = new System.Drawing.Size(98, 13);
-            this.buttonRehook.TabIndex = 0;
-            this.buttonRehook.Text = "Rehook to Process";
-            this.buttonRehook.Click += new System.EventHandler(this.buttonRehook_Click);
+            this.ScanTimer.Tick += new System.EventHandler(this.Loop);
             // 
             // valuePlayers
             // 
-            this.valuePlayers.Location = new System.Drawing.Point(162, 7);
+            this.valuePlayers.Location = new System.Drawing.Point(110, 30);
             this.valuePlayers.Name = "valuePlayers";
-            this.valuePlayers.Size = new System.Drawing.Size(23, 13);
+            this.valuePlayers.Size = new System.Drawing.Size(43, 13);
             this.valuePlayers.TabIndex = 4;
-            this.valuePlayers.Text = "0";
+            this.valuePlayers.Text = "?";
+            this.valuePlayers.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // board2
             // 
             this.board2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board2.Location = new System.Drawing.Point(175, 23);
+            this.board2.Location = new System.Drawing.Point(332, 29);
             this.board2.Name = "board2";
-            this.board2.Size = new System.Drawing.Size(150, 360);
+            this.board2.Size = new System.Drawing.Size(150, 375);
             this.board2.TabIndex = 7;
             this.board2.TabStop = false;
             // 
-            // button1
+            // buttonGamepadDisconnect
             // 
-            this.button1.Location = new System.Drawing.Point(40, 402);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(19, 24);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "RE";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonGamepadDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGamepadDisconnect.ForeColor = System.Drawing.Color.Gainsboro;
+            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 65);
+            this.buttonGamepadDisconnect.Name = "buttonGamepadDisconnect";
+            this.buttonGamepadDisconnect.Size = new System.Drawing.Size(72, 24);
+            this.buttonGamepadDisconnect.TabIndex = 9;
+            this.buttonGamepadDisconnect.Text = "Disconnect";
+            this.buttonGamepadDisconnect.UseVisualStyleBackColor = true;
+            this.buttonGamepadDisconnect.Click += new System.EventHandler(this.GamepadDisconnect);
             // 
-            // button2
+            // valueGamepadInputs
             // 
-            this.button2.Location = new System.Drawing.Point(65, 402);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(19, 24);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "RE";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // labelInputs
-            // 
-            this.labelInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInputs.Location = new System.Drawing.Point(12, 408);
-            this.labelInputs.Name = "labelInputs";
-            this.labelInputs.Size = new System.Drawing.Size(316, 14);
-            this.labelInputs.TabIndex = 1;
-            this.labelInputs.Text = "?";
-            this.labelInputs.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueGamepadInputs.Location = new System.Drawing.Point(7, 23);
+            this.valueGamepadInputs.Name = "valueGamepadInputs";
+            this.valueGamepadInputs.Size = new System.Drawing.Size(146, 38);
+            this.valueGamepadInputs.TabIndex = 1;
+            this.valueGamepadInputs.Text = "?";
+            this.valueGamepadInputs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // board1
             // 
             this.board1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board1.Location = new System.Drawing.Point(12, 23);
+            this.board1.Location = new System.Drawing.Point(176, 29);
             this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(150, 360);
+            this.board1.Size = new System.Drawing.Size(150, 375);
             this.board1.TabIndex = 7;
             this.board1.TabStop = false;
             // 
             // labelMisaMino
             // 
             this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisaMino.Location = new System.Drawing.Point(12, 429);
+            this.labelMisaMino.Location = new System.Drawing.Point(166, 407);
             this.labelMisaMino.Name = "labelMisaMino";
             this.labelMisaMino.Size = new System.Drawing.Size(316, 17);
             this.labelMisaMino.TabIndex = 1;
             this.labelMisaMino.Text = "?";
             this.labelMisaMino.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // labelHoldPTR
+            // valueMatchFrames
             // 
-            this.labelHoldPTR.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHoldPTR.Location = new System.Drawing.Point(130, 386);
-            this.labelHoldPTR.Name = "labelHoldPTR";
-            this.labelHoldPTR.Size = new System.Drawing.Size(198, 17);
-            this.labelHoldPTR.TabIndex = 1;
-            this.labelHoldPTR.Text = "?";
-            this.labelHoldPTR.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueMatchFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueMatchFrames.Location = new System.Drawing.Point(79, 48);
+            this.valueMatchFrames.Name = "valueMatchFrames";
+            this.valueMatchFrames.Size = new System.Drawing.Size(74, 15);
+            this.valueMatchFrames.TabIndex = 1;
+            this.valueMatchFrames.Text = "?";
+            this.valueMatchFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // labelFrames
+            // panelGamepad
             // 
-            this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFrames.Location = new System.Drawing.Point(201, 5);
-            this.labelFrames.Name = "labelFrames";
-            this.labelFrames.Size = new System.Drawing.Size(124, 23);
-            this.labelFrames.TabIndex = 1;
-            this.labelFrames.Text = "?";
-            this.labelFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panelGamepad.Controls.Add(this.valueGamepadState);
+            this.panelGamepad.Controls.Add(this.labelGamepad);
+            this.panelGamepad.Controls.Add(this.buttonGamepadConnect);
+            this.panelGamepad.Controls.Add(this.buttonGamepadDisconnect);
+            this.panelGamepad.Controls.Add(this.valueGamepadInputs);
+            this.panelGamepad.Location = new System.Drawing.Point(12, 29);
+            this.panelGamepad.Name = "panelGamepad";
+            this.panelGamepad.Size = new System.Drawing.Size(158, 94);
+            this.panelGamepad.TabIndex = 10;
             // 
-            // labelPiece
+            // valueGamepadState
             // 
-            this.labelPiece.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPiece.Location = new System.Drawing.Point(111, 386);
-            this.labelPiece.Name = "labelPiece";
-            this.labelPiece.Size = new System.Drawing.Size(13, 17);
-            this.labelPiece.TabIndex = 1;
-            this.labelPiece.Text = "?";
-            this.labelPiece.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueGamepadState.BackColor = System.Drawing.Color.Transparent;
+            this.valueGamepadState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueGamepadState.Location = new System.Drawing.Point(71, 5);
+            this.valueGamepadState.Name = "valueGamepadState";
+            this.valueGamepadState.Size = new System.Drawing.Size(82, 13);
+            this.valueGamepadState.TabIndex = 1;
+            this.valueGamepadState.Text = "?";
+            this.valueGamepadState.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // labelGamepad
+            // 
+            this.labelGamepad.AutoSize = true;
+            this.labelGamepad.BackColor = System.Drawing.Color.Transparent;
+            this.labelGamepad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGamepad.Location = new System.Drawing.Point(5, 5);
+            this.labelGamepad.Name = "labelGamepad";
+            this.labelGamepad.Size = new System.Drawing.Size(60, 13);
+            this.labelGamepad.TabIndex = 1;
+            this.labelGamepad.Text = "Gamepad";
+            // 
+            // buttonGamepadConnect
+            // 
+            this.buttonGamepadConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonGamepadConnect.ForeColor = System.Drawing.Color.Gainsboro;
+            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 65);
+            this.buttonGamepadConnect.Name = "buttonGamepadConnect";
+            this.buttonGamepadConnect.Size = new System.Drawing.Size(72, 24);
+            this.buttonGamepadConnect.TabIndex = 9;
+            this.buttonGamepadConnect.Text = "Connect";
+            this.buttonGamepadConnect.UseVisualStyleBackColor = true;
+            this.buttonGamepadConnect.Click += new System.EventHandler(this.GamepadConnect);
+            // 
+            // panelGame
+            // 
+            this.panelGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panelGame.Controls.Add(this.valueGameRunning);
+            this.panelGame.Controls.Add(this.labelGame);
+            this.panelGame.Controls.Add(this.buttonRehook);
+            this.panelGame.Controls.Add(this.labelGlobalFrames);
+            this.panelGame.Controls.Add(this.valuePlayers);
+            this.panelGame.Controls.Add(this.labelMatchFrames);
+            this.panelGame.Controls.Add(this.valueGlobalFrames);
+            this.panelGame.Controls.Add(this.valueMatchFrames);
+            this.panelGame.Controls.Add(this.labelPlayers);
+            this.panelGame.Location = new System.Drawing.Point(12, 129);
+            this.panelGame.Name = "panelGame";
+            this.panelGame.Size = new System.Drawing.Size(158, 122);
+            this.panelGame.TabIndex = 11;
+            // 
+            // valueGameRunning
+            // 
+            this.valueGameRunning.BackColor = System.Drawing.Color.Transparent;
+            this.valueGameRunning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueGameRunning.Location = new System.Drawing.Point(71, 5);
+            this.valueGameRunning.Name = "valueGameRunning";
+            this.valueGameRunning.Size = new System.Drawing.Size(82, 13);
+            this.valueGameRunning.TabIndex = 1;
+            this.valueGameRunning.Text = "?";
+            this.valueGameRunning.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // labelGame
+            // 
+            this.labelGame.AutoSize = true;
+            this.labelGame.BackColor = System.Drawing.Color.Transparent;
+            this.labelGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGame.Location = new System.Drawing.Point(5, 5);
+            this.labelGame.Name = "labelGame";
+            this.labelGame.Size = new System.Drawing.Size(67, 13);
+            this.labelGame.TabIndex = 1;
+            this.labelGame.Text = "PPT Client";
+            // 
+            // buttonRehook
+            // 
+            this.buttonRehook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonRehook.ForeColor = System.Drawing.Color.Gainsboro;
+            this.buttonRehook.Location = new System.Drawing.Point(5, 93);
+            this.buttonRehook.Name = "buttonRehook";
+            this.buttonRehook.Size = new System.Drawing.Size(148, 24);
+            this.buttonRehook.TabIndex = 9;
+            this.buttonRehook.Text = "Rehook to Process";
+            this.buttonRehook.UseVisualStyleBackColor = true;
+            this.buttonRehook.Click += new System.EventHandler(this.RehookProcess);
+            // 
+            // labelGlobalFrames
+            // 
+            this.labelGlobalFrames.AutoSize = true;
+            this.labelGlobalFrames.Location = new System.Drawing.Point(5, 66);
+            this.labelGlobalFrames.Name = "labelGlobalFrames";
+            this.labelGlobalFrames.Size = new System.Drawing.Size(77, 13);
+            this.labelGlobalFrames.TabIndex = 4;
+            this.labelGlobalFrames.Text = "Global Frames:";
+            // 
+            // labelMatchFrames
+            // 
+            this.labelMatchFrames.AutoSize = true;
+            this.labelMatchFrames.Location = new System.Drawing.Point(5, 48);
+            this.labelMatchFrames.Name = "labelMatchFrames";
+            this.labelMatchFrames.Size = new System.Drawing.Size(77, 13);
+            this.labelMatchFrames.TabIndex = 4;
+            this.labelMatchFrames.Text = "Match Frames:";
+            // 
+            // valueGlobalFrames
+            // 
+            this.valueGlobalFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueGlobalFrames.Location = new System.Drawing.Point(79, 66);
+            this.valueGlobalFrames.Name = "valueGlobalFrames";
+            this.valueGlobalFrames.Size = new System.Drawing.Size(74, 15);
+            this.valueGlobalFrames.TabIndex = 1;
+            this.valueGlobalFrames.Text = "?";
+            this.valueGlobalFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // labelPlayers
+            // 
+            this.labelPlayers.AutoSize = true;
+            this.labelPlayers.Location = new System.Drawing.Point(5, 30);
+            this.labelPlayers.Name = "labelPlayers";
+            this.labelPlayers.Size = new System.Drawing.Size(99, 13);
+            this.labelPlayers.TabIndex = 4;
+            this.labelPlayers.Text = "Players Connected:";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(340, 454);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
+            this.ClientSize = new System.Drawing.Size(492, 427);
+            this.Controls.Add(this.panelGame);
+            this.Controls.Add(this.panelGamepad);
             this.Controls.Add(this.board2);
             this.Controls.Add(this.board1);
-            this.Controls.Add(this.valuePlayers);
-            this.Controls.Add(this.labelPiece);
-            this.Controls.Add(this.labelFrames);
-            this.Controls.Add(this.labelHoldPTR);
             this.Controls.Add(this.labelMisaMino);
-            this.Controls.Add(this.labelInputs);
-            this.Controls.Add(this.buttonRehook);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "PPT Memory Viewer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).EndInit();
+            this.panelGamepad.ResumeLayout(false);
+            this.panelGamepad.PerformLayout();
+            this.panelGame.ResumeLayout(false);
+            this.panelGame.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
-        private System.Windows.Forms.Label buttonRehook;
         private System.Windows.Forms.Label valuePlayers;
         private System.Windows.Forms.PictureBox board2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label labelInputs;
+        private System.Windows.Forms.Button buttonGamepadDisconnect;
+        private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label labelMisaMino;
-        private System.Windows.Forms.Label labelHoldPTR;
-        private System.Windows.Forms.Label labelFrames;
-        private System.Windows.Forms.Label labelPiece;
+        private System.Windows.Forms.Label valueMatchFrames;
+        private System.Windows.Forms.Panel panelGamepad;
+        private System.Windows.Forms.Label labelGamepad;
+        private System.Windows.Forms.Label valueGamepadState;
+        private System.Windows.Forms.Button buttonGamepadConnect;
+        private System.Windows.Forms.Panel panelGame;
+        private System.Windows.Forms.Label valueGameRunning;
+        private System.Windows.Forms.Label labelGame;
+        private System.Windows.Forms.Button buttonRehook;
+        private System.Windows.Forms.Label labelGlobalFrames;
+        private System.Windows.Forms.Label labelMatchFrames;
+        private System.Windows.Forms.Label valueGlobalFrames;
+        private System.Windows.Forms.Label labelPlayers;
     }
 }
 
