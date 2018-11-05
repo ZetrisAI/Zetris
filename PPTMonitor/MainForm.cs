@@ -112,7 +112,7 @@ namespace PPTMonitor {
         List<Instruction> movements = new List<Instruction>();
         int state = 0;
         int piece = 0;
-        char pieceUsed;
+        int pieceUsed;
         int[] queue = new int[5];
         bool register = false;
 
@@ -236,7 +236,20 @@ namespace PPTMonitor {
 
                     case Instruction.LL:
                         if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
+                            inputGoal = InputHelper.FindInputGoalX(
+                                board[playerID],
+                                pieceUsed,
+                                GameHelper.getPiecePositionX(PPT, playerID),
+                                GameHelper.getPiecePositionY(PPT, playerID),
+                                GameHelper.getPieceRotation(PPT, playerID),
+                                -1
+                            );
+                            if (movements.Count > 1) {
+                                if (movements[1] == Instruction.R) {
+                                    inputGoal++;
+                                    movements.RemoveAt(1);
+                                }
+                            }
                             inputStarted = true;
                         }
 
@@ -247,7 +260,6 @@ namespace PPTMonitor {
                                 processInput();
                                 break;
                             } else {
-                                inputGoal = GameHelper.getPiecePositionX(PPT, playerID);
                                 gamepad.Buttons |= X360Buttons.Left;
                             }
                         }
@@ -255,7 +267,20 @@ namespace PPTMonitor {
 
                     case Instruction.RR:
                         if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
+                            inputGoal = InputHelper.FindInputGoalX(
+                                board[playerID],
+                                pieceUsed,
+                                GameHelper.getPiecePositionX(PPT, playerID),
+                                GameHelper.getPiecePositionY(PPT, playerID),
+                                GameHelper.getPieceRotation(PPT, playerID),
+                                1
+                            );
+                            if (movements.Count > 1) {
+                                if (movements[1] == Instruction.L) {
+                                    inputGoal--;
+                                    movements.RemoveAt(1);
+                                }
+                            }
                             inputStarted = true;
                         }
 
@@ -266,7 +291,6 @@ namespace PPTMonitor {
                                 processInput();
                                 break;
                             } else {
-                                inputGoal = GameHelper.getPiecePositionX(PPT, playerID);
                                 gamepad.Buttons |= X360Buttons.Right;
                             }
                         }
@@ -292,7 +316,13 @@ namespace PPTMonitor {
 
                     case Instruction.DD:
                         if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionY(PPT, playerID) - 1;
+                            inputGoal = InputHelper.FindInputGoalY(
+                                board[playerID],
+                                pieceUsed,
+                                GameHelper.getPiecePositionX(PPT, playerID),
+                                GameHelper.getPiecePositionY(PPT, playerID),
+                                GameHelper.getPieceRotation(PPT, playerID)
+                            );
                             inputStarted = true;
                         }
 
@@ -304,7 +334,6 @@ namespace PPTMonitor {
                                 processInput();
                                 break;
                             } else {
-                                inputGoal = GameHelper.getPiecePositionY(PPT, playerID);
                                 softdrop = true;
                             }
                         }
