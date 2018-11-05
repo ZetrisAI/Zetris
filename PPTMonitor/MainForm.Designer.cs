@@ -35,7 +35,7 @@
             this.buttonGamepadDisconnect = new System.Windows.Forms.Button();
             this.valueGamepadInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
-            this.labelMisaMino = new System.Windows.Forms.Label();
+            this.valueInstructions = new System.Windows.Forms.Label();
             this.valueMatchFrames = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
             this.valueGamepadState = new System.Windows.Forms.Label();
@@ -49,10 +49,18 @@
             this.labelMatchFrames = new System.Windows.Forms.Label();
             this.valueGlobalFrames = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
+            this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
+            this.valueMisaMinoState = new System.Windows.Forms.Label();
+            this.labelMisaMino = new System.Windows.Forms.Label();
+            this.labelMisaMinoStyle = new System.Windows.Forms.Label();
+            this.labelMisaMinoLevel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
             this.panelGame.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -73,7 +81,7 @@
             // board2
             // 
             this.board2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board2.Location = new System.Drawing.Point(332, 29);
+            this.board2.Location = new System.Drawing.Point(329, 10);
             this.board2.Name = "board2";
             this.board2.Size = new System.Drawing.Size(150, 375);
             this.board2.TabIndex = 7;
@@ -104,21 +112,21 @@
             // board1
             // 
             this.board1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board1.Location = new System.Drawing.Point(176, 29);
+            this.board1.Location = new System.Drawing.Point(173, 10);
             this.board1.Name = "board1";
             this.board1.Size = new System.Drawing.Size(150, 375);
             this.board1.TabIndex = 7;
             this.board1.TabStop = false;
             // 
-            // labelMisaMino
+            // valueInstructions
             // 
-            this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisaMino.Location = new System.Drawing.Point(166, 407);
-            this.labelMisaMino.Name = "labelMisaMino";
-            this.labelMisaMino.Size = new System.Drawing.Size(316, 17);
-            this.labelMisaMino.TabIndex = 1;
-            this.labelMisaMino.Text = "?";
-            this.labelMisaMino.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueInstructions.Location = new System.Drawing.Point(5, 78);
+            this.valueInstructions.Name = "valueInstructions";
+            this.valueInstructions.Size = new System.Drawing.Size(148, 32);
+            this.valueInstructions.TabIndex = 1;
+            this.valueInstructions.Text = "?";
+            this.valueInstructions.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // valueMatchFrames
             // 
@@ -138,7 +146,7 @@
             this.panelGamepad.Controls.Add(this.buttonGamepadConnect);
             this.panelGamepad.Controls.Add(this.buttonGamepadDisconnect);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
-            this.panelGamepad.Location = new System.Drawing.Point(12, 29);
+            this.panelGamepad.Location = new System.Drawing.Point(9, 10);
             this.panelGamepad.Name = "panelGamepad";
             this.panelGamepad.Size = new System.Drawing.Size(158, 94);
             this.panelGamepad.TabIndex = 10;
@@ -189,7 +197,7 @@
             this.panelGame.Controls.Add(this.valueGlobalFrames);
             this.panelGame.Controls.Add(this.valueMatchFrames);
             this.panelGame.Controls.Add(this.labelPlayers);
-            this.panelGame.Location = new System.Drawing.Point(12, 129);
+            this.panelGame.Location = new System.Drawing.Point(9, 110);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(158, 122);
             this.panelGame.TabIndex = 11;
@@ -265,21 +273,121 @@
             this.labelPlayers.TabIndex = 4;
             this.labelPlayers.Text = "Players Connected:";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel1.Controls.Add(this.valueMisaMinoLevel);
+            this.panel1.Controls.Add(this.valueMisaMinoStyle);
+            this.panel1.Controls.Add(this.valueMisaMinoState);
+            this.panel1.Controls.Add(this.labelMisaMino);
+            this.panel1.Controls.Add(this.valueInstructions);
+            this.panel1.Controls.Add(this.labelMisaMinoStyle);
+            this.panel1.Controls.Add(this.labelMisaMinoLevel);
+            this.panel1.Location = new System.Drawing.Point(9, 238);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(158, 116);
+            this.panel1.TabIndex = 11;
+            // 
+            // valueMisaMinoLevel
+            // 
+            this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.valueMisaMinoLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.valueMisaMinoLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.valueMisaMinoLevel.ForeColor = System.Drawing.Color.Gainsboro;
+            this.valueMisaMinoLevel.FormattingEnabled = true;
+            this.valueMisaMinoLevel.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.valueMisaMinoLevel.Location = new System.Drawing.Point(47, 26);
+            this.valueMisaMinoLevel.MaxDropDownItems = 5;
+            this.valueMisaMinoLevel.Name = "valueMisaMinoLevel";
+            this.valueMisaMinoLevel.Size = new System.Drawing.Size(106, 21);
+            this.valueMisaMinoLevel.TabIndex = 12;
+            this.valueMisaMinoLevel.SelectedIndexChanged += new System.EventHandler(this.valueMisaMinoLevel_SelectedIndexChanged);
+            // 
+            // valueMisaMinoStyle
+            // 
+            this.valueMisaMinoStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.valueMisaMinoStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.valueMisaMinoStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.valueMisaMinoStyle.ForeColor = System.Drawing.Color.Gainsboro;
+            this.valueMisaMinoStyle.FormattingEnabled = true;
+            this.valueMisaMinoStyle.Items.AddRange(new object[] {
+            "T-Spin+",
+            "T-Spin",
+            "Combo",
+            "No Hold",
+            "Downstack"});
+            this.valueMisaMinoStyle.Location = new System.Drawing.Point(47, 51);
+            this.valueMisaMinoStyle.MaxDropDownItems = 5;
+            this.valueMisaMinoStyle.Name = "valueMisaMinoStyle";
+            this.valueMisaMinoStyle.Size = new System.Drawing.Size(106, 21);
+            this.valueMisaMinoStyle.TabIndex = 12;
+            this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMinoStyle_SelectedIndexChanged);
+            // 
+            // valueMisaMinoState
+            // 
+            this.valueMisaMinoState.BackColor = System.Drawing.Color.Transparent;
+            this.valueMisaMinoState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueMisaMinoState.Location = new System.Drawing.Point(87, 5);
+            this.valueMisaMinoState.Name = "valueMisaMinoState";
+            this.valueMisaMinoState.Size = new System.Drawing.Size(66, 13);
+            this.valueMisaMinoState.TabIndex = 1;
+            this.valueMisaMinoState.Text = "?";
+            this.valueMisaMinoState.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // labelMisaMino
+            // 
+            this.labelMisaMino.AutoSize = true;
+            this.labelMisaMino.BackColor = System.Drawing.Color.Transparent;
+            this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMisaMino.Location = new System.Drawing.Point(5, 5);
+            this.labelMisaMino.Name = "labelMisaMino";
+            this.labelMisaMino.Size = new System.Drawing.Size(76, 13);
+            this.labelMisaMino.TabIndex = 1;
+            this.labelMisaMino.Text = "MisaMino AI";
+            // 
+            // labelMisaMinoStyle
+            // 
+            this.labelMisaMinoStyle.AutoSize = true;
+            this.labelMisaMinoStyle.Location = new System.Drawing.Point(5, 55);
+            this.labelMisaMinoStyle.Name = "labelMisaMinoStyle";
+            this.labelMisaMinoStyle.Size = new System.Drawing.Size(33, 13);
+            this.labelMisaMinoStyle.TabIndex = 4;
+            this.labelMisaMinoStyle.Text = "Style:";
+            // 
+            // labelMisaMinoLevel
+            // 
+            this.labelMisaMinoLevel.AutoSize = true;
+            this.labelMisaMinoLevel.Location = new System.Drawing.Point(5, 30);
+            this.labelMisaMinoLevel.Name = "labelMisaMinoLevel";
+            this.labelMisaMinoLevel.Size = new System.Drawing.Size(36, 13);
+            this.labelMisaMinoLevel.TabIndex = 4;
+            this.labelMisaMinoLevel.Text = "Level:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(492, 427);
+            this.ClientSize = new System.Drawing.Size(489, 395);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelGame);
             this.Controls.Add(this.panelGamepad);
             this.Controls.Add(this.board2);
             this.Controls.Add(this.board1);
-            this.Controls.Add(this.labelMisaMino);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
-            this.Text = "PPT Memory Viewer";
+            this.Text = "Zetris Console";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
@@ -288,6 +396,8 @@
             this.panelGamepad.PerformLayout();
             this.panelGame.ResumeLayout(false);
             this.panelGame.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -299,7 +409,7 @@
         private System.Windows.Forms.Button buttonGamepadDisconnect;
         private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.PictureBox board1;
-        private System.Windows.Forms.Label labelMisaMino;
+        private System.Windows.Forms.Label valueInstructions;
         private System.Windows.Forms.Label valueMatchFrames;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
@@ -313,6 +423,13 @@
         private System.Windows.Forms.Label labelMatchFrames;
         private System.Windows.Forms.Label valueGlobalFrames;
         private System.Windows.Forms.Label labelPlayers;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label valueMisaMinoState;
+        private System.Windows.Forms.Label labelMisaMino;
+        private System.Windows.Forms.Label labelMisaMinoStyle;
+        private System.Windows.Forms.Label labelMisaMinoLevel;
+        private System.Windows.Forms.ComboBox valueMisaMinoStyle;
+        private System.Windows.Forms.ComboBox valueMisaMinoLevel;
     }
 }
 

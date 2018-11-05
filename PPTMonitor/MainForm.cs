@@ -488,7 +488,17 @@ namespace PPTMonitor {
             valueMatchFrames.Text = frames.ToString();
             valueGlobalFrames.Text = globalFrames.ToString();
 
-            labelMisaMino.Text = String.Join(", ", movements);
+            valueMisaMinoState.Text = inMatch? "Match" : "Menu";
+            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
+            valueInstructions.Text = String.Join(", ", movements);
+        }
+
+        private void valueMisaMinoLevel_SelectedIndexChanged(object sender, EventArgs e) {
+            MisaMino.updateLevel(valueMisaMinoLevel.SelectedIndex + 1);
+        }
+
+        private void valueMisaMinoStyle_SelectedIndexChanged(object sender, EventArgs e) {
+            MisaMino.updateStyle(valueMisaMinoStyle.SelectedIndex + 1);
         }
 
         private void Loop(object sender, EventArgs e) {
@@ -505,7 +515,8 @@ namespace PPTMonitor {
             scp.PlugIn(1);
             gamepadPluggedIn = true;
 
-            //menuStartFrames = GameHelper.getMenuFrameCount(PPT);
+            valueMisaMinoLevel.SelectedIndex = 9;
+            valueMisaMinoStyle.SelectedIndex = 0;
         }
 
         void MainForm_Closing(object sender, EventArgs e) {
