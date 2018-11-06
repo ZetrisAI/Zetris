@@ -60,13 +60,13 @@ namespace PPTMonitor {
         )) + 0x38;
 
         public static int getPlayerCount(VAMemory Game) {
-            int ret = Game.ReadInt16(new IntPtr(
+            int ret = Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         0x140473760
                     )) + 0x20
-                )) + 0xD8
-            )) - 0x24;
+                )) + 0xB4
+            ));
 
             if (ret > 4) ret = 0;
             if (ret < 0) ret = 0;

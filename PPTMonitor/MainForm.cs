@@ -44,8 +44,11 @@ namespace PPTMonitor {
                 process.Kill();
             }
 
-            Thread.Sleep(10000);
+            EnsureGame();
 
+            Thread.Sleep(10000);
+            
+            EnsureGame();
             Process.Start("steam://rungameid/546050");
             ratingSafe = 0;
             currentRating = 0;
@@ -117,13 +120,13 @@ namespace PPTMonitor {
 
             globalFrames = GameHelper.getMenuFrameCount(PPT);
 
-            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers == 1 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
+            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 ResetGame();                
                 return;
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (numplayers == 1) {
+                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4) {
                     ResetGame();
                     return;
                 }
