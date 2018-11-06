@@ -55,11 +55,16 @@
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.valueTraining = new System.Windows.Forms.CheckBox();
+            this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
+            this.labelBehavior = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
             this.panelGame.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -197,7 +202,7 @@
             this.panelGame.Controls.Add(this.labelPlayers);
             this.panelGame.Location = new System.Drawing.Point(9, 110);
             this.panelGame.Name = "panelGame";
-            this.panelGame.Size = new System.Drawing.Size(158, 122);
+            this.panelGame.Size = new System.Drawing.Size(158, 87);
             this.panelGame.TabIndex = 11;
             // 
             // valueGameRunning
@@ -269,7 +274,7 @@
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
-            this.panel1.Location = new System.Drawing.Point(9, 238);
+            this.panel1.Location = new System.Drawing.Point(9, 203);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(158, 116);
             this.panel1.TabIndex = 11;
@@ -360,12 +365,57 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel2.Controls.Add(this.valueTraining);
+            this.panel2.Controls.Add(this.valuePuzzleLeague);
+            this.panel2.Controls.Add(this.labelBehavior);
+            this.panel2.Location = new System.Drawing.Point(9, 325);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(158, 60);
+            this.panel2.TabIndex = 13;
+            // 
+            // valueTraining
+            // 
+            this.valueTraining.AutoSize = true;
+            this.valueTraining.Location = new System.Drawing.Point(6, 40);
+            this.valueTraining.Name = "valueTraining";
+            this.valueTraining.Size = new System.Drawing.Size(117, 17);
+            this.valueTraining.TabIndex = 2;
+            this.valueTraining.Text = "Multiplayer Training";
+            this.valueTraining.UseVisualStyleBackColor = true;
+            this.valueTraining.CheckedChanged += new System.EventHandler(this.valueTraining_CheckedChanged);
+            // 
+            // valuePuzzleLeague
+            // 
+            this.valuePuzzleLeague.AutoSize = true;
+            this.valuePuzzleLeague.Location = new System.Drawing.Point(6, 22);
+            this.valuePuzzleLeague.Name = "valuePuzzleLeague";
+            this.valuePuzzleLeague.Size = new System.Drawing.Size(151, 17);
+            this.valuePuzzleLeague.TabIndex = 2;
+            this.valuePuzzleLeague.Text = "Auto Puzzle League Menu";
+            this.valuePuzzleLeague.UseVisualStyleBackColor = true;
+            this.valuePuzzleLeague.CheckedChanged += new System.EventHandler(this.valuePuzzleLeague_CheckedChanged);
+            // 
+            // labelBehavior
+            // 
+            this.labelBehavior.AutoSize = true;
+            this.labelBehavior.BackColor = System.Drawing.Color.Transparent;
+            this.labelBehavior.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelBehavior.Location = new System.Drawing.Point(5, 5);
+            this.labelBehavior.Name = "labelBehavior";
+            this.labelBehavior.Size = new System.Drawing.Size(57, 13);
+            this.labelBehavior.TabIndex = 1;
+            this.labelBehavior.Text = "Behavior";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
             this.ClientSize = new System.Drawing.Size(489, 395);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelGame);
             this.Controls.Add(this.panelGamepad);
@@ -385,6 +435,8 @@
             this.panelGame.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -416,6 +468,10 @@
         private System.Windows.Forms.Label labelMisaMinoLevel;
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.CheckBox valueTraining;
+        private System.Windows.Forms.CheckBox valuePuzzleLeague;
+        private System.Windows.Forms.Label labelBehavior;
     }
 }
 

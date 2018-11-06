@@ -100,6 +100,9 @@ namespace PPTMonitor {
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
+            if (valueTraining.Checked)
+                playerID = 1 - playerID;
+
             int temp = GameHelper.getRating(PPT);
 
             if (temp != currentRating) {
@@ -434,7 +437,7 @@ namespace PPTMonitor {
 
                 frames = nextFrame;
 
-            } else {
+            } else if (valuePuzzleLeague.Checked) {
                 int mode = GameHelper.CurrentMode(PPT);
                 gamepad.Buttons = X360Buttons.None;
 
@@ -468,6 +471,15 @@ namespace PPTMonitor {
                         }
                     }
                 }
+
+            } else if (valueTraining.Checked) {
+                gamepad.Buttons = X360Buttons.None;
+
+                if (menuFrames % 2 == 0) {
+                    if (GameHelper.OutsideMenu(PPT)) {
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
+                }
             }
 
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
@@ -492,12 +504,39 @@ namespace PPTMonitor {
             valueGlobalFrames.Text = globalFrames.ToString();
 
             valueMisaMinoState.Text = inMatch? "Match" : "Menu";
-            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
             valueInstructions.Text = String.Join(", ", movements);
+            
+            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
+        }
+
+        bool checkboxEvents = true;
+
+        private void valuePuzzleLeague_CheckedChanged(object sender, EventArgs e) {
+            if (checkboxEvents)
+                if (inMatch) {
+                    checkboxEvents = false;
+                    valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
+                    checkboxEvents = true;
+
+                } else if (valuePuzzleLeague.Checked) {
+                    valueTraining.Checked = false;
+                }
+        }
+
+        private void valueTraining_CheckedChanged(object sender, EventArgs e) {
+            if (checkboxEvents)
+                if (inMatch) {
+                    checkboxEvents = false;
+                    valueTraining.Checked = !valueTraining.Checked;
+                    checkboxEvents = true;
+
+                } else if (valueTraining.Checked) {
+                    valuePuzzleLeague.Checked = false;
+                }
         }
 
         private void Loop(object sender, EventArgs e) {
