@@ -325,6 +325,7 @@
             "T-Spin",
             "Combo",
             "No Hold",
+            "4-Wide",
             "Downstack"});
             this.valueMisaMinoStyle.Location = new System.Drawing.Point(47, 51);
             this.valueMisaMinoStyle.MaxDropDownItems = 5;
