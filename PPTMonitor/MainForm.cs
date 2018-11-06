@@ -478,7 +478,7 @@ namespace PPTMonitor {
         private void updateUI() {
             if (inMatch) {
                 UIHelper.drawBoard(board1, board[playerID]);
-                UIHelper.drawBoard(board2, board[1]);
+                UIHelper.drawBoard(board2, board[1 - playerID]);
             } else {
                 board1.Image = board2.Image = null;
             }
@@ -496,12 +496,8 @@ namespace PPTMonitor {
             valueInstructions.Text = String.Join(", ", movements);
         }
 
-        private void valueMisaMinoLevel_SelectedIndexChanged(object sender, EventArgs e) {
-            MisaMino.updateLevel(valueMisaMinoLevel.SelectedIndex + 1);
-        }
-
-        private void valueMisaMinoStyle_SelectedIndexChanged(object sender, EventArgs e) {
-            MisaMino.updateStyle(valueMisaMinoStyle.SelectedIndex + 1);
+        private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
+            MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
         }
 
         private void Loop(object sender, EventArgs e) {
@@ -518,8 +514,10 @@ namespace PPTMonitor {
             scp.PlugIn(1);
             gamepadPluggedIn = true;
 
-            valueMisaMinoLevel.SelectedIndex = 9;
+            valueMisaMinoLevel.SelectedIndex = 4;
             valueMisaMinoStyle.SelectedIndex = 0;
+
+            valueMisaMino_SelectedIndexChanged(sender, e);
         }
 
         void MainForm_Closing(object sender, EventArgs e) {

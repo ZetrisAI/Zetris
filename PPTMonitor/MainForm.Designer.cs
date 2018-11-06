@@ -44,7 +44,6 @@
             this.panelGame = new System.Windows.Forms.Panel();
             this.valueGameRunning = new System.Windows.Forms.Label();
             this.labelGame = new System.Windows.Forms.Label();
-            this.buttonRehook = new System.Windows.Forms.Button();
             this.labelGlobalFrames = new System.Windows.Forms.Label();
             this.labelMatchFrames = new System.Windows.Forms.Label();
             this.valueGlobalFrames = new System.Windows.Forms.Label();
@@ -190,7 +189,6 @@
             this.panelGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panelGame.Controls.Add(this.valueGameRunning);
             this.panelGame.Controls.Add(this.labelGame);
-            this.panelGame.Controls.Add(this.buttonRehook);
             this.panelGame.Controls.Add(this.labelGlobalFrames);
             this.panelGame.Controls.Add(this.valuePlayers);
             this.panelGame.Controls.Add(this.labelMatchFrames);
@@ -223,18 +221,6 @@
             this.labelGame.Size = new System.Drawing.Size(67, 13);
             this.labelGame.TabIndex = 1;
             this.labelGame.Text = "PPT Client";
-            // 
-            // buttonRehook
-            // 
-            this.buttonRehook.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonRehook.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonRehook.Location = new System.Drawing.Point(5, 93);
-            this.buttonRehook.Name = "buttonRehook";
-            this.buttonRehook.Size = new System.Drawing.Size(148, 24);
-            this.buttonRehook.TabIndex = 9;
-            this.buttonRehook.Text = "Rehook to Process";
-            this.buttonRehook.UseVisualStyleBackColor = true;
-            this.buttonRehook.Click += new System.EventHandler(this.RehookProcess);
             // 
             // labelGlobalFrames
             // 
@@ -306,12 +292,12 @@
             "8",
             "9",
             "10"});
-            this.valueMisaMinoLevel.Location = new System.Drawing.Point(47, 26);
+            this.valueMisaMinoLevel.Location = new System.Drawing.Point(47, 50);
             this.valueMisaMinoLevel.MaxDropDownItems = 5;
             this.valueMisaMinoLevel.Name = "valueMisaMinoLevel";
             this.valueMisaMinoLevel.Size = new System.Drawing.Size(106, 21);
             this.valueMisaMinoLevel.TabIndex = 12;
-            this.valueMisaMinoLevel.SelectedIndexChanged += new System.EventHandler(this.valueMisaMinoLevel_SelectedIndexChanged);
+            this.valueMisaMinoLevel.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
             // valueMisaMinoStyle
             // 
@@ -327,12 +313,12 @@
             "No Hold",
             "4-Wide",
             "Downstack"});
-            this.valueMisaMinoStyle.Location = new System.Drawing.Point(47, 51);
+            this.valueMisaMinoStyle.Location = new System.Drawing.Point(47, 26);
             this.valueMisaMinoStyle.MaxDropDownItems = 5;
             this.valueMisaMinoStyle.Name = "valueMisaMinoStyle";
             this.valueMisaMinoStyle.Size = new System.Drawing.Size(106, 21);
             this.valueMisaMinoStyle.TabIndex = 12;
-            this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMinoStyle_SelectedIndexChanged);
+            this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
             // valueMisaMinoState
             // 
@@ -359,7 +345,7 @@
             // labelMisaMinoStyle
             // 
             this.labelMisaMinoStyle.AutoSize = true;
-            this.labelMisaMinoStyle.Location = new System.Drawing.Point(5, 55);
+            this.labelMisaMinoStyle.Location = new System.Drawing.Point(5, 30);
             this.labelMisaMinoStyle.Name = "labelMisaMinoStyle";
             this.labelMisaMinoStyle.Size = new System.Drawing.Size(33, 13);
             this.labelMisaMinoStyle.TabIndex = 4;
@@ -368,7 +354,7 @@
             // labelMisaMinoLevel
             // 
             this.labelMisaMinoLevel.AutoSize = true;
-            this.labelMisaMinoLevel.Location = new System.Drawing.Point(5, 30);
+            this.labelMisaMinoLevel.Location = new System.Drawing.Point(5, 54);
             this.labelMisaMinoLevel.Name = "labelMisaMinoLevel";
             this.labelMisaMinoLevel.Size = new System.Drawing.Size(36, 13);
             this.labelMisaMinoLevel.TabIndex = 4;
@@ -419,7 +405,6 @@
         private System.Windows.Forms.Panel panelGame;
         private System.Windows.Forms.Label valueGameRunning;
         private System.Windows.Forms.Label labelGame;
-        private System.Windows.Forms.Button buttonRehook;
         private System.Windows.Forms.Label labelGlobalFrames;
         private System.Windows.Forms.Label labelMatchFrames;
         private System.Windows.Forms.Label valueGlobalFrames;
