@@ -193,51 +193,16 @@ namespace PPTMonitor {
 
         private void processInput() {
             if (movements.Count > 0) {
-                switch (movements[0]) {
-                    case Instruction.NULL:
-                        movements.RemoveAt(0);
-                        inputStarted = false;
-                        processInput();
-                        break;
-
-                    case Instruction.L:
-                        if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1;
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Left;
-                            }
-                        }
-                        break;
-
-                    case Instruction.R:
-                        if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1;
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Right;
-                            }
-                        }
-                        break;
-
-                    case Instruction.LL:
-                        if (!inputStarted) {
+                if (!inputStarted) {
+                    switch (movements[0]) {
+                        case Instruction.NULL:  inputGoal = -1; break;
+                        case Instruction.L:     inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1; break;
+                        case Instruction.R:     inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1; break;
+                        case Instruction.D:     inputGoal = GameHelper.getPiecePositionY(PPT, playerID) + 1; break;
+                        case Instruction.DROP:  inputGoal = 1; break;
+                        case Instruction.HOLD:  inputGoal = GameHelper.getHoldPointer(PPT, playerID); break;
+                        
+                        case Instruction.LL:
                             inputGoal = InputHelper.FindInputGoalX(
                                 board[playerID],
                                 pieceUsed,
@@ -246,27 +211,14 @@ namespace PPTMonitor {
                                 GameHelper.getPieceRotation(PPT, playerID),
                                 -1
                             );
+
                             if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.R) {
                                 inputGoal++;
                                 movements.RemoveAt(1);
                             }
-                            inputStarted = true;
-                        }
+                            break;
 
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Left;
-                            }
-                        }
-                        break;
-
-                    case Instruction.RR:
-                        if (!inputStarted) {
+                        case Instruction.RR:
                             inputGoal = InputHelper.FindInputGoalX(
                                 board[playerID],
                                 pieceUsed,
@@ -275,45 +227,14 @@ namespace PPTMonitor {
                                 GameHelper.getPieceRotation(PPT, playerID),
                                 1
                             );
+
                             if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.L) {
                                 inputGoal--;
                                 movements.RemoveAt(1);
                             }
-                            inputStarted = true;
-                        }
+                            break;
 
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionX(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Right;
-                            }
-                        }
-                        break;
-
-                    case Instruction.D:
-                        if (!inputStarted) {
-                            inputGoal = GameHelper.getPiecePositionY(PPT, playerID) + 1;
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionY(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Down;
-                            }
-                        }
-                        break;
-
-                    case Instruction.DD:
-                        if (!inputStarted) {
+                        case Instruction.DD:
                             inputGoal = InputHelper.FindInputGoalY(
                                 board[playerID],
                                 pieceUsed,
@@ -321,95 +242,54 @@ namespace PPTMonitor {
                                 GameHelper.getPiecePositionY(PPT, playerID),
                                 GameHelper.getPieceRotation(PPT, playerID)
                             );
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getPiecePositionY(PPT, playerID) == inputGoal) {
-                                softdrop = false;
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                softdrop = true;
-                            }
-                        }
-                        break;
-
-                    case Instruction.LSPIN:
-                        if (!inputStarted) {
+                            break;
+                        
+                        case Instruction.LSPIN:
                             inputGoal = GameHelper.getPieceRotation(PPT, playerID) - 1;
-                            if (inputGoal == -1) inputGoal = 3;
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getPieceRotation(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.A;
-                            }
-                        }
-                        break;
-
-                    case Instruction.RSPIN:
-                        if (!inputStarted) {
+                            if (inputGoal < 0) inputGoal = 3;
+                            break;
+                        case Instruction.RSPIN:
                             inputGoal = GameHelper.getPieceRotation(PPT, playerID) + 1;
-                            if (inputGoal == 4) inputGoal = 0;
-                            inputStarted = true;
-                        }
+                            if (inputGoal > 3) inputGoal = 0;
+                            break;
+                    }
 
-                        if (inputStarted) {
-                            if (GameHelper.getPieceRotation(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.B;
-                            }
-                        }
-                        break;
+                    inputStarted = true;
+                }
 
-                    case Instruction.DROP:
-                        if (!inputStarted) {
-                            inputGoal = 1;
-                            inputStarted = true;
-                        }
+                int inputCurrent = -1;
+                switch (movements[0]) {
+                    case Instruction.NULL:  inputCurrent = -1; break;
+                    case Instruction.L:
+                    case Instruction.R:
+                    case Instruction.LL:
+                    case Instruction.RR:    inputCurrent = GameHelper.getPiecePositionX(PPT, playerID); break;
+                    case Instruction.D:
+                    case Instruction.DD:    inputCurrent = GameHelper.getPiecePositionY(PPT, playerID); break;
+                    case Instruction.LSPIN:
+                    case Instruction.RSPIN: inputCurrent = GameHelper.getPieceRotation(PPT, playerID); break;
+                    case Instruction.DROP:  inputCurrent = GameHelper.getPieceDropped(PPT, playerID); break;
+                    case Instruction.HOLD:  inputCurrent = (GameHelper.getHoldPointer(PPT, playerID) != inputGoal && GameHelper.getHoldPointer(PPT, playerID) > 0x08000000)? inputGoal : 0; break;
+                }
 
-                        if (inputStarted) {
-                            if (GameHelper.getPieceDropped(PPT, playerID) == inputGoal) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Up;
-                            }
-                        }
-                        break;
-
-                    case Instruction.HOLD:
-                        if (!inputStarted) {
-                            inputGoal = GameHelper.getHoldPointer(PPT, playerID);
-                            inputStarted = true;
-                        }
-
-                        if (inputStarted) {
-                            if (GameHelper.getHoldPointer(PPT, playerID) != inputGoal && GameHelper.getHoldPointer(PPT, playerID) > 0x08000000) {
-                                movements.RemoveAt(0);
-                                inputStarted = false;
-                                processInput();
-                                break;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.LeftBumper;
-                            }
-                        }
-                        break;
+                if (inputCurrent == inputGoal) {
+                    softdrop = false;
+                    movements.RemoveAt(0);
+                    inputStarted = false;
+                    processInput();
+                    return;
+                    
+                } else switch (movements[0]) {
+                    case Instruction.L:
+                    case Instruction.LL:    gamepad.Buttons |= X360Buttons.Left; break;
+                    case Instruction.R:
+                    case Instruction.RR:    gamepad.Buttons |= X360Buttons.Right; break;
+                    case Instruction.D:
+                    case Instruction.DD:    softdrop = true; break;
+                    case Instruction.LSPIN: gamepad.Buttons |= X360Buttons.A; break;
+                    case Instruction.RSPIN: gamepad.Buttons |= X360Buttons.B; break;
+                    case Instruction.DROP:  gamepad.Buttons |= X360Buttons.Up; break;
+                    case Instruction.HOLD:  gamepad.Buttons |= X360Buttons.LeftBumper; break;
                 }
             }
         }
