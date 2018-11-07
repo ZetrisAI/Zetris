@@ -100,7 +100,7 @@ namespace PPTMonitor {
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
-            if (valueTraining.Checked)
+            if (GameHelper.InMultiplayer(PPT))
                 playerID = 1 - playerID;
 
             int temp = GameHelper.getRating(PPT);
@@ -246,11 +246,9 @@ namespace PPTMonitor {
                                 GameHelper.getPieceRotation(PPT, playerID),
                                 -1
                             );
-                            if (movements.Count > 1) {
-                                if (movements[1] == Instruction.R) {
-                                    inputGoal++;
-                                    movements.RemoveAt(1);
-                                }
+                            if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.R) {
+                                inputGoal++;
+                                movements.RemoveAt(1);
                             }
                             inputStarted = true;
                         }
@@ -277,11 +275,9 @@ namespace PPTMonitor {
                                 GameHelper.getPieceRotation(PPT, playerID),
                                 1
                             );
-                            if (movements.Count > 1) {
-                                if (movements[1] == Instruction.L) {
-                                    inputGoal--;
-                                    movements.RemoveAt(1);
-                                }
+                            if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.L) {
+                                inputGoal--;
+                                movements.RemoveAt(1);
                             }
                             inputStarted = true;
                         }
@@ -472,7 +468,7 @@ namespace PPTMonitor {
                     }
                 }
 
-            } else if (valueTraining.Checked) {
+            } else if (GameHelper.InMultiplayer(PPT)) {
                 gamepad.Buttons = X360Buttons.None;
 
                 if (menuFrames % 2 == 0) {
@@ -516,27 +512,19 @@ namespace PPTMonitor {
         bool checkboxEvents = true;
 
         private void valuePuzzleLeague_CheckedChanged(object sender, EventArgs e) {
-            if (checkboxEvents)
-                if (inMatch) {
-                    checkboxEvents = false;
-                    valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
-                    checkboxEvents = true;
-
-                } else if (valuePuzzleLeague.Checked) {
-                    valueTraining.Checked = false;
-                }
+            if (checkboxEvents && inMatch) {
+                checkboxEvents = false;
+                valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
+                checkboxEvents = true;
+            }
         }
 
-        private void valueTraining_CheckedChanged(object sender, EventArgs e) {
-            if (checkboxEvents)
-                if (inMatch) {
-                    checkboxEvents = false;
-                    valueTraining.Checked = !valueTraining.Checked;
-                    checkboxEvents = true;
-
-                } else if (valueTraining.Checked) {
-                    valuePuzzleLeague.Checked = false;
-                }
+        private void valueDASTapback_CheckedChanged(object sender, EventArgs e) {
+            if (checkboxEvents && inMatch) {
+                checkboxEvents = false;
+                valueDASTapback.Checked = !valueDASTapback.Checked;
+                checkboxEvents = true;
+            }
         }
 
         private void Loop(object sender, EventArgs e) {

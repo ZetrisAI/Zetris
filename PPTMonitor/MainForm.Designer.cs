@@ -49,6 +49,7 @@
             this.valueGlobalFrames = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.valueDASTapback = new System.Windows.Forms.CheckBox();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoState = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.valueTraining = new System.Windows.Forms.CheckBox();
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
             this.labelBehavior = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
@@ -124,8 +124,9 @@
             // 
             // valueInstructions
             // 
+            this.valueInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.valueInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueInstructions.Location = new System.Drawing.Point(5, 78);
+            this.valueInstructions.Location = new System.Drawing.Point(5, 96);
             this.valueInstructions.Name = "valueInstructions";
             this.valueInstructions.Size = new System.Drawing.Size(148, 32);
             this.valueInstructions.TabIndex = 1;
@@ -267,6 +268,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel1.Controls.Add(this.valueDASTapback);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
             this.panel1.Controls.Add(this.valueMisaMinoState);
@@ -276,8 +278,21 @@
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
             this.panel1.Location = new System.Drawing.Point(9, 203);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 116);
+            this.panel1.Size = new System.Drawing.Size(158, 134);
             this.panel1.TabIndex = 11;
+            // 
+            // valueDASTapback
+            // 
+            this.valueDASTapback.AutoSize = true;
+            this.valueDASTapback.Checked = true;
+            this.valueDASTapback.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.valueDASTapback.Location = new System.Drawing.Point(6, 75);
+            this.valueDASTapback.Name = "valueDASTapback";
+            this.valueDASTapback.Size = new System.Drawing.Size(137, 17);
+            this.valueDASTapback.TabIndex = 2;
+            this.valueDASTapback.Text = "Optimize DAS Tapback";
+            this.valueDASTapback.UseVisualStyleBackColor = true;
+            this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
             // 
             // valueMisaMinoLevel
             // 
@@ -368,24 +383,12 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel2.Controls.Add(this.valueTraining);
             this.panel2.Controls.Add(this.valuePuzzleLeague);
             this.panel2.Controls.Add(this.labelBehavior);
-            this.panel2.Location = new System.Drawing.Point(9, 325);
+            this.panel2.Location = new System.Drawing.Point(9, 343);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 60);
+            this.panel2.Size = new System.Drawing.Size(158, 42);
             this.panel2.TabIndex = 13;
-            // 
-            // valueTraining
-            // 
-            this.valueTraining.AutoSize = true;
-            this.valueTraining.Location = new System.Drawing.Point(6, 40);
-            this.valueTraining.Name = "valueTraining";
-            this.valueTraining.Size = new System.Drawing.Size(117, 17);
-            this.valueTraining.TabIndex = 2;
-            this.valueTraining.Text = "Multiplayer Training";
-            this.valueTraining.UseVisualStyleBackColor = true;
-            this.valueTraining.CheckedChanged += new System.EventHandler(this.valueTraining_CheckedChanged);
             // 
             // valuePuzzleLeague
             // 
@@ -469,9 +472,9 @@
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.CheckBox valueTraining;
         private System.Windows.Forms.CheckBox valuePuzzleLeague;
         private System.Windows.Forms.Label labelBehavior;
+        private System.Windows.Forms.CheckBox valueDASTapback;
     }
 }
 
