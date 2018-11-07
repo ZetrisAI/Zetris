@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2AA66E25-BFCB-4B34-8BB3-E5A1046A7B5B}</ProjectGuid>
+    <ProjectGuid>{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Zetris</RootNamespace>
     <AssemblyName>Zetris</AssemblyName>

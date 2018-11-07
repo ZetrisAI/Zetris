@@ -1,0 +1,17 @@
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\libtetris_ai.dll
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\MisaMinoNET.dll
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\ScpDriverInterface.dll
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\VAMemory.dll
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\MisaMinoNET.pdb
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\ScpDriverInterface.xml
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.csprojAssemblyReference.cache
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.csproj.GenerateResource.cache
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.csproj.CoreCompileInputs.cache
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.csproj.CopyComplete
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\Zetris.exe.config
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\Zetris.exe
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\bin\x64\Release\Zetris.pdb
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.Properties.Resources.resources
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.exe
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.pdb
+C:\Users\mat1jaczyyy\Desktop\puyopuyotetris-monitor\PPTMonitor\obj\x64\Release\Zetris.MainForm.resources
