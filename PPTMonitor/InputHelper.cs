@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PPTMonitor {
+﻿namespace Zetris {
     public class InputHelper {
         private static int[][][,] pieces = new int[7][][,] {
             new int[4][,] { // S

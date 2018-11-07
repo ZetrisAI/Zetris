@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace PPTMonitor {
+namespace Zetris {
     class UIHelper {
         public static Color getTetrominoColor(int x) {
             switch (x) {

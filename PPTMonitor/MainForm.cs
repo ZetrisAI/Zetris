@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using MisaMinoNET;
 using ScpDriverInterface;
 
-namespace PPTMonitor {
+namespace Zetris {
     public partial class MainForm : Form {
         public MainForm() {
             InitializeComponent();

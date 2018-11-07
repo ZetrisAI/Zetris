@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PPTMonitor {
+namespace Zetris {
     class GameHelper {
         public static bool OutsideMenu(VAMemory Game) {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;

@@ -1,4 +1,4 @@
-﻿namespace PPTMonitor
+﻿namespace Zetris
 {
     partial class MainForm
     {
