@@ -12,7 +12,7 @@ namespace Zetris {
 
         public static bool InMultiplayer(VAMemory Game) => Game.ReadByte(new IntPtr(
             0x140573858
-        )) != 0;
+        )) == 3;
 
         public static int MenuHighlighted(VAMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
