@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
             this.valuePlayers = new System.Windows.Forms.Label();
             this.board2 = new System.Windows.Forms.PictureBox();
@@ -49,6 +50,7 @@
             this.valueGlobalFrames = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelMisakamm = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoState = new System.Windows.Forms.Label();
@@ -58,7 +60,6 @@
             this.labelZetris = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelDeveloper = new System.Windows.Forms.Label();
-            this.labelMisakamm = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
@@ -281,6 +282,18 @@
             this.panel1.Size = new System.Drawing.Size(158, 134);
             this.panel1.TabIndex = 11;
             // 
+            // labelMisakamm
+            // 
+            this.labelMisakamm.AutoSize = true;
+            this.labelMisakamm.BackColor = System.Drawing.Color.Transparent;
+            this.labelMisakamm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMisakamm.Location = new System.Drawing.Point(1, 115);
+            this.labelMisakamm.Name = "labelMisakamm";
+            this.labelMisakamm.Size = new System.Drawing.Size(156, 13);
+            this.labelMisakamm.TabIndex = 2;
+            this.labelMisakamm.Text = "AI by misakamm and jezevec10";
+            this.labelMisakamm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // valueMisaMinoLevel
             // 
             this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
@@ -399,18 +412,6 @@
             this.labelDeveloper.Text = "Developed by mat1jaczyyy";
             this.labelDeveloper.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // labelMisakamm
-            // 
-            this.labelMisakamm.AutoSize = true;
-            this.labelMisakamm.BackColor = System.Drawing.Color.Transparent;
-            this.labelMisakamm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisakamm.Location = new System.Drawing.Point(1, 115);
-            this.labelMisakamm.Name = "labelMisakamm";
-            this.labelMisakamm.Size = new System.Drawing.Size(156, 13);
-            this.labelMisakamm.TabIndex = 2;
-            this.labelMisakamm.Text = "AI by misakamm and jezevec10";
-            this.labelMisakamm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,8 +426,9 @@
             this.Controls.Add(this.board1);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
-            this.Text = "Zetris Console";
+            this.Text = "Zetris";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
