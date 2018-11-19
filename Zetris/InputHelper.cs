@@ -1,6 +1,6 @@
 ﻿namespace Zetris {
     public class InputHelper {
-        private static int[][][,] pieces = new int[7][][,] {
+        private static readonly int[][][,] pieces = new int[7][][,] {
             new int[4][,] { // S
                 new int[,] {
                     {-1, 0, 0, -1},
@@ -280,6 +280,24 @@
 
             fixOutput(piece, ref x, ref y, r);
             return y;
+        }
+
+        public static int FixWall(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            int d = (x > 4)? -1 : 1;
+            while (!FitPiece(board, piece, x, y, r)) {
+                x += d;
+                if (x > 11) {
+                    d = -1;
+                }
+                if (x < -2) {
+                    return -1;
+                }
+            }
+
+            fixOutput(piece, ref x, ref y, r);
+            return x;
         }
     }
 }
