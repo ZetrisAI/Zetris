@@ -127,17 +127,16 @@ namespace Zetris {
                         )) + 0x18
                     ));
 
-
                 case 1:
                     return Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    0x1405989D0
-                                )) + 0x30
-                            )) + 0x20
-                        )) + 0x3C0
-                    )) + 0x50;
+                                    0x1405989D8
+                                )) + 0x28
+                            )) + 0x3C0
+                        )) + 0x18
+                    ));
             }
 
             return -1;
