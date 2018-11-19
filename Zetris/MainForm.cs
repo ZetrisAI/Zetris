@@ -37,29 +37,6 @@ namespace Zetris {
             EnsureGame();
         }
 
-        void ResetGame() {
-            ScanTimer.Enabled = false;
-
-            foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
-                process.Kill();
-            }
-
-            EnsureGame();
-
-            Thread.Sleep(10000);
-            
-            EnsureGame();
-            Process.Start("steam://rungameid/546050");
-            ratingSafe = 0;
-            currentRating = 0;
-
-            Thread.Sleep(15000);
-
-            EnsureGame();
-
-            ScanTimer.Enabled = true;
-        }
-
         ScpBus scp = new ScpBus();
         bool gamepadPluggedIn = false;
         X360Controller gamepad = new X360Controller();
@@ -124,17 +101,7 @@ namespace Zetris {
 
             globalFrames = GameHelper.getMenuFrameCount(PPT);
 
-            if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
-                ResetGame();                
-                return;
-            }
-
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4) {
-                    ResetGame();
-                    return;
-                }
-
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
                 int current = GameHelper.getCurrentPiece(PPT, playerID);
 
@@ -159,15 +126,17 @@ namespace Zetris {
                 }
 
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
-                    movements = MisaMino.FindMove(
-                        pieces, 
-                        current, 
-                        board[playerID], 
-                        GameHelper.getCombo(PPT, playerID), 
-                        GameHelper.getGarbageOverhead(PPT, playerID), 
-                        ref pieceUsed,
-                        ref spinUsed
-                    );
+                    if (GameHelper.CurrentMode(PPT) != 4) {
+                        movements = MisaMino.FindMove(
+                            pieces,
+                            current,
+                            board[playerID],
+                            GameHelper.getCombo(PPT, playerID),
+                            GameHelper.getGarbageOverhead(PPT, playerID),
+                            ref pieceUsed,
+                            ref spinUsed
+                        );
+                    }
                     
                     register = false;
                 }
@@ -217,7 +186,7 @@ namespace Zetris {
                                     -1
                                 );
 
-                                if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.R) {
+                                if (movements.Count > 1 && movements[1] == Instruction.R) {
                                     inputGoal++;
                                     movements.RemoveAt(1);
                                 }
@@ -233,7 +202,7 @@ namespace Zetris {
                                     1
                                 );
 
-                                if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.L) {
+                                if (movements.Count > 1 && movements[1] == Instruction.L) {
                                     inputGoal--;
                                     movements.RemoveAt(1);
                                 }
@@ -430,46 +399,11 @@ namespace Zetris {
 
                 frames = nextFrame;
 
-            } else if (valuePuzzleLeague.Checked) {
-                int mode = GameHelper.CurrentMode(PPT);
+            } else {
                 gamepad.Buttons = X360Buttons.None;
 
                 if (menuFrames % 2 == 0) {
-                    if (GameHelper.OutsideMenu(PPT)) {
-                        gamepad.Buttons |= X360Buttons.A;
-
-                    } else if (mode == 4) {
-                        if (menuStartFrames + 1150 < menuFrames) {
-                            menuStartFrames = menuFrames;
-                        }
-
-                        if (menuStartFrames + 1150 < menuFrames) {
-                            menuStartFrames = menuFrames;
-                        }
-
-                        if (menuStartFrames + 1030 < menuFrames) {
-                            gamepad.Buttons |= X360Buttons.B;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
-
-                    } else if (mode == 1) {
-                        gamepad.Buttons |= X360Buttons.B;
-
-                    } else {
-                        if (GameHelper.MenuHighlighted(PPT) != 4) {
-                            gamepad.Buttons |= X360Buttons.Down;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
-                    }
-                }
-
-            } else if (GameHelper.InMultiplayer(PPT)) {
-                gamepad.Buttons = X360Buttons.None;
-
-                if (menuFrames % 2 == 0) {
-                    if (GameHelper.OutsideMenu(PPT)) {
+                    if (GameHelper.OutsideMenu(PPT) && GameHelper.InMultiplayer(PPT)) {
                         gamepad.Buttons |= X360Buttons.A;
                     }
                 }
@@ -504,24 +438,6 @@ namespace Zetris {
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
-        }
-
-        bool checkboxEvents = true;
-
-        private void valuePuzzleLeague_CheckedChanged(object sender, EventArgs e) {
-            if (checkboxEvents && inMatch) {
-                checkboxEvents = false;
-                valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
-                checkboxEvents = true;
-            }
-        }
-
-        private void valueDASTapback_CheckedChanged(object sender, EventArgs e) {
-            if (checkboxEvents && inMatch) {
-                checkboxEvents = false;
-                valueDASTapback.Checked = !valueDASTapback.Checked;
-                checkboxEvents = true;
-            }
         }
 
         private void Loop(object sender, EventArgs e) {

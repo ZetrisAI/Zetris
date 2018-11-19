@@ -49,16 +49,16 @@
             this.valueGlobalFrames = new System.Windows.Forms.Label();
             this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.valueDASTapback = new System.Windows.Forms.CheckBox();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoState = new System.Windows.Forms.Label();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
+            this.labelZetris = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
-            this.labelBehavior = new System.Windows.Forms.Label();
+            this.labelDeveloper = new System.Windows.Forms.Label();
+            this.labelMisakamm = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
@@ -126,7 +126,7 @@
             // 
             this.valueInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.valueInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueInstructions.Location = new System.Drawing.Point(5, 96);
+            this.valueInstructions.Location = new System.Drawing.Point(5, 77);
             this.valueInstructions.Name = "valueInstructions";
             this.valueInstructions.Size = new System.Drawing.Size(148, 32);
             this.valueInstructions.TabIndex = 1;
@@ -268,7 +268,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel1.Controls.Add(this.valueDASTapback);
+            this.panel1.Controls.Add(this.labelMisakamm);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
             this.panel1.Controls.Add(this.valueMisaMinoState);
@@ -280,19 +280,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(158, 134);
             this.panel1.TabIndex = 11;
-            // 
-            // valueDASTapback
-            // 
-            this.valueDASTapback.AutoSize = true;
-            this.valueDASTapback.Checked = true;
-            this.valueDASTapback.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.valueDASTapback.Location = new System.Drawing.Point(6, 75);
-            this.valueDASTapback.Name = "valueDASTapback";
-            this.valueDASTapback.Size = new System.Drawing.Size(137, 17);
-            this.valueDASTapback.TabIndex = 2;
-            this.valueDASTapback.Text = "Optimize DAS Tapback";
-            this.valueDASTapback.UseVisualStyleBackColor = true;
-            this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
             // 
             // valueMisaMinoLevel
             // 
@@ -380,37 +367,49 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
+            // labelZetris
+            // 
+            this.labelZetris.BackColor = System.Drawing.Color.Transparent;
+            this.labelZetris.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelZetris.Location = new System.Drawing.Point(60, 6);
+            this.labelZetris.Name = "labelZetris";
+            this.labelZetris.Size = new System.Drawing.Size(39, 13);
+            this.labelZetris.TabIndex = 1;
+            this.labelZetris.Text = "Zetris";
+            this.labelZetris.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel2.Controls.Add(this.valuePuzzleLeague);
-            this.panel2.Controls.Add(this.labelBehavior);
+            this.panel2.Controls.Add(this.labelDeveloper);
+            this.panel2.Controls.Add(this.labelZetris);
             this.panel2.Location = new System.Drawing.Point(9, 343);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(158, 42);
             this.panel2.TabIndex = 13;
             // 
-            // valuePuzzleLeague
+            // labelDeveloper
             // 
-            this.valuePuzzleLeague.AutoSize = true;
-            this.valuePuzzleLeague.Location = new System.Drawing.Point(6, 22);
-            this.valuePuzzleLeague.Name = "valuePuzzleLeague";
-            this.valuePuzzleLeague.Size = new System.Drawing.Size(151, 17);
-            this.valuePuzzleLeague.TabIndex = 2;
-            this.valuePuzzleLeague.Text = "Auto Puzzle League Menu";
-            this.valuePuzzleLeague.UseVisualStyleBackColor = true;
-            this.valuePuzzleLeague.CheckedChanged += new System.EventHandler(this.valuePuzzleLeague_CheckedChanged);
+            this.labelDeveloper.BackColor = System.Drawing.Color.Transparent;
+            this.labelDeveloper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDeveloper.Location = new System.Drawing.Point(12, 22);
+            this.labelDeveloper.Name = "labelDeveloper";
+            this.labelDeveloper.Size = new System.Drawing.Size(135, 13);
+            this.labelDeveloper.TabIndex = 2;
+            this.labelDeveloper.Text = "Developed by mat1jaczyyy";
+            this.labelDeveloper.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // labelBehavior
+            // labelMisakamm
             // 
-            this.labelBehavior.AutoSize = true;
-            this.labelBehavior.BackColor = System.Drawing.Color.Transparent;
-            this.labelBehavior.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBehavior.Location = new System.Drawing.Point(5, 5);
-            this.labelBehavior.Name = "labelBehavior";
-            this.labelBehavior.Size = new System.Drawing.Size(57, 13);
-            this.labelBehavior.TabIndex = 1;
-            this.labelBehavior.Text = "Behavior";
+            this.labelMisakamm.AutoSize = true;
+            this.labelMisakamm.BackColor = System.Drawing.Color.Transparent;
+            this.labelMisakamm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMisakamm.Location = new System.Drawing.Point(1, 115);
+            this.labelMisakamm.Name = "labelMisakamm";
+            this.labelMisakamm.Size = new System.Drawing.Size(156, 13);
+            this.labelMisakamm.TabIndex = 2;
+            this.labelMisakamm.Text = "AI by misakamm and jezevec10";
+            this.labelMisakamm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // MainForm
             // 
@@ -439,7 +438,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -471,10 +469,10 @@
         private System.Windows.Forms.Label labelMisaMinoLevel;
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
+        private System.Windows.Forms.Label labelZetris;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.CheckBox valuePuzzleLeague;
-        private System.Windows.Forms.Label labelBehavior;
-        private System.Windows.Forms.CheckBox valueDASTapback;
+        private System.Windows.Forms.Label labelMisakamm;
+        private System.Windows.Forms.Label labelDeveloper;
     }
 }
 
