@@ -1,4 +1,6 @@
-﻿namespace Zetris {
+﻿using System;
+
+namespace Zetris {
     public class InputHelper {
         private static readonly int[][][,] pieces = new int[7][][,] {
             new int[4][,] { // S
@@ -298,6 +300,19 @@
 
             fixOutput(piece, ref x, ref y, r);
             return x;
+        }
+
+        public static int boardHeight(int[,] board) {
+            int ret = 0;
+            for (int i = 0; i < 10; i++) {
+                for (int j = 25; j >= 0; j--) {
+                    if (board[i, j] != -1) {
+                        ret = Math.Max(ret, j + 1);
+                        break;
+                    }
+                }
+            }
+            return ret;
         }
     }
 }

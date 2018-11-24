@@ -166,7 +166,7 @@ namespace Zetris {
 
         private void processInput() {
             if (movements.Count > 0) {
-                if (((spinUsed || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
+                if (((spinUsed || InputHelper.boardHeight(board[playerID]) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
                             case Instruction.NULL: inputGoal = -1; break;
