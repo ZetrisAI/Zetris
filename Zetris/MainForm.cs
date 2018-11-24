@@ -73,7 +73,7 @@ namespace Zetris {
 
         void GamepadConnect(object sender, EventArgs e) {
             scp.UnplugAll();
-            scp.PlugIn(1);
+            scp.PlugIn(4);
             gamepadPluggedIn = true;
         }
 
@@ -476,7 +476,7 @@ namespace Zetris {
             }
 
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
-            scp.Report(1, gamepad.GetReport());
+            scp.Report(4, gamepad.GetReport());
         }
 
 
@@ -535,7 +535,7 @@ namespace Zetris {
 
         void MainForm_Load(object sender, EventArgs e) {
             scp.UnplugAll();
-            scp.PlugIn(1);
+            scp.PlugIn(4);
             gamepadPluggedIn = true;
 
             valueMisaMinoLevel.SelectedIndex = 4;
