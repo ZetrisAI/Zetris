@@ -41,7 +41,12 @@ namespace Zetris {
             using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 25; j++) {
-                        gfx.FillRectangle(new SolidBrush(UIHelper.getTetrominoColor(board[i, j])), i * (canvas.Width / 10), (24 - j) * (canvas.Height / 25), canvas.Width / 10, canvas.Height / 25);
+                        Rectangle mino = new Rectangle(i * (canvas.Width / 10), (24 - j) * (canvas.Height / 25), canvas.Width / 10, canvas.Height / 25);
+                        gfx.FillRectangle(new SolidBrush(UIHelper.getTetrominoColor(board[i, j])), mino);
+
+                        mino.Width--;
+                        mino.Height--;
+                        gfx.DrawRectangle(new Pen(Color.Black), mino);
                     }
                 }
 
