@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Timers;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -97,7 +98,9 @@ namespace Zetris {
         int[] queue = new int[5];
         bool register = false;
 
-        private void runLogic() {
+        private bool runLogic() {
+            bool ret = false;
+
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
@@ -168,7 +171,8 @@ namespace Zetris {
                         ref pieceUsed,
                         ref spinUsed
                     );
-                    
+                    ret = true;
+
                     register = false;
                 }
 
@@ -187,6 +191,8 @@ namespace Zetris {
                     menuStartFrames = GameHelper.getMenuFrameCount(PPT);
                 }
             }
+
+            return ret;
         }
 
         int inputStarted = 0;
@@ -525,12 +531,21 @@ namespace Zetris {
         }
 
         private void Loop(object sender, EventArgs e) {
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+
+            bool logicFrame = false;
+
             if (EnsureGame()) {
-                runLogic();
+                logicFrame = runLogic();
                 applyInputs();
             }
 
             updateUI();
+            timer.Stop();
+
+            label1.Text = $"Cycle: {timer.Elapsed.Milliseconds} ms";
+            if (logicFrame) label2.Text = $"AI Decision: {timer.Elapsed.Milliseconds} ms";
         }
 
         void MainForm_Load(object sender, EventArgs e) {
