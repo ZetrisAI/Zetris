@@ -111,6 +111,7 @@ namespace Zetris {
                         movements = MisaMino.FindMove(
                             pieces,
                             current,
+                            GameHelper.getPiecePositionY(PPT, playerID),
                             board[playerID],
                             GameHelper.getCombo(PPT, playerID),
                             GameHelper.getGarbageOverhead(PPT, playerID),
