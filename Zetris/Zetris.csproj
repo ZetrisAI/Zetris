@@ -89,6 +89,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
       <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
       <Name>MisaMinoNET</Name>
@@ -97,9 +100,6 @@
       <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
       <Name>ProcessMemory</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
