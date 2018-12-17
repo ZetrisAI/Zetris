@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 using MisaMinoNET;
@@ -127,13 +128,13 @@ namespace Zetris {
 
             if (GameHelper.OutsideMenu(PPT) && GameHelper.CurrentMode(PPT) == 4 && numplayers < 2 && GameHelper.boardAddress(PPT, playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount(PPT)) {
                 ResetGame();                
-                return;
+                return false;
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4) {
                     ResetGame();
-                    return;
+                    return false;
                 }
 
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
@@ -495,12 +496,11 @@ namespace Zetris {
             valueGamepadState.Text = gamepadPluggedIn? "Connected" : "Disconnected";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
-            valueGameRunning.Text = (PPT == null)? "Closed" : "Running";
+            valueGameRunning.Text = (PPT == null)? "Closed" : inMatch? "Match" : "Menu";
             valuePlayers.Text = numplayers.ToString();
             valueMatchFrames.Text = frames.ToString();
             valueGlobalFrames.Text = globalFrames.ToString();
-
-            valueMisaMinoState.Text = inMatch? "Match" : "Menu";
+            
             valueInstructions.Text = String.Join(", ", movements);
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
@@ -528,6 +528,8 @@ namespace Zetris {
             }
         }
 
+        int lastAITime = 0;
+
         private void Loop(object sender, EventArgs e) {
             Stopwatch timer = new Stopwatch();
             timer.Start();
@@ -541,9 +543,11 @@ namespace Zetris {
 
             updateUI();
             timer.Stop();
-
-            label1.Text = $"Cycle: {timer.Elapsed.Milliseconds} ms";
-            if (logicFrame) label2.Text = $"AI Decision: {timer.Elapsed.Milliseconds} ms";
+            
+            if (logicFrame)
+                lastAITime = timer.Elapsed.Milliseconds;
+        
+            labelTimings.Text = $"{timer.Elapsed.Milliseconds} / {lastAITime} ms";
         }
 
         void MainForm_Load(object sender, EventArgs e) {

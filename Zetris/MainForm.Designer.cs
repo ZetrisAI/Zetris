@@ -51,17 +51,16 @@
             this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.valueDASTapback = new System.Windows.Forms.CheckBox();
+            this.labelTimings = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
-            this.valueMisaMinoState = new System.Windows.Forms.Label();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
             this.labelBehavior = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelDeveloper = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
@@ -98,7 +97,7 @@
             // 
             this.buttonGamepadDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGamepadDisconnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 65);
+            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 63);
             this.buttonGamepadDisconnect.Name = "buttonGamepadDisconnect";
             this.buttonGamepadDisconnect.Size = new System.Drawing.Size(72, 24);
             this.buttonGamepadDisconnect.TabIndex = 9;
@@ -109,9 +108,9 @@
             // valueGamepadInputs
             // 
             this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadInputs.Location = new System.Drawing.Point(7, 23);
+            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 32);
             this.valueGamepadInputs.Name = "valueGamepadInputs";
-            this.valueGamepadInputs.Size = new System.Drawing.Size(146, 38);
+            this.valueGamepadInputs.Size = new System.Drawing.Size(146, 13);
             this.valueGamepadInputs.TabIndex = 1;
             this.valueGamepadInputs.Text = "?";
             this.valueGamepadInputs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -154,9 +153,9 @@
             this.panelGamepad.Controls.Add(this.buttonGamepadConnect);
             this.panelGamepad.Controls.Add(this.buttonGamepadDisconnect);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
-            this.panelGamepad.Location = new System.Drawing.Point(9, 10);
+            this.panelGamepad.Location = new System.Drawing.Point(9, 243);
             this.panelGamepad.Name = "panelGamepad";
-            this.panelGamepad.Size = new System.Drawing.Size(158, 94);
+            this.panelGamepad.Size = new System.Drawing.Size(158, 92);
             this.panelGamepad.TabIndex = 10;
             // 
             // valueGamepadState
@@ -185,7 +184,7 @@
             // 
             this.buttonGamepadConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGamepadConnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 65);
+            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 63);
             this.buttonGamepadConnect.Name = "buttonGamepadConnect";
             this.buttonGamepadConnect.Size = new System.Drawing.Size(72, 24);
             this.buttonGamepadConnect.TabIndex = 9;
@@ -204,7 +203,7 @@
             this.panelGame.Controls.Add(this.valueGlobalFrames);
             this.panelGame.Controls.Add(this.valueMatchFrames);
             this.panelGame.Controls.Add(this.labelPlayers);
-            this.panelGame.Location = new System.Drawing.Point(9, 110);
+            this.panelGame.Location = new System.Drawing.Point(9, 10);
             this.panelGame.Name = "panelGame";
             this.panelGame.Size = new System.Drawing.Size(158, 87);
             this.panelGame.TabIndex = 11;
@@ -213,9 +212,9 @@
             // 
             this.valueGameRunning.BackColor = System.Drawing.Color.Transparent;
             this.valueGameRunning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGameRunning.Location = new System.Drawing.Point(71, 5);
+            this.valueGameRunning.Location = new System.Drawing.Point(74, 5);
             this.valueGameRunning.Name = "valueGameRunning";
-            this.valueGameRunning.Size = new System.Drawing.Size(82, 13);
+            this.valueGameRunning.Size = new System.Drawing.Size(79, 13);
             this.valueGameRunning.TabIndex = 1;
             this.valueGameRunning.Text = "?";
             this.valueGameRunning.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -272,14 +271,14 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel1.Controls.Add(this.valueDASTapback);
+            this.panel1.Controls.Add(this.labelTimings);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
-            this.panel1.Controls.Add(this.valueMisaMinoState);
             this.panel1.Controls.Add(this.labelMisaMino);
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
-            this.panel1.Location = new System.Drawing.Point(9, 203);
+            this.panel1.Location = new System.Drawing.Point(9, 103);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(158, 134);
             this.panel1.TabIndex = 11;
@@ -296,6 +295,15 @@
             this.valueDASTapback.Text = "Optimize DAS Tapback";
             this.valueDASTapback.UseVisualStyleBackColor = true;
             this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
+            // 
+            // labelTimings
+            // 
+            this.labelTimings.Location = new System.Drawing.Point(82, 5);
+            this.labelTimings.Name = "labelTimings";
+            this.labelTimings.Size = new System.Drawing.Size(71, 13);
+            this.labelTimings.TabIndex = 14;
+            this.labelTimings.Text = "?";
+            this.labelTimings.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // valueMisaMinoLevel
             // 
@@ -342,17 +350,6 @@
             this.valueMisaMinoStyle.Size = new System.Drawing.Size(106, 21);
             this.valueMisaMinoStyle.TabIndex = 12;
             this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
-            // 
-            // valueMisaMinoState
-            // 
-            this.valueMisaMinoState.BackColor = System.Drawing.Color.Transparent;
-            this.valueMisaMinoState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueMisaMinoState.Location = new System.Drawing.Point(87, 5);
-            this.valueMisaMinoState.Name = "valueMisaMinoState";
-            this.valueMisaMinoState.Size = new System.Drawing.Size(66, 13);
-            this.valueMisaMinoState.TabIndex = 1;
-            this.valueMisaMinoState.Text = "?";
-            this.valueMisaMinoState.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // labelMisaMino
             // 
@@ -415,32 +412,19 @@
             this.labelBehavior.TabIndex = 1;
             this.labelBehavior.Text = "Behavior";
             // 
-            // label1
+            // labelDeveloper
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(485, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "Cycle: ";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(485, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "AI Decision: ";
+            this.labelDeveloper.Location = new System.Drawing.Point(0, 0);
+            this.labelDeveloper.Name = "labelDeveloper";
+            this.labelDeveloper.Size = new System.Drawing.Size(100, 23);
+            this.labelDeveloper.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(587, 395);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(490, 395);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelGame);
@@ -465,7 +449,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -490,7 +473,6 @@
         private System.Windows.Forms.Label valueGlobalFrames;
         private System.Windows.Forms.Label labelPlayers;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label valueMisaMinoState;
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelMisaMinoStyle;
         private System.Windows.Forms.Label labelMisaMinoLevel;
@@ -500,10 +482,8 @@
         private System.Windows.Forms.CheckBox valuePuzzleLeague;
         private System.Windows.Forms.Label labelBehavior;
         private System.Windows.Forms.CheckBox valueDASTapback;
-        private System.Windows.Forms.Label labelMisakamm;
         private System.Windows.Forms.Label labelDeveloper;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelTimings;
     }
 }
 
