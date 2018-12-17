@@ -429,12 +429,11 @@ namespace Zetris {
             valueGamepadState.Text = gamepadPluggedIn? "Connected" : "Disconnected";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
-            valueGameRunning.Text = (PPT == null)? "Closed" : "Running";
+            valueGameRunning.Text = (PPT == null)? "Closed" : inMatch? "Match" : "Menu";
             valuePlayers.Text = numplayers.ToString();
             valueMatchFrames.Text = frames.ToString();
             valueGlobalFrames.Text = globalFrames.ToString();
-
-            valueMisaMinoState.Text = inMatch? "Match" : "Menu";
+            
             valueInstructions.Text = String.Join(", ", movements);
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
@@ -443,6 +442,8 @@ namespace Zetris {
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
         }
+
+        int lastAITime = 0;
 
         private void Loop(object sender, EventArgs e) {
             Stopwatch timer = new Stopwatch();
@@ -457,9 +458,11 @@ namespace Zetris {
 
             updateUI();
             timer.Stop();
-
-            label1.Text = $"Cycle: {timer.Elapsed.Milliseconds} ms";
-            if (logicFrame) label2.Text = $"AI Decision: {timer.Elapsed.Milliseconds} ms";
+            
+            if (logicFrame)
+                lastAITime = timer.Elapsed.Milliseconds;
+        
+            labelTimings.Text = $"{timer.Elapsed.Milliseconds} / {lastAITime} ms";
         }
 
         void MainForm_Load(object sender, EventArgs e) {
