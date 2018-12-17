@@ -515,8 +515,12 @@ namespace Zetris {
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            bool logicFrame = runLogic();
-            applyInputs();
+            bool logicFrame = false;
+
+            if (PPT.CheckProcess()) {
+                logicFrame = runLogic();
+                applyInputs();
+            }
 
             updateUI();
             timer.Stop();
