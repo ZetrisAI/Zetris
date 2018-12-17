@@ -49,9 +49,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="VAMemory">
-      <HintPath>.\VAMemory.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameHelper.cs" />
@@ -95,6 +92,10 @@
     <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
       <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
       <Name>MisaMinoNET</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProcessMemory\ProcessMemory\ProcessMemory.csproj">
+      <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
+      <Name>ProcessMemory</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

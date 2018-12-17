@@ -14,27 +14,7 @@ namespace Zetris {
         }
 
         int playerID = 0;
-        VAMemory PPT = new VAMemory("puyopuyotetris");
-
-        bool EnsureGame() {
-            if (PPT == null) {
-                if (Process.GetProcessesByName("puyopuyotetris").Length != 0) {
-                    PPT = new VAMemory("puyopuyotetris");
-                } else {
-                    return false;
-                }
-
-            } else if (Process.GetProcessesByName("puyopuyotetris").Length == 0) {
-                PPT = null;
-                return false;
-            }
-
-            return true;
-        }
-
-        void RehookProcess(object sender, EventArgs e) {
-            EnsureGame();
-        }
+        ProcessMemory PPT = new ProcessMemory("puyopuyotetris");
 
         ScpBus scp = new ScpBus();
         bool gamepadPluggedIn = false;
@@ -449,12 +429,8 @@ namespace Zetris {
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            bool logicFrame = false;
-
-            if (EnsureGame()) {
-                logicFrame = runLogic();
-                applyInputs();
-            }
+            bool logicFrame = runLogic();
+            applyInputs();
 
             updateUI();
             timer.Stop();

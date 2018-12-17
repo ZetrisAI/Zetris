@@ -2,19 +2,19 @@
 
 namespace Zetris {
     class GameHelper {
-        public static bool OutsideMenu(VAMemory Game) {
+        public static bool OutsideMenu(ProcessMemory Game) {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
 
-        public static int CurrentMode(VAMemory Game) => Game.ReadByte(new IntPtr(
+        public static int CurrentMode(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             0x140573854
         ));
 
-        public static bool InMultiplayer(VAMemory Game) => Game.ReadByte(new IntPtr(
+        public static bool InMultiplayer(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             0x140573858
         )) == 3;
 
-        public static int MenuHighlighted(VAMemory Game) => Game.ReadByte(new IntPtr(
+        public static int MenuHighlighted(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140573A78
@@ -22,7 +22,7 @@ namespace Zetris {
             )) + 0x8C
         ));
 
-        public static int PlayerCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int PlayerCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140473760
@@ -30,11 +30,11 @@ namespace Zetris {
             )) + 0xB4
         ));
 
-        public static int LocalSteam(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int LocalSteam(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x1405A2010
         ));
 
-        public static int PlayerSteam(VAMemory Game, int index) => Game.ReadInt32(new IntPtr(
+        public static int PlayerSteam(ProcessMemory Game, int index) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140473760
@@ -42,7 +42,7 @@ namespace Zetris {
             )) + 0x118 + index * 0x50
         ));
 
-        public static int FindPlayer(VAMemory Game) {
+        public static int FindPlayer(ProcessMemory Game) {
             if (PlayerCount(Game) < 2)
                 return 0;
 
@@ -55,11 +55,11 @@ namespace Zetris {
             return 0;
         }
 
-        public static int scoreAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int scoreAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x14057F048
         )) + 0x38;
 
-        public static int getPlayerCount(VAMemory Game) {
+        public static int getPlayerCount(ProcessMemory Game) {
             int ret = Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -74,7 +74,7 @@ namespace Zetris {
             return ret;
         }
 
-        public static int leagueAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int leagueAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -84,7 +84,7 @@ namespace Zetris {
             )) + 0x970
         )) - 0x38;
 
-        public static int prefAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int prefAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -106,15 +106,15 @@ namespace Zetris {
             )) + 0x08
         )) + 0xD4;
 
-        public static int charAddress(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int charAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140460690
         ));
 
-        public static short getRating(VAMemory Game) => Game.ReadInt16(new IntPtr(
+        public static short getRating(ProcessMemory Game) => Game.ReadInt16(new IntPtr(
             0x140599FF0
         ));
 
-        public static int boardAddress(VAMemory Game, int index) {
+        public static int boardAddress(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadInt32(new IntPtr(
@@ -142,7 +142,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int piecesAddress(VAMemory Game, int index) {
+        public static int piecesAddress(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadInt32(new IntPtr(
@@ -168,7 +168,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getCurrentPiece(VAMemory Game, int index) {
+        public static int getCurrentPiece(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadByte(new IntPtr(
@@ -200,7 +200,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPiecePositionX(VAMemory Game, int index) {
+        public static int getPiecePositionX(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadByte(new IntPtr(
@@ -230,7 +230,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPiecePositionY(VAMemory Game, int index) {
+        public static int getPiecePositionY(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadByte(new IntPtr(
@@ -260,7 +260,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPieceRotation(VAMemory Game, int index) {
+        public static int getPieceRotation(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadByte(new IntPtr(
@@ -296,7 +296,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPieceDropped(VAMemory Game, int index) {
+        public static int getPieceDropped(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadByte(new IntPtr(
@@ -332,7 +332,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getHoldPointer(VAMemory Game, int index) {
+        public static int getHoldPointer(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadInt32(new IntPtr(
@@ -364,7 +364,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getGarbageOverhead(VAMemory Game, int index) {
+        public static int getGarbageOverhead(ProcessMemory Game, int index) {
             switch (index) {
                 case 0:
                     return Game.ReadInt32(new IntPtr(
@@ -398,7 +398,7 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getCombo(VAMemory Game, int index) {
+        public static int getCombo(ProcessMemory Game, int index) {
             int ret = -1;
 
             switch (index) {
@@ -426,13 +426,13 @@ namespace Zetris {
             return Math.Max(ret, 0);
         }
 
-        public static int getFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140461B20
             )) + 0x424
         ));
 
-        public static int getBigFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getBigFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -444,7 +444,7 @@ namespace Zetris {
             )) + 0x58
         ));
 
-        public static int getMenuFrameCount(VAMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getMenuFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140461B7C
         ));
     }
