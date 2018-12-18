@@ -143,9 +143,9 @@ namespace Zetris {
                 if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
                     movements = MisaMino.FindMove(
                         pieces, 
-                        current, 
-                        board[playerID],
+                        current,
                         GameHelper.getPiecePositionY(PPT, playerID),
+                        board[playerID],
                         GameHelper.getCombo(PPT, playerID), 
                         GameHelper.getGarbageOverhead(PPT, playerID), 
                         ref pieceUsed,
