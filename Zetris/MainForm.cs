@@ -14,7 +14,7 @@ namespace Zetris {
         }
 
         int playerID = 0;
-        ProcessMemory PPT = new ProcessMemory("puyopuyotetris");
+        ProcessMemory PPT = new ProcessMemory("puyopuyotetris", false);
 
         ScpBus scp = new ScpBus();
         bool gamepadPluggedIn = false;
@@ -84,6 +84,7 @@ namespace Zetris {
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
+
                 int current = GameHelper.getCurrentPiece(PPT, playerID);
 
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
@@ -93,6 +94,8 @@ namespace Zetris {
                 for (i = 0; i < 5; i++) {
                     pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
                 }
+
+                int y = GameHelper.getPiecePositionY(PPT, playerID);
 
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
                     MisaMino.Reset();
@@ -106,12 +109,12 @@ namespace Zetris {
                     register = true;
                 }
 
-                if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
+                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     if (GameHelper.CurrentMode(PPT) != 4) {
                         movements = MisaMino.FindMove(
                             pieces,
                             current,
-                            GameHelper.getPiecePositionY(PPT, playerID),
+                            y,
                             board[playerID],
                             GameHelper.getCombo(PPT, playerID),
                             GameHelper.getGarbageOverhead(PPT, playerID),
@@ -119,6 +122,11 @@ namespace Zetris {
                             ref spinUsed
                         );
                         ret = true;
+
+                        if (movements.Count == 0)
+                        {
+                            throw new Exception();
+                        }
                     }
                     
                     register = false;
@@ -425,6 +433,7 @@ namespace Zetris {
         }
 
         int lastAITime = 0;
+        Stopwatch timer = new Stopwatch();
 
         private void Loop(object sender, EventArgs e) {
             Stopwatch timer = new Stopwatch();
@@ -433,8 +442,12 @@ namespace Zetris {
             bool logicFrame = false;
 
             if (PPT.CheckProcess()) {
+                PPT.TrustProcess = true;
+
                 logicFrame = runLogic();
                 applyInputs();
+
+                PPT.TrustProcess = false;
             }
 
             updateUI();
