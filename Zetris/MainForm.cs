@@ -63,12 +63,10 @@ namespace Zetris {
 
         int currentRating, numplayers, frames, globalFrames;
 
-        int[][,] board = new int[2][,] {
-            new int[10, 40], new int[10, 40]
-        };
+        int[,] board = new int[10, 40];
 
         //int[,] intendedBoard = new int[10, 40];
-       
+
         bool inMatch = false;
         int menuStartFrames = 0;
         int ratingSafe = 0;
@@ -98,13 +96,11 @@ namespace Zetris {
 
             currentRating = temp;
 
-            for (int p = 0; p < 2; p++) {
-                int boardAddress = GameHelper.boardAddress(PPT, p);
-                for (int i = 0; i < 10; i++) {
-                    int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
-                    for (int j = 0; j < 40; j++) {
-                        board[p][i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
-                    }
+            int boardAddress = GameHelper.boardAddress(PPT, playerID);
+            for (int i = 0; i < 10; i++) {
+                int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
+                for (int j = 0; j < 40; j++) {
+                    board[i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
                 }
             }
 
@@ -147,22 +143,19 @@ namespace Zetris {
                     register = true;
                 }
 
-                if ((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) {
+                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     movements = MisaMino.FindMove(
                         pieces, 
                         current,
-                        GameHelper.getPiecePositionY(PPT, playerID),
-                        board[playerID],
+                        y,
+                        board,
                         GameHelper.getCombo(PPT, playerID), 
                         GameHelper.getGarbageOverhead(PPT, playerID), 
                         ref pieceUsed,
                         ref spinUsed
                     );
                     ret = true;
-
-                    if (movements.Count == 0) {
-                        throw new Exception();
-                    }
+                    
                     register = false;
                 }
 
@@ -193,7 +186,7 @@ namespace Zetris {
 
         private void processInput() {
             if (movements.Count > 0) {
-                if (((spinUsed || InputHelper.boardHeight(board[playerID]) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
+                if (((spinUsed || InputHelper.boardHeight(board) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
                             case Instruction.NULL: inputGoal = -1; break;
@@ -205,7 +198,7 @@ namespace Zetris {
 
                             case Instruction.LL:
                                 inputGoal = InputHelper.FindInputGoalX(
-                                    board[playerID],
+                                    board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX(PPT, playerID),
                                     GameHelper.getPiecePositionY(PPT, playerID),
@@ -221,7 +214,7 @@ namespace Zetris {
 
                             case Instruction.RR:
                                 inputGoal = InputHelper.FindInputGoalX(
-                                    board[playerID],
+                                    board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX(PPT, playerID),
                                     GameHelper.getPiecePositionY(PPT, playerID),
@@ -237,7 +230,7 @@ namespace Zetris {
 
                             case Instruction.DD:
                                 inputGoal = InputHelper.FindInputGoalY(
-                                    board[playerID],
+                                    board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX(PPT, playerID),
                                     GameHelper.getPiecePositionY(PPT, playerID),
@@ -309,7 +302,7 @@ namespace Zetris {
 
                                 case Instruction.LL:
                                     desiredX = InputHelper.FindInputGoalX(
-                                        board[playerID],
+                                        board,
                                         pieceUsed,
                                         desiredX,
                                         GameHelper.getPiecePositionY(PPT, playerID),
@@ -320,7 +313,7 @@ namespace Zetris {
 
                                 case Instruction.RR:
                                     desiredX = InputHelper.FindInputGoalX(
-                                        board[playerID],
+                                        board,
                                         pieceUsed,
                                         desiredX,
                                         GameHelper.getPiecePositionY(PPT, playerID),
@@ -341,7 +334,7 @@ namespace Zetris {
                                     }
 
                                     desiredX = InputHelper.FixWall(
-                                        board[playerID],
+                                        board,
                                         pieceUsed,
                                         desiredX,
                                         GameHelper.getPiecePositionY(PPT, playerID),
@@ -361,7 +354,7 @@ namespace Zetris {
                                     }
 
                                     desiredX = InputHelper.FixWall(
-                                        board[playerID],
+                                        board,
                                         pieceUsed,
                                         desiredX,
                                         GameHelper.getPiecePositionY(PPT, playerID),
@@ -477,21 +470,18 @@ namespace Zetris {
 
 
         private void updateUI() {
-            if (inMatch) {
-                UIHelper.drawBoard(board1, board[playerID]);
-                UIHelper.drawBoard(board2, board[1 - playerID]);
-            } else {
-                board1.Image = board2.Image = null;
-            }
+            if (valueDisplayBoard.Checked)
+                if (inMatch) {
+                    UIHelper.drawBoard(board1, board);
+                } else {
+                    board1.Image = null;
+                }
 
             valueGamepadState.Text = gamepadPluggedIn? "Connected" : "Disconnected";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
-            valueGameRunning.Text = (PPT == null)? "Closed" : inMatch? "Match" : "Menu";
-            valuePlayers.Text = numplayers.ToString();
-            valueMatchFrames.Text = frames.ToString();
-            valueGlobalFrames.Text = globalFrames.ToString();
-            
+            valueGameState.Text = PPT.CheckProcess()? (inMatch? "Active (Match)" : "Inactive (Menu)") : "Inactive (Closed)";
+                
             valueInstructions.Text = String.Join(", ", movements);
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
@@ -499,6 +489,10 @@ namespace Zetris {
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
+        }
+        
+        private void valueDisplayBoard_CheckedChanged(object sender, EventArgs e) {
+            Width += valueDisplayBoard.Checked ? 141 : -141;
         }
 
         bool checkboxEvents = true;

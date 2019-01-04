@@ -31,42 +31,32 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
-            this.valuePlayers = new System.Windows.Forms.Label();
-            this.board2 = new System.Windows.Forms.PictureBox();
             this.buttonGamepadDisconnect = new System.Windows.Forms.Button();
             this.valueGamepadInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.valueInstructions = new System.Windows.Forms.Label();
-            this.valueMatchFrames = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
             this.valueGamepadState = new System.Windows.Forms.Label();
             this.labelGamepad = new System.Windows.Forms.Label();
             this.buttonGamepadConnect = new System.Windows.Forms.Button();
-            this.panelGame = new System.Windows.Forms.Panel();
-            this.valueGameRunning = new System.Windows.Forms.Label();
-            this.labelGame = new System.Windows.Forms.Label();
-            this.labelGlobalFrames = new System.Windows.Forms.Label();
-            this.labelMatchFrames = new System.Windows.Forms.Label();
-            this.valueGlobalFrames = new System.Windows.Forms.Label();
-            this.labelPlayers = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.valueDASTapback = new System.Windows.Forms.CheckBox();
+            this.valueGameState = new System.Windows.Forms.Label();
             this.labelTimings = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.valueDASTapback = new System.Windows.Forms.CheckBox();
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
-            this.labelBehavior = new System.Windows.Forms.Label();
             this.labelDeveloper = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.board2)).BeginInit();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.valueDisplayBoard = new System.Windows.Forms.CheckBox();
+            this.labelConfig = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
-            this.panelGame.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -75,29 +65,12 @@
             this.ScanTimer.Interval = 1;
             this.ScanTimer.Tick += new System.EventHandler(this.Loop);
             // 
-            // valuePlayers
-            // 
-            this.valuePlayers.Location = new System.Drawing.Point(110, 30);
-            this.valuePlayers.Name = "valuePlayers";
-            this.valuePlayers.Size = new System.Drawing.Size(43, 13);
-            this.valuePlayers.TabIndex = 4;
-            this.valuePlayers.Text = "?";
-            this.valuePlayers.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // board2
-            // 
-            this.board2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board2.Location = new System.Drawing.Point(329, 10);
-            this.board2.Name = "board2";
-            this.board2.Size = new System.Drawing.Size(150, 375);
-            this.board2.TabIndex = 7;
-            this.board2.TabStop = false;
-            // 
             // buttonGamepadDisconnect
             // 
+            this.buttonGamepadDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGamepadDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGamepadDisconnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 63);
+            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 44);
             this.buttonGamepadDisconnect.Name = "buttonGamepadDisconnect";
             this.buttonGamepadDisconnect.Size = new System.Drawing.Size(72, 24);
             this.buttonGamepadDisconnect.TabIndex = 9;
@@ -108,7 +81,7 @@
             // valueGamepadInputs
             // 
             this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 32);
+            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 24);
             this.valueGamepadInputs.Name = "valueGamepadInputs";
             this.valueGamepadInputs.Size = new System.Drawing.Size(146, 13);
             this.valueGamepadInputs.TabIndex = 1;
@@ -118,9 +91,9 @@
             // board1
             // 
             this.board1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board1.Location = new System.Drawing.Point(173, 10);
+            this.board1.Location = new System.Drawing.Point(177, 10);
             this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(150, 375);
+            this.board1.Size = new System.Drawing.Size(130, 325);
             this.board1.TabIndex = 7;
             this.board1.TabStop = false;
             // 
@@ -135,16 +108,6 @@
             this.valueInstructions.Text = "?";
             this.valueInstructions.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
-            // valueMatchFrames
-            // 
-            this.valueMatchFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueMatchFrames.Location = new System.Drawing.Point(79, 48);
-            this.valueMatchFrames.Name = "valueMatchFrames";
-            this.valueMatchFrames.Size = new System.Drawing.Size(74, 15);
-            this.valueMatchFrames.TabIndex = 1;
-            this.valueMatchFrames.Text = "?";
-            this.valueMatchFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // panelGamepad
             // 
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
@@ -153,9 +116,9 @@
             this.panelGamepad.Controls.Add(this.buttonGamepadConnect);
             this.panelGamepad.Controls.Add(this.buttonGamepadDisconnect);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
-            this.panelGamepad.Location = new System.Drawing.Point(9, 243);
+            this.panelGamepad.Location = new System.Drawing.Point(9, 148);
             this.panelGamepad.Name = "panelGamepad";
-            this.panelGamepad.Size = new System.Drawing.Size(158, 92);
+            this.panelGamepad.Size = new System.Drawing.Size(158, 73);
             this.panelGamepad.TabIndex = 10;
             // 
             // valueGamepadState
@@ -182,9 +145,10 @@
             // 
             // buttonGamepadConnect
             // 
+            this.buttonGamepadConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonGamepadConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonGamepadConnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 63);
+            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 44);
             this.buttonGamepadConnect.Name = "buttonGamepadConnect";
             this.buttonGamepadConnect.Size = new System.Drawing.Size(72, 24);
             this.buttonGamepadConnect.TabIndex = 9;
@@ -192,85 +156,10 @@
             this.buttonGamepadConnect.UseVisualStyleBackColor = true;
             this.buttonGamepadConnect.Click += new System.EventHandler(this.GamepadConnect);
             // 
-            // panelGame
-            // 
-            this.panelGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panelGame.Controls.Add(this.valueGameRunning);
-            this.panelGame.Controls.Add(this.labelGame);
-            this.panelGame.Controls.Add(this.labelGlobalFrames);
-            this.panelGame.Controls.Add(this.valuePlayers);
-            this.panelGame.Controls.Add(this.labelMatchFrames);
-            this.panelGame.Controls.Add(this.valueGlobalFrames);
-            this.panelGame.Controls.Add(this.valueMatchFrames);
-            this.panelGame.Controls.Add(this.labelPlayers);
-            this.panelGame.Location = new System.Drawing.Point(9, 10);
-            this.panelGame.Name = "panelGame";
-            this.panelGame.Size = new System.Drawing.Size(158, 87);
-            this.panelGame.TabIndex = 11;
-            // 
-            // valueGameRunning
-            // 
-            this.valueGameRunning.BackColor = System.Drawing.Color.Transparent;
-            this.valueGameRunning.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGameRunning.Location = new System.Drawing.Point(74, 5);
-            this.valueGameRunning.Name = "valueGameRunning";
-            this.valueGameRunning.Size = new System.Drawing.Size(79, 13);
-            this.valueGameRunning.TabIndex = 1;
-            this.valueGameRunning.Text = "?";
-            this.valueGameRunning.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // labelGame
-            // 
-            this.labelGame.AutoSize = true;
-            this.labelGame.BackColor = System.Drawing.Color.Transparent;
-            this.labelGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGame.Location = new System.Drawing.Point(5, 5);
-            this.labelGame.Name = "labelGame";
-            this.labelGame.Size = new System.Drawing.Size(67, 13);
-            this.labelGame.TabIndex = 1;
-            this.labelGame.Text = "PPT Client";
-            // 
-            // labelGlobalFrames
-            // 
-            this.labelGlobalFrames.AutoSize = true;
-            this.labelGlobalFrames.Location = new System.Drawing.Point(5, 66);
-            this.labelGlobalFrames.Name = "labelGlobalFrames";
-            this.labelGlobalFrames.Size = new System.Drawing.Size(77, 13);
-            this.labelGlobalFrames.TabIndex = 4;
-            this.labelGlobalFrames.Text = "Global Frames:";
-            // 
-            // labelMatchFrames
-            // 
-            this.labelMatchFrames.AutoSize = true;
-            this.labelMatchFrames.Location = new System.Drawing.Point(5, 48);
-            this.labelMatchFrames.Name = "labelMatchFrames";
-            this.labelMatchFrames.Size = new System.Drawing.Size(77, 13);
-            this.labelMatchFrames.TabIndex = 4;
-            this.labelMatchFrames.Text = "Match Frames:";
-            // 
-            // valueGlobalFrames
-            // 
-            this.valueGlobalFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGlobalFrames.Location = new System.Drawing.Point(79, 66);
-            this.valueGlobalFrames.Name = "valueGlobalFrames";
-            this.valueGlobalFrames.Size = new System.Drawing.Size(74, 15);
-            this.valueGlobalFrames.TabIndex = 1;
-            this.valueGlobalFrames.Text = "?";
-            this.valueGlobalFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // labelPlayers
-            // 
-            this.labelPlayers.AutoSize = true;
-            this.labelPlayers.Location = new System.Drawing.Point(5, 30);
-            this.labelPlayers.Name = "labelPlayers";
-            this.labelPlayers.Size = new System.Drawing.Size(99, 13);
-            this.labelPlayers.TabIndex = 4;
-            this.labelPlayers.Text = "Players Connected:";
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel1.Controls.Add(this.valueDASTapback);
+            this.panel1.Controls.Add(this.valueGameState);
             this.panel1.Controls.Add(this.labelTimings);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
@@ -278,23 +167,19 @@
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
-            this.panel1.Location = new System.Drawing.Point(9, 103);
+            this.panel1.Location = new System.Drawing.Point(9, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 134);
+            this.panel1.Size = new System.Drawing.Size(158, 132);
             this.panel1.TabIndex = 11;
             // 
-            // valueDASTapback
+            // valueGameState
             // 
-            this.valueDASTapback.AutoSize = true;
-            this.valueDASTapback.Checked = true;
-            this.valueDASTapback.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.valueDASTapback.Location = new System.Drawing.Point(6, 75);
-            this.valueDASTapback.Name = "valueDASTapback";
-            this.valueDASTapback.Size = new System.Drawing.Size(137, 17);
-            this.valueDASTapback.TabIndex = 2;
-            this.valueDASTapback.Text = "Optimize DAS Tapback";
-            this.valueDASTapback.UseVisualStyleBackColor = true;
-            this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
+            this.valueGameState.Location = new System.Drawing.Point(8, 74);
+            this.valueGameState.Name = "valueGameState";
+            this.valueGameState.Size = new System.Drawing.Size(145, 13);
+            this.valueGameState.TabIndex = 15;
+            this.valueGameState.Text = "?";
+            this.valueGameState.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // labelTimings
             // 
@@ -380,37 +265,29 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
-            // panel2
+            // valueDASTapback
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel2.Controls.Add(this.valuePuzzleLeague);
-            this.panel2.Controls.Add(this.labelBehavior);
-            this.panel2.Location = new System.Drawing.Point(9, 343);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 42);
-            this.panel2.TabIndex = 13;
+            this.valueDASTapback.AutoSize = true;
+            this.valueDASTapback.Checked = true;
+            this.valueDASTapback.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.valueDASTapback.Location = new System.Drawing.Point(5, 57);
+            this.valueDASTapback.Name = "valueDASTapback";
+            this.valueDASTapback.Size = new System.Drawing.Size(137, 17);
+            this.valueDASTapback.TabIndex = 2;
+            this.valueDASTapback.Text = "Optimize DAS Tapback";
+            this.valueDASTapback.UseVisualStyleBackColor = true;
+            this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
             // 
             // valuePuzzleLeague
             // 
             this.valuePuzzleLeague.AutoSize = true;
-            this.valuePuzzleLeague.Location = new System.Drawing.Point(6, 22);
+            this.valuePuzzleLeague.Location = new System.Drawing.Point(5, 40);
             this.valuePuzzleLeague.Name = "valuePuzzleLeague";
             this.valuePuzzleLeague.Size = new System.Drawing.Size(151, 17);
             this.valuePuzzleLeague.TabIndex = 2;
             this.valuePuzzleLeague.Text = "Auto Puzzle League Menu";
             this.valuePuzzleLeague.UseVisualStyleBackColor = true;
             this.valuePuzzleLeague.CheckedChanged += new System.EventHandler(this.valuePuzzleLeague_CheckedChanged);
-            // 
-            // labelBehavior
-            // 
-            this.labelBehavior.AutoSize = true;
-            this.labelBehavior.BackColor = System.Drawing.Color.Transparent;
-            this.labelBehavior.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelBehavior.Location = new System.Drawing.Point(5, 5);
-            this.labelBehavior.Name = "labelBehavior";
-            this.labelBehavior.Size = new System.Drawing.Size(57, 13);
-            this.labelBehavior.TabIndex = 1;
-            this.labelBehavior.Text = "Behavior";
             // 
             // labelDeveloper
             // 
@@ -419,72 +296,93 @@
             this.labelDeveloper.Size = new System.Drawing.Size(100, 23);
             this.labelDeveloper.TabIndex = 0;
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel3.Controls.Add(this.valueDASTapback);
+            this.panel3.Controls.Add(this.valuePuzzleLeague);
+            this.panel3.Controls.Add(this.valueDisplayBoard);
+            this.panel3.Controls.Add(this.labelConfig);
+            this.panel3.Location = new System.Drawing.Point(9, 227);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(158, 78);
+            this.panel3.TabIndex = 10;
+            // 
+            // valueDisplayBoard
+            // 
+            this.valueDisplayBoard.AutoSize = true;
+            this.valueDisplayBoard.Location = new System.Drawing.Point(5, 23);
+            this.valueDisplayBoard.Name = "valueDisplayBoard";
+            this.valueDisplayBoard.Size = new System.Drawing.Size(115, 17);
+            this.valueDisplayBoard.TabIndex = 2;
+            this.valueDisplayBoard.Text = "Display PPT Board";
+            this.valueDisplayBoard.UseVisualStyleBackColor = true;
+            this.valueDisplayBoard.CheckedChanged += new System.EventHandler(this.valueDisplayBoard_CheckedChanged);
+            // 
+            // labelConfig
+            // 
+            this.labelConfig.AutoSize = true;
+            this.labelConfig.BackColor = System.Drawing.Color.Transparent;
+            this.labelConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelConfig.Location = new System.Drawing.Point(5, 5);
+            this.labelConfig.Name = "labelConfig";
+            this.labelConfig.Size = new System.Drawing.Size(82, 13);
+            this.labelConfig.TabIndex = 1;
+            this.labelConfig.Text = "Configuration";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(490, 395);
-            this.Controls.Add(this.panel2);
+            this.ClientSize = new System.Drawing.Size(177, 345);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panelGame);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panelGamepad);
-            this.Controls.Add(this.board2);
             this.Controls.Add(this.board1);
             this.ForeColor = System.Drawing.Color.Gainsboro;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Zetris";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.board2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.board1)).EndInit();
             this.panelGamepad.ResumeLayout(false);
             this.panelGamepad.PerformLayout();
-            this.panelGame.ResumeLayout(false);
-            this.panelGame.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
-        private System.Windows.Forms.Label valuePlayers;
-        private System.Windows.Forms.PictureBox board2;
         private System.Windows.Forms.Button buttonGamepadDisconnect;
         private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label valueInstructions;
-        private System.Windows.Forms.Label valueMatchFrames;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
         private System.Windows.Forms.Label valueGamepadState;
         private System.Windows.Forms.Button buttonGamepadConnect;
-        private System.Windows.Forms.Panel panelGame;
-        private System.Windows.Forms.Label valueGameRunning;
-        private System.Windows.Forms.Label labelGame;
-        private System.Windows.Forms.Label labelGlobalFrames;
-        private System.Windows.Forms.Label labelMatchFrames;
-        private System.Windows.Forms.Label valueGlobalFrames;
-        private System.Windows.Forms.Label labelPlayers;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelMisaMinoStyle;
         private System.Windows.Forms.Label labelMisaMinoLevel;
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.CheckBox valuePuzzleLeague;
-        private System.Windows.Forms.Label labelBehavior;
         private System.Windows.Forms.CheckBox valueDASTapback;
         private System.Windows.Forms.Label labelDeveloper;
         private System.Windows.Forms.Label labelTimings;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.CheckBox valueDisplayBoard;
+        private System.Windows.Forms.Label labelConfig;
+        private System.Windows.Forms.Label valueGameState;
     }
 }
 
