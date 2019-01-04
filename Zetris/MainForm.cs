@@ -15,7 +15,7 @@ namespace Zetris {
         }
 
         int playerID = 0;
-        ProcessMemory PPT = new ProcessMemory("puyopuyotetris");
+        ProcessMemory PPT = new ProcessMemory("puyopuyotetris", false);
 
         void ResetGame() {
             ScanTimer.Enabled = false;
@@ -24,18 +24,22 @@ namespace Zetris {
                 process.Kill();
             }
 
-            EnsureGame();
+            PPT.TrustProcess = false;
+
+            PPT.CheckProcess();
 
             Thread.Sleep(10000);
-            
-            EnsureGame();
+
+            PPT.CheckProcess();
             Process.Start("steam://rungameid/546050");
             ratingSafe = 0;
             currentRating = 0;
 
             Thread.Sleep(15000);
 
-            EnsureGame();
+            PPT.CheckProcess();
+
+            PPT.TrustProcess = true;
 
             ScanTimer.Enabled = true;
         }
@@ -118,6 +122,7 @@ namespace Zetris {
                 }
 
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
+
                 int current = GameHelper.getCurrentPiece(PPT, playerID);
 
                 int piecesAddress = GameHelper.piecesAddress(PPT, playerID);
@@ -127,6 +132,8 @@ namespace Zetris {
                 for (i = 0; i < 5; i++) {
                     pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
                 }
+
+                int y = GameHelper.getPiecePositionY(PPT, playerID);
 
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
                     MisaMino.Reset();
@@ -153,6 +160,9 @@ namespace Zetris {
                     );
                     ret = true;
 
+                    if (movements.Count == 0) {
+                        throw new Exception();
+                    }
                     register = false;
                 }
 
@@ -510,6 +520,7 @@ namespace Zetris {
         }
 
         int lastAITime = 0;
+        Stopwatch timer = new Stopwatch();
 
         private void Loop(object sender, EventArgs e) {
             Stopwatch timer = new Stopwatch();
@@ -518,8 +529,12 @@ namespace Zetris {
             bool logicFrame = false;
 
             if (PPT.CheckProcess()) {
+                PPT.TrustProcess = true;
+
                 logicFrame = runLogic();
                 applyInputs();
+
+                PPT.TrustProcess = false;
             }
 
             updateUI();
