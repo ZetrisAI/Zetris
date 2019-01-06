@@ -19,18 +19,15 @@ namespace Zetris {
         ScpBus scp = new ScpBus();
         bool gamepadPluggedIn = false;
         X360Controller gamepad = new X360Controller();
-        
-        void GamepadDisconnect(object sender, EventArgs e) {
+
+        private void buttonGamepad_Click(object sender, EventArgs e) {
             scp.UnplugAll();
             scp = new ScpBus();
             gamepad = new X360Controller();
-            gamepadPluggedIn = false;
-        }
 
-        void GamepadConnect(object sender, EventArgs e) {
-            scp.UnplugAll();
-            scp.PlugIn(4);
-            gamepadPluggedIn = true;
+            if (!gamepadPluggedIn) scp.PlugIn(4);
+
+            gamepadPluggedIn = !gamepadPluggedIn;
         }
 
         int currentRating, numplayers, frames, globalFrames;
@@ -76,8 +73,6 @@ namespace Zetris {
                 }
             }
 
-            globalFrames = GameHelper.getMenuFrameCount(PPT);
-
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 int drop = GameHelper.getPieceDropped(PPT, playerID);
 
@@ -116,7 +111,9 @@ namespace Zetris {
                             GameHelper.getGarbageOverhead(PPT, playerID),
                             ref pieceUsed,
                             ref spinUsed
-                        );                       ret = true;
+                        );
+
+                        ret = true;
                     }
                     
                     register = false;
@@ -365,7 +362,6 @@ namespace Zetris {
 
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
-            int menuFrames = GameHelper.getMenuFrameCount(PPT);
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 if (nextFrame % 2 == 0) {
@@ -385,7 +381,7 @@ namespace Zetris {
             } else {
                 gamepad.Buttons = X360Buttons.None;
 
-                if (menuFrames % 2 == 0) {
+                if (globalFrames % 2 == 0) {
                     if (GameHelper.OutsideMenu(PPT) && GameHelper.InMultiplayer(PPT)) {
                         gamepad.Buttons |= X360Buttons.A;
                     }
@@ -405,7 +401,7 @@ namespace Zetris {
                     board1.Image = null;
                 }
 
-            valueGamepadState.Text = gamepadPluggedIn? "Connected" : "Disconnected";
+            buttonGamepad.Text = gamepadPluggedIn? "Disconnect" : "Connect";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
             valueGameState.Text = PPT.CheckProcess()? (inMatch? "Active (Match)" : "Inactive (Menu)") : "Inactive (Closed)";
@@ -423,31 +419,46 @@ namespace Zetris {
             Width += valueDisplayBoard.Checked ? 141 : -141;
         }
 
-        int lastAITime = 0;
+        int processedReads = 0, processedFrames = 0, processedAI = 0;
+        
         Stopwatch timer = new Stopwatch();
 
+        object locker = new object();
+
         private void Loop(object sender, EventArgs e) {
-            Stopwatch timer = new Stopwatch();
-            timer.Start();
+            lock (locker) {
+                bool actualFrame = false, logicFrame = false;
 
-            bool logicFrame = false;
+                if (PPT.CheckProcess()) {
+                    PPT.TrustProcess = true;
 
-            if (PPT.CheckProcess()) {
-                PPT.TrustProcess = true;
+                    int prev = globalFrames;
+                    globalFrames = GameHelper.getMenuFrameCount(PPT);
 
-                logicFrame = runLogic();
-                applyInputs();
+                    if (actualFrame = globalFrames > prev) {
+                        logicFrame = runLogic();
+                        applyInputs();
+                    }
 
-                PPT.TrustProcess = false;
+                    PPT.TrustProcess = false;
+                }
+
+                updateUI();
+                timer.Stop();
+
+                valueReads.Text = $"{++processedReads} / {timer.ElapsedMilliseconds} ms";
+
+                if (actualFrame) {
+                    valueFrames.Text = $"{++processedFrames} / {timer.ElapsedMilliseconds} ms";
+                }
+
+                if (logicFrame) {
+                    valueDecisions.Text = $"{++processedAI} / {timer.ElapsedMilliseconds} ms";
+                }
+
+                timer = new Stopwatch();
+                timer.Start();
             }
-
-            updateUI();
-            timer.Stop();
-            
-            if (logicFrame)
-                lastAITime = timer.Elapsed.Milliseconds;
-        
-            labelTimings.Text = $"{timer.Elapsed.Milliseconds} / {lastAITime} ms";
         }
 
         void MainForm_Load(object sender, EventArgs e) {

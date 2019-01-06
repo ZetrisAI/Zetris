@@ -31,29 +31,40 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
-            this.buttonGamepadDisconnect = new System.Windows.Forms.Button();
             this.valueGamepadInputs = new System.Windows.Forms.Label();
             this.board1 = new System.Windows.Forms.PictureBox();
             this.valueInstructions = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
-            this.valueGamepadState = new System.Windows.Forms.Label();
+            this.buttonGamepad = new System.Windows.Forms.Label();
             this.labelGamepad = new System.Windows.Forms.Label();
-            this.buttonGamepadConnect = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.valueGameState = new System.Windows.Forms.Label();
-            this.labelTimings = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
-            this.labelMisakamm = new System.Windows.Forms.Label();
-            this.labelZetris = new System.Windows.Forms.Label();
+            this.valueReads = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.labelDeveloper = new System.Windows.Forms.Label();
+            this.labelTimings = new System.Windows.Forms.Label();
+            this.labelDecisions = new System.Windows.Forms.Label();
+            this.labelFrames = new System.Windows.Forms.Label();
+            this.labelReads = new System.Windows.Forms.Label();
+            this.valueDecisions = new System.Windows.Forms.Label();
+            this.valueFrames = new System.Windows.Forms.Label();
+            this.valueGlobalFrames = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.valueDisplayBoard = new System.Windows.Forms.CheckBox();
             this.labelConfig = new System.Windows.Forms.Label();
+            this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer5 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer6 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer7 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
+            this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -67,23 +78,10 @@
             this.ScanTimer.Interval = 1;
             this.ScanTimer.Tick += new System.EventHandler(this.Loop);
             // 
-            // buttonGamepadDisconnect
-            // 
-            this.buttonGamepadDisconnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGamepadDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonGamepadDisconnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadDisconnect.Location = new System.Drawing.Point(5, 44);
-            this.buttonGamepadDisconnect.Name = "buttonGamepadDisconnect";
-            this.buttonGamepadDisconnect.Size = new System.Drawing.Size(72, 24);
-            this.buttonGamepadDisconnect.TabIndex = 9;
-            this.buttonGamepadDisconnect.Text = "Disconnect";
-            this.buttonGamepadDisconnect.UseVisualStyleBackColor = true;
-            this.buttonGamepadDisconnect.Click += new System.EventHandler(this.GamepadDisconnect);
-            // 
             // valueGamepadInputs
             // 
             this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 24);
+            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 28);
             this.valueGamepadInputs.Name = "valueGamepadInputs";
             this.valueGamepadInputs.Size = new System.Drawing.Size(146, 13);
             this.valueGamepadInputs.TabIndex = 1;
@@ -113,26 +111,24 @@
             // panelGamepad
             // 
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panelGamepad.Controls.Add(this.valueGamepadState);
+            this.panelGamepad.Controls.Add(this.buttonGamepad);
             this.panelGamepad.Controls.Add(this.labelGamepad);
-            this.panelGamepad.Controls.Add(this.buttonGamepadConnect);
-            this.panelGamepad.Controls.Add(this.buttonGamepadDisconnect);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
             this.panelGamepad.Location = new System.Drawing.Point(9, 148);
             this.panelGamepad.Name = "panelGamepad";
-            this.panelGamepad.Size = new System.Drawing.Size(158, 73);
+            this.panelGamepad.Size = new System.Drawing.Size(158, 49);
             this.panelGamepad.TabIndex = 10;
             // 
-            // valueGamepadState
+            // buttonGamepad
             // 
-            this.valueGamepadState.BackColor = System.Drawing.Color.Transparent;
-            this.valueGamepadState.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadState.Location = new System.Drawing.Point(71, 5);
-            this.valueGamepadState.Name = "valueGamepadState";
-            this.valueGamepadState.Size = new System.Drawing.Size(82, 13);
-            this.valueGamepadState.TabIndex = 1;
-            this.valueGamepadState.Text = "?";
-            this.valueGamepadState.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.buttonGamepad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonGamepad.Location = new System.Drawing.Point(71, 5);
+            this.buttonGamepad.Name = "buttonGamepad";
+            this.buttonGamepad.Size = new System.Drawing.Size(82, 13);
+            this.buttonGamepad.TabIndex = 15;
+            this.buttonGamepad.Text = "?";
+            this.buttonGamepad.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.buttonGamepad.Click += new System.EventHandler(this.buttonGamepad_Click);
             // 
             // labelGamepad
             // 
@@ -145,24 +141,10 @@
             this.labelGamepad.TabIndex = 1;
             this.labelGamepad.Text = "Gamepad";
             // 
-            // buttonGamepadConnect
-            // 
-            this.buttonGamepadConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonGamepadConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonGamepadConnect.ForeColor = System.Drawing.Color.Gainsboro;
-            this.buttonGamepadConnect.Location = new System.Drawing.Point(81, 44);
-            this.buttonGamepadConnect.Name = "buttonGamepadConnect";
-            this.buttonGamepadConnect.Size = new System.Drawing.Size(72, 24);
-            this.buttonGamepadConnect.TabIndex = 9;
-            this.buttonGamepadConnect.Text = "Connect";
-            this.buttonGamepadConnect.UseVisualStyleBackColor = true;
-            this.buttonGamepadConnect.Click += new System.EventHandler(this.GamepadConnect);
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel1.Controls.Add(this.valueGameState);
-            this.panel1.Controls.Add(this.labelTimings);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMino);
@@ -182,15 +164,6 @@
             this.valueGameState.TabIndex = 14;
             this.valueGameState.Text = "?";
             this.valueGameState.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // labelTimings
-            // 
-            this.labelTimings.Location = new System.Drawing.Point(82, 5);
-            this.labelTimings.Name = "labelTimings";
-            this.labelTimings.Size = new System.Drawing.Size(71, 13);
-            this.labelTimings.TabIndex = 14;
-            this.labelTimings.Text = "?";
-            this.labelTimings.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // valueMisaMinoLevel
             // 
@@ -267,57 +240,99 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
-            // labelMisakamm
+            // valueReads
             // 
-            this.labelMisakamm.AutoSize = true;
-            this.labelMisakamm.BackColor = System.Drawing.Color.Transparent;
-            this.labelMisakamm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisakamm.Location = new System.Drawing.Point(2, 38);
-            this.labelMisakamm.Name = "labelMisakamm";
-            this.labelMisakamm.Size = new System.Drawing.Size(156, 13);
-            this.labelMisakamm.TabIndex = 2;
-            this.labelMisakamm.Text = "AI by misakamm and jezevec10";
-            this.labelMisakamm.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // labelZetris
-            // 
-            this.labelZetris.BackColor = System.Drawing.Color.Transparent;
-            this.labelZetris.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelZetris.Location = new System.Drawing.Point(60, 6);
-            this.labelZetris.Name = "labelZetris";
-            this.labelZetris.Size = new System.Drawing.Size(39, 13);
-            this.labelZetris.TabIndex = 1;
-            this.labelZetris.Text = "Zetris";
-            this.labelZetris.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.valueReads.Location = new System.Drawing.Point(47, 25);
+            this.valueReads.Name = "valueReads";
+            this.valueReads.Size = new System.Drawing.Size(106, 13);
+            this.valueReads.TabIndex = 14;
+            this.valueReads.Text = "?";
+            this.valueReads.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel2.Controls.Add(this.labelDeveloper);
-            this.panel2.Controls.Add(this.labelMisakamm);
-            this.panel2.Controls.Add(this.labelZetris);
-            this.panel2.Location = new System.Drawing.Point(9, 277);
+            this.panel2.Controls.Add(this.labelTimings);
+            this.panel2.Controls.Add(this.labelDecisions);
+            this.panel2.Controls.Add(this.labelFrames);
+            this.panel2.Controls.Add(this.labelReads);
+            this.panel2.Controls.Add(this.valueDecisions);
+            this.panel2.Controls.Add(this.valueFrames);
+            this.panel2.Controls.Add(this.valueGlobalFrames);
+            this.panel2.Controls.Add(this.valueReads);
+            this.panel2.Location = new System.Drawing.Point(9, 253);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 58);
+            this.panel2.Size = new System.Drawing.Size(158, 82);
             this.panel2.TabIndex = 13;
             // 
-            // labelDeveloper
+            // labelTimings
             // 
-            this.labelDeveloper.BackColor = System.Drawing.Color.Transparent;
-            this.labelDeveloper.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDeveloper.Location = new System.Drawing.Point(12, 22);
-            this.labelDeveloper.Name = "labelDeveloper";
-            this.labelDeveloper.Size = new System.Drawing.Size(135, 13);
-            this.labelDeveloper.TabIndex = 2;
-            this.labelDeveloper.Text = "Developed by mat1jaczyyy";
-            this.labelDeveloper.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.labelTimings.AutoSize = true;
+            this.labelTimings.BackColor = System.Drawing.Color.Transparent;
+            this.labelTimings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTimings.Location = new System.Drawing.Point(5, 5);
+            this.labelTimings.Name = "labelTimings";
+            this.labelTimings.Size = new System.Drawing.Size(50, 13);
+            this.labelTimings.TabIndex = 2;
+            this.labelTimings.Text = "Timings";
+            // 
+            // labelDecisions
+            // 
+            this.labelDecisions.Location = new System.Drawing.Point(5, 61);
+            this.labelDecisions.Name = "labelDecisions";
+            this.labelDecisions.Size = new System.Drawing.Size(71, 13);
+            this.labelDecisions.TabIndex = 14;
+            this.labelDecisions.Text = "Decisions:";
+            // 
+            // labelFrames
+            // 
+            this.labelFrames.Location = new System.Drawing.Point(5, 43);
+            this.labelFrames.Name = "labelFrames";
+            this.labelFrames.Size = new System.Drawing.Size(71, 13);
+            this.labelFrames.TabIndex = 14;
+            this.labelFrames.Text = "Frames:";
+            // 
+            // labelReads
+            // 
+            this.labelReads.Location = new System.Drawing.Point(5, 25);
+            this.labelReads.Name = "labelReads";
+            this.labelReads.Size = new System.Drawing.Size(71, 13);
+            this.labelReads.TabIndex = 14;
+            this.labelReads.Text = "Reads:";
+            // 
+            // valueDecisions
+            // 
+            this.valueDecisions.Location = new System.Drawing.Point(60, 61);
+            this.valueDecisions.Name = "valueDecisions";
+            this.valueDecisions.Size = new System.Drawing.Size(93, 13);
+            this.valueDecisions.TabIndex = 14;
+            this.valueDecisions.Text = "?";
+            this.valueDecisions.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // valueFrames
+            // 
+            this.valueFrames.Location = new System.Drawing.Point(50, 43);
+            this.valueFrames.Name = "valueFrames";
+            this.valueFrames.Size = new System.Drawing.Size(103, 13);
+            this.valueFrames.TabIndex = 14;
+            this.valueFrames.Text = "?";
+            this.valueFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // valueGlobalFrames
+            // 
+            this.valueGlobalFrames.Location = new System.Drawing.Point(82, 5);
+            this.valueGlobalFrames.Name = "valueGlobalFrames";
+            this.valueGlobalFrames.Size = new System.Drawing.Size(71, 13);
+            this.valueGlobalFrames.TabIndex = 14;
+            this.valueGlobalFrames.Text = "?";
+            this.valueGlobalFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valueDisplayBoard);
             this.panel3.Controls.Add(this.labelConfig);
-            this.panel3.Location = new System.Drawing.Point(9, 227);
+            this.panel3.Location = new System.Drawing.Point(9, 203);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(158, 44);
             this.panel3.TabIndex = 10;
@@ -344,12 +359,66 @@
             this.labelConfig.TabIndex = 1;
             this.labelConfig.Text = "Configuration";
             // 
+            // ScanTimer2
+            // 
+            this.ScanTimer2.Enabled = true;
+            this.ScanTimer2.Interval = 1;
+            this.ScanTimer2.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer3
+            // 
+            this.ScanTimer3.Enabled = true;
+            this.ScanTimer3.Interval = 1;
+            this.ScanTimer3.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer4
+            // 
+            this.ScanTimer4.Enabled = true;
+            this.ScanTimer4.Interval = 1;
+            this.ScanTimer4.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer5
+            // 
+            this.ScanTimer5.Enabled = true;
+            this.ScanTimer5.Interval = 1;
+            this.ScanTimer5.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer6
+            // 
+            this.ScanTimer6.Enabled = true;
+            this.ScanTimer6.Interval = 1;
+            this.ScanTimer6.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer7
+            // 
+            this.ScanTimer7.Enabled = true;
+            this.ScanTimer7.Interval = 1;
+            this.ScanTimer7.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer8
+            // 
+            this.ScanTimer8.Enabled = true;
+            this.ScanTimer8.Interval = 1;
+            this.ScanTimer8.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer9
+            // 
+            this.ScanTimer9.Enabled = true;
+            this.ScanTimer9.Interval = 1;
+            this.ScanTimer9.Tick += new System.EventHandler(this.Loop);
+            // 
+            // ScanTimer10
+            // 
+            this.ScanTimer10.Enabled = true;
+            this.ScanTimer10.Interval = 1;
+            this.ScanTimer10.Tick += new System.EventHandler(this.Loop);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 345);
+            this.ClientSize = new System.Drawing.Size(177, 344);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
@@ -378,29 +447,40 @@
 
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
-        private System.Windows.Forms.Button buttonGamepadDisconnect;
         private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label valueInstructions;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
-        private System.Windows.Forms.Label valueGamepadState;
-        private System.Windows.Forms.Button buttonGamepadConnect;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelMisaMinoStyle;
         private System.Windows.Forms.Label labelMisaMinoLevel;
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
-        private System.Windows.Forms.Label labelZetris;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label labelMisakamm;
-        private System.Windows.Forms.Label labelDeveloper;
-        private System.Windows.Forms.Label labelTimings;
+        private System.Windows.Forms.Label valueReads;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.CheckBox valueDisplayBoard;
         private System.Windows.Forms.Label labelConfig;
         private System.Windows.Forms.Label valueGameState;
+        private System.Windows.Forms.Label labelTimings;
+        private System.Windows.Forms.Label labelReads;
+        private System.Windows.Forms.Label labelDecisions;
+        private System.Windows.Forms.Label labelFrames;
+        private System.Windows.Forms.Label valueDecisions;
+        private System.Windows.Forms.Label valueFrames;
+        private System.Windows.Forms.Label valueGlobalFrames;
+        private System.Windows.Forms.Label buttonGamepad;
+        private System.Windows.Forms.Timer ScanTimer2;
+        private System.Windows.Forms.Timer ScanTimer3;
+        private System.Windows.Forms.Timer ScanTimer4;
+        private System.Windows.Forms.Timer ScanTimer5;
+        private System.Windows.Forms.Timer ScanTimer6;
+        private System.Windows.Forms.Timer ScanTimer7;
+        private System.Windows.Forms.Timer ScanTimer8;
+        private System.Windows.Forms.Timer ScanTimer9;
+        private System.Windows.Forms.Timer ScanTimer10;
     }
 }
 
