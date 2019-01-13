@@ -432,8 +432,8 @@ namespace Zetris {
             )) + 0x424
         ));
 
-        public static int getBigFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
+        public static int getBigFrameCount(ProcessMemory Game) {
+            int addr = Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
@@ -441,8 +441,20 @@ namespace Zetris {
                         )) + 0x138
                     )) + 0x18
                 )) + 0x100
-            )) + 0x58
-        ));
+            )) + 0x58;
+
+            int x = Game.ReadInt32(new IntPtr(
+                addr
+            ));
+
+            if (x == 8) {
+                return Game.ReadInt32(new IntPtr(
+                    addr + 0x8
+                ));
+            }
+
+            return x;
+        }
 
         public static int getMenuFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140461B7C
