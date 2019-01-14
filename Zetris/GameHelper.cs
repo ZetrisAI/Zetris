@@ -401,9 +401,11 @@ namespace Zetris {
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
                                         Game.ReadInt32(new IntPtr(
-                                            0x140598A20
-                                        )) + 0x28
-                                    )) + 0x780
+                                            Game.ReadInt32(new IntPtr(
+                                                0x140461B20
+                                            )) + 0x378
+                                        )) + 0x30
+                                    )) + 0x300
                                 )) + 0x3C8
                             )) + 0x18
                         ));
@@ -467,9 +469,11 @@ namespace Zetris {
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
                                         Game.ReadInt32(new IntPtr(
-                                            0x140598A20
-                                        )) + 0x28
-                                    )) + 0x780
+                                            Game.ReadInt32(new IntPtr(
+                                                0x140461B20
+                                            )) + 0x378
+                                        )) + 0x30
+                                    )) + 0x300
                                 )) + 0x3C8
                             )) + 0x1C
                         ));
@@ -532,9 +536,11 @@ namespace Zetris {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        0x140598A20
-                                    )) + 0x28
-                                )) + 0x780
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B20
+                                        )) + 0x378
+                                    )) + 0x30
+                                )) + 0x300
                             )) + 0x3C8
                         )) + 0x18;
 
@@ -656,9 +662,11 @@ namespace Zetris {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        0x140598A20
-                                    )) + 0x28
-                                )) + 0x780
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B20
+                                        )) + 0x378
+                                    )) + 0x30
+                                )) + 0x300
                             )) + 0x3DC
                         ));
                         break;
