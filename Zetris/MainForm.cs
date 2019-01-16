@@ -183,6 +183,13 @@ namespace Zetris {
 
         private void processInput() {
             if (movements.Count > 0) {
+                if (GameHelper.InSwap(PPT) && GameHelper.SwapType(PPT) == 0) {
+                    softdrop = false;
+                    movements.Clear();
+                    inputStarted = 0;
+                    return;
+                }
+
                 if (((spinUsed || InputHelper.boardHeight(board) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
