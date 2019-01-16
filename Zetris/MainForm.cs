@@ -18,6 +18,8 @@ namespace Zetris {
         ProcessMemory PPT = new ProcessMemory("puyopuyotetris", false);
 
         void ResetGame() {
+            if (!GameHelper.InSwap(PPT)) return;
+
             ScanTimer.Enabled = false;
 
             foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
