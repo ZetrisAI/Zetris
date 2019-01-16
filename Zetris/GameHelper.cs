@@ -96,6 +96,18 @@ namespace Zetris {
             }
         }
 
+        public static int SwapType(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            0x140461B20
+                        )) + 0x380
+                    )) + 0x18
+                )) + 0xD0
+            )) + 0x50
+        ));
+
         public static int charAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140460690
         ));
