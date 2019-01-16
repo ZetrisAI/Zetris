@@ -87,12 +87,12 @@ namespace Zetris {
         public static bool InSwap(ProcessMemory Game) {
             if (Game.ReadBoolean(new IntPtr(0x14059894C))) {
                 if (Game.ReadBoolean(new IntPtr(0x1404385C4))) {
-                    return Game.ReadInt32(new IntPtr(0x140438584)) == 3;
+                    return Game.ReadByte(new IntPtr(0x140438584)) == 3;
                 } else {
-                    return Game.ReadInt32(new IntPtr(0x140573794)) == 2;
+                    return Game.ReadByte(new IntPtr(0x140573794)) == 2;
                 }
             } else {
-                return (Game.ReadInt32(new IntPtr(0x140451C50)) & 0b11101111) == 4;
+                return (Game.ReadByte(new IntPtr(0x140451C50)) & 0b11101111) == 4;
             }
         }
 
