@@ -138,9 +138,9 @@ namespace Zetris {
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
                                         Game.ReadInt32(new IntPtr(
-                                            0x1404611B8
-                                        )) + 0x30
-                                    )) + 0xA8
+                                            0x140598A28
+                                        )) + 0x140
+                                    )) + 0x48
                                 )) + 0x3C0
                             )) + 0x18
                         ));
