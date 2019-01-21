@@ -367,19 +367,21 @@ namespace Zetris {
             }
         }
 
+        X360Buttons previousInputs = X360Buttons.None;
+
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (nextFrame % 2 == 0) {
-                    if (nextFrame != frames) {
-                        gamepad.Buttons = X360Buttons.None;
-                        processInput();
-                    }
-                } else {
+                previousInputs = gamepad.Buttons;
+
+                if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
+                    processInput();
                 }
 
+                gamepad.Buttons &= ~previousInputs;
+                
                 if (softdrop)
                     gamepad.Buttons |= X360Buttons.Down;
 
