@@ -501,10 +501,14 @@ namespace Zetris {
 
         Stopwatch timer = new Stopwatch();
         int framesSkipped = 0;
-        object locker = new object();
+        //object locker = new object();
+        double waitTime = Math.Round(0.001 * Stopwatch.Frequency);
 
         private void Loop(object sender, EventArgs e) {
-            lock (locker) {
+            for (int _ = 0; _ < 20; _++) {
+                timer = new Stopwatch();
+                timer.Start();
+
                 bool actualFrame = false, logicFrame = false;
 
                 if (PPT.CheckProcess()) {
@@ -532,8 +536,8 @@ namespace Zetris {
                     valueSkipped.Text = framesSkipped.ToString();
                 }
 
-                timer = new Stopwatch();
-                timer.Start();
+                Stopwatch wait = Stopwatch.StartNew();
+                while (wait.ElapsedTicks < waitTime) {}
             }
         }
 

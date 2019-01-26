@@ -48,20 +48,11 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelConfig = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.valueFrametime = new System.Windows.Forms.Label();
             this.valueSkipped = new System.Windows.Forms.Label();
             this.labelTimings = new System.Windows.Forms.Label();
-            this.labelSkipped = new System.Windows.Forms.Label();
-            this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer5 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer6 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer7 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
             this.labelFrames = new System.Windows.Forms.Label();
-            this.valueFrametime = new System.Windows.Forms.Label();
+            this.labelSkipped = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -280,6 +271,16 @@
             this.panel2.Size = new System.Drawing.Size(158, 60);
             this.panel2.TabIndex = 10;
             // 
+            // valueFrametime
+            // 
+            this.valueFrametime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueFrametime.Location = new System.Drawing.Point(59, 40);
+            this.valueFrametime.Name = "valueFrametime";
+            this.valueFrametime.Size = new System.Drawing.Size(92, 13);
+            this.valueFrametime.TabIndex = 2;
+            this.valueFrametime.Text = "?";
+            this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // valueSkipped
             // 
             this.valueSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -301,69 +302,6 @@
             this.labelTimings.TabIndex = 1;
             this.labelTimings.Text = "Timings";
             // 
-            // labelSkipped
-            // 
-            this.labelSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSkipped.Location = new System.Drawing.Point(5, 23);
-            this.labelSkipped.Name = "labelSkipped";
-            this.labelSkipped.Size = new System.Drawing.Size(146, 13);
-            this.labelSkipped.TabIndex = 1;
-            this.labelSkipped.Text = "Frames Skipped:";
-            // 
-            // ScanTimer2
-            // 
-            this.ScanTimer2.Enabled = true;
-            this.ScanTimer2.Interval = 1;
-            this.ScanTimer2.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer3
-            // 
-            this.ScanTimer3.Enabled = true;
-            this.ScanTimer3.Interval = 1;
-            this.ScanTimer3.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer4
-            // 
-            this.ScanTimer4.Enabled = true;
-            this.ScanTimer4.Interval = 1;
-            this.ScanTimer4.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer5
-            // 
-            this.ScanTimer5.Enabled = true;
-            this.ScanTimer5.Interval = 1;
-            this.ScanTimer5.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer6
-            // 
-            this.ScanTimer6.Enabled = true;
-            this.ScanTimer6.Interval = 1;
-            this.ScanTimer6.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer7
-            // 
-            this.ScanTimer7.Enabled = true;
-            this.ScanTimer7.Interval = 1;
-            this.ScanTimer7.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer8
-            // 
-            this.ScanTimer8.Enabled = true;
-            this.ScanTimer8.Interval = 1;
-            this.ScanTimer8.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer9
-            // 
-            this.ScanTimer9.Enabled = true;
-            this.ScanTimer9.Interval = 1;
-            this.ScanTimer9.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer10
-            // 
-            this.ScanTimer10.Enabled = true;
-            this.ScanTimer10.Interval = 1;
-            this.ScanTimer10.Tick += new System.EventHandler(this.Loop);
-            // 
             // labelFrames
             // 
             this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -373,15 +311,14 @@
             this.labelFrames.TabIndex = 1;
             this.labelFrames.Text = "Frametime:";
             // 
-            // valueFrametime
+            // labelSkipped
             // 
-            this.valueFrametime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueFrametime.Location = new System.Drawing.Point(59, 40);
-            this.valueFrametime.Name = "valueFrametime";
-            this.valueFrametime.Size = new System.Drawing.Size(92, 13);
-            this.valueFrametime.TabIndex = 2;
-            this.valueFrametime.Text = "?";
-            this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.labelSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSkipped.Location = new System.Drawing.Point(5, 23);
+            this.labelSkipped.Name = "labelSkipped";
+            this.labelSkipped.Size = new System.Drawing.Size(146, 13);
+            this.labelSkipped.TabIndex = 1;
+            this.labelSkipped.Text = "Frames Skipped:";
             // 
             // MainForm
             // 
@@ -434,15 +371,6 @@
         private System.Windows.Forms.Label labelTimings;
         private System.Windows.Forms.Label valueSkipped;
         private System.Windows.Forms.Label labelSkipped;
-        private System.Windows.Forms.Timer ScanTimer2;
-        private System.Windows.Forms.Timer ScanTimer3;
-        private System.Windows.Forms.Timer ScanTimer4;
-        private System.Windows.Forms.Timer ScanTimer5;
-        private System.Windows.Forms.Timer ScanTimer6;
-        private System.Windows.Forms.Timer ScanTimer7;
-        private System.Windows.Forms.Timer ScanTimer8;
-        private System.Windows.Forms.Timer ScanTimer9;
-        private System.Windows.Forms.Timer ScanTimer10;
         private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label labelFrames;
