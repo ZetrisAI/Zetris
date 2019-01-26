@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
             this.labelReads = new System.Windows.Forms.Label();
-            this.board1 = new System.Windows.Forms.PictureBox();
             this.valueInstructions = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
             this.buttonGamepad = new System.Windows.Forms.Label();
@@ -45,11 +44,9 @@
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
-            this.valueDASTapback = new System.Windows.Forms.CheckBox();
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
             this.labelDeveloper = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.valueDisplayBoard = new System.Windows.Forms.CheckBox();
             this.labelConfig = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.valueDecisions = new System.Windows.Forms.Label();
@@ -67,7 +64,6 @@
             this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -88,15 +84,6 @@
             this.labelReads.Size = new System.Drawing.Size(146, 13);
             this.labelReads.TabIndex = 1;
             this.labelReads.Text = "Reads:";
-            // 
-            // board1
-            // 
-            this.board1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board1.Location = new System.Drawing.Point(177, 10);
-            this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(130, 325);
-            this.board1.TabIndex = 7;
-            this.board1.TabStop = false;
             // 
             // valueInstructions
             // 
@@ -252,23 +239,10 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
-            // valueDASTapback
-            // 
-            this.valueDASTapback.AutoSize = true;
-            this.valueDASTapback.Checked = true;
-            this.valueDASTapback.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.valueDASTapback.Location = new System.Drawing.Point(5, 57);
-            this.valueDASTapback.Name = "valueDASTapback";
-            this.valueDASTapback.Size = new System.Drawing.Size(137, 17);
-            this.valueDASTapback.TabIndex = 2;
-            this.valueDASTapback.Text = "Optimize DAS Tapback";
-            this.valueDASTapback.UseVisualStyleBackColor = true;
-            this.valueDASTapback.CheckedChanged += new System.EventHandler(this.valueDASTapback_CheckedChanged);
-            // 
             // valuePuzzleLeague
             // 
             this.valuePuzzleLeague.AutoSize = true;
-            this.valuePuzzleLeague.Location = new System.Drawing.Point(5, 40);
+            this.valuePuzzleLeague.Location = new System.Drawing.Point(5, 21);
             this.valuePuzzleLeague.Name = "valuePuzzleLeague";
             this.valuePuzzleLeague.Size = new System.Drawing.Size(151, 17);
             this.valuePuzzleLeague.TabIndex = 2;
@@ -286,25 +260,12 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel3.Controls.Add(this.valueDASTapback);
             this.panel3.Controls.Add(this.valuePuzzleLeague);
-            this.panel3.Controls.Add(this.valueDisplayBoard);
             this.panel3.Controls.Add(this.labelConfig);
             this.panel3.Location = new System.Drawing.Point(9, 198);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(158, 78);
+            this.panel3.Size = new System.Drawing.Size(158, 41);
             this.panel3.TabIndex = 10;
-            // 
-            // valueDisplayBoard
-            // 
-            this.valueDisplayBoard.AutoSize = true;
-            this.valueDisplayBoard.Location = new System.Drawing.Point(5, 23);
-            this.valueDisplayBoard.Name = "valueDisplayBoard";
-            this.valueDisplayBoard.Size = new System.Drawing.Size(115, 17);
-            this.valueDisplayBoard.TabIndex = 2;
-            this.valueDisplayBoard.Text = "Display PPT Board";
-            this.valueDisplayBoard.UseVisualStyleBackColor = true;
-            this.valueDisplayBoard.CheckedChanged += new System.EventHandler(this.valueDisplayBoard_CheckedChanged);
             // 
             // labelConfig
             // 
@@ -327,7 +288,7 @@
             this.panel2.Controls.Add(this.labelDecisions);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelReads);
-            this.panel2.Location = new System.Drawing.Point(9, 282);
+            this.panel2.Location = new System.Drawing.Point(9, 245);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(158, 78);
             this.panel2.TabIndex = 10;
@@ -450,12 +411,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 367);
+            this.ClientSize = new System.Drawing.Size(177, 332);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelGamepad);
-            this.Controls.Add(this.board1);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -464,7 +424,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.board1)).EndInit();
             this.panelGamepad.ResumeLayout(false);
             this.panelGamepad.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -480,7 +439,6 @@
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
         private System.Windows.Forms.Label labelReads;
-        private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label valueInstructions;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
@@ -492,10 +450,8 @@
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
         private System.Windows.Forms.CheckBox valuePuzzleLeague;
-        private System.Windows.Forms.CheckBox valueDASTapback;
         private System.Windows.Forms.Label labelDeveloper;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.CheckBox valueDisplayBoard;
         private System.Windows.Forms.Label labelConfig;
         private System.Windows.Forms.Label valueGameState;
         private System.Windows.Forms.Panel panel2;

@@ -210,7 +210,7 @@ namespace Zetris {
                                     -1
                                 );
 
-                                if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.R) {
+                                if (movements.Count > 1 && movements[1] == Instruction.R) {
                                     inputGoal++;
                                     movements.RemoveAt(1);
                                 }
@@ -226,7 +226,7 @@ namespace Zetris {
                                     1
                                 );
 
-                                if (valueDASTapback.Checked && movements.Count > 1 && movements[1] == Instruction.L) {
+                                if (movements.Count > 1 && movements[1] == Instruction.L) {
                                     inputGoal--;
                                     movements.RemoveAt(1);
                                 }
@@ -474,13 +474,6 @@ namespace Zetris {
 
 
         private void updateUI() {
-            if (valueDisplayBoard.Checked)
-                if (inMatch) {
-                    UIHelper.drawBoard(board1, board);
-                } else {
-                    board1.Image = null;
-                }
-
             buttonGamepad.Text = gamepadPluggedIn? "Disconnect" : "Connect";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
@@ -495,24 +488,12 @@ namespace Zetris {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
         }
         
-        private void valueDisplayBoard_CheckedChanged(object sender, EventArgs e) {
-            Width += valueDisplayBoard.Checked ? 141 : -141;
-        }
-
         bool checkboxEvents = true;
 
         private void valuePuzzleLeague_CheckedChanged(object sender, EventArgs e) {
             if (checkboxEvents && inMatch) {
                 checkboxEvents = false;
                 valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
-                checkboxEvents = true;
-            }
-        }
-
-        private void valueDASTapback_CheckedChanged(object sender, EventArgs e) {
-            if (checkboxEvents && inMatch) {
-                checkboxEvents = false;
-                valueDASTapback.Checked = !valueDASTapback.Checked;
                 checkboxEvents = true;
             }
         }
