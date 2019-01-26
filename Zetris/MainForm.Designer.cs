@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
             this.valueGamepadInputs = new System.Windows.Forms.Label();
-            this.board1 = new System.Windows.Forms.PictureBox();
             this.valueInstructions = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
             this.buttonGamepad = new System.Windows.Forms.Label();
@@ -53,9 +52,6 @@
             this.valueDecisions = new System.Windows.Forms.Label();
             this.valueFrames = new System.Windows.Forms.Label();
             this.valueGlobalFrames = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.valueDisplayBoard = new System.Windows.Forms.CheckBox();
-            this.labelConfig = new System.Windows.Forms.Label();
             this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
@@ -65,11 +61,9 @@
             this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.board1)).BeginInit();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -87,15 +81,6 @@
             this.valueGamepadInputs.TabIndex = 1;
             this.valueGamepadInputs.Text = "?";
             this.valueGamepadInputs.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // board1
-            // 
-            this.board1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(6)))), ((int)(((byte)(6)))));
-            this.board1.Location = new System.Drawing.Point(177, 10);
-            this.board1.Name = "board1";
-            this.board1.Size = new System.Drawing.Size(130, 325);
-            this.board1.TabIndex = 7;
-            this.board1.TabStop = false;
             // 
             // valueInstructions
             // 
@@ -327,38 +312,6 @@
             this.valueGlobalFrames.Text = "?";
             this.valueGlobalFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel3.Controls.Add(this.valueDisplayBoard);
-            this.panel3.Controls.Add(this.labelConfig);
-            this.panel3.Location = new System.Drawing.Point(9, 203);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(158, 44);
-            this.panel3.TabIndex = 10;
-            // 
-            // valueDisplayBoard
-            // 
-            this.valueDisplayBoard.AutoSize = true;
-            this.valueDisplayBoard.Location = new System.Drawing.Point(5, 23);
-            this.valueDisplayBoard.Name = "valueDisplayBoard";
-            this.valueDisplayBoard.Size = new System.Drawing.Size(115, 17);
-            this.valueDisplayBoard.TabIndex = 2;
-            this.valueDisplayBoard.Text = "Display PPT Board";
-            this.valueDisplayBoard.UseVisualStyleBackColor = true;
-            this.valueDisplayBoard.CheckedChanged += new System.EventHandler(this.valueDisplayBoard_CheckedChanged);
-            // 
-            // labelConfig
-            // 
-            this.labelConfig.AutoSize = true;
-            this.labelConfig.BackColor = System.Drawing.Color.Transparent;
-            this.labelConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelConfig.Location = new System.Drawing.Point(5, 5);
-            this.labelConfig.Name = "labelConfig";
-            this.labelConfig.Size = new System.Drawing.Size(82, 13);
-            this.labelConfig.TabIndex = 1;
-            this.labelConfig.Text = "Configuration";
-            // 
             // ScanTimer2
             // 
             this.ScanTimer2.Enabled = true;
@@ -421,9 +374,7 @@
             this.ClientSize = new System.Drawing.Size(177, 344);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panelGamepad);
-            this.Controls.Add(this.board1);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -432,15 +383,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.board1)).EndInit();
             this.panelGamepad.ResumeLayout(false);
             this.panelGamepad.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -448,7 +396,6 @@
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
         private System.Windows.Forms.Label valueGamepadInputs;
-        private System.Windows.Forms.PictureBox board1;
         private System.Windows.Forms.Label valueInstructions;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
@@ -460,9 +407,6 @@
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label valueReads;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.CheckBox valueDisplayBoard;
-        private System.Windows.Forms.Label labelConfig;
         private System.Windows.Forms.Label valueGameState;
         private System.Windows.Forms.Label labelTimings;
         private System.Windows.Forms.Label labelReads;

@@ -403,13 +403,6 @@ namespace Zetris {
 
 
         private void updateUI() {
-            if (valueDisplayBoard.Checked)
-                if (inMatch) {
-                    UIHelper.drawBoard(board1, board);
-                } else {
-                    board1.Image = null;
-                }
-
             buttonGamepad.Text = gamepadPluggedIn? "Disconnect" : "Connect";
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
@@ -422,10 +415,6 @@ namespace Zetris {
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
-        }
-        
-        private void valueDisplayBoard_CheckedChanged(object sender, EventArgs e) {
-            Width += valueDisplayBoard.Checked ? 141 : -141;
         }
 
         int processedReads = 0, processedFrames = 0, processedAI = 0;
