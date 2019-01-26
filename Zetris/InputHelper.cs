@@ -192,7 +192,7 @@ namespace Zetris {
                 for (int j = 0; j < 4; j++) {
                     if (pieces[piece][r][i, j] != -1) {
                         try {
-                            if (board[x + j, y - i] != -1) {
+                            if (board[x + j, y - i] != 255) {
                                 return false;
                             }
                         } catch {
@@ -302,10 +302,10 @@ namespace Zetris {
             return x;
         }
 
-        public static int boardHeight(int[,] board) {
+        public static int boardHeight(int[,] board, int height) {
             int ret = 0;
             for (int i = 0; i < 10; i++) {
-                for (int j = 25; j >= 0; j--) {
+                for (int j = height - 1; j >= 0; j--) {
                     if (board[i, j] != -1) {
                         ret = Math.Max(ret, j + 1);
                         break;

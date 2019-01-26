@@ -85,6 +85,7 @@ namespace Zetris {
         )) - 0x38;
 
         public static bool InSwap(ProcessMemory Game) {
+            //return false;
             if (Game.ReadBoolean(new IntPtr(0x14059894C))) {
                 if (Game.ReadBoolean(new IntPtr(0x1404385C4))) {
                     return Game.ReadByte(new IntPtr(0x140438584)) == 3;

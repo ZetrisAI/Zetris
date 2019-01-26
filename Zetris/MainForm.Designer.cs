@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
-            this.labelReads = new System.Windows.Forms.Label();
             this.valueInstructions = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
             this.buttonGamepad = new System.Windows.Forms.Label();
@@ -49,12 +48,9 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.labelConfig = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.valueDecisions = new System.Windows.Forms.Label();
-            this.valueFrames = new System.Windows.Forms.Label();
-            this.valueReads = new System.Windows.Forms.Label();
+            this.valueSkipped = new System.Windows.Forms.Label();
             this.labelTimings = new System.Windows.Forms.Label();
-            this.labelDecisions = new System.Windows.Forms.Label();
-            this.labelFrames = new System.Windows.Forms.Label();
+            this.labelSkipped = new System.Windows.Forms.Label();
             this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
@@ -64,6 +60,8 @@
             this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
+            this.labelFrames = new System.Windows.Forms.Label();
+            this.valueFrametime = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -75,15 +73,6 @@
             this.ScanTimer.Enabled = true;
             this.ScanTimer.Interval = 1;
             this.ScanTimer.Tick += new System.EventHandler(this.Loop);
-            // 
-            // labelReads
-            // 
-            this.labelReads.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelReads.Location = new System.Drawing.Point(5, 24);
-            this.labelReads.Name = "labelReads";
-            this.labelReads.Size = new System.Drawing.Size(146, 13);
-            this.labelReads.TabIndex = 1;
-            this.labelReads.Text = "Reads:";
             // 
             // valueInstructions
             // 
@@ -281,47 +270,25 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.panel2.Controls.Add(this.valueDecisions);
-            this.panel2.Controls.Add(this.valueFrames);
-            this.panel2.Controls.Add(this.valueReads);
+            this.panel2.Controls.Add(this.valueFrametime);
+            this.panel2.Controls.Add(this.valueSkipped);
             this.panel2.Controls.Add(this.labelTimings);
-            this.panel2.Controls.Add(this.labelDecisions);
             this.panel2.Controls.Add(this.labelFrames);
-            this.panel2.Controls.Add(this.labelReads);
+            this.panel2.Controls.Add(this.labelSkipped);
             this.panel2.Location = new System.Drawing.Point(9, 245);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 78);
+            this.panel2.Size = new System.Drawing.Size(158, 60);
             this.panel2.TabIndex = 10;
             // 
-            // valueDecisions
+            // valueSkipped
             // 
-            this.valueDecisions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueDecisions.Location = new System.Drawing.Point(61, 58);
-            this.valueDecisions.Name = "valueDecisions";
-            this.valueDecisions.Size = new System.Drawing.Size(90, 13);
-            this.valueDecisions.TabIndex = 2;
-            this.valueDecisions.Text = "?";
-            this.valueDecisions.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // valueFrames
-            // 
-            this.valueFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueFrames.Location = new System.Drawing.Point(50, 41);
-            this.valueFrames.Name = "valueFrames";
-            this.valueFrames.Size = new System.Drawing.Size(101, 13);
-            this.valueFrames.TabIndex = 2;
-            this.valueFrames.Text = "?";
-            this.valueFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // valueReads
-            // 
-            this.valueReads.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueReads.Location = new System.Drawing.Point(47, 24);
-            this.valueReads.Name = "valueReads";
-            this.valueReads.Size = new System.Drawing.Size(104, 13);
-            this.valueReads.TabIndex = 2;
-            this.valueReads.Text = "?";
-            this.valueReads.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSkipped.Location = new System.Drawing.Point(87, 23);
+            this.valueSkipped.Name = "valueSkipped";
+            this.valueSkipped.Size = new System.Drawing.Size(64, 13);
+            this.valueSkipped.TabIndex = 2;
+            this.valueSkipped.Text = "?";
+            this.valueSkipped.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // labelTimings
             // 
@@ -334,23 +301,14 @@
             this.labelTimings.TabIndex = 1;
             this.labelTimings.Text = "Timings";
             // 
-            // labelDecisions
+            // labelSkipped
             // 
-            this.labelDecisions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDecisions.Location = new System.Drawing.Point(5, 58);
-            this.labelDecisions.Name = "labelDecisions";
-            this.labelDecisions.Size = new System.Drawing.Size(146, 13);
-            this.labelDecisions.TabIndex = 1;
-            this.labelDecisions.Text = "Decisions:";
-            // 
-            // labelFrames
-            // 
-            this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFrames.Location = new System.Drawing.Point(5, 41);
-            this.labelFrames.Name = "labelFrames";
-            this.labelFrames.Size = new System.Drawing.Size(146, 13);
-            this.labelFrames.TabIndex = 1;
-            this.labelFrames.Text = "Frames:";
+            this.labelSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSkipped.Location = new System.Drawing.Point(5, 23);
+            this.labelSkipped.Name = "labelSkipped";
+            this.labelSkipped.Size = new System.Drawing.Size(146, 13);
+            this.labelSkipped.TabIndex = 1;
+            this.labelSkipped.Text = "Frames Skipped:";
             // 
             // ScanTimer2
             // 
@@ -406,12 +364,31 @@
             this.ScanTimer10.Interval = 1;
             this.ScanTimer10.Tick += new System.EventHandler(this.Loop);
             // 
+            // labelFrames
+            // 
+            this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFrames.Location = new System.Drawing.Point(5, 40);
+            this.labelFrames.Name = "labelFrames";
+            this.labelFrames.Size = new System.Drawing.Size(146, 13);
+            this.labelFrames.TabIndex = 1;
+            this.labelFrames.Text = "Frametime:";
+            // 
+            // valueFrametime
+            // 
+            this.valueFrametime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueFrametime.Location = new System.Drawing.Point(59, 40);
+            this.valueFrametime.Name = "valueFrametime";
+            this.valueFrametime.Size = new System.Drawing.Size(92, 13);
+            this.valueFrametime.TabIndex = 2;
+            this.valueFrametime.Text = "?";
+            this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 332);
+            this.ClientSize = new System.Drawing.Size(177, 314);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -438,7 +415,6 @@
 
         #endregion
         private System.Windows.Forms.Timer ScanTimer;
-        private System.Windows.Forms.Label labelReads;
         private System.Windows.Forms.Label valueInstructions;
         private System.Windows.Forms.Panel panelGamepad;
         private System.Windows.Forms.Label labelGamepad;
@@ -456,11 +432,8 @@
         private System.Windows.Forms.Label valueGameState;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label labelTimings;
-        private System.Windows.Forms.Label valueDecisions;
-        private System.Windows.Forms.Label valueFrames;
-        private System.Windows.Forms.Label valueReads;
-        private System.Windows.Forms.Label labelDecisions;
-        private System.Windows.Forms.Label labelFrames;
+        private System.Windows.Forms.Label valueSkipped;
+        private System.Windows.Forms.Label labelSkipped;
         private System.Windows.Forms.Timer ScanTimer2;
         private System.Windows.Forms.Timer ScanTimer3;
         private System.Windows.Forms.Timer ScanTimer4;
@@ -471,6 +444,8 @@
         private System.Windows.Forms.Timer ScanTimer9;
         private System.Windows.Forms.Timer ScanTimer10;
         private System.Windows.Forms.Label valueGamepadInputs;
+        private System.Windows.Forms.Label valueFrametime;
+        private System.Windows.Forms.Label labelFrames;
     }
 }
 

@@ -77,6 +77,7 @@ namespace Zetris {
         bool spinUsed;
         int[] queue = new int[5];
         bool register = false;
+        int baseBoardHeight;
 
         private bool runLogic() {
             bool ret = false;
@@ -95,11 +96,14 @@ namespace Zetris {
 
             currentRating = temp;
 
+            int y = GameHelper.getPiecePositionY(PPT, playerID);
+            baseBoardHeight = 25 - y;
+
             int boardAddress = GameHelper.boardAddress(PPT, playerID);
             for (int i = 0; i < 10; i++) {
                 int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
-                for (int j = 0; j < 40; j++) {
-                    board[i, j] = PPT.ReadInt32(new IntPtr(columnAddress + j * 0x04));
+                for (int j = 0; j < (25 - y); j++) {
+                    board[i, j] = PPT.ReadByte(new IntPtr(columnAddress + j * 0x04));
                 }
             }
 
@@ -126,8 +130,6 @@ namespace Zetris {
                     pieces[i] = PPT.ReadByte(new IntPtr(piecesAddress + i * 0x04));
                 }
 
-                int y = GameHelper.getPiecePositionY(PPT, playerID);
-
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
                     MisaMino.Reset();
                     register = false;
@@ -144,15 +146,14 @@ namespace Zetris {
                     movements = MisaMino.FindMove(
                         pieces, 
                         current,
-                        y,
+                        baseBoardHeight,
                         board,
                         GameHelper.getCombo(PPT, playerID), 
                         GameHelper.getGarbageOverhead(PPT, playerID), 
                         ref pieceUsed,
                         ref spinUsed
                     );
-                    ret = true;
-                    
+                    ret = true;                    
                     register = false;
                 }
 
@@ -190,7 +191,7 @@ namespace Zetris {
                     return;
                 }
 
-                if (((spinUsed || InputHelper.boardHeight(board) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
+                if (((spinUsed || InputHelper.boardHeight(board, baseBoardHeight) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
                             case Instruction.NULL: inputGoal = -1; break;
@@ -487,7 +488,7 @@ namespace Zetris {
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
             MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
         }
-        
+
         bool checkboxEvents = true;
 
         private void valuePuzzleLeague_CheckedChanged(object sender, EventArgs e) {
@@ -498,10 +499,8 @@ namespace Zetris {
             }
         }
 
-        int processedReads = 0, processedFrames = 0, processedAI = 0;
-
         Stopwatch timer = new Stopwatch();
-
+        int framesSkipped = 0;
         object locker = new object();
 
         private void Loop(object sender, EventArgs e) {
@@ -517,6 +516,9 @@ namespace Zetris {
                     if (actualFrame = globalFrames > prev) {
                         logicFrame = runLogic();
                         applyInputs();
+
+                        framesSkipped += globalFrames - prev - 1;
+                        if (prev < 60) framesSkipped = 0;
                     }
 
                     PPT.TrustProcess = false;
@@ -525,14 +527,9 @@ namespace Zetris {
                 updateUI();
                 timer.Stop();
 
-                valueReads.Text = $"{++processedReads} / {timer.ElapsedMilliseconds} ms";
-
                 if (actualFrame) {
-                    valueFrames.Text = $"{++processedFrames} / {timer.ElapsedMilliseconds} ms";
-                }
-
-                if (logicFrame) {
-                    valueDecisions.Text = $"{++processedAI} / {timer.ElapsedMilliseconds} ms";
+                    valueFrametime.Text = $"{timer.ElapsedMilliseconds} ms";
+                    valueSkipped.Text = framesSkipped.ToString();
                 }
 
                 timer = new Stopwatch();
