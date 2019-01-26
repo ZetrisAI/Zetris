@@ -306,7 +306,7 @@ namespace Zetris {
             int ret = 0;
             for (int i = 0; i < 10; i++) {
                 for (int j = height - 1; j >= 0; j--) {
-                    if (board[i, j] != -1) {
+                    if (board[i, j] != 255) {
                         ret = Math.Max(ret, j + 1);
                         break;
                     }
