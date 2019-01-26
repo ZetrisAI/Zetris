@@ -49,15 +49,6 @@
             this.labelFrametime = new System.Windows.Forms.Label();
             this.labelSkipped = new System.Windows.Forms.Label();
             this.valueFrametime = new System.Windows.Forms.Label();
-            this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer5 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer6 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer7 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer8 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer9 = new System.Windows.Forms.Timer(this.components);
-            this.ScanTimer10 = new System.Windows.Forms.Timer(this.components);
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -280,60 +271,6 @@
             this.valueFrametime.Text = "?";
             this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // ScanTimer2
-            // 
-            this.ScanTimer2.Enabled = true;
-            this.ScanTimer2.Interval = 1;
-            this.ScanTimer2.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer3
-            // 
-            this.ScanTimer3.Enabled = true;
-            this.ScanTimer3.Interval = 1;
-            this.ScanTimer3.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer4
-            // 
-            this.ScanTimer4.Enabled = true;
-            this.ScanTimer4.Interval = 1;
-            this.ScanTimer4.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer5
-            // 
-            this.ScanTimer5.Enabled = true;
-            this.ScanTimer5.Interval = 1;
-            this.ScanTimer5.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer6
-            // 
-            this.ScanTimer6.Enabled = true;
-            this.ScanTimer6.Interval = 1;
-            this.ScanTimer6.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer7
-            // 
-            this.ScanTimer7.Enabled = true;
-            this.ScanTimer7.Interval = 1;
-            this.ScanTimer7.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer8
-            // 
-            this.ScanTimer8.Enabled = true;
-            this.ScanTimer8.Interval = 1;
-            this.ScanTimer8.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer9
-            // 
-            this.ScanTimer9.Enabled = true;
-            this.ScanTimer9.Interval = 1;
-            this.ScanTimer9.Tick += new System.EventHandler(this.Loop);
-            // 
-            // ScanTimer10
-            // 
-            this.ScanTimer10.Enabled = true;
-            this.ScanTimer10.Interval = 1;
-            this.ScanTimer10.Tick += new System.EventHandler(this.Loop);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -381,15 +318,6 @@
         private System.Windows.Forms.Label labelFrametime;
         private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label buttonGamepad;
-        private System.Windows.Forms.Timer ScanTimer2;
-        private System.Windows.Forms.Timer ScanTimer3;
-        private System.Windows.Forms.Timer ScanTimer4;
-        private System.Windows.Forms.Timer ScanTimer5;
-        private System.Windows.Forms.Timer ScanTimer6;
-        private System.Windows.Forms.Timer ScanTimer7;
-        private System.Windows.Forms.Timer ScanTimer8;
-        private System.Windows.Forms.Timer ScanTimer9;
-        private System.Windows.Forms.Timer ScanTimer10;
     }
 }
 
