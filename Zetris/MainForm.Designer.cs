@@ -43,15 +43,12 @@
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
             this.labelMisaMinoLevel = new System.Windows.Forms.Label();
-            this.valueReads = new System.Windows.Forms.Label();
+            this.valueSkipped = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelTimings = new System.Windows.Forms.Label();
-            this.labelDecisions = new System.Windows.Forms.Label();
-            this.labelFrames = new System.Windows.Forms.Label();
-            this.labelReads = new System.Windows.Forms.Label();
-            this.valueDecisions = new System.Windows.Forms.Label();
-            this.valueFrames = new System.Windows.Forms.Label();
-            this.valueGlobalFrames = new System.Windows.Forms.Label();
+            this.labelFrametime = new System.Windows.Forms.Label();
+            this.labelSkipped = new System.Windows.Forms.Label();
+            this.valueFrametime = new System.Windows.Forms.Label();
             this.ScanTimer2 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer3 = new System.Windows.Forms.Timer(this.components);
             this.ScanTimer4 = new System.Windows.Forms.Timer(this.components);
@@ -225,29 +222,26 @@
             this.labelMisaMinoLevel.TabIndex = 4;
             this.labelMisaMinoLevel.Text = "Level:";
             // 
-            // valueReads
+            // valueSkipped
             // 
-            this.valueReads.Location = new System.Drawing.Point(47, 25);
-            this.valueReads.Name = "valueReads";
-            this.valueReads.Size = new System.Drawing.Size(106, 13);
-            this.valueReads.TabIndex = 14;
-            this.valueReads.Text = "?";
-            this.valueReads.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSkipped.Location = new System.Drawing.Point(86, 25);
+            this.valueSkipped.Name = "valueSkipped";
+            this.valueSkipped.Size = new System.Drawing.Size(67, 13);
+            this.valueSkipped.TabIndex = 14;
+            this.valueSkipped.Text = "?";
+            this.valueSkipped.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel2.Controls.Add(this.labelTimings);
-            this.panel2.Controls.Add(this.labelDecisions);
-            this.panel2.Controls.Add(this.labelFrames);
-            this.panel2.Controls.Add(this.labelReads);
-            this.panel2.Controls.Add(this.valueDecisions);
-            this.panel2.Controls.Add(this.valueFrames);
-            this.panel2.Controls.Add(this.valueGlobalFrames);
-            this.panel2.Controls.Add(this.valueReads);
-            this.panel2.Location = new System.Drawing.Point(9, 253);
+            this.panel2.Controls.Add(this.labelFrametime);
+            this.panel2.Controls.Add(this.labelSkipped);
+            this.panel2.Controls.Add(this.valueFrametime);
+            this.panel2.Controls.Add(this.valueSkipped);
+            this.panel2.Location = new System.Drawing.Point(9, 203);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 82);
+            this.panel2.Size = new System.Drawing.Size(158, 65);
             this.panel2.TabIndex = 13;
             // 
             // labelTimings
@@ -261,56 +255,30 @@
             this.labelTimings.TabIndex = 2;
             this.labelTimings.Text = "Timings";
             // 
-            // labelDecisions
+            // labelFrametime
             // 
-            this.labelDecisions.Location = new System.Drawing.Point(5, 61);
-            this.labelDecisions.Name = "labelDecisions";
-            this.labelDecisions.Size = new System.Drawing.Size(71, 13);
-            this.labelDecisions.TabIndex = 14;
-            this.labelDecisions.Text = "Decisions:";
+            this.labelFrametime.Location = new System.Drawing.Point(5, 43);
+            this.labelFrametime.Name = "labelFrametime";
+            this.labelFrametime.Size = new System.Drawing.Size(71, 13);
+            this.labelFrametime.TabIndex = 14;
+            this.labelFrametime.Text = "Frametime:";
             // 
-            // labelFrames
+            // labelSkipped
             // 
-            this.labelFrames.Location = new System.Drawing.Point(5, 43);
-            this.labelFrames.Name = "labelFrames";
-            this.labelFrames.Size = new System.Drawing.Size(71, 13);
-            this.labelFrames.TabIndex = 14;
-            this.labelFrames.Text = "Frames:";
+            this.labelSkipped.Location = new System.Drawing.Point(5, 25);
+            this.labelSkipped.Name = "labelSkipped";
+            this.labelSkipped.Size = new System.Drawing.Size(89, 13);
+            this.labelSkipped.TabIndex = 14;
+            this.labelSkipped.Text = "Frames Skipped:";
             // 
-            // labelReads
+            // valueFrametime
             // 
-            this.labelReads.Location = new System.Drawing.Point(5, 25);
-            this.labelReads.Name = "labelReads";
-            this.labelReads.Size = new System.Drawing.Size(71, 13);
-            this.labelReads.TabIndex = 14;
-            this.labelReads.Text = "Reads:";
-            // 
-            // valueDecisions
-            // 
-            this.valueDecisions.Location = new System.Drawing.Point(60, 61);
-            this.valueDecisions.Name = "valueDecisions";
-            this.valueDecisions.Size = new System.Drawing.Size(93, 13);
-            this.valueDecisions.TabIndex = 14;
-            this.valueDecisions.Text = "?";
-            this.valueDecisions.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // valueFrames
-            // 
-            this.valueFrames.Location = new System.Drawing.Point(50, 43);
-            this.valueFrames.Name = "valueFrames";
-            this.valueFrames.Size = new System.Drawing.Size(103, 13);
-            this.valueFrames.TabIndex = 14;
-            this.valueFrames.Text = "?";
-            this.valueFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // valueGlobalFrames
-            // 
-            this.valueGlobalFrames.Location = new System.Drawing.Point(82, 5);
-            this.valueGlobalFrames.Name = "valueGlobalFrames";
-            this.valueGlobalFrames.Size = new System.Drawing.Size(71, 13);
-            this.valueGlobalFrames.TabIndex = 14;
-            this.valueGlobalFrames.Text = "?";
-            this.valueGlobalFrames.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueFrametime.Location = new System.Drawing.Point(50, 43);
+            this.valueFrametime.Name = "valueFrametime";
+            this.valueFrametime.Size = new System.Drawing.Size(103, 13);
+            this.valueFrametime.TabIndex = 14;
+            this.valueFrametime.Text = "?";
+            this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ScanTimer2
             // 
@@ -371,7 +339,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 344);
+            this.ClientSize = new System.Drawing.Size(177, 276);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelGamepad);
@@ -406,15 +374,12 @@
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
         private System.Windows.Forms.ComboBox valueMisaMinoLevel;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label valueReads;
+        private System.Windows.Forms.Label valueSkipped;
         private System.Windows.Forms.Label valueGameState;
         private System.Windows.Forms.Label labelTimings;
-        private System.Windows.Forms.Label labelReads;
-        private System.Windows.Forms.Label labelDecisions;
-        private System.Windows.Forms.Label labelFrames;
-        private System.Windows.Forms.Label valueDecisions;
-        private System.Windows.Forms.Label valueFrames;
-        private System.Windows.Forms.Label valueGlobalFrames;
+        private System.Windows.Forms.Label labelSkipped;
+        private System.Windows.Forms.Label labelFrametime;
+        private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label buttonGamepad;
         private System.Windows.Forms.Timer ScanTimer2;
         private System.Windows.Forms.Timer ScanTimer3;
