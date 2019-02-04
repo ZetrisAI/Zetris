@@ -18,7 +18,7 @@ namespace Zetris {
         ProcessMemory PPT = new ProcessMemory("puyopuyotetris", false);
 
         void ResetGame() {
-            if (!GameHelper.InSwap(PPT)) return;
+            if (!GameHelper.InSwap(PPT) || !valuePuzzleLeague.Checked) return;
 
             ScanTimer.Enabled = false;
 
