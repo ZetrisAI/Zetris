@@ -45,6 +45,7 @@ namespace Zetris {
         int piece = 0;
         int pieceUsed;
         bool spinUsed;
+        int finalX, finalY, finalR;
         int[] queue = new int[5];
         bool register = false;
         int baseBoardHeight;
@@ -112,8 +113,14 @@ namespace Zetris {
                             GameHelper.getCombo(PPT, playerID),
                             GameHelper.getGarbageOverhead(PPT, playerID),
                             ref pieceUsed,
-                            ref spinUsed
+                            ref spinUsed,
+                            ref finalX,
+                            ref finalY,
+                            ref finalR
                         );
+
+                        finalX++;
+                        finalY += 3;
 
                         ret = true;
                     }
@@ -153,6 +160,15 @@ namespace Zetris {
                     movements.Clear();
                     inputStarted = 0;
                     return;
+                }
+
+                if (pieceUsed == 4 && inputStarted == 0) {
+                    if (InputHelper.FixTspinMini(board, baseBoardHeight, finalX, finalY, finalR)) {
+                        desiredX = finalX;
+                        desiredR = finalR;
+                        desiredHold = movements.Contains(Instruction.HOLD);
+                        inputStarted = 3;
+                    }
                 }
 
                 if (((spinUsed || InputHelper.boardHeight(board, baseBoardHeight) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {

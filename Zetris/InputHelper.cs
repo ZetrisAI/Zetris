@@ -314,5 +314,24 @@ namespace Zetris {
             }
             return ret;
         }
+
+        public static bool FixTspinMini(int[,] board, int height, int x, int y, int r) {
+            fixInput(4, ref x, ref y, r);
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (pieces[4][r][i, j] != -1) {
+                        int col = x + j;
+                        for (int row = y - i; row < height; row++) {
+                            if (board[col, row] != 255) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }
