@@ -162,7 +162,9 @@ namespace Zetris {
                     return;
                 }
 
-                if (pieceUsed == 4 && inputStarted == 0) {
+                int boardHeight = InputHelper.boardHeight(board, baseBoardHeight);
+
+                if (pieceUsed == 4 && inputStarted == 0 && boardHeight < 16) {
                     if (InputHelper.FixTspinMini(board, baseBoardHeight, finalX, finalY, finalR)) {
                         desiredX = finalX;
                         desiredR = finalR;
@@ -171,7 +173,7 @@ namespace Zetris {
                     }
                 }
 
-                if (((spinUsed || InputHelper.boardHeight(board, baseBoardHeight) >= 15 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
+                if (((spinUsed || boardHeight >= 16 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
                             case Instruction.NULL: inputGoal = -1; break;
