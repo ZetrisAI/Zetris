@@ -103,7 +103,7 @@ namespace Zetris {
             int boardAddress = GameHelper.boardAddress(PPT, playerID);
             for (int i = 0; i < 10; i++) {
                 int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
-                for (int j = 0; j < (25 - y); j++) {
+                for (int j = 0; j < 28; j++) {
                     board[i, j] = PPT.ReadByte(new IntPtr(columnAddress + j * 0x04));
                 }
             }
