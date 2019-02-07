@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Zetris</RootNamespace>
-    <AssemblyName>Zetris</AssemblyName>
+    <RootNamespace>PPT_TAS</RootNamespace>
+    <AssemblyName>PPT-TAS</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -58,7 +58,6 @@
       <DependentUpon>Dialog.cs</DependentUpon>
     </Compile>
     <Compile Include="GameHelper.cs" />
-    <Compile Include="InputHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,7 +66,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SprintHelper.cs" />
     <EmbeddedResource Include="Dialog.resx">
       <DependentUpon>Dialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,10 +99,6 @@
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
-      <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
-      <Name>MisaMinoNET</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ProcessMemory\ProcessMemory\ProcessMemory.csproj">
       <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
       <Name>ProcessMemory</Name>
