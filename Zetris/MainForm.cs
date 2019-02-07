@@ -107,18 +107,21 @@ namespace Zetris {
                     if (GameHelper.CurrentMode(PPT) != 4) {
                         PPT.Suspend();
 
-                        SprintHelper.Solution sol = SprintHelper.findMove(
+                        /*SprintHelper.Solution sol = SprintHelper.findMove(
                             board,
                             current,
                             pieces.Take(1).ToArray(),
                             GameHelper.getHoldPiece(PPT, playerID)
-                        );
+                        );*/
+
+                        Dialog q = new Dialog();
+                        q.ShowDialog();
 
                         PPT.Resume();
 
-                        desiredX = sol.desiredX;
-                        desiredR = sol.desiredR;
-                        desiredHold = sol.useHold;
+                        desiredX = q.desiredX;
+                        desiredR = q.desiredR;
+                        desiredHold = q.desiredHold;
 
                         inputStarted = 3;
 
