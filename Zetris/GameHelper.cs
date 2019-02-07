@@ -601,6 +601,26 @@ namespace Zetris {
             return -1;
         }
 
+        public static int getHoldPiece(ProcessMemory Game, int index) {
+            int ptrBase = Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140461B20
+                            )) + 0x378
+                        )) + 0x30
+                    )) + 0x300
+                )) + 0x3D0
+            )) + 0x8;
+
+            if (ptrBase > 0x08000000) return Game.ReadByte(new IntPtr(
+                ptrBase
+            ));
+
+            return -1;
+        }
+
         public static int getGarbageOverhead(ProcessMemory Game, int index) {
             if (InSwap(Game)) {
                 switch (index) {

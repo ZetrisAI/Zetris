@@ -73,7 +73,7 @@ namespace Zetris {
             int boardAddress = GameHelper.boardAddress(PPT, playerID);
             for (int i = 0; i < 10; i++) {
                 int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
-                for (int j = 0; j < 28; j++) {
+                for (int j = 0; j < 40; j++) {
                     board[i, j] = PPT.ReadByte(new IntPtr(columnAddress + j * 0x04));
                 }
             }
@@ -105,22 +105,24 @@ namespace Zetris {
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     if (GameHelper.CurrentMode(PPT) != 4) {
-                        movements = MisaMino.FindMove(
-                            pieces,
-                            current,
-                            baseBoardHeight,
+                        PPT.Suspend();
+
+                        SprintHelper.Solution sol = SprintHelper.findMove(
                             board,
-                            GameHelper.getCombo(PPT, playerID),
-                            GameHelper.getGarbageOverhead(PPT, playerID),
-                            ref pieceUsed,
-                            ref spinUsed,
-                            ref finalX,
-                            ref finalY,
-                            ref finalR
+                            current,
+                            pieces.Take(1).ToArray(),
+                            GameHelper.getHoldPiece(PPT, playerID)
                         );
 
-                        finalX++;
-                        finalY += 3;
+                        PPT.Resume();
+
+                        desiredX = sol.desiredX;
+                        desiredR = sol.desiredR;
+                        desiredHold = sol.useHold;
+
+                        inputStarted = 3;
+
+                        movements.Add(Instruction.DROP);
 
                         ret = true;
                     }
@@ -155,23 +157,7 @@ namespace Zetris {
 
         private void processInput() {
             if (movements.Count > 0) {
-                if (GameHelper.InSwap(PPT) && GameHelper.SwapType(PPT) == 0) {
-                    softdrop = false;
-                    movements.Clear();
-                    inputStarted = 0;
-                    return;
-                }
-
-                int boardHeight = InputHelper.boardHeight(board, baseBoardHeight);
-
-                if (pieceUsed == 4 && inputStarted == 0 && boardHeight < 16) {
-                    if (InputHelper.FixTspinMini(board, baseBoardHeight, finalX, finalY, finalR)) {
-                        desiredX = finalX;
-                        desiredR = finalR;
-                        desiredHold = movements.Contains(Instruction.HOLD);
-                        inputStarted = 3;
-                    }
-                }
+                int boardHeight = 0;
 
                 if (((spinUsed || boardHeight >= 16 || movements.Contains(Instruction.D) || movements.Contains(Instruction.DD)) && inputStarted != 3) || inputStarted == 1 || inputStarted == 2) {
                     if (inputStarted == 0 || inputStarted == 2) {
