@@ -200,5 +200,23 @@ namespace PPT_TAS {
 
             return ret;
         }
+
+        public static int getHold(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        0x140598A20
+                    )) + 0x38
+                )) + 0x3D0
+            )) + 0x8
+        ));
+
+        public static int getCleared(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140598A20
+                )) + 0x38
+            )) + 0x3E8
+        ));
     }
 }

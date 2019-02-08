@@ -71,31 +71,29 @@ namespace PPT_TAS {
                 }
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
-                    //PPT.Suspend();
-                    //ScanTimer.Enabled = false;
+                    PPT.Suspend();
+                    ScanTimer.Enabled = false;
 
-                    /* RNG predictions */
+                    Dialog q = new Dialog(
+                        board,
+                        current,
+                        GameHelper.getHold(PPT),
+                        pieces
+                            .Concat(GameHelper.getNextFromBags(PPT))
+                            .Concat(GameHelper.getNextFromRNG(PPT, 110))
+                            .ToArray(),
+                        GameHelper.getCleared(PPT)
+                    );
+                    q.ShowDialog();
 
-                    List<string> pred = pieces
-                        .Concat(GameHelper.getNextFromBags(PPT))
-                        .Concat(GameHelper.getNextFromRNG(PPT, 28))
-                        .Select(x => new string[] {"S", "Z", "J", "L", "T", "O", "I", "-"}[x])
-                        .ToList();
-                    valueQueue.Text = string.Join(", ", pred);
+                    ScanTimer.Enabled = true;
+                    PPT.Resume();
 
-                    /* end RNG */
+                    desiredX = q.desiredX;
+                    desiredR = q.desiredR;
+                    desiredHold = q.desiredHold;
 
-                    //Dialog q = new Dialog();
-                    //q.ShowDialog();
-
-                    //ScanTimer.Enabled = true;
-                    //PPT.Resume();
-
-                    //desiredX = q.desiredX;
-                    //desiredR = q.desiredR;
-                    //desiredHold = q.desiredHold;
-
-                    //inputStarted = true;
+                    inputStarted = true;
                     register = false;
                 }
 

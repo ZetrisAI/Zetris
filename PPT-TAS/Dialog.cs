@@ -5,8 +5,10 @@ using System.Collections.Generic;
 
 namespace PPT_TAS {
     public partial class Dialog : Form {
-        public Dialog() {
-            InitializeComponent();
+        public Dialog(int[,] board, int current, int hold, int[] queue, int cleared) {
+            
+
+
             brush = new SolidBrush(BackgroundColor);
             pen = new Pen(Color.Black);
             image = new Bitmap(Size.Width * Blocksize_ + 1, Size.Height * Blocksize_ + 1);
@@ -23,6 +25,8 @@ namespace PPT_TAS {
             graphics.DrawRectangle(pen, 0, 0, image.Width - 1, image.Height - 1);
             UpdateButtons();
             Piece = new Tetromino(PieceQueue[PiecePointer]);
+
+            InitializeComponent();
         }
 
         Tetromino Piece;
@@ -134,7 +138,7 @@ namespace PPT_TAS {
 
                     //draw ghostblock with transparency
                     //use simulated harddropped piece
-                    switch (GhostBoard[x, y]) 
+                    /*switch (GhostBoard[x, y]) 
                     {
                         case (byte)Blocks.I:
                             brush.Color = Color.FromArgb(0x40, 0x00, 0x9F, 0xDA);
@@ -158,7 +162,7 @@ namespace PPT_TAS {
                             brush.Color = Color.FromArgb(0x40, 0xED, 0x29, 0x39);
                             break;
                     }
-                    graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);
+                    graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);*/
                 }
             }
         }
