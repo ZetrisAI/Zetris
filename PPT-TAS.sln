@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPT-TAS", "Zetris\PPT-TAS.csproj", "{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPT-TAS", "PPT-TAS\PPT-TAS.csproj", "{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessMemory", "..\ProcessMemory\ProcessMemory\ProcessMemory.csproj", "{35B5C872-D829-428F-9DFA-8EF2B4DE194C}"
 EndProject
