@@ -78,8 +78,8 @@ namespace PPT_TAS {
 
                     List<string> pred = pieces
                         .Concat(GameHelper.getNextFromBags(PPT))
-                        .Concat(GameHelper.getNextFromRNG(PPT, 7))
-                        .Select(x => new string[] { "S", "Z", "J", "L", "T", "O", "I", "-" }[x])
+                        .Concat(GameHelper.getNextFromRNG(PPT, 28))
+                        .Select(x => new string[] {"S", "Z", "J", "L", "T", "O", "I", "-"}[x])
                         .ToList();
                     valueQueue.Text = string.Join(", ", pred);
 

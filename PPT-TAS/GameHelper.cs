@@ -187,7 +187,7 @@ namespace PPT_TAS {
                     seed *= 0x5D588B65;
                     seed += 0x269EC3;
 
-                    int newIndex = Convert.ToInt32((seed >> 16) * (7 - i)) >> 16;
+                    int newIndex = (Convert.ToInt32((seed >> 16) * (7 - i)) >> 16) + i;
 
                     int newValue = bag[newIndex];
                     int oldValue = bag[i];
