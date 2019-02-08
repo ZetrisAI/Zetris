@@ -36,6 +36,7 @@
             this.labelFrametime = new System.Windows.Forms.Label();
             this.labelSkipped = new System.Windows.Forms.Label();
             this.valueFrametime = new System.Windows.Forms.Label();
+            this.valueQueue = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -147,14 +148,25 @@
             this.valueFrametime.Text = "?";
             this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // valueQueue
+            // 
+            this.valueQueue.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueQueue.Location = new System.Drawing.Point(173, 54);
+            this.valueQueue.Name = "valueQueue";
+            this.valueQueue.Size = new System.Drawing.Size(690, 17);
+            this.valueQueue.TabIndex = 1;
+            this.valueQueue.Text = "?";
+            this.valueQueue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 142);
+            this.ClientSize = new System.Drawing.Size(869, 142);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelGamepad);
+            this.Controls.Add(this.valueQueue);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -183,6 +195,7 @@
         private System.Windows.Forms.Label labelFrametime;
         private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label buttonGamepad;
+        private System.Windows.Forms.Label valueQueue;
     }
 }
 

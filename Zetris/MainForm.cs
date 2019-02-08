@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
@@ -37,9 +38,9 @@ namespace PPT_TAS {
         bool register = false;
 
         private void runLogic() {
-            int y = GameHelper.getPiecePositionY(PPT, 0);
+            int y = GameHelper.getPiecePositionY(PPT);
 
-            int boardAddress = GameHelper.boardAddress(PPT, 0);
+            int boardAddress = GameHelper.boardAddress(PPT);
             for (int i = 0; i < 10; i++) {
                 int columnAddress = PPT.ReadInt32(new IntPtr(boardAddress + i * 0x08));
                 for (int j = 0; j < 40; j++) {
@@ -47,12 +48,12 @@ namespace PPT_TAS {
                 }
             }
 
-            if (GameHelper.boardAddress(PPT, 0) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0 && GameHelper.IsTetChallenge(PPT)) {
-                int drop = GameHelper.getPieceDropped(PPT, 0);
+            if (GameHelper.boardAddress(PPT) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0 && GameHelper.IsTetChallenge(PPT)) {
+                int drop = GameHelper.getPieceDropped(PPT);
 
-                int current = GameHelper.getCurrentPiece(PPT, 0);
+                int current = GameHelper.getCurrentPiece(PPT);
 
-                int piecesAddress = GameHelper.piecesAddress(PPT, 0);
+                int piecesAddress = GameHelper.piecesAddress(PPT);
                 int i;
 
                 int[] pieces = new int[5];
@@ -70,20 +71,31 @@ namespace PPT_TAS {
                 }
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
-                    PPT.Suspend();
-                    ScanTimer.Enabled = false;
+                    //PPT.Suspend();
+                    //ScanTimer.Enabled = false;
 
-                    Dialog q = new Dialog();
-                    q.ShowDialog();
+                    /* RNG predictions */
 
-                    ScanTimer.Enabled = true;
-                    PPT.Resume();
+                    List<string> pred = pieces
+                        .Concat(GameHelper.getNextFromBags(PPT))
+                        .Concat(GameHelper.getNextFromRNG(PPT, 7))
+                        .Select(x => new string[] { "S", "Z", "J", "L", "T", "O", "I", "-" }[x])
+                        .ToList();
+                    valueQueue.Text = string.Join(", ", pred);
 
-                    desiredX = q.desiredX;
-                    desiredR = q.desiredR;
-                    desiredHold = q.desiredHold;
+                    /* end RNG */
 
-                    inputStarted = true;
+                    //Dialog q = new Dialog();
+                    //q.ShowDialog();
+
+                    //ScanTimer.Enabled = true;
+                    //PPT.Resume();
+
+                    //desiredX = q.desiredX;
+                    //desiredR = q.desiredR;
+                    //desiredHold = q.desiredHold;
+
+                    //inputStarted = true;
                     register = false;
                 }
 
@@ -104,17 +116,17 @@ namespace PPT_TAS {
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            if (GameHelper.boardAddress(PPT, 0) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
+            if (GameHelper.boardAddress(PPT) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 previousInputs = gamepad.Buttons;
 
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
 
                     if (inputStarted) {
-                        int pieceX = GameHelper.getPiecePositionX(PPT, 0);
-                        int pieceR = GameHelper.getPieceRotation(PPT, 0);
+                        int pieceX = GameHelper.getPiecePositionX(PPT);
+                        int pieceR = GameHelper.getPieceRotation(PPT);
 
-                        if (GameHelper.getPieceDropped(PPT, 0) == 1) {
+                        if (GameHelper.getPieceDropped(PPT) == 1) {
                             inputStarted = false;
                             return;
                         }
@@ -153,7 +165,6 @@ namespace PPT_TAS {
             
             scp.Report(4, gamepad.GetReport());
         }
-
 
         private void updateUI() {
             buttonGamepad.Text = gamepadPluggedIn? "Disconnect" : "Connect";

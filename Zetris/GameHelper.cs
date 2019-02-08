@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PPT_TAS {
     class GameHelper {
@@ -10,7 +12,7 @@ namespace PPT_TAS {
             0x140573854
         ));
 
-        public static int boardAddress(ProcessMemory Game, int index) => Game.ReadInt32(new IntPtr(
+        public static int boardAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -21,7 +23,7 @@ namespace PPT_TAS {
         )) + 0x50;
         
 
-        public static int piecesAddress(ProcessMemory Game, int index) => Game.ReadInt32(new IntPtr(
+        public static int piecesAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140461B20
@@ -29,7 +31,7 @@ namespace PPT_TAS {
             )) + 0xB8
         )) + 0x15C;
 
-        public static int getCurrentPiece(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int getCurrentPiece(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -41,7 +43,7 @@ namespace PPT_TAS {
             )) + 0x110
         ));
 
-        public static int getPiecePositionX(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int getPiecePositionX(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -51,7 +53,7 @@ namespace PPT_TAS {
             )) + 0x100
         ));
 
-        public static int getPiecePositionY(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int getPiecePositionY(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -61,7 +63,7 @@ namespace PPT_TAS {
             )) + 0x101
         ));
 
-        public static int getPieceRotation(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int getPieceRotation(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -75,7 +77,7 @@ namespace PPT_TAS {
             )) + 0x18
         ));
 
-        public static int getPieceDropped(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int getPieceDropped(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -129,6 +131,74 @@ namespace PPT_TAS {
             )) & 0b11101111) - 2;
             
             return 13 <= a && a <= 15;
+        }
+
+        public static List<int> getNextFromBags(ProcessMemory Game) {
+            List<int> ret = new List<int>() { 7 };
+
+            int ptr = Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x138
+                        )) + 0x10
+                    )) + 0x80
+                )) + 0x78
+            ));
+
+            for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++) {
+                ret.Add(Game.ReadByte(new IntPtr(
+                    ptr + 0x320 + 0x04 * i
+                )));
+            }
+            
+            return ret;
+        }
+
+        public static List<int> getNextFromRNG(ProcessMemory Game, int amount) {
+            List<int> ret = new List<int>() { 7 };
+
+            int ptr = Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x138
+                        )) + 0x10
+                    )) + 0x80
+                )) + 0x78
+            ));
+
+            uint seed = Game.ReadUInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    ptr + 0x78
+                )) + 0x80
+            ));
+
+            if (amount % 7 != 0) amount += 7 - amount % 7;
+
+            for (int x = 0; x < amount / 7; x++) {
+                List<int> bag = new List<int>() {0, 1, 2, 3, 4, 5, 6};
+
+                for (int i = 0; i < 7; i++) {
+                    seed *= 0x5D588B65;
+                    seed += 0x269EC3;
+
+                    int newIndex = Convert.ToInt32((seed >> 16) * (7 - i)) >> 16;
+
+                    int newValue = bag[newIndex];
+                    int oldValue = bag[i];
+                    bag[i] = newValue;
+                    bag[newIndex] = oldValue;
+                }
+
+                ret = ret.Concat(bag).ToList();
+            }
+
+            return ret;
         }
     }
 }
