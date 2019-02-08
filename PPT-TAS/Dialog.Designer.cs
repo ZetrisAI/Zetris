@@ -30,8 +30,12 @@
             this.labelX = new System.Windows.Forms.Label();
             this.labelR = new System.Windows.Forms.Label();
             this.labelHold = new System.Windows.Forms.Label();
+            this.Canvas = new System.Windows.Forms.PictureBox();
+            this.PlacePiece = new System.Windows.Forms.Button();
+            this.Undo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
             this.SuspendLayout();
             // 
             // valueX
@@ -106,12 +110,45 @@
             this.labelHold.TabIndex = 15;
             this.labelHold.Text = "Use Hold:";
             // 
+            // Canvas
+            // 
+            this.Canvas.Location = new System.Drawing.Point(114, 13);
+            this.Canvas.Name = "Canvas";
+            this.Canvas.Size = new System.Drawing.Size(211, 421);
+            this.Canvas.TabIndex = 16;
+            this.Canvas.TabStop = false;
+            // 
+            // PlacePiece
+            // 
+            this.PlacePiece.ForeColor = System.Drawing.Color.Black;
+            this.PlacePiece.Location = new System.Drawing.Point(12, 381);
+            this.PlacePiece.Name = "PlacePiece";
+            this.PlacePiece.Size = new System.Drawing.Size(96, 23);
+            this.PlacePiece.TabIndex = 17;
+            this.PlacePiece.Text = "Place Piece";
+            this.PlacePiece.UseVisualStyleBackColor = true;
+            this.PlacePiece.Click += new System.EventHandler(this.PlacePiece_Click);
+            // 
+            // Undo
+            // 
+            this.Undo.ForeColor = System.Drawing.Color.Black;
+            this.Undo.Location = new System.Drawing.Point(12, 410);
+            this.Undo.Name = "Undo";
+            this.Undo.Size = new System.Drawing.Size(96, 23);
+            this.Undo.TabIndex = 18;
+            this.Undo.Text = "Undo";
+            this.Undo.UseVisualStyleBackColor = true;
+            this.Undo.Click += new System.EventHandler(this.Undo_Click);
+            // 
             // Dialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(120, 78);
+            this.ClientSize = new System.Drawing.Size(416, 458);
+            this.Controls.Add(this.Undo);
+            this.Controls.Add(this.PlacePiece);
+            this.Controls.Add(this.Canvas);
             this.Controls.Add(this.labelHold);
             this.Controls.Add(this.labelR);
             this.Controls.Add(this.labelX);
@@ -128,6 +165,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,5 +179,8 @@
         private System.Windows.Forms.Label labelX;
         private System.Windows.Forms.Label labelR;
         private System.Windows.Forms.Label labelHold;
+        private System.Windows.Forms.PictureBox Canvas;
+        private System.Windows.Forms.Button PlacePiece;
+        private System.Windows.Forms.Button Undo;
     }
 }
