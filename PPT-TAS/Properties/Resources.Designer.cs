@@ -83,6 +83,16 @@ namespace PPT_TAS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _0_mini {
+            get {
+                object obj = ResourceManager.GetObject("_0_mini", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _1 {
             get {
                 object obj = ResourceManager.GetObject("_1", resourceCulture);
@@ -96,6 +106,16 @@ namespace PPT_TAS.Properties {
         internal static System.Drawing.Bitmap _1_ghost {
             get {
                 object obj = ResourceManager.GetObject("_1_ghost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1_mini {
+            get {
+                object obj = ResourceManager.GetObject("_1_mini", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,6 +143,16 @@ namespace PPT_TAS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _2_mini {
+            get {
+                object obj = ResourceManager.GetObject("_2_mini", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _3 {
             get {
                 object obj = ResourceManager.GetObject("_3", resourceCulture);
@@ -136,6 +166,16 @@ namespace PPT_TAS.Properties {
         internal static System.Drawing.Bitmap _3_ghost {
             get {
                 object obj = ResourceManager.GetObject("_3_ghost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _3_mini {
+            get {
+                object obj = ResourceManager.GetObject("_3_mini", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,6 +203,16 @@ namespace PPT_TAS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _4_mini {
+            get {
+                object obj = ResourceManager.GetObject("_4_mini", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _5 {
             get {
                 object obj = ResourceManager.GetObject("_5", resourceCulture);
@@ -176,6 +226,16 @@ namespace PPT_TAS.Properties {
         internal static System.Drawing.Bitmap _5_ghost {
             get {
                 object obj = ResourceManager.GetObject("_5_ghost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _5_mini {
+            get {
+                object obj = ResourceManager.GetObject("_5_mini", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,6 +263,16 @@ namespace PPT_TAS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _6_mini {
+            get {
+                object obj = ResourceManager.GetObject("_6_mini", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _7 {
             get {
                 object obj = ResourceManager.GetObject("_7", resourceCulture);
@@ -216,6 +286,16 @@ namespace PPT_TAS.Properties {
         internal static System.Drawing.Bitmap _7_ghost {
             get {
                 object obj = ResourceManager.GetObject("_7_ghost", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _7_mini {
+            get {
+                object obj = ResourceManager.GetObject("_7_mini", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
