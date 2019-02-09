@@ -6,8 +6,11 @@ using System.Collections.Generic;
 namespace PPT_TAS {
     public partial class Dialog : Form {
         public Dialog(int[,] board, int current, int hold, int[] queue, int cleared) {
-            
 
+            VisibleBoard = board;
+            Hold = hold;
+            PieceQueue = queue;
+            LinesCleared = cleared;
 
             brush = new SolidBrush(BackgroundColor);
             pen = new Pen(Color.Black);
@@ -23,10 +26,26 @@ namespace PPT_TAS {
                 graphics.DrawLine(pen, 0, y * Blocksize_, image.Width, y * Blocksize_);
             }
             graphics.DrawRectangle(pen, 0, 0, image.Width - 1, image.Height - 1);
-            UpdateButtons();
-            Piece = new Tetromino(PieceQueue[PiecePointer]);
+            //UpdateButtons();
+            //Piece = new Tetromino(PieceQueue[PiecePointer]);
+
+            //draws background, separators and outline for the board (in that order)
+            graphics.FillRectangle(brush, 0, 0, image.Width, image.Height);
+            for (int x = 0; x < Size.Width; x++)
+            {
+                graphics.DrawLine(pen, x * Blocksize_, 0, x * Blocksize_, image.Height);
+            }
+            for (int y = 0; y < Size.Height; y++)
+            {
+                graphics.DrawLine(pen, 0, y * Blocksize_, image.Width, y * Blocksize_);
+            }
+            graphics.DrawRectangle(pen, 0, 0, image.Width - 1, image.Height - 1);
 
             InitializeComponent();
+
+            DrawBoard();
+
+            DrawHoldAndQueue();
         }
 
         Tetromino Piece;
@@ -62,7 +81,7 @@ namespace PPT_TAS {
         void UpdateButtons()
         {
             Undo.Enabled = Instructions.Count > 0;
-            PlacePiece.Enabled = PiecePointer >= PieceQueue.Count;
+            PlacePiece.Enabled = PiecePointer >= PieceQueue.Length;
         }
 
         private void PlacePiece_Click(object sender, EventArgs e)
@@ -81,7 +100,7 @@ namespace PPT_TAS {
 
         int PiecePointer = 0;
 
-        List<byte> PieceQueue = new List<byte>();
+        int[] PieceQueue;
         List<Instruction> Instructions = new List<Instruction>();
 
         public enum Blocks
@@ -95,8 +114,8 @@ namespace PPT_TAS {
             I,
         } //all the used blocks
 
-        public byte[,] VisibleBoard = new byte[10, 20];
-        int Blocksize = 20, Blocksize_ = 21;
+        public int[,] VisibleBoard;
+        int Blocksize = 20, Blocksize_ = 21, Hold, LinesCleared;
         Bitmap image;
         SolidBrush brush;
         Pen pen;
@@ -105,9 +124,9 @@ namespace PPT_TAS {
         void DrawBoard()
         {
             //draw real block
-            for (int y = 0; y < Size.Height; y++)
+            for (int y = 0; y < 24; y++)
             {
-                for (int x = 0; x < Size.Width; x++)
+                for (int x = 0; x < VisibleBoard.GetLength(0); x++)
                 {
                     //draw real blocks
                     switch (VisibleBoard[x, y])
@@ -133,8 +152,20 @@ namespace PPT_TAS {
                         case (byte)Blocks.Z:
                             brush.Color = Color.FromArgb(0xED, 0x29, 0x39);
                             break;
+                        default:
+                            if (y + LinesCleared >= 40)
+                            {
+                                brush.Color = Color.FromArgb(138, 69, 69);
+                            }
+                            else
+                            {
+                                int temp = (y + LinesCleared) % 4;
+                                int color = 50 + (15 - (3 - temp) * 13);
+                                brush.Color = Color.FromArgb(color, color, color);
+                            }
+                            break;
                     }
-                    graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);
+                    graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
 
                     //draw ghostblock with transparency
                     //use simulated harddropped piece
@@ -161,9 +192,46 @@ namespace PPT_TAS {
                         case (byte)Blocks.Z:
                             brush.Color = Color.FromArgb(0x40, 0xED, 0x29, 0x39);
                             break;
+                        default:
+                            brush.Color = Color.FromArgb(0x40, BackgroundColor);
+                            break;
                     }
                     graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);*/
                 }
+            }
+            Canvas.Image = image;
+        }
+
+        void DrawHoldAndQueue()
+        {
+            string i = "Hold: " + GetPiece((byte)Hold) + "\nQueue:";
+            foreach (int j in PieceQueue)
+            {
+                i += "\n" + GetPiece((byte)j);
+            }
+            HoldAndQueue.Text = i;
+        }
+
+        char GetPiece(byte i)
+        {
+            switch (i)
+            {
+                case (byte)Blocks.I:
+                    return 'I';
+                case (byte)Blocks.J:
+                    return 'J';
+                case (byte)Blocks.L:
+                    return 'L';
+                case (byte)Blocks.O:
+                    return 'O';
+                case (byte)Blocks.S:
+                    return 'S';
+                case (byte)Blocks.T:
+                    return 'T';
+                case (byte)Blocks.Z:
+                    return 'Z';
+                default:
+                    return '-';
             }
         }
     }

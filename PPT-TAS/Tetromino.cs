@@ -34,6 +34,11 @@ namespace PPT_TAS
             { ( 0, 0), (-1, 0), ( 2, 0), (-1, 2), ( 2,-1) }
         };
 
+        public Tetromino()
+        {
+
+        }
+
         public Tetromino(byte Piece)
         {
             this.Piece = Piece;
