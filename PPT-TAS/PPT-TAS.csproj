@@ -103,6 +103,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\9_tetris.png" />
+    <None Include="Resources\9_puyo.png" />
+    <None Include="Resources\7_ghost.png" />
+    <None Include="Resources\7.png" />
+    <None Include="Resources\6_ghost.png" />
+    <None Include="Resources\6.png" />
+    <None Include="Resources\5_ghost.png" />
+    <None Include="Resources\5.png" />
+    <None Include="Resources\4_ghost.png" />
+    <None Include="Resources\4.png" />
+    <None Include="Resources\3_ghost.png" />
+    <None Include="Resources\3.png" />
+    <None Include="Resources\2_ghost.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\1_ghost.png" />
+    <None Include="Resources\1.png" />
+    <None Include="Resources\0_ghost.png" />
+    <None Include="Resources\0.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ProcessMemory\ProcessMemory\ProcessMemory.csproj">
