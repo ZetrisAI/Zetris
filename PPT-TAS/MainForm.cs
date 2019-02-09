@@ -77,6 +77,7 @@ namespace PPT_TAS {
                     Dialog q = new Dialog(
                         board,
                         current,
+                        y,
                         GameHelper.getHold(PPT),
                         pieces
                             .Concat(GameHelper.getNextFromBags(PPT))

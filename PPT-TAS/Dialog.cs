@@ -5,12 +5,28 @@ using System.Collections.Generic;
 
 namespace PPT_TAS {
     public partial class Dialog : Form {
-        public Dialog(int[,] board, int current, int hold, int[] queue, int cleared) {
+        public Dialog(int[,] board, int current, int yPos, int hold, int[] queue, int cleared)
+        {
 
             VisibleBoard = board;
             Hold = hold;
             PieceQueue = queue;
             LinesCleared = cleared;
+            byte[,] Piece = Tetromino.GetTetromino((byte)current);
+            X = (current == (int)Blocks.O ? 4 : 3);
+            Y = yPos;
+            int i = 0;
+            for (int y = 0; y < Piece.GetLength(1); y++)
+            {
+                for (int x = 0; x < Piece.GetLength(0); x++)
+                {
+                    if (Piece[x, y] == 1)
+                    {
+                        board[X + x, Y + y + 13] = current;
+                        CurrentPiece[i++] = (X + x, Y + y + 13);
+                    }
+                }
+            }
 
             brush = new SolidBrush(BackgroundColor);
             pen = new Pen(Color.Black);
@@ -48,7 +64,8 @@ namespace PPT_TAS {
             DrawHoldAndQueue();
         }
 
-        Tetromino Piece;
+        (int x, int y)[] CurrentPiece = new (int x, int y)[4];
+        int X = 4, Y;
 
         public int desiredX = 4, desiredR = 0;
         public bool desiredHold = false;
@@ -128,6 +145,7 @@ namespace PPT_TAS {
             {
                 for (int x = 0; x < VisibleBoard.GetLength(0); x++)
                 {
+                    bool IsPiece = true;
                     //draw real blocks
                     switch (VisibleBoard[x, y])
                     {
@@ -153,6 +171,7 @@ namespace PPT_TAS {
                             brush.Color = Color.FromArgb(0xED, 0x29, 0x39);
                             break;
                         default:
+                            IsPiece = false;
                             if (y + LinesCleared >= 40)
                             {
                                 brush.Color = Color.FromArgb(138, 69, 69);
@@ -164,6 +183,21 @@ namespace PPT_TAS {
                                 brush.Color = Color.FromArgb(color, color, color);
                             }
                             break;
+                    }
+                    if (IsPiece)
+                    {
+                        bool current = false;
+                        foreach ((int x, int y) i in CurrentPiece)
+                        {
+                            if (x == i.x && y == i.y)
+                            {
+                                current = true;
+                            }
+                        }
+                        if (!current)
+                        {
+                            brush.Color = Color.FromArgb(170, brush.Color.R, brush.Color.G, brush.Color.B);
+                        }
                     }
                     graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
 

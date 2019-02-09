@@ -232,6 +232,88 @@ namespace PPT_TAS
             return TempPiece;
         }
 
+        static public byte[,] GetTetromino(byte Tetromino)
+        {
+            byte[,] Piece;
+            switch (Tetromino)
+            {
+                case (byte)Blocks.I:
+                    Piece = new byte[,] {
+                        { 0, 0, 0, 0 },
+                        { 1, 1, 1, 1 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.J:
+                    Piece = new byte[,] {
+                        { 1, 0, 0, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.L:
+                    Piece = new byte[,] {
+                        { 0, 0, 1, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.O:
+                    Piece = new byte[,] {
+                        { 1, 1, 0, 0 },
+                        { 1, 1, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.S:
+                    Piece = new byte[,] {
+                        { 0, 1, 1, 0 },
+                        { 1, 1, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.T:
+                    Piece = new byte[,] {
+                        { 0, 1, 0, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.Z:
+                    Piece = new byte[,] {
+                        { 1, 1, 0, 0 },
+                        { 0, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                default:
+                    Piece = new byte[,] {
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+            }
+            byte[,] temp = new byte[4, 4];
+            for (int y = 0; y < 4; y++)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    temp[x, y] = Piece[3 - y, x];
+                }
+            }
+            Piece = temp;
+            return Piece;
+        }
+
         public (byte, byte)[] FromAnchorPoint()
         {
             (byte, byte)[] temp = new(byte, byte)[4];
