@@ -134,7 +134,7 @@ namespace PPT_TAS {
         }
 
         public static List<int> getNextFromBags(ProcessMemory Game) {
-            List<int> ret = new List<int>() { 7 };
+            List<int> ret = new List<int>();
 
             int ptr = Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
@@ -158,7 +158,7 @@ namespace PPT_TAS {
         }
 
         public static List<int> getNextFromRNG(ProcessMemory Game, int amount) {
-            List<int> ret = new List<int>() { 7 };
+            List<int> ret = new List<int>();
 
             int ptr = Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
