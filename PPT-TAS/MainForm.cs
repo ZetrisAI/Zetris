@@ -210,6 +210,10 @@ namespace PPT_TAS {
             }
         }
 
+        private void buttonResume_Click(object sender, EventArgs e) {
+            PPT.Resume();
+        }
+
         void MainForm_Load(object sender, EventArgs e) {
             scp.UnplugAll();
             scp.PlugIn(4);

@@ -36,6 +36,7 @@
             this.labelFrametime = new System.Windows.Forms.Label();
             this.labelSkipped = new System.Windows.Forms.Label();
             this.valueFrametime = new System.Windows.Forms.Label();
+            this.buttonResume = new System.Windows.Forms.Button();
             this.panelGamepad.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -147,12 +148,25 @@
             this.valueFrametime.Text = "?";
             this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // buttonResume
+            // 
+            this.buttonResume.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.buttonResume.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonResume.Location = new System.Drawing.Point(51, 138);
+            this.buttonResume.Name = "buttonResume";
+            this.buttonResume.Size = new System.Drawing.Size(75, 23);
+            this.buttonResume.TabIndex = 14;
+            this.buttonResume.Text = "Resume";
+            this.buttonResume.UseVisualStyleBackColor = false;
+            this.buttonResume.Click += new System.EventHandler(this.buttonResume_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(178, 142);
+            this.ClientSize = new System.Drawing.Size(178, 170);
+            this.Controls.Add(this.buttonResume);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelGamepad);
             this.ForeColor = System.Drawing.Color.Gainsboro;
@@ -183,6 +197,7 @@
         private System.Windows.Forms.Label labelFrametime;
         private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label buttonGamepad;
+        private System.Windows.Forms.Button buttonResume;
     }
 }
 
