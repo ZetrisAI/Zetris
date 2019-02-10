@@ -7,7 +7,7 @@ namespace PPT_TAS {
     public partial class Dialog : Form {
         public Dialog(int[,] board, int current, int yPos, int hold, int[] queue, int cleared, int bagIndex)
         {
-
+            BagIndex = bagIndex;
             VisibleBoard = board;
             Hold = hold;
             PieceQueue = queue;
@@ -30,14 +30,14 @@ namespace PPT_TAS {
 
             brush = new SolidBrush(BackgroundColor);
             pen = new Pen(Color.Black);
-            image = new Bitmap(Size.Width * Blocksize_ + 1, Size.Height * Blocksize_ + 1);
+            image = new Bitmap(11 * Blocksize_ + 1, 24 * Blocksize_ + 1);
             graphics = Graphics.FromImage(image);
             //UpdateButtons();
             //Piece = new Tetromino(PieceQueue[PiecePointer]);
 
             //draws background, separators and outline for the board (in that order)
-            graphics.FillRectangle(brush, 0, 0, image.Width - 21, image.Height);
-            for (int x = 0; x < image.Width - 21; x++)
+            graphics.FillRectangle(brush, 0, 0, image.Width, image.Height);
+            for (int x = 0; x * Blocksize_ < image.Width - Blocksize_ - 2; x++)
             {
                 graphics.DrawLine(pen, x * Blocksize_, 0, x * Blocksize_, image.Height);
             }
@@ -128,39 +128,115 @@ namespace PPT_TAS {
         Pen pen;
         Graphics graphics;
         Color BackgroundColor = Color.DimGray;
+
+        bool DrawSimple = false;
         void DrawBoard()
         {
-            //draw real block
-            for (int y = 0; y < 24; y++)
+            if (DrawSimple)
             {
-                for (int x = 0; x < VisibleBoard.GetLength(0); x++)
+                //draw real block
+                for (int y = 0; y < 24; y++)
                 {
-                    bool IsPiece = true;
-                    //draw real blocks
-                    switch (VisibleBoard[x, y])
+                    for (int x = 0; x < VisibleBoard.GetLength(0); x++)
                     {
-                        case (byte)Blocks.I:
-                            brush.Color = Color.FromArgb(0x00, 0x9F, 0xDA);
-                            break;
-                        case (byte)Blocks.J:
-                            brush.Color = Color.FromArgb(0x00, 0x65, 0xBD);
-                            break;
-                        case (byte)Blocks.L:
-                            brush.Color = Color.FromArgb(0xFF, 0x79, 0x00);
-                            break;
-                        case (byte)Blocks.O:
-                            brush.Color = Color.FromArgb(0xFE, 0xCB, 0x00);
-                            break;
-                        case (byte)Blocks.S:
-                            brush.Color = Color.FromArgb(0x69, 0xBE, 0x28);
-                            break;
-                        case (byte)Blocks.T:
-                            brush.Color = Color.FromArgb(0x95, 0x2D, 0x98);
-                            break;
-                        case (byte)Blocks.Z:
-                            brush.Color = Color.FromArgb(0xED, 0x29, 0x39);
-                            break;
-                        default:
+                        bool IsPiece = true;
+                        //draw real blocks
+                        switch (VisibleBoard[x, y])
+                        {
+                            case (byte)Blocks.I:
+                                brush.Color = Color.FromArgb(0x00, 0x9F, 0xDA);
+                                break;
+                            case (byte)Blocks.J:
+                                brush.Color = Color.FromArgb(0x00, 0x65, 0xBD);
+                                break;
+                            case (byte)Blocks.L:
+                                brush.Color = Color.FromArgb(0xFF, 0x79, 0x00);
+                                break;
+                            case (byte)Blocks.O:
+                                brush.Color = Color.FromArgb(0xFE, 0xCB, 0x00);
+                                break;
+                            case (byte)Blocks.S:
+                                brush.Color = Color.FromArgb(0x69, 0xBE, 0x28);
+                                break;
+                            case (byte)Blocks.T:
+                                brush.Color = Color.FromArgb(0x95, 0x2D, 0x98);
+                                break;
+                            case (byte)Blocks.Z:
+                                brush.Color = Color.FromArgb(0xED, 0x29, 0x39);
+                                break;
+                            default:
+                                IsPiece = false;
+                                if (y + LinesCleared >= 40)
+                                {
+                                    brush.Color = Color.FromArgb(138, 69, 69);
+                                }
+                                else
+                                {
+                                    int temp = (y + LinesCleared) % 4;
+                                    int color = 50 + (15 - (3 - temp) * 13);
+                                    brush.Color = Color.FromArgb(color, color, color);
+                                }
+                                break;
+                        }
+                        if (IsPiece)
+                        {
+                            bool current = false;
+                            foreach ((int x, int y) i in CurrentPiece)
+                            {
+                                if (x == i.x && y == i.y)
+                                {
+                                    current = true;
+                                }
+                            }
+                            if (!current)
+                            {
+                                brush.Color = Color.FromArgb(170, brush.Color.R, brush.Color.G, brush.Color.B);
+                            }
+                        }
+                        graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
+
+                        //draw ghostblock with transparency
+                        //use simulated harddropped piece
+                        /*switch (GhostBoard[x, y]) 
+                        {
+                            case (byte)Blocks.I:
+                                brush.Color = Color.FromArgb(0x40, 0x00, 0x9F, 0xDA);
+                                break;
+                            case (byte)Blocks.J:
+                                brush.Color = Color.FromArgb(0x40, 0x00, 0x65, 0xBD);
+                                break;
+                            case (byte)Blocks.L:
+                                brush.Color = Color.FromArgb(0x40, 0xFF, 0x79, 0x00);
+                                break;
+                            case (byte)Blocks.O:
+                                brush.Color = Color.FromArgb(0x40, 0xFE, 0xCB, 0x00);
+                                break;
+                            case (byte)Blocks.S:
+                                brush.Color = Color.FromArgb(0x40, 0x69, 0xBE, 0x28);
+                                break;
+                            case (byte)Blocks.T:
+                                brush.Color = Color.FromArgb(0x40, 0x95, 0x2D, 0x98);
+                                break;
+                            case (byte)Blocks.Z:
+                                brush.Color = Color.FromArgb(0x40, 0xED, 0x29, 0x39);
+                                break;
+                            default:
+                                brush.Color = Color.FromArgb(0x40, BackgroundColor);
+                                break;
+                        }
+                        graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);*/
+                    }
+                }
+            }
+            else
+            {
+                for (int y = 0; y < 24; y++)
+                {
+                    for (int x = 0; x < VisibleBoard.GetLength(0); x++)
+                    {
+                        bool IsPiece = true;
+                        if ((byte)VisibleBoard[x, y] == 255)
+                        {
                             IsPiece = false;
                             if (y + LinesCleared >= 40)
                             {
@@ -172,97 +248,129 @@ namespace PPT_TAS {
                                 int color = 50 + (15 - (3 - temp) * 13);
                                 brush.Color = Color.FromArgb(color, color, color);
                             }
-                            break;
-                    }
-                    if (IsPiece)
-                    {
-                        bool current = false;
-                        foreach ((int x, int y) i in CurrentPiece)
+                            graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
+                        }
+                        else
                         {
-                            if (x == i.x && y == i.y)
+                            Bitmap piece = GetBitmap((byte)VisibleBoard[x, y], PieceType.Normal);
+                            graphics.DrawImage(piece, new Rectangle(x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize));
+                            if (IsPiece)
                             {
-                                current = true;
+                                bool current = false;
+                                foreach ((int x, int y) i in CurrentPiece)
+                                {
+                                    if (x == i.x && y == i.y)
+                                    {
+                                        current = true;
+                                    }
+                                }
+                                if (!current)
+                                {
+                                    brush.Color = Color.FromArgb(85, 0, 0, 0);
+                                    graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
+                                }
                             }
                         }
-                        if (!current)
-                        {
-                            brush.Color = Color.FromArgb(170, brush.Color.R, brush.Color.G, brush.Color.B);
-                        }
                     }
-                    graphics.FillRectangle(brush, x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize);
-
-                    //draw ghostblock with transparency
-                    //use simulated harddropped piece
-                    /*switch (GhostBoard[x, y]) 
-                    {
-                        case (byte)Blocks.I:
-                            brush.Color = Color.FromArgb(0x40, 0x00, 0x9F, 0xDA);
-                            break;
-                        case (byte)Blocks.J:
-                            brush.Color = Color.FromArgb(0x40, 0x00, 0x65, 0xBD);
-                            break;
-                        case (byte)Blocks.L:
-                            brush.Color = Color.FromArgb(0x40, 0xFF, 0x79, 0x00);
-                            break;
-                        case (byte)Blocks.O:
-                            brush.Color = Color.FromArgb(0x40, 0xFE, 0xCB, 0x00);
-                            break;
-                        case (byte)Blocks.S:
-                            brush.Color = Color.FromArgb(0x40, 0x69, 0xBE, 0x28);
-                            break;
-                        case (byte)Blocks.T:
-                            brush.Color = Color.FromArgb(0x40, 0x95, 0x2D, 0x98);
-                            break;
-                        case (byte)Blocks.Z:
-                            brush.Color = Color.FromArgb(0x40, 0xED, 0x29, 0x39);
-                            break;
-                        default:
-                            brush.Color = Color.FromArgb(0x40, BackgroundColor);
-                            break;
-                    }
-                    graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);*/
                 }
             }
             Canvas.Image = image;
         }
 
+        int BagIndex;
+
         void DrawHoldAndQueue()
         {
+            int temp = BagIndex;
             //Add Hold
             string i = "Hold: " + GetPiece((byte)Hold) + "\nQueue:";
-
+            pen.Color = Color.Black;
             int Y = 2;
             foreach (int j in PieceQueue)
             {
-                graphics.DrawImage(GetBitmap(((byte)j)), 212, Y);
+                if ((temp++ % 7) == 5)
+                {
+                    Y += 8;
+                    graphics.DrawLine(pen, 214, Y - 5, 228, Y - 5);
+                }
+                graphics.DrawImage(GetBitmap(((byte)j), PieceType.Mini), 212, Y);
                 i += "\n" + GetPiece((byte)j);
-                Y += 10;
+                Y += 11;
                 if (Y > image.Height) break;
             }
             HoldAndQueue.Text = i;
         }
 
-        Bitmap GetBitmap(byte i)
+        enum PieceType
         {
-            switch (i)
+            Mini,
+            Normal,
+            Ghost
+        }
+
+        Bitmap GetBitmap(byte i, PieceType p)
+        {
+            switch (p)
             {
-                case (byte)Blocks.I:
-                    return Properties.Resources.I_Mini;
-                case (byte)Blocks.J:
-                    return Properties.Resources.J_Mini;
-                case (byte)Blocks.L:
-                    return Properties.Resources.L_Mini;
-                case (byte)Blocks.O:
-                    return Properties.Resources.O_Mini;
-                case (byte)Blocks.S:
-                    return Properties.Resources.S_Mini;
-                case (byte)Blocks.T:
-                    return Properties.Resources.T_Mini;
-                case (byte)Blocks.Z:
-                    return Properties.Resources.Z_Mini;
-                default:
-                    return Properties.Resources.Garbage_Tetris;
+                case PieceType.Mini:
+                    switch (i)
+                    {
+                        case (byte)Blocks.I:
+                            return Properties.Resources.I_Mini;
+                        case (byte)Blocks.J:
+                            return Properties.Resources.J_Mini;
+                        case (byte)Blocks.L:
+                            return Properties.Resources.L_Mini;
+                        case (byte)Blocks.O:
+                            return Properties.Resources.O_Mini;
+                        case (byte)Blocks.S:
+                            return Properties.Resources.S_Mini;
+                        case (byte)Blocks.T:
+                            return Properties.Resources.T_Mini;
+                        case (byte)Blocks.Z:
+                            return Properties.Resources.Z_Mini;
+                        default: return new Bitmap(1, 1);
+                    }
+                case PieceType.Normal:
+                    switch (i)
+                    {
+                        case (byte)Blocks.I:
+                            return Properties.Resources.I;
+                        case (byte)Blocks.J:
+                            return Properties.Resources.J;
+                        case (byte)Blocks.L:
+                            return Properties.Resources.L;
+                        case (byte)Blocks.O:
+                            return Properties.Resources.O;
+                        case (byte)Blocks.S:
+                            return Properties.Resources.S;
+                        case (byte)Blocks.T:
+                            return Properties.Resources.T;
+                        case (byte)Blocks.Z:
+                            return Properties.Resources.Z;
+                        default: return new Bitmap(1, 1);
+                    }
+                case PieceType.Ghost:
+                    switch (i)
+                    {
+                        case (byte)Blocks.I:
+                            return Properties.Resources.I_Ghost;
+                        case (byte)Blocks.J:
+                            return Properties.Resources.J_Ghost;
+                        case (byte)Blocks.L:
+                            return Properties.Resources.L_Ghost;
+                        case (byte)Blocks.O:
+                            return Properties.Resources.O_Ghost;
+                        case (byte)Blocks.S:
+                            return Properties.Resources.S_Ghost;
+                        case (byte)Blocks.T:
+                            return Properties.Resources.T_Ghost;
+                        case (byte)Blocks.Z:
+                            return Properties.Resources.Z_Ghost;
+                        default: return new Bitmap(1, 1);
+                    }
             }
+            return Properties.Resources.Garbage_Puyo;
         }
 
         char GetPiece(byte i)
