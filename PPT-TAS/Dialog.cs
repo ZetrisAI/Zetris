@@ -228,12 +228,41 @@ namespace PPT_TAS {
 
         void DrawHoldAndQueue()
         {
+            //Add Hold
             string i = "Hold: " + GetPiece((byte)Hold) + "\nQueue:";
+
+            int Y = 2;
             foreach (int j in PieceQueue)
             {
+                graphics.DrawImage(GetBitmap(((byte)j)), 212, Y);
                 i += "\n" + GetPiece((byte)j);
+                Y += 10;
+                if (Y > image.Height) break;
             }
             HoldAndQueue.Text = i;
+        }
+
+        Bitmap GetBitmap(byte i)
+        {
+            switch (i)
+            {
+                case (byte)Blocks.I:
+                    return Properties.Resources.I_Mini;
+                case (byte)Blocks.J:
+                    return Properties.Resources.J_Mini;
+                case (byte)Blocks.L:
+                    return Properties.Resources.L_Mini;
+                case (byte)Blocks.O:
+                    return Properties.Resources.O_Mini;
+                case (byte)Blocks.S:
+                    return Properties.Resources.S_Mini;
+                case (byte)Blocks.T:
+                    return Properties.Resources.T_Mini;
+                case (byte)Blocks.Z:
+                    return Properties.Resources.Z_Mini;
+                default:
+                    return Properties.Resources.Garbage_Tetris;
+            }
         }
 
         char GetPiece(byte i)
