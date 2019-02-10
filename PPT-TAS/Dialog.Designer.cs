@@ -44,7 +44,7 @@
             this.valueX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueX.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.valueX.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueX.Location = new System.Drawing.Point(385, 9);
+            this.valueX.Location = new System.Drawing.Point(406, 9);
             this.valueX.Maximum = new decimal(new int[] {
             9,
             0,
@@ -65,7 +65,7 @@
             this.valueR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueR.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.valueR.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueR.Location = new System.Drawing.Point(385, 30);
+            this.valueR.Location = new System.Drawing.Point(406, 30);
             this.valueR.Maximum = new decimal(new int[] {
             3,
             0,
@@ -80,7 +80,7 @@
             // 
             this.valueHold.AutoSize = true;
             this.valueHold.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueHold.Location = new System.Drawing.Point(391, 52);
+            this.valueHold.Location = new System.Drawing.Point(412, 52);
             this.valueHold.Name = "valueHold";
             this.valueHold.Size = new System.Drawing.Size(15, 14);
             this.valueHold.TabIndex = 2;
@@ -89,7 +89,7 @@
             // 
             // labelX
             // 
-            this.labelX.Location = new System.Drawing.Point(318, 9);
+            this.labelX.Location = new System.Drawing.Point(339, 9);
             this.labelX.Name = "labelX";
             this.labelX.Size = new System.Drawing.Size(57, 14);
             this.labelX.TabIndex = 15;
@@ -97,7 +97,7 @@
             // 
             // labelR
             // 
-            this.labelR.Location = new System.Drawing.Point(318, 30);
+            this.labelR.Location = new System.Drawing.Point(339, 30);
             this.labelR.Name = "labelR";
             this.labelR.Size = new System.Drawing.Size(57, 14);
             this.labelR.TabIndex = 15;
@@ -105,7 +105,7 @@
             // 
             // labelHold
             // 
-            this.labelHold.Location = new System.Drawing.Point(318, 51);
+            this.labelHold.Location = new System.Drawing.Point(339, 51);
             this.labelHold.Name = "labelHold";
             this.labelHold.Size = new System.Drawing.Size(57, 14);
             this.labelHold.TabIndex = 15;
@@ -115,14 +115,14 @@
             // 
             this.Canvas.Location = new System.Drawing.Point(12, 12);
             this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(211, 505);
+            this.Canvas.Size = new System.Drawing.Size(232, 505);
             this.Canvas.TabIndex = 16;
             this.Canvas.TabStop = false;
             // 
             // PlacePiece
             // 
             this.PlacePiece.ForeColor = System.Drawing.Color.Black;
-            this.PlacePiece.Location = new System.Drawing.Point(321, 466);
+            this.PlacePiece.Location = new System.Drawing.Point(342, 466);
             this.PlacePiece.Name = "PlacePiece";
             this.PlacePiece.Size = new System.Drawing.Size(96, 23);
             this.PlacePiece.TabIndex = 17;
@@ -133,7 +133,7 @@
             // Undo
             // 
             this.Undo.ForeColor = System.Drawing.Color.Black;
-            this.Undo.Location = new System.Drawing.Point(321, 495);
+            this.Undo.Location = new System.Drawing.Point(342, 495);
             this.Undo.Name = "Undo";
             this.Undo.Size = new System.Drawing.Size(96, 23);
             this.Undo.TabIndex = 18;
@@ -144,7 +144,7 @@
             // HoldAndQueue
             // 
             this.HoldAndQueue.AutoSize = true;
-            this.HoldAndQueue.Location = new System.Drawing.Point(229, 12);
+            this.HoldAndQueue.Location = new System.Drawing.Point(250, 12);
             this.HoldAndQueue.Name = "HoldAndQueue";
             this.HoldAndQueue.Size = new System.Drawing.Size(42, 26);
             this.HoldAndQueue.TabIndex = 19;
@@ -155,7 +155,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(429, 530);
+            this.ClientSize = new System.Drawing.Size(450, 530);
             this.Controls.Add(this.HoldAndQueue);
             this.Controls.Add(this.Undo);
             this.Controls.Add(this.PlacePiece);

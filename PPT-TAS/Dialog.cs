@@ -32,30 +32,20 @@ namespace PPT_TAS {
             pen = new Pen(Color.Black);
             image = new Bitmap(Size.Width * Blocksize_ + 1, Size.Height * Blocksize_ + 1);
             graphics = Graphics.FromImage(image);
-            graphics.FillRectangle(brush, 0, 0, image.Width, image.Height);
-            for (int x = 0; x < Size.Width; x++)
-            {
-                graphics.DrawLine(pen, x * Blocksize_, 0, x * Blocksize_, image.Height);
-            }
-            for (int y = 0; y < Size.Height; y++)
-            {
-                graphics.DrawLine(pen, 0, y * Blocksize_, image.Width, y * Blocksize_);
-            }
-            graphics.DrawRectangle(pen, 0, 0, image.Width - 1, image.Height - 1);
             //UpdateButtons();
             //Piece = new Tetromino(PieceQueue[PiecePointer]);
 
             //draws background, separators and outline for the board (in that order)
-            graphics.FillRectangle(brush, 0, 0, image.Width, image.Height);
-            for (int x = 0; x < Size.Width; x++)
+            graphics.FillRectangle(brush, 0, 0, image.Width - 21, image.Height);
+            for (int x = 0; x < image.Width - 21; x++)
             {
                 graphics.DrawLine(pen, x * Blocksize_, 0, x * Blocksize_, image.Height);
             }
-            for (int y = 0; y < Size.Height; y++)
+            for (int y = 0; y < image.Height; y++)
             {
-                graphics.DrawLine(pen, 0, y * Blocksize_, image.Width, y * Blocksize_);
+                graphics.DrawLine(pen, 0, y * Blocksize_, 210, y * Blocksize_);
             }
-            graphics.DrawRectangle(pen, 0, 0, image.Width - 1, image.Height - 1);
+            graphics.DrawRectangle(pen, 0, 0, image.Width - 22, image.Height - 1);
 
             InitializeComponent();
 
@@ -268,5 +258,7 @@ namespace PPT_TAS {
                     return '-';
             }
         }
+
+
     }
 }
