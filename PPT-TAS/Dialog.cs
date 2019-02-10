@@ -282,8 +282,7 @@ namespace PPT_TAS {
         void DrawHoldAndQueue()
         {
             int temp = BagIndex;
-            //Add Hold
-            string i = "Hold: " + GetPiece((byte)Hold) + "\nQueue:";
+            HeldPiece.Image = GetBitmap((byte)Hold, PieceType.Mini);
             pen.Color = Color.Black;
             int Y = 2;
             foreach (int j in PieceQueue)
@@ -294,11 +293,9 @@ namespace PPT_TAS {
                     graphics.DrawLine(pen, 214, Y - 5, 228, Y - 5);
                 }
                 graphics.DrawImage(GetBitmap(((byte)j), PieceType.Mini), 212, Y);
-                i += "\n" + GetPiece((byte)j);
                 Y += 11;
                 if (Y > image.Height) break;
             }
-            HoldAndQueue.Text = i;
         }
 
         enum PieceType
