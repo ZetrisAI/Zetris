@@ -1,4 +1,14 @@
-﻿using System;
+﻿///
+/// todo:
+/// add collision detection
+/// add ghost blocks
+/// make piece controllable
+///
+/// extra stuff:
+/// scrollable piece queue
+///
+
+using System;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
