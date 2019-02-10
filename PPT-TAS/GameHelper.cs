@@ -226,5 +226,19 @@ namespace PPT_TAS {
                 )) + 0x38
             )) + 0x3E8
         ));
+
+        public static int getBagIndex(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x138
+                        )) + 0x10
+                    )) + 0x80
+                )) + 0x78
+            )) + 0x3D8
+        ));
     }
 }

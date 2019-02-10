@@ -83,7 +83,8 @@ namespace PPT_TAS {
                             .Concat(GameHelper.getNextFromBags(PPT))
                             .Concat(GameHelper.getNextFromRNG(PPT, 110))
                             .ToArray(),
-                        GameHelper.getCleared(PPT)
+                        GameHelper.getCleared(PPT),
+                        GameHelper.getBagIndex(PPT)
                     );
                     q.ShowDialog();
 

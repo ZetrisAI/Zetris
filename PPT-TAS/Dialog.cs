@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PPT_TAS {
     public partial class Dialog : Form {
-        public Dialog(int[,] board, int current, int yPos, int hold, int[] queue, int cleared)
+        public Dialog(int[,] board, int current, int yPos, int hold, int[] queue, int cleared, int bagIndex)
         {
 
             VisibleBoard = board;
