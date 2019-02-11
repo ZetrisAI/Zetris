@@ -131,6 +131,18 @@ namespace PPT_TAS {
             I,
         } //all the used blocks
 
+        bool CheckCollision(int MovedX = 0)
+        {
+            //untested
+            foreach ((int x, int y) pos in CurrentPiece)
+            {
+                if (pos.x + MovedX >= VisibleBoard.GetLength(0)) return false;
+                if (pos.x + MovedX < VisibleBoard.GetLength(0)) return false;
+                if (VisibleBoard[pos.x + MovedX, pos.y] != 255) return false;
+            }
+            return true;
+        }
+
         public int[,] VisibleBoard;
         int Blocksize = 20, Blocksize_ = 21, Hold, LinesCleared;
         Bitmap image;
