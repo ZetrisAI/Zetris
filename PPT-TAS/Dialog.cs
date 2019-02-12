@@ -62,6 +62,8 @@ namespace PPT_TAS {
             DrawBoard();
 
             DrawHoldAndQueue();
+
+            DrawGhostblocks();
         }
 
         (int x, int y)[] CurrentPiece = new (int x, int y)[4];
@@ -137,8 +139,20 @@ namespace PPT_TAS {
             foreach ((int x, int y) pos in CurrentPiece)
             {
                 if (pos.x + MovedX >= VisibleBoard.GetLength(0)) return false;
-                if (pos.x + MovedX < VisibleBoard.GetLength(0)) return false;
+                if (pos.x + MovedX < 0) return false;
                 if (VisibleBoard[pos.x + MovedX, pos.y] != 255) return false;
+            }
+            return true;
+        }
+
+        bool CheckCollisionGhost(int MovedY)
+        {
+            //untested
+            foreach ((int x, int y) pos in CurrentPiece)
+            {
+                if (pos.y + MovedY >= VisibleBoard.GetLength(1)) return false;
+                if (pos.y + MovedY < 0) return false;
+                if (VisibleBoard[pos.x, pos.y + MovedY] != 255) return false;
             }
             return true;
         }
@@ -295,6 +309,84 @@ namespace PPT_TAS {
                         }
                     }
                 }
+            }
+            Canvas.Image = image;
+        }
+
+        void DrawGhostblocks()
+        {
+            int current = VisibleBoard[CurrentPiece[0].x, CurrentPiece[0].y];
+            int[] y =
+            {
+                CurrentPiece[0].y,
+                CurrentPiece[1].y,
+                CurrentPiece[2].y,
+                CurrentPiece[3].y
+            };
+            for (int i = 0; i < CurrentPiece.Length; i++)
+            {
+                VisibleBoard[CurrentPiece[i].x, CurrentPiece[i].y] = 255;
+            }
+            while (CheckCollisionGhost(-1))
+            {
+                for (int i = 0; i < CurrentPiece.Length; i++)
+                {
+                    CurrentPiece[i].y--;
+                }
+            }
+            for (int i = 0; i < CurrentPiece.Length; i++)
+            {
+                DrawGhostBlock(CurrentPiece[i].x, CurrentPiece[i].y, current);
+            }
+            for (int i = 0; i < CurrentPiece.Length; i++)
+            {
+                CurrentPiece[i].y = y[i];
+            }
+            for (int i = 0; i < CurrentPiece.Length; i++)
+            {
+                VisibleBoard[CurrentPiece[i].x, CurrentPiece[i].y] = current;
+            }
+        }
+
+        void DrawGhostBlock(int x, int y, int current, bool DrawSimple = false)
+        {
+            if (DrawSimple)
+            {
+                //draw ghostblock with transparency
+                //use simulated harddropped piece
+                switch (VisibleBoard[CurrentPiece[0].x, CurrentPiece[0].y])
+                {
+                    case (byte)Blocks.I:
+                        brush.Color = Color.FromArgb(0x40, 0x00, 0x9F, 0xDA);
+                        break;
+                    case (byte)Blocks.J:
+                        brush.Color = Color.FromArgb(0x40, 0x00, 0x65, 0xBD);
+                        break;
+                    case (byte)Blocks.L:
+                        brush.Color = Color.FromArgb(0x40, 0xFF, 0x79, 0x00);
+                        break;
+                    case (byte)Blocks.O:
+                        brush.Color = Color.FromArgb(0x40, 0xFE, 0xCB, 0x00);
+                        break;
+                    case (byte)Blocks.S:
+                        brush.Color = Color.FromArgb(0x40, 0x69, 0xBE, 0x28);
+                        break;
+                    case (byte)Blocks.T:
+                        brush.Color = Color.FromArgb(0x40, 0x95, 0x2D, 0x98);
+                        break;
+                    case (byte)Blocks.Z:
+                        brush.Color = Color.FromArgb(0x40, 0xED, 0x29, 0x39);
+                        break;
+                    default:
+                        brush.Color = Color.FromArgb(0x40, BackgroundColor);
+                        break;
+                }
+                graphics.FillRectangle(brush, x * Blocksize_ + 1, y * Blocksize_ + 1, Blocksize, Blocksize);
+            }
+            else
+            {
+                Bitmap piece = GetBitmap((byte)current, PieceType.Ghost);
+                graphics.DrawImage(piece, new Rectangle(x * Blocksize_ + 1, (23 - y) * Blocksize_ + 1, Blocksize, Blocksize));
             }
             Canvas.Image = image;
         }
