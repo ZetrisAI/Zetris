@@ -33,7 +33,7 @@ namespace PPT_TAS {
                     if (Piece[x, y] == 1)
                     {
                         board[X + x, Y + y + 13] = current;
-                        CurrentPiece[i++] = (X + x, Y + y + 13);
+                        PiecePosition[i++] = (X + x, Y + y + 13);
                     }
                 }
             }
@@ -45,7 +45,23 @@ namespace PPT_TAS {
             //UpdateButtons();
             //Piece = new Tetromino(PieceQueue[PiecePointer]);
 
+            InitializeComponent();
+
+            Draw();
+        }
+
+        void Draw()
+        {
+            DrawSeparators();
+            DrawBoard();
+            DrawHoldAndQueue();
+            DrawGhostblocks();
+        }
+
+        void DrawSeparators()
+        {
             //draws background, separators and outline for the board (in that order)
+            brush.Color = BackgroundColor;
             graphics.FillRectangle(brush, 0, 0, image.Width, image.Height);
             for (int x = 0; x * Blocksize_ < image.Width - Blocksize_ - 2; x++)
             {
@@ -56,28 +72,28 @@ namespace PPT_TAS {
                 graphics.DrawLine(pen, 0, y * Blocksize_, 210, y * Blocksize_);
             }
             graphics.DrawRectangle(pen, 0, 0, image.Width - 22, image.Height - 1);
-
-            InitializeComponent();
-
-            DrawBoard();
-
-            DrawHoldAndQueue();
-
-            DrawGhostblocks();
         }
 
-        (int x, int y)[] CurrentPiece = new (int x, int y)[4];
+        (int x, int y)[] PiecePosition = new (int x, int y)[4];
         int X = 4, Y;
 
         public int desiredX = 4, desiredR = 0;
         public bool desiredHold = false;
 
         private void valueX_ValueChanged(object sender, EventArgs e) {
-            desiredX = Convert.ToInt32(valueX.Value);
+            if (MovePiece((int)valueX.Value - desiredX))
+            {
+                desiredX = Convert.ToInt32(valueX.Value);
+                Draw();
+            }
         }
 
         private void valueR_ValueChanged(object sender, EventArgs e) {
-            desiredR = Convert.ToInt32(valueR.Value);
+            if (RotatePiece((int)valueR.Value - desiredR))
+            {
+                desiredR = Convert.ToInt32(valueR.Value);
+                Draw();
+            }
         }
 
         private void valueHold_CheckedChanged(object sender, EventArgs e) {
@@ -105,9 +121,12 @@ namespace PPT_TAS {
 
         private void PlacePiece_Click(object sender, EventArgs e)
         {
-            Instructions.Add(new Instruction(desiredX, desiredR, desiredHold));
+            int time = Environment.TickCount;
+            /*Instructions.Add(new Instruction(desiredX, desiredR, desiredHold));
             PiecePointer++;
-            UpdateButtons();
+            UpdateButtons();*/
+            Draw();
+            MessageBox.Show((Environment.TickCount - time) + "ms");
         }
 
         private void Undo_Click(object sender, EventArgs e)
@@ -135,20 +154,120 @@ namespace PPT_TAS {
 
         bool CheckCollision(int MovedX = 0)
         {
-            //untested
-            foreach ((int x, int y) pos in CurrentPiece)
+            foreach ((int x, int y) pos in PiecePosition)
             {
-                if (pos.x + MovedX >= VisibleBoard.GetLength(0)) return false;
-                if (pos.x + MovedX < 0) return false;
-                if (VisibleBoard[pos.x + MovedX, pos.y] != 255) return false;
+                if (pos.x + MovedX >= VisibleBoard.GetLength(0))
+                {
+                    return false;
+                }
+                if (pos.x + MovedX < 0)
+                {
+                    return false;
+                }
             }
-            return true;
+
+            //remove current piece from board
+            int current = VisibleBoard[PiecePosition[0].x, PiecePosition[0].y];
+            int[] y =
+            {
+                PiecePosition[0].y,
+                PiecePosition[1].y,
+                PiecePosition[2].y,
+                PiecePosition[3].y
+            };
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = 255;
+            }
+
+            //check for collisions
+            bool collision = false;
+            foreach ((int x, int y) pos in PiecePosition)
+            {
+                if (VisibleBoard[pos.x + MovedX, pos.y] != 255)
+                {
+                    collision = true;
+                    break;
+                }
+            }
+
+            //readd current piece
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = current;
+            }
+
+            return !collision;
+        }
+
+        bool MovePiece(int MovedX)
+        {
+            int current = VisibleBoard[PiecePosition[0].x, PiecePosition[0].y];
+            if (CheckCollision(MovedX))
+            {
+                foreach ((int x, int y) pos in PiecePosition)
+                {
+                    VisibleBoard[pos.x, pos.y] = 255;
+                }
+                foreach ((int x, int y) pos in PiecePosition)
+                {
+                    VisibleBoard[pos.x + MovedX, pos.y] = current;
+                }
+                //move position
+                for (int i = 0; i < PiecePosition.Length; i++)
+                {
+                    PiecePosition[i].x += MovedX;
+                }
+                return true;
+            }
+            return false;
+        }
+        
+        bool RotatePiece(int Rotation) //1 = CW, -1 = CCW
+        {
+            int current = VisibleBoard[PiecePosition[0].x, PiecePosition[0].y];
+            CurrentPiece = GetTetromino((byte)current);
+            currentRotation = (byte)((currentRotation + Rotation) % 4);
+            (int x, int y)[] CurrentPosition = PiecePosition;
+            bool workingRotation = false;
+            int i = 0;
+            byte[,] Piece = Tetromino.GetTetromino((byte)current);
+            if (Rotation == 1)
+            {
+                RotateClockwise();
+            }
+            else
+            {
+                RotateCounterClockwise();
+            }
+            while (PerformSRS() && !workingRotation)
+            {
+                for (int y = 0; y < Piece.GetLength(1); y++)
+                {
+                    for (int x = 0; x < Piece.GetLength(0); x++)
+                    {
+                        if (Piece[x, y] == 1)
+                        {
+                            //broken code lmoa
+                            VisibleBoard[CurrentPosition[i].x + x, CurrentPosition[i].y + y] = current;
+                            PiecePosition[i] = (CurrentPosition[i].x + x, CurrentPosition[i].y + y);
+                            i++;
+                        }
+                    }
+                }
+                if (CheckCollision())
+                {
+                    workingRotation = true;
+                }
+            }
+            previousRotation = currentRotation;
+            return workingRotation;
         }
 
         bool CheckCollisionGhost(int MovedY)
         {
             //untested
-            foreach ((int x, int y) pos in CurrentPiece)
+            foreach ((int x, int y) pos in PiecePosition)
             {
                 if (pos.y + MovedY >= VisibleBoard.GetLength(1)) return false;
                 if (pos.y + MovedY < 0) return false;
@@ -217,7 +336,7 @@ namespace PPT_TAS {
                         if (IsPiece)
                         {
                             bool current = false;
-                            foreach ((int x, int y) i in CurrentPiece)
+                            foreach ((int x, int y) i in PiecePosition)
                             {
                                 if (x == i.x && y == i.y)
                                 {
@@ -293,7 +412,7 @@ namespace PPT_TAS {
                             if (IsPiece)
                             {
                                 bool current = false;
-                                foreach ((int x, int y) i in CurrentPiece)
+                                foreach ((int x, int y) i in PiecePosition)
                                 {
                                     if (x == i.x && y == i.y)
                                     {
@@ -315,36 +434,60 @@ namespace PPT_TAS {
 
         void DrawGhostblocks()
         {
-            int current = VisibleBoard[CurrentPiece[0].x, CurrentPiece[0].y];
-            int[] y =
+            /*bool oob = false;
+            foreach ((int x, int y) pos in CurrentPiece)
             {
-                CurrentPiece[0].y,
-                CurrentPiece[1].y,
-                CurrentPiece[2].y,
-                CurrentPiece[3].y
-            };
-            for (int i = 0; i < CurrentPiece.Length; i++)
-            {
-                VisibleBoard[CurrentPiece[i].x, CurrentPiece[i].y] = 255;
-            }
-            while (CheckCollisionGhost(-1))
-            {
-                for (int i = 0; i < CurrentPiece.Length; i++)
+                if (pos.x + MovedX >= VisibleBoard.GetLength(0))
                 {
-                    CurrentPiece[i].y--;
+                    oob = true;
+                    break;
+                }
+                if (pos.x + MovedX < 0)
+                {
+                    oob = true;
+                    break;
                 }
             }
-            for (int i = 0; i < CurrentPiece.Length; i++)
+
+            if (!oob)
             {
-                DrawGhostBlock(CurrentPiece[i].x, CurrentPiece[i].y, current);
+                //stuff
+            }*/
+
+            //remove current piece from board
+            int current = VisibleBoard[PiecePosition[0].x, PiecePosition[0].y];
+            int[] y =
+            {
+                PiecePosition[0].y,
+                PiecePosition[1].y,
+                PiecePosition[2].y,
+                PiecePosition[3].y
+            };
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = 255;
             }
-            for (int i = 0; i < CurrentPiece.Length; i++)
+
+            while (CheckCollisionGhost(-1))
             {
-                CurrentPiece[i].y = y[i];
+                for (int i = 0; i < PiecePosition.Length; i++)
+                {
+                    PiecePosition[i].y--;
+                }
             }
-            for (int i = 0; i < CurrentPiece.Length; i++)
+            for (int i = 0; i < PiecePosition.Length; i++)
             {
-                VisibleBoard[CurrentPiece[i].x, CurrentPiece[i].y] = current;
+                DrawGhostBlock(PiecePosition[i].x, PiecePosition[i].y, current);
+            }
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                PiecePosition[i].y = y[i];
+            }
+
+            //readd current piece
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = current;
             }
         }
 
@@ -354,7 +497,7 @@ namespace PPT_TAS {
             {
                 //draw ghostblock with transparency
                 //use simulated harddropped piece
-                switch (VisibleBoard[CurrentPiece[0].x, CurrentPiece[0].y])
+                switch (VisibleBoard[PiecePosition[0].x, PiecePosition[0].y])
                 {
                     case (byte)Blocks.I:
                         brush.Color = Color.FromArgb(0x40, 0x00, 0x9F, 0xDA);
@@ -507,6 +650,259 @@ namespace PPT_TAS {
             }
         }
 
+        byte[,] GetTetromino(byte Tetromino)
+        {
+            byte[,] Piece;
+            switch (Tetromino)
+            {
+                case (byte)Blocks.I:
+                    Piece = new byte[,] {
+                        { 0, 0, 0, 0 },
+                        { 1, 1, 1, 1 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.J:
+                    Piece = new byte[,] {
+                        { 1, 0, 0, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.L:
+                    Piece = new byte[,] {
+                        { 0, 0, 1, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.O:
+                    Piece = new byte[,] {
+                        { 1, 1, 0, 0 },
+                        { 1, 1, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.S:
+                    Piece = new byte[,] {
+                        { 0, 1, 1, 0 },
+                        { 1, 1, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.T:
+                    Piece = new byte[,] {
+                        { 0, 1, 0, 0 },
+                        { 1, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                case (byte)Blocks.Z:
+                    Piece = new byte[,] {
+                        { 1, 1, 0, 0 },
+                        { 0, 1, 1, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+                default:
+                    Piece = new byte[,] {
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 },
+                        { 0, 0, 0, 0 }
+                    };
+                    break;
+            }
+            byte[,] temp = new byte[4, 4];
+            for (int y = 0; y < 4; y++)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    temp[x, y] = Piece[3 - y, x];
+                }
+            }
+            Piece = temp;
+            return Piece;
+        }
 
+        public enum Rotation
+        {
+            north,
+            east,
+            south,
+            west
+        } //rotations
+
+        public byte Piece, previousRotation = (byte)Rotation.north, currentRotation = (byte)Rotation.north, SRSIteration = 0;
+        public (int x, int y) Pos, TempPos;
+
+        (short x, short y)[,] SRSJLSTZTable = new(short, short)[,] {
+            { ( 0, 0), (-1, 0), (-1, 1), ( 0,-2), (-1,-2) },
+            { ( 0, 0), ( 1, 0), ( 1,-1), ( 0, 2), ( 1, 2) },
+            { ( 0, 0), ( 1, 0), ( 1,-1), ( 0, 2), ( 1, 2) },
+            { ( 0, 0), (-1, 0), (-1, 1), ( 0,-2), (-1,-2) },
+            { ( 0, 0), ( 1, 0), ( 1, 1), ( 0,-2), ( 1,-2) },
+            { ( 0, 0), (-1, 0), (-1,-1), ( 0, 2), (-1, 2) },
+            { ( 0, 0), (-1, 0), (-1,-1), ( 0, 2), (-1, 2) },
+            { ( 0, 0), ( 1, 0), ( 1, 1), ( 0,-2), ( 1,-2) }
+        };
+
+        (short x, short y)[,] SRSITable = new(short, short)[,] {
+            { ( 0, 0), (-2, 0), ( 1, 0), (-2,-1), ( 1, 2) },
+            { ( 0, 0), ( 2, 0), (-1, 0), ( 2, 1), (-1,-2) },
+            { ( 0, 0), (-1, 0), ( 2, 0), (-1, 2), ( 2,-1) },
+            { ( 0, 0), ( 1, 0), (-2, 0), ( 1,-2), (-2, 1) },
+            { ( 0, 0), ( 2, 0), (-1, 0), ( 2, 1), (-1,-2) },
+            { ( 0, 0), (-2, 0), ( 1, 0), (-2,-1), ( 1, 2) },
+            { ( 0, 0), ( 1, 0), (-2, 0), ( 1,-2), (-2, 1) },
+            { ( 0, 0), (-1, 0), ( 2, 0), (-1, 2), ( 2,-1) }
+        };
+
+        public bool PerformSRS()
+        {
+            if (SRSIteration > 4)
+            {
+                SRSIteration = 0;
+                currentRotation = previousRotation;
+                return false;
+            }
+
+            byte row = 0;
+            if (previousRotation == 0)
+            {
+                if (currentRotation == 1)
+                {
+                    row = 0;
+                }
+                else if (currentRotation == 3)
+                {
+                    row = 7;
+                }
+            }
+            else if (previousRotation == 1)
+            {
+                if (currentRotation == 0)
+                {
+                    row = 1;
+                }
+                else if (currentRotation == 2)
+                {
+                    row = 2;
+                }
+            }
+            else if (previousRotation == 2)
+            {
+                if (currentRotation == 1)
+                {
+                    row = 3;
+                }
+                else if (currentRotation == 3)
+                {
+                    row = 4;
+                }
+            }
+            else if (previousRotation == 3)
+            {
+                if (currentRotation == 2)
+                {
+                    row = 5;
+                }
+                else if (currentRotation == 0)
+                {
+                    row = 6;
+                }
+            }
+            TempPos = Pos;
+            switch (Piece)
+            {
+                case (byte)Blocks.I:
+                    TempPos.x += SRSITable[row, SRSIteration].x;
+                    TempPos.y -= SRSITable[row, SRSIteration].y;
+                    break;
+                case (byte)Blocks.O:
+                    SRSIteration = 0;
+                    previousRotation = currentRotation;
+                    return false;
+                default:
+                    TempPos.x += SRSJLSTZTable[row, SRSIteration].x;
+                    TempPos.y -= SRSJLSTZTable[row, SRSIteration].y;
+                    break;
+            }
+            SRSIteration++;
+            return true;
+        }
+
+        public byte[,] CurrentPiece = new byte[4, 4], TempPiece = new byte[4, 4];
+
+        public void RotateClockwise()
+        {
+            if (Piece == (byte)Blocks.I)
+            {
+                byte[,] temp = new byte[4, 4];
+                for (int y = 0; y < 4; y++)
+                {
+                    for (int x = 0; x < 4; x++)
+                    {
+                        temp[x, y] = CurrentPiece[y, 3 - x];
+                    }
+                }
+                TempPiece = temp;
+            }
+            else if (Piece != (byte)Blocks.O)
+            {
+                byte[,] temp = new byte[4, 4];
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int x = 0; x < 3; x++)
+                    {
+                        temp[x, y] = CurrentPiece[y, 2 - x];
+                    }
+                }
+                TempPiece = temp;
+            }
+
+            //O rotation has no effect
+
+            currentRotation = (byte)((currentRotation + 1) % 4);
+        }
+
+        public void RotateCounterClockwise()
+        {
+            if (Piece == (byte)Blocks.I)
+            {
+                byte[,] temp = new byte[4, 4];
+                for (int y = 0; y < 4; y++)
+                {
+                    for (int x = 0; x < 4; x++)
+                    {
+                        temp[x, y] = CurrentPiece[3 - y, x];
+                    }
+                }
+                TempPiece = temp;
+            }
+            else if (Piece != (byte)Blocks.O)
+            {
+                byte[,] temp = new byte[4, 4];
+                for (int y = 0; y < 3; y++)
+                {
+                    for (int x = 0; x < 3; x++)
+                    {
+                        temp[x, y] = CurrentPiece[2 - y, x];
+                    }
+                }
+                TempPiece = temp;
+            }
+
+            //O rotation has no effect
+
+            currentRotation = (byte)((currentRotation + 3) % 4);
+        }
     }
 }
