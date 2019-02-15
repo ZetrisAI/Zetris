@@ -878,6 +878,90 @@ namespace PPT_TAS {
         } //rotations
 
         public byte Previousname_Piece, previousRotation = (byte)Rotation.north, currentRotation = (byte)Rotation.north, SRSIteration = 0;
+
+        bool[] keys = new bool[4];
+
+        private void Dialog_KeyDown(object sender, KeyEventArgs e) { // todo: keybinds configurable?
+            e.Handled = true;
+
+            switch (e.KeyCode) {
+                case Keys.Left:
+                    valueX.Value--;
+                    break;
+
+                case Keys.Right:
+                    valueX.Value++;
+                    break;
+
+                case Keys.Up:
+                    if (!keys[0]) {
+                        // Hard Drop
+                    }
+                    keys[0] = true;
+                    break;
+
+                case Keys.Down:
+                    // placeholder for Soft Drop in the far future
+                    break;
+
+                case Keys.Z:
+                    if (!keys[1]) {
+                        // Rotate CCW
+                    }
+                    keys[1] = true;
+                    break;
+
+                case Keys.X:
+                    if (!keys[2]) {
+                        // Rotate CW
+                    }
+                    keys[2] = true;
+                    break;
+
+                case Keys.Space:
+                    if (!keys[3]) {
+                        // Toggle Hold
+                    }
+                    keys[3] = true;
+                    break;
+
+                default:
+                    e.Handled = false;
+                    break;
+            }
+        }
+
+        private void Dialog_KeyUp(object sender, KeyEventArgs e) {
+            e.Handled = true;
+
+            switch (e.KeyCode) {
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.Down:  // placeholder
+                    break;
+
+                case Keys.Up:
+                    keys[0] = false;
+                    break;
+
+                case Keys.Z:
+                    keys[1] = false;
+                    break;
+
+                case Keys.X:
+                    keys[2] = false;
+                    break;
+
+                case Keys.Space:
+                    keys[3] = false;
+                    break;
+
+                default:
+                    e.Handled = false;
+                    break;
+            }
+        }
+
         public (int x, int y) Pos, TempPos;
 
         (short x, short y)[,] SRSJLSTZTable = new(short, short)[,] {

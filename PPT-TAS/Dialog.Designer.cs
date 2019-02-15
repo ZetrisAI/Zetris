@@ -53,6 +53,7 @@
             0,
             0});
             this.valueX.Name = "valueX";
+            this.valueX.ReadOnly = true;
             this.valueX.Size = new System.Drawing.Size(29, 16);
             this.valueX.TabIndex = 0;
             this.valueX.Value = new decimal(new int[] {
@@ -186,11 +187,14 @@
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Location = new System.Drawing.Point(780, 70);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Dialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
