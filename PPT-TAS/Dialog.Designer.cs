@@ -69,10 +69,15 @@
             this.valueR.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueR.Location = new System.Drawing.Point(353, 30);
             this.valueR.Maximum = new decimal(new int[] {
-            3,
+            4,
             0,
             0,
             0});
+            this.valueR.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.valueR.Name = "valueR";
             this.valueR.Size = new System.Drawing.Size(29, 16);
             this.valueR.TabIndex = 0;
