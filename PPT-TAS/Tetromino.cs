@@ -55,7 +55,7 @@ namespace PPT_TAS
             L,
             T,
             O,
-            I,
+            I
         } //all the used blocks
 
         public enum Rotation
@@ -65,6 +65,8 @@ namespace PPT_TAS
             south,
             west
         } //rotations
+
+        public (short, short) SRSResult;
 
         public bool PerformSRS()
         {
@@ -126,14 +128,17 @@ namespace PPT_TAS
                 case (byte)Blocks.I:
                     TempPos.x += SRSITable[row, SRSIteration].x;
                     TempPos.y -= SRSITable[row, SRSIteration].y;
+                    SRSResult = SRSITable[row, SRSIteration];
                     break;
                 case (byte)Blocks.O:
                     SRSIteration = 0;
                     previousRotation = currentRotation;
+                    SRSResult = (0, 0);
                     return false;
                 default:
                     TempPos.x += SRSJLSTZTable[row, SRSIteration].x;
                     TempPos.y -= SRSJLSTZTable[row, SRSIteration].y;
+                    SRSResult = SRSJLSTZTable[row, SRSIteration];
                     break;
             }
             SRSIteration++;

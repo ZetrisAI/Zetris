@@ -22,15 +22,15 @@ namespace PPT_TAS {
             Hold = hold;
             PieceQueue = queue;
             LinesCleared = cleared;
-            byte[,] Piece = Tetromino.GetTetromino((byte)current);
+            byte[,] Block = Tetromino.GetTetromino((byte)current);
             X = (current == (int)Blocks.O ? 4 : 3);
             Y = yPos;
             int i = 0;
-            for (int y = 0; y < Piece.GetLength(1); y++)
+            for (int y = 0; y < Block.GetLength(1); y++)
             {
-                for (int x = 0; x < Piece.GetLength(0); x++)
+                for (int x = 0; x < Block.GetLength(0); x++)
                 {
-                    if (Piece[x, y] == 1)
+                    if (Block[x, y] == 1)
                     {
                         board[X + x, Y + y + 13] = current;
                         PiecePosition[i++] = (X + x, Y + y + 13);
@@ -49,7 +49,9 @@ namespace PPT_TAS {
 
             Draw();
 
-            TempPiece = Piece;
+            TempPiece = Block;
+
+            Piece = new Tetromino((byte)current);
         }
 
         Tetromino Piece = new Tetromino((byte)Blocks.T);
@@ -114,6 +116,7 @@ namespace PPT_TAS {
                 valueR.Value = desiredR;
             }
             Draw();*/
+            RotatePiece(valueR.Value - desiredR == 1);
 
             if (RotationSuccessful)
             {
@@ -297,27 +300,40 @@ namespace PPT_TAS {
             return false;
         }
 
-        void RotatePiece()
+        void RotatePiece(bool CW)
         {
-            Piece.RotateClockwise();
+            (byte,byte)[] prev = Piece.FromAnchorPoint();
+            if (CW) Piece.RotateClockwise();
+            else Piece.RotateCounterClockwise();
+            (byte, byte)[] curr = Piece.FromAnchorPoint();
             bool temp = false;
             while (!temp)
             {
                 if (Piece.PerformSRS())
                 {
-                    if (Game.CheckCollision(Piece.FromAnchorPoint(), Piece.TempPos, Piece.Piece))
+                    /*if (Game.CheckCollision(Piece.FromAnchorPoint(), Piece.TempPos, Piece.Piece))
                     {
                         Piece.UpdatePiece(true);
                         temp = true;
+                    }*/
+                    //remove piece first
+                    //change position by srsresult + prev - curr? something something
+                    if (/*check collision*/true)
+                    {
+                        Piece.UpdatePiece(true);
+                        temp = true;
+                        RotationSuccessful = true;
                     }
                 }
                 else
                 {
                     Piece.UpdatePiece(false);
                     temp = true;
+                    RotationSuccessful = false;
                 }
             }
-            Game.CheckCollision(Piece.FromAnchorPoint(), Piece.TempPos, Piece.Piece);
+            //readd piece
+            //RotationSuccessful = Game.CheckCollision(Piece.FromAnchorPoint(), Piece.TempPos, Piece.Piece); //?
         }
         
         bool PreviousName_RotatePiece(int Rotation) //1 = CW, -1 = CCW
