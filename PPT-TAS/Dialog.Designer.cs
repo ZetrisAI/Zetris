@@ -30,14 +30,14 @@
             this.labelX = new System.Windows.Forms.Label();
             this.labelR = new System.Windows.Forms.Label();
             this.labelHold = new System.Windows.Forms.Label();
-            this.Canvas = new System.Windows.Forms.PictureBox();
+            this.canvas = new System.Windows.Forms.PictureBox();
             this.PlacePiece = new System.Windows.Forms.Button();
             this.Undo = new System.Windows.Forms.Button();
             this.HeldPiece = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeldPiece)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,6 +80,7 @@
             0,
             -2147483648});
             this.valueR.Name = "valueR";
+            this.valueR.ReadOnly = true;
             this.valueR.Size = new System.Drawing.Size(29, 16);
             this.valueR.TabIndex = 0;
             this.valueR.ValueChanged += new System.EventHandler(this.valueR_ValueChanged);
@@ -119,35 +120,33 @@
             this.labelHold.TabIndex = 15;
             this.labelHold.Text = "Use Hold:";
             // 
-            // Canvas
+            // canvas
             // 
-            this.Canvas.Location = new System.Drawing.Point(48, 13);
-            this.Canvas.Name = "Canvas";
-            this.Canvas.Size = new System.Drawing.Size(232, 505);
-            this.Canvas.TabIndex = 16;
-            this.Canvas.TabStop = false;
+            this.canvas.Location = new System.Drawing.Point(48, 13);
+            this.canvas.Name = "canvas";
+            this.canvas.Size = new System.Drawing.Size(220, 480);
+            this.canvas.TabIndex = 16;
+            this.canvas.TabStop = false;
             // 
             // PlacePiece
             // 
             this.PlacePiece.ForeColor = System.Drawing.Color.Black;
-            this.PlacePiece.Location = new System.Drawing.Point(289, 466);
+            this.PlacePiece.Location = new System.Drawing.Point(289, 440);
             this.PlacePiece.Name = "PlacePiece";
             this.PlacePiece.Size = new System.Drawing.Size(96, 23);
             this.PlacePiece.TabIndex = 17;
             this.PlacePiece.Text = "Place Piece";
             this.PlacePiece.UseVisualStyleBackColor = true;
-            this.PlacePiece.Click += new System.EventHandler(this.PlacePiece_Click);
             // 
             // Undo
             // 
             this.Undo.ForeColor = System.Drawing.Color.Black;
-            this.Undo.Location = new System.Drawing.Point(289, 495);
+            this.Undo.Location = new System.Drawing.Point(289, 469);
             this.Undo.Name = "Undo";
             this.Undo.Size = new System.Drawing.Size(96, 23);
             this.Undo.TabIndex = 18;
             this.Undo.Text = "Undo";
             this.Undo.UseVisualStyleBackColor = true;
-            this.Undo.Click += new System.EventHandler(this.Undo_Click);
             // 
             // HeldPiece
             // 
@@ -172,12 +171,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(394, 530);
+            this.ClientSize = new System.Drawing.Size(394, 503);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.HeldPiece);
             this.Controls.Add(this.Undo);
             this.Controls.Add(this.PlacePiece);
-            this.Controls.Add(this.Canvas);
+            this.Controls.Add(this.canvas);
             this.Controls.Add(this.labelHold);
             this.Controls.Add(this.labelR);
             this.Controls.Add(this.labelX);
@@ -197,7 +196,7 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Canvas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeldPiece)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -212,7 +211,7 @@
         private System.Windows.Forms.Label labelX;
         private System.Windows.Forms.Label labelR;
         private System.Windows.Forms.Label labelHold;
-        private System.Windows.Forms.PictureBox Canvas;
+        private System.Windows.Forms.PictureBox canvas;
         private System.Windows.Forms.Button PlacePiece;
         private System.Windows.Forms.Button Undo;
         private System.Windows.Forms.PictureBox HeldPiece;
