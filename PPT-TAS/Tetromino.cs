@@ -342,7 +342,8 @@ namespace PPT_TAS
                 {
                     for (int x = 0; x < 4; x++)
                     {
-                        temp[x, y] = CurrentPiece[y, 3 - x];
+                        temp[x, y] = CurrentPiece[3 - y, 3 - x];
+                        //temp[x, y] = CurrentPiece[y, 3 - x];
                     }
                 }
                 TempPiece = temp;
@@ -354,7 +355,8 @@ namespace PPT_TAS
                 {
                     for (int x = 0; x < 3; x++)
                     {
-                        temp[x, y] = CurrentPiece[y, 2 - x];
+                        temp[x, y] = CurrentPiece[2 - y, 2 - x];
+                        //temp[x, y] = CurrentPiece[y, 2 - x];
                     }
                 }
                 TempPiece = temp;
@@ -363,6 +365,30 @@ namespace PPT_TAS
             //O rotation has no effect
 
             currentRotation = (byte)((currentRotation + 1) % 4);
+        }
+
+        public (byte x, byte y)[] RotateClockwisePrev((byte x, byte y)[] prev)
+        {
+            (byte x, byte y)[] curr = new(byte x, byte y)[prev.Length];
+            if (Piece == (byte)Blocks.I)
+            {
+                int i = 0;
+                foreach ((byte x, byte y) b in prev)
+                {
+                    curr[i] = (prev[i].y, (byte)((3 - prev[i].x)));
+                    i++;
+                }
+            }
+            else if (Piece != (byte)Blocks.O)
+            {
+                int i = 0;
+                foreach ((byte x, byte y) b in prev)
+                {
+                    curr[i] = (prev[i].y, (byte)((2 - prev[i].x)));
+                    i++;
+                }
+            }
+            return curr;
         }
 
         public void RotateCounterClockwise()
@@ -374,7 +400,8 @@ namespace PPT_TAS
                 {
                     for (int x = 0; x < 4; x++)
                     {
-                        temp[x, y] = CurrentPiece[3 - y, x];
+                        temp[x, y] = CurrentPiece[-y + 3, x];
+                        //temp[x, y] = CurrentPiece[3 - y, x];
                     }
                 }
                 TempPiece = temp;
@@ -386,7 +413,8 @@ namespace PPT_TAS
                 {
                     for (int x = 0; x < 3; x++)
                     {
-                        temp[x, y] = CurrentPiece[2 - y, x];
+                        temp[x, y] = CurrentPiece[-y + 2, x];
+                        //temp[x, y] = CurrentPiece[2 - y, x];
                     }
                 }
                 TempPiece = temp;
@@ -395,6 +423,30 @@ namespace PPT_TAS
             //O rotation has no effect
 
             currentRotation = (byte)((currentRotation + 3) % 4);
+        }
+
+        public (byte x, byte y)[] RotateCounterClockwisePrev((byte x, byte y)[] prev)
+        {
+            (byte x, byte y)[] curr = new(byte x, byte y)[prev.Length];
+            if (Piece == (byte)Blocks.I)
+            {
+                int i = 0;
+                foreach ((byte x, byte y) b in prev)
+                {
+                    curr[i] = ((byte)(3 - prev[i].y), prev[i].x);
+                    i++;
+                }
+            }
+            else if (Piece != (byte)Blocks.O)
+            {
+                int i = 0;
+                foreach ((byte x, byte y) b in prev)
+                {
+                    curr[i] = ((byte)(2 - prev[i].y), prev[i].x);
+                    i++;
+                }
+            }
+            return curr;
         }
 
         public void UpdatePiece(bool valid)

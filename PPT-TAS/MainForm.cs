@@ -36,6 +36,7 @@ namespace PPT_TAS {
         int piece = 0;
         int[] queue = new int[5];
         bool register = false;
+        int test = 0;
 
         private void runLogic() {
             int y = GameHelper.getPiecePositionY(PPT);
@@ -88,7 +89,7 @@ namespace PPT_TAS {
 
                     Dialog q = new Dialog(
                         b,
-                        6,
+                        test++ % 7,
                         5,
                         0,
                         new int[] { 5, 3, 1, 0, 2, 6, 4 },

@@ -302,11 +302,27 @@ namespace PPT_TAS {
 
         void RotatePiece(bool CW)
         {
-            (byte,byte)[] prev = Piece.FromAnchorPoint();
-            if (CW) Piece.RotateClockwise();
-            else Piece.RotateCounterClockwise();
-            (byte, byte)[] curr = Piece.FromAnchorPoint();
+            (byte x, byte y)[] prev = Piece.FromAnchorPoint();
+            (byte x, byte y)[] curr;
+            if (CW)
+            {
+                Piece.RotateClockwise();
+                curr = Piece.RotateClockwisePrev(prev);
+            }
+            else
+            {
+                Piece.RotateCounterClockwise();
+                curr = Piece.RotateCounterClockwisePrev(prev);
+            }
             bool temp = false;
+
+            //remove piece first
+            int current = VisibleBoard[PiecePosition[0].x, PiecePosition[0].y];
+            for (int i = 0; i < PiecePosition.Length; i++)
+            {
+                VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = 255;
+            }
+
             while (!temp)
             {
                 if (Piece.PerformSRS())
@@ -316,13 +332,20 @@ namespace PPT_TAS {
                         Piece.UpdatePiece(true);
                         temp = true;
                     }*/
-                    //remove piece first
+
                     //change position by srsresult + prev - curr? something something
                     if (/*check collision*/true)
                     {
                         Piece.UpdatePiece(true);
                         temp = true;
                         RotationSuccessful = true;
+
+                        //add updated piece
+                        for (int i = 0; i < curr.Length; i++)
+                        {
+                            VisibleBoard[curr[i].x + PiecePosition[i].x - prev[i].x, curr[i].y + PiecePosition[i].y - prev[i].y] = current;
+                            PiecePosition[i] = (curr[i].x + PiecePosition[i].x - prev[i].x, curr[i].y + PiecePosition[i].y - prev[i].y);
+                        }
                     }
                 }
                 else
@@ -330,9 +353,14 @@ namespace PPT_TAS {
                     Piece.UpdatePiece(false);
                     temp = true;
                     RotationSuccessful = false;
+
+                    //readd current piece
+                    for (int i = 0; i < PiecePosition.Length; i++)
+                    {
+                        VisibleBoard[PiecePosition[i].x, PiecePosition[i].y] = current;
+                    }
                 }
             }
-            //readd piece
             //RotationSuccessful = Game.CheckCollision(Piece.FromAnchorPoint(), Piece.TempPos, Piece.Piece); //?
         }
         
