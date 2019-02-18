@@ -5,13 +5,17 @@ using System.Windows.Forms;
 
 namespace PPT_TAS {
     public partial class Dialog : Form {
-        public Dialog(int[,] board, int current, int yPos, int hold, int[] queue, int cleared, int bagIndex) {
+        int[,] board = new int[10, 40];
+
+        public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
 
             px = new Size() {
-                Width = canvas.Width / 11,
+                Width = canvas.Width / 10,
                 Height = canvas.Height / 24
             };
+
+            board = _board;
 
             Draw();
         }
@@ -31,7 +35,12 @@ namespace PPT_TAS {
             using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 24; j++) {
-                        gfx.FillRectangle(bg[j % 4], new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px));
+                        Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
+
+                        gfx.FillRectangle(bg[j % 4], mino);
+
+                        if (board[i, j] != 255)
+                            gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{board[i, j]}"), mino);
                     }
                 }
 

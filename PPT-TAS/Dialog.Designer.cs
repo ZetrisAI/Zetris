@@ -124,7 +124,7 @@
             // 
             this.canvas.Location = new System.Drawing.Point(48, 13);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(220, 480);
+            this.canvas.Size = new System.Drawing.Size(200, 480);
             this.canvas.TabIndex = 16;
             this.canvas.TabStop = false;
             // 

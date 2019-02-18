@@ -36,7 +36,6 @@ namespace PPT_TAS {
         int piece = 0;
         int[] queue = new int[5];
         bool register = false;
-        int test = 0;
 
         private void runLogic() {
             int y = GameHelper.getPiecePositionY(PPT);
@@ -49,8 +48,7 @@ namespace PPT_TAS {
                 }
             }
 
-            //if (GameHelper.boardAddress(PPT) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0 && GameHelper.IsTetChallenge(PPT)) {
-            if (true) {
+            if (GameHelper.boardAddress(PPT) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0 && GameHelper.IsTetChallenge(PPT)) {
                 int drop = GameHelper.getPieceDropped(PPT);
 
                 int current = GameHelper.getCurrentPiece(PPT);
@@ -72,31 +70,11 @@ namespace PPT_TAS {
                     register = true;
                 }
 
-                //if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
-                if (true)
-                {
-                    //PPT.Suspend();
+                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
+                    PPT.Suspend();
                     ScanTimer.Enabled = false;
 
-                    int[,] b = new int[10, 40];
-                    for (int x = 0; x < 10; x++)
-                    {
-                        for (y = 0; y < 40; y++)
-                        {
-                            b[x, y] = 255;
-                        }
-                    }
-
                     Dialog q = new Dialog(
-                        b,
-                        test++ % 7,
-                        5,
-                        0,
-                        new int[] { 5, 3, 1, 0, 2, 6, 4 },
-                        0,
-                        3
-                    );
-                    /*Dialog q = new Dialog(
                         board,
                         current,
                         y,
@@ -107,18 +85,18 @@ namespace PPT_TAS {
                             .ToArray(),
                         GameHelper.getCleared(PPT),
                         GameHelper.getBagIndex(PPT)
-                    );*/
+                    );
                     q.ShowDialog();
 
                     ScanTimer.Enabled = true;
-                    //PPT.Resume();
+                    PPT.Resume();
 
                     desiredX = q.desiredX;
                     desiredR = q.desiredR;
                     desiredHold = q.desiredHold;
 
-                    //inputStarted = true;
-                    //register = false;
+                    inputStarted = true;
+                    register = false;
                 }
 
                 state = drop;
@@ -204,7 +182,7 @@ namespace PPT_TAS {
 
                 bool actualFrame = false;
 
-                /*if (PPT.CheckProcess()) {
+                if (PPT.CheckProcess()) {
                     PPT.TrustProcess = true;
 
                     int prev = globalFrames;
@@ -219,11 +197,7 @@ namespace PPT_TAS {
                     }
 
                     PPT.TrustProcess = false;
-                }*/
-
-                ///
-                runLogic(); //test purposes
-                ///
+                }
 
                 updateUI();
                 timer.Stop();
