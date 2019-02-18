@@ -1,59 +1,32 @@
 ﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace PPT_TAS {
-    public partial class Dialog : Form {
-        int[,] board = new int[10, 40];
+    public partial class Dialog: Form {
+        private Renderer gfx;
 
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
 
-            px = new Size() {
-                Width = canvas.Width / 10,
-                Height = canvas.Height / 24
+            gfx = new Renderer(ref canvas) {
+                board = _board,
+                current = _current,
+                y = _yPos,
+                hold = _hold,
+                queue = _queue,
+                cleared = _cleared,
+                bag = _bagIndex
             };
 
-            board = _board;
-
-            Draw();
+            gfx.Draw();
         }
-
-        readonly SolidBrush[] bg = new SolidBrush[] {
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A1A1A))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x272727))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x343434))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x414141)))
-        };
-
-        readonly Size px;
-
-        void Draw() {
-            canvas.Image = new Bitmap(canvas.Width, canvas.Height);
-
-            using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
-                for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < 24; j++) {
-                        Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
-
-                        gfx.FillRectangle(bg[j % 4], mino);
-
-                        if (board[i, j] != 255)
-                            gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{board[i, j]}"), mino);
-                    }
-                }
-
-                gfx.Flush();
-            }
-        }
-
+        
         public int desiredX = 4, desiredR = 0;
         public bool desiredHold = false;
 
         private void valueX_ValueChanged(object sender, EventArgs e) {
             // desiredX
-            Draw();
+            gfx.Draw();
         }
 
         private void valueR_ValueChanged(object sender, EventArgs e) {
@@ -67,12 +40,12 @@ namespace PPT_TAS {
                 return;
             }
             //desiredR
-            Draw();
+            gfx.Draw();
         }
 
         private void valueHold_CheckedChanged(object sender, EventArgs e) {
             //desiredHold
-            Draw();
+            gfx.Draw();
         }
 
         bool[] keys = new bool[4];
