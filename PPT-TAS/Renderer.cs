@@ -30,6 +30,7 @@ namespace PPT_TAS {
                         Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
 
                         gfx.FillRectangle(bg[j % 4], mino);
+                        gfx.DrawImage(Properties.Resources.Grid, mino);
 
                         if (board[i, j] != 255)
                             gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{board[i, j]}"), mino);
