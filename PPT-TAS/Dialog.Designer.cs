@@ -31,8 +31,6 @@
             this.labelR = new System.Windows.Forms.Label();
             this.labelHold = new System.Windows.Forms.Label();
             this.canvas = new System.Windows.Forms.PictureBox();
-            this.PlacePiece = new System.Windows.Forms.Button();
-            this.Undo = new System.Windows.Forms.Button();
             this.HeldPiece = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).BeginInit();
@@ -61,6 +59,7 @@
             this.valueX.ReadOnly = true;
             this.valueX.Size = new System.Drawing.Size(29, 16);
             this.valueX.TabIndex = 0;
+            this.valueX.TabStop = false;
             this.valueX.Value = new decimal(new int[] {
             4,
             0,
@@ -88,16 +87,19 @@
             this.valueR.ReadOnly = true;
             this.valueR.Size = new System.Drawing.Size(29, 16);
             this.valueR.TabIndex = 0;
+            this.valueR.TabStop = false;
             this.valueR.ValueChanged += new System.EventHandler(this.valueR_ValueChanged);
             // 
             // valueHold
             // 
             this.valueHold.AutoSize = true;
+            this.valueHold.Enabled = false;
             this.valueHold.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueHold.Location = new System.Drawing.Point(359, 52);
             this.valueHold.Name = "valueHold";
             this.valueHold.Size = new System.Drawing.Size(15, 14);
             this.valueHold.TabIndex = 2;
+            this.valueHold.TabStop = false;
             this.valueHold.UseVisualStyleBackColor = true;
             this.valueHold.CheckedChanged += new System.EventHandler(this.valueHold_CheckedChanged);
             // 
@@ -133,26 +135,6 @@
             this.canvas.TabIndex = 16;
             this.canvas.TabStop = false;
             // 
-            // PlacePiece
-            // 
-            this.PlacePiece.ForeColor = System.Drawing.Color.Black;
-            this.PlacePiece.Location = new System.Drawing.Point(289, 440);
-            this.PlacePiece.Name = "PlacePiece";
-            this.PlacePiece.Size = new System.Drawing.Size(96, 23);
-            this.PlacePiece.TabIndex = 17;
-            this.PlacePiece.Text = "Place Piece";
-            this.PlacePiece.UseVisualStyleBackColor = true;
-            // 
-            // Undo
-            // 
-            this.Undo.ForeColor = System.Drawing.Color.Black;
-            this.Undo.Location = new System.Drawing.Point(289, 469);
-            this.Undo.Name = "Undo";
-            this.Undo.Size = new System.Drawing.Size(96, 23);
-            this.Undo.TabIndex = 18;
-            this.Undo.Text = "Undo";
-            this.Undo.UseVisualStyleBackColor = true;
-            // 
             // HeldPiece
             // 
             this.HeldPiece.BackColor = System.Drawing.Color.DimGray;
@@ -179,8 +161,6 @@
             this.ClientSize = new System.Drawing.Size(394, 503);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.HeldPiece);
-            this.Controls.Add(this.Undo);
-            this.Controls.Add(this.PlacePiece);
             this.Controls.Add(this.canvas);
             this.Controls.Add(this.labelHold);
             this.Controls.Add(this.labelR);
@@ -217,8 +197,6 @@
         private System.Windows.Forms.Label labelR;
         private System.Windows.Forms.Label labelHold;
         private System.Windows.Forms.PictureBox canvas;
-        private System.Windows.Forms.Button PlacePiece;
-        private System.Windows.Forms.Button Undo;
         private System.Windows.Forms.PictureBox HeldPiece;
         private System.Windows.Forms.Label label1;
     }

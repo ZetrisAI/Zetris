@@ -53,6 +53,7 @@ namespace PPT_TAS {
         public int[,] board;
         public int[] queue;
         public int x, r, current, y, hold, cleared, bag;
+        public bool useHold;
 
         readonly SolidBrush[] bg = new SolidBrush[] {
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A1A1A))),
@@ -86,9 +87,11 @@ namespace PPT_TAS {
                     }
                 }
 
-                foreach ((int, int) offset in pieces[current][r]) {
+                int c = useHold? ((hold == 255)? queue[0] : hold) : current;
+
+                foreach ((int, int) offset in pieces[c][r]) {
                     Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * px.Width, (y - 1 + offset.Item2) * px.Height), px);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{current}"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{c}"), mino);
                 }
 
                 gfx.Flush();

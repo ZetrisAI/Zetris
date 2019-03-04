@@ -5,10 +5,14 @@ namespace PPT_TAS {
     public partial class Dialog: Form {
         private Renderer gfx;
 
-        public int desiredX = 4, desiredR = 0;
+        private static readonly int initX = 4, initR = 0;
+        private int initY;
+
+        public int desiredX = initX, desiredR = initR;
         public bool desiredHold = false;
 
         private int[,] board;
+        private int[] queue;
         private int current, y, hold;
 
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
@@ -34,14 +38,15 @@ namespace PPT_TAS {
                     valueR.Value++;
                 },
                 () => {
-                    // Use Hold
+                    valueHold.Checked = !valueHold.Checked;
                 }
             };
 
             board = _board;
             current = _current;
-            y = _yPos;
+            y = initY = _yPos;
             hold = _hold;
+            queue = _queue;
 
             gfx = new Renderer(ref canvas) {
                 board = _board,
@@ -59,7 +64,9 @@ namespace PPT_TAS {
         }
 
         private bool movementCollision(int x) {
-            foreach ((int, int) offset in Renderer.pieces[current][desiredR]) {
+            int c = desiredHold? ((hold == 255)? queue[0] : hold) : current;
+
+            foreach ((int, int) offset in Renderer.pieces[c][desiredR]) {
                 try {
                     if (board[x - 1 + offset.Item1, 24 - y - offset.Item2] != 255) {
                         return false;
@@ -75,8 +82,10 @@ namespace PPT_TAS {
         private void valueX_ValueChanged(object sender, EventArgs e) {
             if (movementCollision((int)valueX.Value)) {
                 desiredX = (int)valueX.Value;
+
                 gfx.x = desiredX;
                 gfx.Draw();
+
             } else {
                 valueX.Value = desiredX;
             }
@@ -95,15 +104,23 @@ namespace PPT_TAS {
 
             if (true /* SRS check? */) {
                 desiredR = (int)valueR.Value;
+
                 gfx.r = desiredR;
                 gfx.Draw();
+
             } else {
                 valueR.Value = desiredR;
             }
         }
 
         private void valueHold_CheckedChanged(object sender, EventArgs e) {
-            //desiredHold
+            desiredHold = valueHold.Checked;
+
+            valueX.Value = initX;
+            y = initY;
+            valueR.Value = initR;
+
+            gfx.useHold = desiredHold;
             gfx.Draw();
         }
 
@@ -121,7 +138,7 @@ namespace PPT_TAS {
         private Action[] actions;
 
         private void Dialog_KeyDown(object sender, KeyEventArgs e) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 if (e.KeyCode == keycodes[i]) {
                     if (!keys[i]) {
                         actions[i].Invoke();
@@ -135,7 +152,7 @@ namespace PPT_TAS {
         }
 
         private void Dialog_KeyUp(object sender, KeyEventArgs e) {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 7; i++) {
                 if (e.KeyCode == keycodes[i]) {
                     keys[i] = false;
 
