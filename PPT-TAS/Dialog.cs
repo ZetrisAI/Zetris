@@ -11,7 +11,9 @@ namespace PPT_TAS {
             gfx = new Renderer(ref canvas) {
                 board = _board,
                 current = _current,
+                x = desiredX,
                 y = _yPos,
+                r = desiredR,
                 hold = _hold,
                 queue = _queue,
                 cleared = _cleared,
@@ -25,8 +27,13 @@ namespace PPT_TAS {
         public bool desiredHold = false;
 
         private void valueX_ValueChanged(object sender, EventArgs e) {
-            // desiredX
-            gfx.Draw();
+            if (true /* collision check */) {
+                desiredX = (int)valueX.Value;
+                gfx.x = desiredX;
+                gfx.Draw();
+            } else {
+                valueX.Value = desiredX;
+            }
         }
 
         private void valueR_ValueChanged(object sender, EventArgs e) {
@@ -39,8 +46,14 @@ namespace PPT_TAS {
                 valueR.Value = 0;
                 return;
             }
-            //desiredR
-            gfx.Draw();
+
+            if (true /* SRS check? */) {
+                desiredR = (int)valueR.Value;
+                gfx.r = desiredR;
+                gfx.Draw();
+            } else {
+                valueR.Value = desiredR;
+            }
         }
 
         private void valueHold_CheckedChanged(object sender, EventArgs e) {
