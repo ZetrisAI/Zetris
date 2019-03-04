@@ -48,10 +48,15 @@
             this.valueX.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueX.Location = new System.Drawing.Point(353, 9);
             this.valueX.Maximum = new decimal(new int[] {
-            9,
+            10,
             0,
             0,
             0});
+            this.valueX.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             this.valueX.Name = "valueX";
             this.valueX.ReadOnly = true;
             this.valueX.Size = new System.Drawing.Size(29, 16);

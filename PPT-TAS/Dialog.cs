@@ -5,8 +5,19 @@ namespace PPT_TAS {
     public partial class Dialog: Form {
         private Renderer gfx;
 
+        public int desiredX = 4, desiredR = 0;
+        public bool desiredHold = false;
+
+        private int[,] board;
+        private int current, y, hold;
+
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
+
+            board = _board;
+            current = _current;
+            y = _yPos;
+            hold = _hold;
 
             gfx = new Renderer(ref canvas) {
                 board = _board,
@@ -20,14 +31,27 @@ namespace PPT_TAS {
                 bag = _bagIndex
             };
 
+            labelHold.Text = y.ToString();
+
             gfx.Draw();
         }
-        
-        public int desiredX = 4, desiredR = 0;
-        public bool desiredHold = false;
+
+        private bool movementCollision(int x) {
+            foreach ((int, int) offset in Renderer.pieces[current][desiredR]) {
+                try {
+                    if (board[x - 1 + offset.Item1, 24 - y - offset.Item2] != 255) {
+                        return false;
+                    }
+                } catch {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         private void valueX_ValueChanged(object sender, EventArgs e) {
-            if (true /* collision check */) {
+            if (movementCollision((int)valueX.Value)) {
                 desiredX = (int)valueX.Value;
                 gfx.x = desiredX;
                 gfx.Draw();
@@ -88,14 +112,14 @@ namespace PPT_TAS {
 
                 case Keys.Z:
                     if (!keys[1]) {
-                        // Rotate CCW
+                        valueR.Value--;
                     }
                     keys[1] = true;
                     break;
 
                 case Keys.X:
                     if (!keys[2]) {
-                        // Rotate CW
+                        valueR.Value++;
                     }
                     keys[2] = true;
                     break;

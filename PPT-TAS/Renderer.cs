@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace PPT_TAS {
     public class Renderer {
-        static readonly (int, int)[][][] pieces = new (int, int)[7][][] {
+        public static readonly (int, int)[][][] pieces = new (int, int)[7][][] {
             new (int, int)[4][] { // S
                 new (int, int)[4] {(1, 0), (2, 0), (0, 1), (1, 1)},
                 new (int, int)[4] {(1, 0), (1, 1), (2, 1), (2, 2)},
