@@ -14,6 +14,30 @@ namespace PPT_TAS {
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
 
+            actions = new Action[7] {
+                () => {
+                    valueX.Value--;
+                },
+                () => {
+                    valueX.Value++;
+                },
+                () => {
+                    // Hard Drop
+                },
+                () => {
+                    // Soft Drop
+                },
+                () => {
+                    valueR.Value--;
+                },
+                () => {
+                    valueR.Value++;
+                },
+                () => {
+                    // Use Hold
+                }
+            };
+
             board = _board;
             current = _current;
             y = _yPos;
@@ -30,8 +54,6 @@ namespace PPT_TAS {
                 cleared = _cleared,
                 bag = _bagIndex
             };
-
-            labelHold.Text = y.ToString();
 
             gfx.Draw();
         }
@@ -85,86 +107,41 @@ namespace PPT_TAS {
             gfx.Draw();
         }
 
-        bool[] keys = new bool[4];
+        private readonly Keys[] keycodes = new Keys[7] {
+            Keys.Left,
+            Keys.Right,
+            Keys.Up,
+            Keys.Down,
+            Keys.Z,
+            Keys.X,
+            Keys.Space
+        };
+
+        private bool[] keys = new bool[7];
+        private Action[] actions;
 
         private void Dialog_KeyDown(object sender, KeyEventArgs e) {
-            e.Handled = true;
-
-            switch (e.KeyCode) {
-                case Keys.Left:
-                    valueX.Value--;
-                    break;
-
-                case Keys.Right:
-                    valueX.Value++;
-                    break;
-
-                case Keys.Up:
-                    if (!keys[0]) {
-                        // Hard Drop
+            for (int i = 0; i < 6; i++) {
+                if (e.KeyCode == keycodes[i]) {
+                    if (!keys[i]) {
+                        actions[i].Invoke();
                     }
-                    keys[0] = true;
-                    break;
+                    keys[i] = true;
 
-                case Keys.Down:
-                    // placeholder for Soft Drop in the far future
-                    break;
-
-                case Keys.Z:
-                    if (!keys[1]) {
-                        valueR.Value--;
-                    }
-                    keys[1] = true;
-                    break;
-
-                case Keys.X:
-                    if (!keys[2]) {
-                        valueR.Value++;
-                    }
-                    keys[2] = true;
-                    break;
-
-                case Keys.Space:
-                    if (!keys[3]) {
-                        // Toggle Hold
-                    }
-                    keys[3] = true;
-                    break;
-
-                default:
-                    e.Handled = false;
-                    break;
+                    e.Handled = true;
+                    return;
+                }
             }
         }
 
         private void Dialog_KeyUp(object sender, KeyEventArgs e) {
-            e.Handled = true;
+            for (int i = 0; i < 6; i++) {
+                if (e.KeyCode == keycodes[i]) {
+                    keys[i] = false;
 
-            switch (e.KeyCode) {
-                case Keys.Left:
-                case Keys.Right:
-                case Keys.Down:  // placeholder
-                    break;
-
-                case Keys.Up:
-                    keys[0] = false;
-                    break;
-
-                case Keys.Z:
-                    keys[1] = false;
-                    break;
-
-                case Keys.X:
-                    keys[2] = false;
-                    break;
-
-                case Keys.Space:
-                    keys[3] = false;
-                    break;
-
-                default:
-                    e.Handled = false;
-                    break;
+                    e.Handled = true;
+                    return;
+                }
             }
         }
     }
