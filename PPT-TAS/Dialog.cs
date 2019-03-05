@@ -191,7 +191,7 @@ namespace PPT_TAS {
             hold = _hold;
             queue = _queue;
 
-            gfx = new Renderer(ref canvas) {
+            gfx = new Renderer(ref canvasBoard, ref canvasQueue, ref canvasHold) {
                 board = _board,
                 current = _current,
                 x = desiredX,

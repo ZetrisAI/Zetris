@@ -59,7 +59,7 @@ namespace PPT_TAS {
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x41181A)))
         };
 
-        PictureBox canvas;
+        PictureBox canvasBoard, canvasQueue, canvasHold;
         Size px;
 
         public int[,] board;
@@ -86,9 +86,9 @@ namespace PPT_TAS {
         }
         
         public void DrawBackground() {
-            canvas.BackgroundImage = new Bitmap(canvas.Width, canvas.Height);
+            canvasBoard.BackgroundImage = new Bitmap(canvasBoard.Width, canvasBoard.Height);
 
-            using (Graphics gfx = Graphics.FromImage(canvas.BackgroundImage)) {
+            using (Graphics gfx = Graphics.FromImage(canvasBoard.BackgroundImage)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 24; j++) {
                         Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
@@ -106,9 +106,9 @@ namespace PPT_TAS {
         }
 
         public void DrawForeground() {
-            canvas.Image = new Bitmap(canvas.Width, canvas.Height);
+            canvasBoard.Image = new Bitmap(canvasBoard.Width, canvasBoard.Height);
 
-            using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
+            using (Graphics gfx = Graphics.FromImage(canvasBoard.Image)) {
                 int c = useHold ? ((hold == 255) ? queue[0] : hold) : current;
 
                 int ghost = ghostY();
@@ -128,12 +128,14 @@ namespace PPT_TAS {
             }
         }
 
-        public Renderer(ref PictureBox _canvas) {
-            canvas = _canvas;
+        public Renderer(ref PictureBox _canvasBoard, ref PictureBox _canvasQueue, ref PictureBox _canvasHold) {
+            canvasBoard = _canvasBoard;
+            canvasQueue = _canvasQueue;
+            canvasHold = _canvasHold;
 
             px = new Size() {
-                Width = canvas.Width / 10,
-                Height = canvas.Height / 24
+                Width = canvasBoard.Width / 10,
+                Height = canvasBoard.Height / 24
             };
         }
     }

@@ -30,13 +30,14 @@
             this.labelX = new System.Windows.Forms.Label();
             this.labelR = new System.Windows.Forms.Label();
             this.labelHold = new System.Windows.Forms.Label();
-            this.canvas = new System.Windows.Forms.PictureBox();
-            this.HeldPiece = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.canvasBoard = new System.Windows.Forms.PictureBox();
+            this.canvasHold = new System.Windows.Forms.PictureBox();
+            this.canvasQueue = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.canvas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HeldPiece)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasBoard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasHold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasQueue)).BeginInit();
             this.SuspendLayout();
             // 
             // valueX
@@ -44,7 +45,7 @@
             this.valueX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueX.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.valueX.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueX.Location = new System.Drawing.Point(353, 9);
+            this.valueX.Location = new System.Drawing.Point(164, 504);
             this.valueX.Maximum = new decimal(new int[] {
             10,
             0,
@@ -72,7 +73,7 @@
             this.valueR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueR.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.valueR.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueR.Location = new System.Drawing.Point(353, 30);
+            this.valueR.Location = new System.Drawing.Point(164, 525);
             this.valueR.Maximum = new decimal(new int[] {
             4,
             0,
@@ -95,7 +96,7 @@
             this.valueHold.AutoSize = true;
             this.valueHold.Enabled = false;
             this.valueHold.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueHold.Location = new System.Drawing.Point(359, 52);
+            this.valueHold.Location = new System.Drawing.Point(170, 546);
             this.valueHold.Name = "valueHold";
             this.valueHold.Size = new System.Drawing.Size(15, 14);
             this.valueHold.TabIndex = 2;
@@ -105,7 +106,7 @@
             // 
             // labelX
             // 
-            this.labelX.Location = new System.Drawing.Point(286, 9);
+            this.labelX.Location = new System.Drawing.Point(87, 504);
             this.labelX.Name = "labelX";
             this.labelX.Size = new System.Drawing.Size(57, 14);
             this.labelX.TabIndex = 15;
@@ -113,7 +114,7 @@
             // 
             // labelR
             // 
-            this.labelR.Location = new System.Drawing.Point(286, 30);
+            this.labelR.Location = new System.Drawing.Point(87, 525);
             this.labelR.Name = "labelR";
             this.labelR.Size = new System.Drawing.Size(57, 14);
             this.labelR.TabIndex = 15;
@@ -121,47 +122,48 @@
             // 
             // labelHold
             // 
-            this.labelHold.Location = new System.Drawing.Point(286, 51);
+            this.labelHold.Location = new System.Drawing.Point(87, 546);
             this.labelHold.Name = "labelHold";
             this.labelHold.Size = new System.Drawing.Size(57, 14);
             this.labelHold.TabIndex = 15;
             this.labelHold.Text = "Use Hold:";
             // 
-            // canvas
+            // canvasBoard
             // 
-            this.canvas.Location = new System.Drawing.Point(48, 13);
-            this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(200, 480);
-            this.canvas.TabIndex = 16;
-            this.canvas.TabStop = false;
+            this.canvasBoard.BackColor = System.Drawing.Color.Transparent;
+            this.canvasBoard.Location = new System.Drawing.Point(38, 12);
+            this.canvasBoard.Name = "canvasBoard";
+            this.canvasBoard.Size = new System.Drawing.Size(200, 480);
+            this.canvasBoard.TabIndex = 16;
+            this.canvasBoard.TabStop = false;
             // 
-            // HeldPiece
+            // canvasHold
             // 
-            this.HeldPiece.BackColor = System.Drawing.Color.DimGray;
-            this.HeldPiece.Location = new System.Drawing.Point(13, 25);
-            this.HeldPiece.Name = "HeldPiece";
-            this.HeldPiece.Size = new System.Drawing.Size(20, 10);
-            this.HeldPiece.TabIndex = 20;
-            this.HeldPiece.TabStop = false;
+            this.canvasHold.BackColor = System.Drawing.Color.Transparent;
+            this.canvasHold.Location = new System.Drawing.Point(12, 12);
+            this.canvasHold.Name = "canvasHold";
+            this.canvasHold.Size = new System.Drawing.Size(20, 10);
+            this.canvasHold.TabIndex = 20;
+            this.canvasHold.TabStop = false;
             // 
-            // label1
+            // canvasQueue
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(32, 13);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "Hold:";
+            this.canvasQueue.BackColor = System.Drawing.Color.Transparent;
+            this.canvasQueue.Location = new System.Drawing.Point(244, 12);
+            this.canvasQueue.Name = "canvasQueue";
+            this.canvasQueue.Size = new System.Drawing.Size(20, 480);
+            this.canvasQueue.TabIndex = 21;
+            this.canvasQueue.TabStop = false;
             // 
             // Dialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(394, 503);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.HeldPiece);
-            this.Controls.Add(this.canvas);
+            this.ClientSize = new System.Drawing.Size(276, 573);
+            this.Controls.Add(this.canvasQueue);
+            this.Controls.Add(this.canvasHold);
+            this.Controls.Add(this.canvasBoard);
             this.Controls.Add(this.labelHold);
             this.Controls.Add(this.labelR);
             this.Controls.Add(this.labelX);
@@ -181,8 +183,9 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.canvas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HeldPiece)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasBoard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasHold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.canvasQueue)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,8 +199,8 @@
         private System.Windows.Forms.Label labelX;
         private System.Windows.Forms.Label labelR;
         private System.Windows.Forms.Label labelHold;
-        private System.Windows.Forms.PictureBox canvas;
-        private System.Windows.Forms.PictureBox HeldPiece;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox canvasBoard;
+        private System.Windows.Forms.PictureBox canvasHold;
+        private System.Windows.Forms.PictureBox canvasQueue;
     }
 }
