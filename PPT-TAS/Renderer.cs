@@ -58,9 +58,10 @@ namespace PPT_TAS {
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x341314))),
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x41181A)))
         };
+        readonly Pen SeparatorPen = new Pen(Color.FromArgb(255, Color.FromArgb(0x343434)));
 
         PictureBox canvasBoard, canvasQueue, canvasHold;
-        Size px;
+        Size pxBoard, pxQueue;
 
         public int[,] board;
         public int[] queue;
@@ -91,7 +92,7 @@ namespace PPT_TAS {
             using (Graphics gfx = Graphics.FromImage(canvasBoard.BackgroundImage)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 24; j++) {
-                        Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
+                        Rectangle mino = new Rectangle(new Point(i * pxBoard.Width, (23 - j) * pxBoard.Height), pxBoard);
 
                         gfx.FillRectangle(BackgroundColors[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
                         gfx.DrawImage(Properties.Resources.Grid, mino);
@@ -99,6 +100,25 @@ namespace PPT_TAS {
                         if (board[i, j] != 255)
                             gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{board[i, j]}"), mino);
                     }
+                }
+
+                gfx.Flush();
+            }
+        }
+
+        public void DrawExtras() {
+            canvasQueue.Image = new Bitmap(canvasQueue.Width, canvasQueue.Height);
+
+            using (Graphics gfx = Graphics.FromImage(canvasQueue.Image)) {
+                int i = (useHold && hold == 255)? 1 : 0;
+                for (int h = 0; h < canvasQueue.Image.Height; h += pxQueue.Height) {
+                    if ((12 - bag) % 7 == i % 7 && h != 0) {
+                        gfx.DrawLine(SeparatorPen, pxQueue.Width / 20, h + pxQueue.Height / 4, pxQueue.Width - (pxQueue.Width / 20) - 1, h + pxQueue.Height / 4);
+                        h += (pxQueue.Height / 4) * 2 + 1;
+                    }
+
+                    Rectangle mino = new Rectangle(new Point(0, h), pxQueue);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Queue_{queue[i++]}"), mino);
                 }
 
                 gfx.Flush();
@@ -114,13 +134,13 @@ namespace PPT_TAS {
                 int ghost = ghostY();
 
                 foreach ((int, int) offset in pieces[c][r]) {
-                    Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * px.Width, (ghost - 1 + offset.Item2) * px.Height), px);
+                    Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * pxBoard.Width, (ghost - 1 + offset.Item2) * pxBoard.Height), pxBoard);
                     gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_{c}"), mino);
                     gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_Deco"), mino);
                 }
 
                 foreach ((int, int) offset in pieces[c][r]) {
-                    Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * px.Width, (y - 1 + offset.Item2) * px.Height), px);
+                    Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * pxBoard.Width, (y - 1 + offset.Item2) * pxBoard.Height), pxBoard);
                     gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{c}"), mino);
                 }
 
@@ -133,9 +153,14 @@ namespace PPT_TAS {
             canvasQueue = _canvasQueue;
             canvasHold = _canvasHold;
 
-            px = new Size() {
+            pxBoard = new Size() {
                 Width = canvasBoard.Width / 10,
                 Height = canvasBoard.Height / 24
+            };
+
+            pxQueue = new Size() {
+                Width = canvasQueue.Width,
+                Height = canvasQueue.Width / 2
             };
         }
     }

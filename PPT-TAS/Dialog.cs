@@ -205,6 +205,7 @@ namespace PPT_TAS {
 
             gfx.DrawBackground();
             gfx.DrawForeground();
+            gfx.DrawExtras();
         }
 
         private bool TestCollision(int x, int y, int r) {
@@ -302,6 +303,7 @@ namespace PPT_TAS {
 
             gfx.useHold = desiredHold;
             gfx.DrawForeground();
+            gfx.DrawExtras();
         }
 
         private readonly Keys[] keycodes = new Keys[7] {
