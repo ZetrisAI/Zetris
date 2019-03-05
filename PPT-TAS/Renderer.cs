@@ -55,6 +55,24 @@ namespace PPT_TAS {
         public int x, r, current, y, hold, cleared, bag;
         public bool useHold;
 
+        private int ghostY() {
+            int c = useHold? ((hold == 255)? queue[0] : hold) : current;
+
+            for (int i = y; i <= 25; i++) {
+                foreach ((int, int) offset in pieces[c][r]) {
+                    try {
+                        if (board[x - 1 + offset.Item1, 24 - i - offset.Item2] != 255) {
+                            return i - 1;
+                        }
+                    } catch {
+                        return i - 1;
+                    }
+                }
+            }
+
+            return 24;
+        }
+
         readonly SolidBrush[] bg = new SolidBrush[] {
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A1A1A))),
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x272727))),
@@ -88,6 +106,14 @@ namespace PPT_TAS {
                 }
 
                 int c = useHold? ((hold == 255)? queue[0] : hold) : current;
+
+                int ghost = ghostY();
+
+                foreach ((int, int) offset in pieces[c][r]) {
+                    Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * px.Width, (ghost - 1 + offset.Item2) * px.Height), px);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_{c}"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_Deco"), mino);
+                }
 
                 foreach ((int, int) offset in pieces[c][r]) {
                     Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * px.Width, (y - 1 + offset.Item2) * px.Height), px);
