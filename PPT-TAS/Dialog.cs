@@ -116,30 +116,72 @@ namespace PPT_TAS {
             y += offsetY;
         }
 
+        private readonly static int DAS = 100;
+        private readonly static int ARR = 16;
+
+        private void ApplyARR(object o) {
+            if (o != null && o.GetType() == typeof(Timer)) {
+                ((Timer)o).Interval = ARR;
+            }
+        }
+
+        private void StopDAS(object o) {
+            if (o != null && o.GetType() == typeof(Timer)) {
+                ((Timer)o).Enabled = false;
+                ((Timer)o).Dispose();
+                o = null;
+            }
+        }
+
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
 
-            actions = new Action[7] {
-                () => {
+            actions = new Action<object, EventArgs>[7] {
+                (object sender, EventArgs e) => {
                     valueX.Value--;
+                    StopDAS(timers[1]);
+                    ApplyARR(sender);
                 },
-                () => {
+                (object sender, EventArgs e) => {
                     valueX.Value++;
+                    StopDAS(timers[0]);
+                    ApplyARR(sender);
                 },
-                () => {
-                    this.Close();
+                (object sender, EventArgs e) => {
+                    if (sender != null) {
+                        StopDAS(sender);
+                    } else {
+                        for (int i = 0; i < 7; i++) {
+                            StopDAS(timers[i]);
+                        }
+
+                        this.Close();
+                    }
                 },
-                () => {
+                (object sender, EventArgs e) => {
                     // Soft Drop
+                    ApplyARR(sender);
                 },
-                () => {
-                    valueR.Value--;
+                (object sender, EventArgs e) => {
+                    if (sender != null) {
+                        StopDAS(sender);
+                    } else {
+                        valueR.Value--;
+                    }
                 },
-                () => {
-                    valueR.Value++;
+                (object sender, EventArgs e) => {
+                    if (sender != null) {
+                        StopDAS(sender);
+                    } else {
+                        valueR.Value++;
+                    }
                 },
-                () => {
-                    valueHold.Checked = !valueHold.Checked;
+                (object sender, EventArgs e) => {
+                    if (sender != null) {
+                        StopDAS(sender);
+                    } else {
+                        valueHold.Checked = !valueHold.Checked;
+                    }
                 }
             };
 
@@ -273,14 +315,21 @@ namespace PPT_TAS {
         };
 
         private bool[] keys = new bool[7];
-        private Action[] actions;
+        private Action<object, EventArgs>[] actions;
+        private Timer[] timers = new Timer[7];
 
         private void Dialog_KeyDown(object sender, KeyEventArgs e) {
             for (int i = 0; i < 7; i++) {
                 if (e.KeyCode == keycodes[i]) {
                     if (!keys[i]) {
-                        actions[i].Invoke();
+                        actions[i].Invoke(null, EventArgs.Empty);
+
+                        timers[i] = new Timer();
+                        timers[i].Tick += new EventHandler(actions[i]);
+                        timers[i].Interval = DAS;
+                        timers[i].Enabled = true;
                     }
+
                     keys[i] = true;
 
                     e.Handled = true;
@@ -292,6 +341,12 @@ namespace PPT_TAS {
         private void Dialog_KeyUp(object sender, KeyEventArgs e) {
             for (int i = 0; i < 7; i++) {
                 if (e.KeyCode == keycodes[i]) {
+                    if (timers[i] != null) {
+                        timers[i].Enabled = false;
+                        timers[i].Dispose();
+                        timers[i] = null;
+                    }
+
                     keys[i] = false;
 
                     e.Handled = true;
