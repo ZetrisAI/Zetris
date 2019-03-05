@@ -161,7 +161,8 @@ namespace PPT_TAS {
                 bag = _bagIndex
             };
 
-            gfx.Draw();
+            gfx.DrawBackground();
+            gfx.DrawForeground();
         }
 
         private bool TestCollision(int x, int y, int r) {
@@ -214,7 +215,7 @@ namespace PPT_TAS {
                 desiredX = (int)valueX.Value;
 
                 gfx.x = desiredX - offsetX;
-                gfx.Draw();
+                gfx.DrawForeground();
 
             } else {
                 valueX.Value = desiredX;
@@ -240,7 +241,7 @@ namespace PPT_TAS {
                 gfx.x = desiredX - offsetX;
                 gfx.y = y - offsetY;
                 gfx.r = desiredR;
-                gfx.Draw();
+                gfx.DrawForeground();
 
             } else {
                 valueR.Value = desiredR;
@@ -258,7 +259,7 @@ namespace PPT_TAS {
             valueR.Value = initR;
 
             gfx.useHold = desiredHold;
-            gfx.Draw();
+            gfx.DrawForeground();
         }
 
         private readonly Keys[] keycodes = new Keys[7] {

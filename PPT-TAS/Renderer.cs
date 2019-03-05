@@ -49,6 +49,7 @@ namespace PPT_TAS {
         };
         
         PictureBox canvas;
+        Size px;
 
         public int[,] board;
         public int[] queue;
@@ -84,20 +85,15 @@ namespace PPT_TAS {
             new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x41181A)))
         };
         
-        public void Draw() {
-            Size px = new Size() {
-                Width = canvas.Width / 10,
-                Height = canvas.Height / 24
-            };
+        public void DrawBackground() {
+            canvas.BackgroundImage = new Bitmap(canvas.Width, canvas.Height);
 
-            canvas.Image = new Bitmap(canvas.Width, canvas.Height);
-
-            using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
+            using (Graphics gfx = Graphics.FromImage(canvas.BackgroundImage)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 24; j++) {
                         Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
 
-                        gfx.FillRectangle(bg[(j + cleared) % 4 + ((cleared + j >= 40)? 4 : 0)], mino);
+                        gfx.FillRectangle(bg[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
                         gfx.DrawImage(Properties.Resources.Grid, mino);
 
                         if (board[i, j] != 255)
@@ -105,7 +101,15 @@ namespace PPT_TAS {
                     }
                 }
 
-                int c = useHold? ((hold == 255)? queue[0] : hold) : current;
+                gfx.Flush();
+            }
+        }
+
+        public void DrawForeground() {
+            canvas.Image = new Bitmap(canvas.Width, canvas.Height);
+
+            using (Graphics gfx = Graphics.FromImage(canvas.Image)) {
+                int c = useHold ? ((hold == 255) ? queue[0] : hold) : current;
 
                 int ghost = ghostY();
 
@@ -126,6 +130,11 @@ namespace PPT_TAS {
 
         public Renderer(ref PictureBox _canvas) {
             canvas = _canvas;
+
+            px = new Size() {
+                Width = canvas.Width / 10,
+                Height = canvas.Height / 24
+            };
         }
     }
 }
