@@ -47,7 +47,18 @@ namespace PPT_TAS {
                 new (int, int)[4] {(1, 0), (1, 1), (1, 2), (1, 3)}
             }
         };
-        
+
+        readonly SolidBrush[] BackgroundColors = new SolidBrush[] {
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A1A1A))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x272727))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x343434))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x414141))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A090A))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x270D0E))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x341314))),
+            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x41181A)))
+        };
+
         PictureBox canvas;
         Size px;
 
@@ -73,17 +84,6 @@ namespace PPT_TAS {
 
             return 24;
         }
-
-        readonly SolidBrush[] bg = new SolidBrush[] {
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A1A1A))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x272727))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x343434))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x414141))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x1A090A))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x270D0E))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x341314))),
-            new SolidBrush(Color.FromArgb(255, Color.FromArgb(0x41181A)))
-        };
         
         public void DrawBackground() {
             canvas.BackgroundImage = new Bitmap(canvas.Width, canvas.Height);
@@ -93,7 +93,7 @@ namespace PPT_TAS {
                     for (int j = 0; j < 24; j++) {
                         Rectangle mino = new Rectangle(new Point(i * px.Width, (23 - j) * px.Height), px);
 
-                        gfx.FillRectangle(bg[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
+                        gfx.FillRectangle(BackgroundColors[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
                         gfx.DrawImage(Properties.Resources.Grid, mino);
 
                         if (board[i, j] != 255)
