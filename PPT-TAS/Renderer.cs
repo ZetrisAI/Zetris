@@ -61,7 +61,7 @@ namespace PPT_TAS {
         readonly Pen SeparatorPen = new Pen(Color.FromArgb(255, Color.FromArgb(0x343434)));
 
         PictureBox canvasBoard, canvasQueue, canvasHold;
-        Size pxBoard, pxQueue;
+        Size pxBoard, pxQueue, pxHold;
 
         public int[,] board;
         public int[] queue;
@@ -123,6 +123,19 @@ namespace PPT_TAS {
 
                 gfx.Flush();
             }
+
+            canvasHold.Image = new Bitmap(canvasHold.Width, canvasHold.Height);
+
+            using (Graphics gfx = Graphics.FromImage(canvasHold.Image)) {
+                int h = (useHold)? current : hold;
+                
+                if (h != 255) {
+                    Rectangle mino = new Rectangle(new Point(0, 0), pxHold);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Queue_{h}"), mino);
+                }
+
+                gfx.Flush();
+            }
         }
 
         public void DrawForeground() {
@@ -161,6 +174,11 @@ namespace PPT_TAS {
             pxQueue = new Size() {
                 Width = canvasQueue.Width,
                 Height = canvasQueue.Width / 2
+            };
+
+            pxHold = new Size() {
+                Width = canvasHold.Width,
+                Height = canvasHold.Height
             };
         }
     }
