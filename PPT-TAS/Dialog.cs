@@ -262,13 +262,13 @@ namespace PPT_TAS {
         }
 
         private readonly Keys[] keycodes = new Keys[7] {
-            Keys.Left,
-            Keys.Right,
-            Keys.Up,
-            Keys.Down,
-            Keys.Z,
-            Keys.X,
-            Keys.Space
+            Keys.J,
+            Keys.L,
+            Keys.I,
+            Keys.K,
+            Keys.A,
+            Keys.S,
+            Keys.C
         };
 
         private bool[] keys = new bool[7];
