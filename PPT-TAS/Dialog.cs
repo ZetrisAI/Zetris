@@ -28,7 +28,7 @@ namespace PPT_TAS {
                     valueX.Value++;
                 },
                 () => {
-                    // Hard Drop
+                    this.Close();
                 },
                 () => {
                     // Soft Drop
