@@ -15,6 +15,8 @@ namespace PPT_TAS {
         private int[] queue;
         private int current, y, hold;
 
+        private int offsetX = 0, offsetY = 0;
+
         public Dialog(int[,] _board, int _current, int _yPos, int _hold, int[] _queue, int _cleared, int _bagIndex) {
             InitializeComponent();
 
@@ -80,10 +82,10 @@ namespace PPT_TAS {
         }
 
         private void valueX_ValueChanged(object sender, EventArgs e) {
-            if (movementCollision((int)valueX.Value)) {
+            if (movementCollision((int)valueX.Value - offsetX)) {
                 desiredX = (int)valueX.Value;
 
-                gfx.x = desiredX;
+                gfx.x = desiredX - offsetX;
                 gfx.Draw();
 
             } else {
@@ -105,6 +107,72 @@ namespace PPT_TAS {
             if (true /* SRS check? */) {
                 desiredR = (int)valueR.Value;
 
+                int c = desiredHold? ((hold == 255)? queue[0] : hold) : current;
+
+                if (c == 5) {
+                    desiredX -= offsetX;
+                    y -= offsetY;
+
+                    switch (desiredR) {
+                        case 0:
+                            offsetX = 0;
+                            offsetY = 0;
+                            break;
+
+                        case 1:
+                            offsetX = 0;
+                            offsetY = -1;
+                            break;
+
+                        case 2:
+                            offsetX = 1;
+                            offsetY = -1;
+                            break;
+
+                        case 3:
+                            offsetX = 1;
+                            offsetY = 0;
+                            break;
+                    }
+                
+                } else if (c == 6) {
+                    desiredX -= offsetX;
+                    y -= offsetY;
+
+                    switch (desiredR) {
+                        case 0:
+                            offsetX = 0;
+                            offsetY = 0;
+                            break;
+
+                        case 1:
+                            offsetX = 1;
+                            offsetY = 0;
+                            break;
+
+                        case 2:
+                            offsetX = 1;
+                            offsetY = 1;
+                            break;
+
+                        case 3:
+                            offsetX = 0;
+                            offsetY = 1;
+                            break;
+                    }
+
+                } else {
+                    offsetX = 0;
+                    offsetY = 0;
+                }
+
+                desiredX += offsetX;
+                y += offsetY;
+
+                valueX.Value = desiredX;
+
+                gfx.x = desiredX - offsetX;
+                gfx.y = y - offsetY;
                 gfx.r = desiredR;
                 gfx.Draw();
 
@@ -115,6 +183,9 @@ namespace PPT_TAS {
 
         private void valueHold_CheckedChanged(object sender, EventArgs e) {
             desiredHold = valueHold.Checked;
+
+            offsetX = 0;
+            offsetY = 0;
 
             valueX.Value = initX;
             y = initY;
