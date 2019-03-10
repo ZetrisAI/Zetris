@@ -405,6 +405,7 @@ namespace Zetris {
 
                     if (desiredX == pieceX && desiredR == pieceR) {
                         gamepad.Buttons |= X360Buttons.Up;
+                    
                     } else {
                         if (desiredX != pieceX)
                             if (desiredX < pieceX) {
@@ -419,6 +420,10 @@ namespace Zetris {
                             } else {
                                 gamepad.Buttons |= X360Buttons.B;
                             }
+
+                        if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                            gamepad.Buttons |= X360Buttons.Up;
+                        }
                     }
                 }
             }
