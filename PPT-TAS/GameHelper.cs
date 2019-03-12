@@ -202,13 +202,7 @@ namespace PPT_TAS {
         }
 
         public static int getHold(ProcessMemory Game) {
-            int ptr = Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140598A20
-                    )) + 0x38
-                )) + 0x3D0
-            ));
+            int ptr = getHoldPointer(Game);
 
             if (ptr != 0x0) {
                 return Game.ReadByte(new IntPtr(
@@ -218,6 +212,14 @@ namespace PPT_TAS {
 
             return 255;
         }
+
+        public static int getHoldPointer(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140598A20
+                )) + 0x38
+            )) + 0x3D0
+        ));
 
         public static int getCleared(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(

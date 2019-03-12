@@ -95,6 +95,10 @@ namespace PPT_TAS {
                     desiredR = q.desiredR;
                     desiredHold = q.desiredHold;
 
+                    if (desiredHold) {
+                        inputGoal = GameHelper.getHoldPointer(PPT);
+                    }
+
                     inputStarted = true;
                     register = false;
                 }
@@ -108,6 +112,7 @@ namespace PPT_TAS {
         }
 
         bool inputStarted = false;
+        int inputGoal;
         int desiredX, desiredR;
         bool desiredHold;
 
@@ -116,8 +121,9 @@ namespace PPT_TAS {
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
 
+            previousInputs = gamepad.Buttons;
+
             if (GameHelper.boardAddress(PPT) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                previousInputs = gamepad.Buttons;
 
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
@@ -133,41 +139,44 @@ namespace PPT_TAS {
 
                         if (desiredHold) {
                             gamepad.Buttons |= X360Buttons.RightBumper;
+                            desiredHold = !(GameHelper.getHoldPointer(PPT) != inputGoal && GameHelper.getHoldPointer(PPT) > 0x08000000);
                         }
 
-                        if (desiredX == pieceX && desiredR == pieceR) {
-                            gamepad.Buttons |= X360Buttons.Up;
-
-                        } else {
-                            if (desiredX != pieceX)
-                                if (desiredX < pieceX) {
-                                    gamepad.Buttons |= X360Buttons.Left;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.Right;
-                                }
-
-                            if (desiredR != pieceR)
-                                if (desiredR == 3) {
-                                    gamepad.Buttons |= X360Buttons.A;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.B;
-                                }
-                            
-                            if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                        if (!desiredHold) {
+                            if (desiredX == pieceX && desiredR == pieceR) {
                                 gamepad.Buttons |= X360Buttons.Up;
+
+                            } else {
+                                if (desiredX != pieceX)
+                                    if (desiredX < pieceX) {
+                                        gamepad.Buttons |= X360Buttons.Left;
+                                    } else {
+                                        gamepad.Buttons |= X360Buttons.Right;
+                                    }
+
+                                if (desiredR != pieceR)
+                                    if (desiredR == 3) {
+                                        gamepad.Buttons |= X360Buttons.A;
+                                    } else {
+                                        gamepad.Buttons |= X360Buttons.B;
+                                    }
+
+                                if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                                    gamepad.Buttons |= X360Buttons.Up;
+                                }
                             }
                         }
                     }
                 }
-
-                gamepad.Buttons &= ~previousInputs;
 
                 frames = nextFrame;
 
             } else {
                 gamepad.Buttons = X360Buttons.None;
             }
-            
+
+            gamepad.Buttons &= ~previousInputs;
+
             scp.Report(4, gamepad.GetReport());
         }
 
