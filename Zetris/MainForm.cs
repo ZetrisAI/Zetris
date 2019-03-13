@@ -390,6 +390,10 @@ namespace Zetris {
                             }
                         }
 
+                        if (desiredHold) {
+                            inputGoal = GameHelper.getHoldPointer(PPT, playerID);
+                        }
+
                         inputStarted = 3;
                     }
 
@@ -401,28 +405,31 @@ namespace Zetris {
 
                     if (desiredHold) {
                         gamepad.Buttons |= X360Buttons.RightBumper;
+                        desiredHold = !(GameHelper.getHoldPointer(PPT, playerID) != inputGoal && GameHelper.getHoldPointer(PPT, playerID) > 0x08000000);
                     }
 
-                    if (desiredX == pieceX && desiredR == pieceR) {
-                        gamepad.Buttons |= X360Buttons.Up;
-                    
-                    } else {
-                        if (desiredX != pieceX)
-                            if (desiredX < pieceX) {
-                                gamepad.Buttons |= X360Buttons.Left;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.Right;
-                            }
-
-                        if (desiredR != pieceR)
-                            if (desiredR == 3) {
-                                gamepad.Buttons |= X360Buttons.A;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.B;
-                            }
-
-                        if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                    if (!desiredHold) {
+                        if (desiredX == pieceX && desiredR == pieceR) {
                             gamepad.Buttons |= X360Buttons.Up;
+
+                        } else {
+                            if (desiredX != pieceX)
+                                if (desiredX < pieceX) {
+                                    gamepad.Buttons |= X360Buttons.Left;
+                                } else {
+                                    gamepad.Buttons |= X360Buttons.Right;
+                                }
+
+                            if (desiredR != pieceR)
+                                if (desiredR == 3) {
+                                    gamepad.Buttons |= X360Buttons.A;
+                                } else {
+                                    gamepad.Buttons |= X360Buttons.B;
+                                }
+
+                            if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                                gamepad.Buttons |= X360Buttons.Up;
+                            }
                         }
                     }
                 }
@@ -434,53 +441,48 @@ namespace Zetris {
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
 
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                previousInputs = gamepad.Buttons;
+            previousInputs = gamepad.Buttons;
+            bool addDown = false;
 
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
                 }
 
-                gamepad.Buttons &= ~previousInputs;
-                
-                if (softdrop)
-                    gamepad.Buttons |= X360Buttons.Down;
-
+                addDown = softdrop;
                 frames = nextFrame;
 
             } else if (valuePuzzleLeague.Checked) {
                 int mode = GameHelper.CurrentMode(PPT);
                 gamepad.Buttons = X360Buttons.None;
 
-                if (globalFrames % 2 == 0) {
-                    if (GameHelper.OutsideMenu(PPT)) {
-                        gamepad.Buttons |= X360Buttons.A;
+                if (GameHelper.OutsideMenu(PPT)) {
+                    gamepad.Buttons |= X360Buttons.A;
 
-                    } else if (mode == 4) {
-                        if (menuStartFrames + 1150 < globalFrames) {
-                            menuStartFrames = globalFrames;
-                        }
+                } else if (mode == 4) {
+                    if (menuStartFrames + 1150 < globalFrames) {
+                        menuStartFrames = globalFrames;
+                    }
 
-                        if (menuStartFrames + 1150 < globalFrames) {
-                            menuStartFrames = globalFrames;
-                        }
+                    if (menuStartFrames + 1150 < globalFrames) {
+                        menuStartFrames = globalFrames;
+                    }
 
-                        if (menuStartFrames + 1030 < globalFrames) {
-                            gamepad.Buttons |= X360Buttons.B;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
-
-                    } else if (mode == 1) {
+                    if (menuStartFrames + 1030 < globalFrames) {
                         gamepad.Buttons |= X360Buttons.B;
-
                     } else {
-                        if (GameHelper.MenuHighlighted(PPT) != 4) {
-                            gamepad.Buttons |= X360Buttons.Down;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
+
+                } else if (mode == 1) {
+                    gamepad.Buttons |= X360Buttons.B;
+
+                } else {
+                    if (GameHelper.MenuHighlighted(PPT) != 4) {
+                        gamepad.Buttons |= X360Buttons.Down;
+                    } else {
+                        gamepad.Buttons |= X360Buttons.A;
                     }
                 }
 
@@ -493,7 +495,12 @@ namespace Zetris {
                     }
                 }
             }
-            
+
+            gamepad.Buttons &= ~previousInputs;
+
+            if (addDown)
+                gamepad.Buttons |= X360Buttons.Down;
+
             scp.Report(4, gamepad.GetReport());
         }
 
