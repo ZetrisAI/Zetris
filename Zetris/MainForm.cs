@@ -390,10 +390,6 @@ namespace Zetris {
                             }
                         }
 
-                        if (desiredHold) {
-                            inputGoal = GameHelper.getHoldPointer(PPT, playerID);
-                        }
-
                         inputStarted = 3;
                     }
 
@@ -405,31 +401,28 @@ namespace Zetris {
 
                     if (desiredHold) {
                         gamepad.Buttons |= X360Buttons.RightBumper;
-                        desiredHold = !(GameHelper.getHoldPointer(PPT, playerID) != inputGoal && GameHelper.getHoldPointer(PPT, playerID) > 0x08000000);
                     }
 
-                    if (!desiredHold) {
-                        if (desiredX == pieceX && desiredR == pieceR) {
-                            gamepad.Buttons |= X360Buttons.Up;
-
-                        } else {
-                            if (desiredX != pieceX)
-                                if (desiredX < pieceX) {
-                                    gamepad.Buttons |= X360Buttons.Left;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.Right;
-                                }
-
-                            if (desiredR != pieceR)
-                                if (desiredR == 3) {
-                                    gamepad.Buttons |= X360Buttons.A;
-                                } else {
-                                    gamepad.Buttons |= X360Buttons.B;
-                                }
-
-                            if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
-                                gamepad.Buttons |= X360Buttons.Up;
+                    if (desiredX == pieceX && desiredR == pieceR) {
+                        gamepad.Buttons |= X360Buttons.Up;
+                    
+                    } else {
+                        if (desiredX != pieceX)
+                            if (desiredX < pieceX) {
+                                gamepad.Buttons |= X360Buttons.Left;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.Right;
                             }
+
+                        if (desiredR != pieceR)
+                            if (desiredR == 3) {
+                                gamepad.Buttons |= X360Buttons.A;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.B;
+                            }
+
+                        if (desiredX == pieceX && desiredR != pieceR && (desiredR == 3 || desiredR - pieceR == 1) && !previousInputs.HasFlag(X360Buttons.A) && !previousInputs.HasFlag(X360Buttons.B)) {
+                            gamepad.Buttons |= X360Buttons.Up;
                         }
                     }
                 }
@@ -457,32 +450,34 @@ namespace Zetris {
                 int mode = GameHelper.CurrentMode(PPT);
                 gamepad.Buttons = X360Buttons.None;
 
-                if (GameHelper.OutsideMenu(PPT)) {
-                    gamepad.Buttons |= X360Buttons.A;
+                if (globalFrames % 2 == 0) {
+                    if (GameHelper.OutsideMenu(PPT)) {
+                        gamepad.Buttons |= X360Buttons.A;
 
-                } else if (mode == 4) {
-                    if (menuStartFrames + 1150 < globalFrames) {
-                        menuStartFrames = globalFrames;
-                    }
+                    } else if (mode == 4) {
+                        if (menuStartFrames + 1150 < globalFrames) {
+                            menuStartFrames = globalFrames;
+                        }
 
-                    if (menuStartFrames + 1150 < globalFrames) {
-                        menuStartFrames = globalFrames;
-                    }
+                        if (menuStartFrames + 1150 < globalFrames) {
+                            menuStartFrames = globalFrames;
+                        }
 
-                    if (menuStartFrames + 1030 < globalFrames) {
+                        if (menuStartFrames + 1030 < globalFrames) {
+                            gamepad.Buttons |= X360Buttons.B;
+                        } else {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
+
+                    } else if (mode == 1) {
                         gamepad.Buttons |= X360Buttons.B;
-                    } else {
-                        gamepad.Buttons |= X360Buttons.A;
-                    }
 
-                } else if (mode == 1) {
-                    gamepad.Buttons |= X360Buttons.B;
-
-                } else {
-                    if (GameHelper.MenuHighlighted(PPT) != 4) {
-                        gamepad.Buttons |= X360Buttons.Down;
                     } else {
-                        gamepad.Buttons |= X360Buttons.A;
+                        if (GameHelper.MenuHighlighted(PPT) != 4) {
+                            gamepad.Buttons |= X360Buttons.Down;
+                        } else {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
                     }
                 }
 
