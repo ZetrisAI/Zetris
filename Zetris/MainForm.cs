@@ -495,11 +495,11 @@ namespace Zetris {
             
             speedTick += speedIncrement;
 
-            if (speedTick < 1) {
+            if (speedTick < 1 && inMatch) {
                 gamepad.Buttons = X360Buttons.None;
 
             } else {
-                speedTick += -1;
+                if (inMatch) speedTick += -1;
                 gamepad.Buttons &= ~previousInputs;
 
                 if (addDown)
@@ -538,10 +538,12 @@ namespace Zetris {
         }
 
         private void valueSpeed_MouseWheel(object sender, MouseEventArgs e) {
-            speedIncrement += (decimal)((e.Delta < 0) ? -0.01 : 0.01);
-            speedIncrement = Math.Min(1, speedIncrement);
-            speedIncrement = Math.Max(0.1M, speedIncrement);
-            valueSpeed.Text = $"{Math.Round(speedIncrement * 100)}%";
+            if (!inMatch) {
+                speedIncrement += (decimal)((e.Delta < 0) ? -0.01 : 0.01);
+                speedIncrement = Math.Min(1, speedIncrement);
+                speedIncrement = Math.Max(0.1M, speedIncrement);
+                valueSpeed.Text = $"{Math.Round(speedIncrement * 100)}%";
+            }
         }
 
         Stopwatch timer = new Stopwatch();
