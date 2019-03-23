@@ -137,6 +137,7 @@ namespace Zetris {
                     movements.Clear();
                     inputStarted = 0;
                     softdrop = false;
+                    speedTick = 0;
                 }
 
                 if (drop != state && drop == 1) {
@@ -430,11 +431,12 @@ namespace Zetris {
         }
 
         X360Buttons previousInputs = X360Buttons.None;
+        decimal speedIncrement = 1;
+        decimal speedTick = 0;
 
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
-
-            previousInputs = gamepad.Buttons;
+            
             bool addDown = false;
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && nextFrame > 0 && GameHelper.getBigFrameCount(PPT) != 0x0) {
@@ -490,11 +492,21 @@ namespace Zetris {
                     }
                 }
             }
+            
+            speedTick += speedIncrement;
 
-            gamepad.Buttons &= ~previousInputs;
+            if (speedTick < 1) {
+                gamepad.Buttons = X360Buttons.None;
 
-            if (addDown)
-                gamepad.Buttons |= X360Buttons.Down;
+            } else {
+                speedTick += -1;
+                gamepad.Buttons &= ~previousInputs;
+
+                if (addDown)
+                    gamepad.Buttons |= X360Buttons.Down;
+
+                previousInputs = gamepad.Buttons;
+            }
 
             scp.Report(4, gamepad.GetReport());
         }
@@ -525,9 +537,15 @@ namespace Zetris {
             }
         }
 
+        private void valueSpeed_MouseWheel(object sender, MouseEventArgs e) {
+            speedIncrement += (decimal)((e.Delta < 0) ? -0.01 : 0.01);
+            speedIncrement = Math.Min(1, speedIncrement);
+            speedIncrement = Math.Max(0.1M, speedIncrement);
+            valueSpeed.Text = $"{Math.Round(speedIncrement * 100)}%";
+        }
+
         Stopwatch timer = new Stopwatch();
         int framesSkipped = 0;
-        //object locker = new object();
         double waitTime = Math.Round(0.001 * Stopwatch.Frequency);
 
         private void Loop(object sender, EventArgs e) {

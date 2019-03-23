@@ -36,6 +36,7 @@
             this.buttonGamepad = new System.Windows.Forms.Label();
             this.labelGamepad = new System.Windows.Forms.Label();
             this.valueGamepadInputs = new System.Windows.Forms.Label();
+            this.labelSpeed = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.valueGameState = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
@@ -53,6 +54,7 @@
             this.labelTimings = new System.Windows.Forms.Label();
             this.labelFrames = new System.Windows.Forms.Label();
             this.labelSkipped = new System.Windows.Forms.Label();
+            this.valueSpeed = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -79,12 +81,14 @@
             // panelGamepad
             // 
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panelGamepad.Controls.Add(this.valueSpeed);
             this.panelGamepad.Controls.Add(this.buttonGamepad);
             this.panelGamepad.Controls.Add(this.labelGamepad);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
+            this.panelGamepad.Controls.Add(this.labelSpeed);
             this.panelGamepad.Location = new System.Drawing.Point(9, 148);
             this.panelGamepad.Name = "panelGamepad";
-            this.panelGamepad.Size = new System.Drawing.Size(158, 44);
+            this.panelGamepad.Size = new System.Drawing.Size(158, 62);
             this.panelGamepad.TabIndex = 10;
             // 
             // buttonGamepad
@@ -112,13 +116,23 @@
             // 
             // valueGamepadInputs
             // 
+            this.valueGamepadInputs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 24);
+            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 42);
             this.valueGamepadInputs.Name = "valueGamepadInputs";
             this.valueGamepadInputs.Size = new System.Drawing.Size(146, 13);
             this.valueGamepadInputs.TabIndex = 1;
             this.valueGamepadInputs.Text = "?";
             this.valueGamepadInputs.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // labelSpeed
+            // 
+            this.labelSpeed.AutoSize = true;
+            this.labelSpeed.Location = new System.Drawing.Point(6, 23);
+            this.labelSpeed.Name = "labelSpeed";
+            this.labelSpeed.Size = new System.Drawing.Size(41, 13);
+            this.labelSpeed.TabIndex = 4;
+            this.labelSpeed.Text = "Speed:";
             // 
             // panel1
             // 
@@ -242,7 +256,7 @@
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valuePuzzleLeague);
             this.panel3.Controls.Add(this.labelConfig);
-            this.panel3.Location = new System.Drawing.Point(9, 198);
+            this.panel3.Location = new System.Drawing.Point(9, 216);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(158, 41);
             this.panel3.TabIndex = 10;
@@ -266,7 +280,7 @@
             this.panel2.Controls.Add(this.labelTimings);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelSkipped);
-            this.panel2.Location = new System.Drawing.Point(9, 245);
+            this.panel2.Location = new System.Drawing.Point(9, 263);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(158, 60);
             this.panel2.TabIndex = 10;
@@ -320,12 +334,24 @@
             this.labelSkipped.TabIndex = 1;
             this.labelSkipped.Text = "Frames Skipped:";
             // 
+            // valueSpeed
+            // 
+            this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.valueSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSpeed.Location = new System.Drawing.Point(120, 23);
+            this.valueSpeed.Name = "valueSpeed";
+            this.valueSpeed.Size = new System.Drawing.Size(33, 13);
+            this.valueSpeed.TabIndex = 5;
+            this.valueSpeed.Text = "100%";
+            this.valueSpeed.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(valueSpeed_MouseWheel);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 314);
+            this.ClientSize = new System.Drawing.Size(177, 333);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -374,6 +400,8 @@
         private System.Windows.Forms.Label valueGamepadInputs;
         private System.Windows.Forms.Label valueFrametime;
         private System.Windows.Forms.Label labelFrames;
+        private System.Windows.Forms.Label labelSpeed;
+        private System.Windows.Forms.Label valueSpeed;
     }
 }
 
