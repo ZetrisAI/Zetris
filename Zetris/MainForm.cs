@@ -46,16 +46,17 @@ namespace Zetris {
             ScanTimer.Enabled = true;
         }
 
+        int gamepadIndex = 4;
         ScpBus scp = new ScpBus();
         bool gamepadPluggedIn = false;
         X360Controller gamepad = new X360Controller();
 
         private void buttonGamepad_Click(object sender, EventArgs e) {
-            scp.UnplugAll();
+            scp.Unplug(gamepadIndex);
             scp = new ScpBus();
             gamepad = new X360Controller();
 
-            if (!gamepadPluggedIn) scp.PlugIn(4);
+            if (!gamepadPluggedIn) scp.PlugIn(gamepadIndex);
 
             gamepadPluggedIn = !gamepadPluggedIn;
         }
@@ -86,7 +87,7 @@ namespace Zetris {
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
-            if (GameHelper.InMultiplayer(PPT))
+            if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4)
                 playerID = 1 - playerID;
 
             int temp = GameHelper.getRating(PPT);
@@ -508,7 +509,7 @@ namespace Zetris {
                 previousInputs = gamepad.Buttons;
             }
 
-            scp.Report(4, gamepad.GetReport());
+            scp.Report(gamepadIndex, gamepad.GetReport());
         }
 
 
@@ -588,8 +589,13 @@ namespace Zetris {
         }
 
         void MainForm_Load(object sender, EventArgs e) {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1 && args[1] == "--switch") gamepadIndex = 3;
+
             scp.UnplugAll();
-            scp.PlugIn(4);
+
+            scp = new ScpBus();
+            scp.PlugIn(gamepadIndex);
             gamepadPluggedIn = true;
 
             valueMisaMinoLevel.SelectedIndex = 4;
