@@ -590,7 +590,10 @@ namespace Zetris {
 
         void MainForm_Load(object sender, EventArgs e) {
             string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1 && args[1] == "--switch") gamepadIndex = 3;
+            if (args.Length > 1 && args[1] == "--switch") {
+                gamepadIndex = 3;
+                this.Text = "switch";
+            }
 
             scp.UnplugAll();
 
