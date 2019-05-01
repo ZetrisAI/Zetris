@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997} = {F71BF46C-2C69-40AF-A5DF-A73E25A21997}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisaMinoNET", "..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj", "{AA5BA1EC-C51B-49F2-BE93-B018601E8111}"
 EndProject
