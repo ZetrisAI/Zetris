@@ -99,6 +99,10 @@
       <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
       <Name>ProcessMemory</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj">
+      <Project>{12ac9064-faf9-4714-8e9f-9ec11d897daf}</Project>
+      <Name>PerfectClearNET</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
