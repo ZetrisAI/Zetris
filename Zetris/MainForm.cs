@@ -160,9 +160,6 @@ namespace Zetris {
                         ref finalR
                     );
 
-                    finalX++;
-                    finalY += 3;
-
                     ret = true;                    
                     register = false;
                 }
