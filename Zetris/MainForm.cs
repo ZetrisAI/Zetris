@@ -166,6 +166,7 @@ namespace Zetris {
                         : MisaMino.FindMove(
                             pieces,
                             current,
+                            hold,
                             baseBoardHeight,
                             board,
                             GameHelper.getCombo(PPT, playerID),
