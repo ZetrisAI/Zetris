@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Zetris {
     class GameHelper {
@@ -772,5 +773,29 @@ namespace Zetris {
         public static int getMenuFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140461B7C
         ));
+
+        public static List<int> getNextFromBags(ProcessMemory Game) {
+            List<int> ret = new List<int>();
+
+            int ptr = Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x138
+                        )) + 0x10
+                    )) + 0x80
+                )) + 0x78
+            ));
+
+            for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++) {
+                ret.Add(Game.ReadByte(new IntPtr(
+                    ptr + 0x320 + 0x04 * i
+                )));
+            }
+
+            return ret;
+        }
     }
 }

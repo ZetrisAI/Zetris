@@ -146,7 +146,7 @@ namespace Zetris {
 
                     pcsolved = false;
                     pcboard = (int[,])board.Clone();
-                    PerfectClear.Find(pcboard, pieces.Skip(1).ToArray(), pieces[0], null);
+                    PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT)).ToArray(), pieces[0], null);
                 }
 
                 if (drop != state && drop == 1) {
@@ -191,7 +191,7 @@ namespace Zetris {
                         int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
 
                         PerfectClear.Find(
-                            pcboard, pieces.Skip(start + 1).ToArray(), pieces[start],
+                            pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT)).ToArray(), pieces[start],
                             (movements[0] == Instruction.HOLD)? current : hold
                         );
 
