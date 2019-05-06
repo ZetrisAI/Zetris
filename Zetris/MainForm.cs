@@ -143,6 +143,10 @@ namespace Zetris {
                     inputStarted = 0;
                     softdrop = false;
                     speedTick = 0;
+
+                    pcsolved = false;
+                    pcboard = (int[,])board.Clone();
+                    PerfectClear.Find(pcboard, pieces.Skip(1).ToArray(), pieces[0], null);
                 }
 
                 if (drop != state && drop == 1) {
