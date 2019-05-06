@@ -156,8 +156,10 @@ namespace Zetris {
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     int? hold = GameHelper.getHold(PPT, playerID);
 
-                    movements = (pcsolved && InputHelper.BoardEquals(board, pcboard))
-                        ? MisaMino.FindPath(
+                    bool pathSuccess = false;
+
+                    if (pcsolved && InputHelper.BoardEquals(board, pcboard))
+                        movements = MisaMino.FindPath(
                             board,
                             baseBoardHeight,
                             pieceUsed = PerfectClear.LastSolution[0].Piece,
@@ -165,9 +167,12 @@ namespace Zetris {
                             finalY = PerfectClear.LastSolution[0].Y,
                             finalR = PerfectClear.LastSolution[0].R,
                             current != PerfectClear.LastSolution[0].Piece,
-                            ref spinUsed
-                        )
-                        : MisaMino.FindMove(
+                            ref spinUsed,
+                            out pathSuccess
+                        );
+
+                    if (!pathSuccess)
+                        movements = MisaMino.FindMove(
                             pieces,
                             current,
                             hold,
