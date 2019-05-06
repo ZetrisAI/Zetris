@@ -554,8 +554,8 @@ namespace Zetris {
                                         )) + 0x378
                                     )) + 0x30
                                 )) + 0x300
-                            )) + 0x3C8
-                        )) + 0x18;
+                            )) + 0x3D0
+                        )) + 0x8;
 
                     case 1:
                         return Game.ReadInt32(new IntPtr(
@@ -565,8 +565,8 @@ namespace Zetris {
                                         0x140598A28
                                     )) + 0x140
                                 )) + 0x48
-                            )) + 0x3C8
-                        )) + 0x18;
+                            )) + 0x3D0
+                        )) + 0x8;
                 }
             } else {
                 switch (index) {
@@ -574,31 +574,35 @@ namespace Zetris {
                         return Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140460C08
-                                        )) + 0x18
-                                    )) + 0x268
+                                    0x140598A20
                                 )) + 0x38
-                            )) + 0x3C8
-                        )) + 0x18;
+                            )) + 0x3D0
+                        )) + 0x8;
 
                     case 1:
                         return Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1405989D0
-                                        )) + 0x78
-                                    )) + 0x20
-                                )) + 0xA8
-                            )) + 0x3C8
-                        )) + 0x18;
+                                        0x1405989D0
+                                    )) + 0x270
+                                )) + 0x20
+                            )) + 0x3D0
+                        )) + 0x8;
                 }
             }
 
             return -1;
+        }
+
+        public static int? getHold(ProcessMemory Game, int index) {
+            int ptr = getHoldPointer(Game, index);
+
+            if (ptr < 0x0800000) return null;
+
+            return Game.ReadInt32(new IntPtr(
+                ptr
+            ));
         }
 
         public static int getGarbageOverhead(ProcessMemory Game, int index) {
