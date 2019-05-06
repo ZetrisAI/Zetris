@@ -33,6 +33,7 @@
             this.ScanTimer = new System.Windows.Forms.Timer(this.components);
             this.valueInstructions = new System.Windows.Forms.Label();
             this.panelGamepad = new System.Windows.Forms.Panel();
+            this.valueSpeed = new System.Windows.Forms.Label();
             this.buttonGamepad = new System.Windows.Forms.Label();
             this.labelGamepad = new System.Windows.Forms.Label();
             this.valueGamepadInputs = new System.Windows.Forms.Label();
@@ -51,14 +52,18 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.valueFrametime = new System.Windows.Forms.Label();
             this.valueSkipped = new System.Windows.Forms.Label();
-            this.labelTimings = new System.Windows.Forms.Label();
+            this.labelGameScan = new System.Windows.Forms.Label();
             this.labelFrames = new System.Windows.Forms.Label();
             this.labelSkipped = new System.Windows.Forms.Label();
-            this.valueSpeed = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.valueEnableFinder = new System.Windows.Forms.CheckBox();
+            this.labelFinder = new System.Windows.Forms.Label();
+            this.valueFinderLastTime = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // ScanTimer
@@ -86,10 +91,22 @@
             this.panelGamepad.Controls.Add(this.labelGamepad);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
             this.panelGamepad.Controls.Add(this.labelSpeed);
-            this.panelGamepad.Location = new System.Drawing.Point(9, 148);
+            this.panelGamepad.Location = new System.Drawing.Point(9, 197);
             this.panelGamepad.Name = "panelGamepad";
             this.panelGamepad.Size = new System.Drawing.Size(158, 62);
             this.panelGamepad.TabIndex = 10;
+            // 
+            // valueSpeed
+            // 
+            this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
+            this.valueSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueSpeed.Location = new System.Drawing.Point(120, 23);
+            this.valueSpeed.Name = "valueSpeed";
+            this.valueSpeed.Size = new System.Drawing.Size(33, 13);
+            this.valueSpeed.TabIndex = 5;
+            this.valueSpeed.Text = "100%";
+            this.valueSpeed.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueSpeed_MouseWheel);
             // 
             // buttonGamepad
             // 
@@ -256,7 +273,7 @@
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valuePuzzleLeague);
             this.panel3.Controls.Add(this.labelConfig);
-            this.panel3.Location = new System.Drawing.Point(9, 216);
+            this.panel3.Location = new System.Drawing.Point(9, 265);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(158, 41);
             this.panel3.TabIndex = 10;
@@ -277,10 +294,10 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel2.Controls.Add(this.valueFrametime);
             this.panel2.Controls.Add(this.valueSkipped);
-            this.panel2.Controls.Add(this.labelTimings);
+            this.panel2.Controls.Add(this.labelGameScan);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelSkipped);
-            this.panel2.Location = new System.Drawing.Point(9, 263);
+            this.panel2.Location = new System.Drawing.Point(9, 312);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(158, 60);
             this.panel2.TabIndex = 10;
@@ -305,16 +322,16 @@
             this.valueSkipped.Text = "?";
             this.valueSkipped.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // labelTimings
+            // labelGameScan
             // 
-            this.labelTimings.AutoSize = true;
-            this.labelTimings.BackColor = System.Drawing.Color.Transparent;
-            this.labelTimings.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTimings.Location = new System.Drawing.Point(5, 5);
-            this.labelTimings.Name = "labelTimings";
-            this.labelTimings.Size = new System.Drawing.Size(50, 13);
-            this.labelTimings.TabIndex = 1;
-            this.labelTimings.Text = "Timings";
+            this.labelGameScan.AutoSize = true;
+            this.labelGameScan.BackColor = System.Drawing.Color.Transparent;
+            this.labelGameScan.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGameScan.Location = new System.Drawing.Point(5, 5);
+            this.labelGameScan.Name = "labelGameScan";
+            this.labelGameScan.Size = new System.Drawing.Size(72, 13);
+            this.labelGameScan.TabIndex = 1;
+            this.labelGameScan.Text = "Game Scan";
             // 
             // labelFrames
             // 
@@ -334,24 +351,55 @@
             this.labelSkipped.TabIndex = 1;
             this.labelSkipped.Text = "Frames Skipped:";
             // 
-            // valueSpeed
+            // panel4
             // 
-            this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.valueSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueSpeed.Location = new System.Drawing.Point(120, 23);
-            this.valueSpeed.Name = "valueSpeed";
-            this.valueSpeed.Size = new System.Drawing.Size(33, 13);
-            this.valueSpeed.TabIndex = 5;
-            this.valueSpeed.Text = "100%";
-            this.valueSpeed.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(valueSpeed_MouseWheel);
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel4.Controls.Add(this.valueFinderLastTime);
+            this.panel4.Controls.Add(this.valueEnableFinder);
+            this.panel4.Controls.Add(this.labelFinder);
+            this.panel4.Location = new System.Drawing.Point(9, 148);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(158, 41);
+            this.panel4.TabIndex = 11;
+            // 
+            // valueEnableFinder
+            // 
+            this.valueEnableFinder.AutoSize = true;
+            this.valueEnableFinder.Location = new System.Drawing.Point(5, 21);
+            this.valueEnableFinder.Name = "valueEnableFinder";
+            this.valueEnableFinder.Size = new System.Drawing.Size(65, 17);
+            this.valueEnableFinder.TabIndex = 2;
+            this.valueEnableFinder.Text = "Enabled";
+            this.valueEnableFinder.UseVisualStyleBackColor = true;
+            // 
+            // labelFinder
+            // 
+            this.labelFinder.AutoSize = true;
+            this.labelFinder.BackColor = System.Drawing.Color.Transparent;
+            this.labelFinder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFinder.Location = new System.Drawing.Point(5, 5);
+            this.labelFinder.Name = "labelFinder";
+            this.labelFinder.Size = new System.Drawing.Size(112, 13);
+            this.labelFinder.TabIndex = 1;
+            this.labelFinder.Text = "PC Solution Finder";
+            // 
+            // valueFinderLastTime
+            // 
+            this.valueFinderLastTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.valueFinderLastTime.Location = new System.Drawing.Point(65, 22);
+            this.valueFinderLastTime.Name = "valueFinderLastTime";
+            this.valueFinderLastTime.Size = new System.Drawing.Size(86, 15);
+            this.valueFinderLastTime.TabIndex = 3;
+            this.valueFinderLastTime.Text = "?";
+            this.valueFinderLastTime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 333);
+            this.ClientSize = new System.Drawing.Size(177, 467);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -372,6 +420,8 @@
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -394,7 +444,7 @@
         private System.Windows.Forms.Label labelConfig;
         private System.Windows.Forms.Label valueGameState;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label labelTimings;
+        private System.Windows.Forms.Label labelGameScan;
         private System.Windows.Forms.Label valueSkipped;
         private System.Windows.Forms.Label labelSkipped;
         private System.Windows.Forms.Label valueGamepadInputs;
@@ -402,6 +452,10 @@
         private System.Windows.Forms.Label labelFrames;
         private System.Windows.Forms.Label labelSpeed;
         private System.Windows.Forms.Label valueSpeed;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.CheckBox valueEnableFinder;
+        private System.Windows.Forms.Label labelFinder;
+        private System.Windows.Forms.Label valueFinderLastTime;
     }
 }
 

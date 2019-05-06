@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 using MisaMinoNET;
+using PerfectClearNET;
 using ScpDriverInterface;
 
 namespace Zetris {
@@ -81,6 +82,9 @@ namespace Zetris {
         bool register = false;
         int baseBoardHeight;
 
+        int[,] pcboard;
+        bool pcsolved = false;
+
         private bool runLogic() {
             bool ret = false;
 
@@ -146,19 +150,49 @@ namespace Zetris {
                 }
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
-                    movements = MisaMino.FindMove(
-                        pieces, 
-                        current,
-                        baseBoardHeight,
-                        board,
-                        GameHelper.getCombo(PPT, playerID), 
-                        GameHelper.getGarbageOverhead(PPT, playerID), 
-                        ref pieceUsed,
-                        ref spinUsed,
-                        ref finalX,
-                        ref finalY,
-                        ref finalR
-                    );
+                    int? hold = GameHelper.getHold(PPT, playerID);
+
+                    movements = (pcsolved && InputHelper.BoardEquals(board, pcboard))
+                        ? MisaMino.FindPath(
+                            board,
+                            baseBoardHeight,
+                            pieceUsed = PerfectClear.LastSolution[0].Piece,
+                            finalX = PerfectClear.LastSolution[0].X,
+                            finalY = PerfectClear.LastSolution[0].Y,
+                            finalR = PerfectClear.LastSolution[0].R,
+                            current != PerfectClear.LastSolution[0].Piece,
+                            ref spinUsed
+                        )
+                        : MisaMino.FindMove(
+                            pieces,
+                            current,
+                            baseBoardHeight,
+                            board,
+                            GameHelper.getCombo(PPT, playerID),
+                            GameHelper.getGarbageOverhead(PPT, playerID),
+                            ref pieceUsed,
+                            ref spinUsed,
+                            ref finalX,
+                            ref finalY,
+                            ref finalR
+                        );
+
+                    pcsolved = false;
+
+                    if (movements.Count > 0) {
+                        pcboard = (int[,])board.Clone();
+                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+
+                        int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
+
+                        PerfectClear.Find(
+                            pcboard, pieces.Skip(start + 1).ToArray(), pieces[start],
+                            (movements[0] == Instruction.HOLD)? current : hold
+                        );
+
+                    } else {
+                        pcboard = new int[10, 40];
+                    }
 
                     ret = true;                    
                     register = false;
@@ -519,6 +553,10 @@ namespace Zetris {
             valueInstructions.Text = String.Join(", ", movements);
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
+
+            valueFinderLastTime.Text = $"{PerfectClear.LastTime}ms";
+
+            if (pcsolved) valueFinderLastTime.Text = "YES";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
@@ -602,6 +640,10 @@ namespace Zetris {
             valueMisaMinoStyle.SelectedIndex = 0;
 
             valueMisaMino_SelectedIndexChanged(sender, e);
+
+            PerfectClear.Finished += (bool success) => {
+                pcsolved = success;
+            };
         }
 
         void MainForm_Closing(object sender, EventArgs e) {
