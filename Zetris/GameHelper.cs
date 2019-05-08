@@ -774,20 +774,53 @@ namespace Zetris {
             0x140461B7C
         ));
 
-        public static List<int> getNextFromBags(ProcessMemory Game) {
+        public static List<int> getNextFromBags(ProcessMemory Game, int index) {
             List<int> ret = new List<int>();
+            int ptr = 0;
 
-            int ptr = Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
+            if (InSwap(Game)) {
+                switch (index) {
+                    case 0:
+                        ptr = Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140598A28
+                                        )) + 0x140
+                                    )) + 0x28
+                                )) + 0x88
+                            )) + 0x78
+                        ));
+                        break;
+
+                    case 1:
+                        ptr = Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140598A28
+                                        )) + 0x138
+                                    )) + 0x10
+                                )) + 0x80
+                            )) + 0x78
+                        ));
+                        break;
+                }
+            } else {
+                ptr = Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                0x140598A20
-                            )) + 0x138
-                        )) + 0x10
-                    )) + 0x80
-                )) + 0x78
-            ));
+                                Game.ReadInt32(new IntPtr(
+                                    0x140598A20 + index * 8
+                                )) + 0x138
+                            )) + 0x10
+                        )) + 0x80
+                    )) + 0x78
+                ));
+            }
 
             for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++) {
                 ret.Add(Game.ReadByte(new IntPtr(
