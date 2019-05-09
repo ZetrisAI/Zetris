@@ -145,8 +145,11 @@ namespace Zetris {
                     speedTick = 0;
 
                     pcsolved = false;
-                    pcboard = (int[,])board.Clone();
-                    PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null);
+
+                    if (valueFinderEnable.Checked) {
+                        pcboard = (int[,])board.Clone();
+                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null);
+                    }
                 }
 
                 if (drop != state && drop == 1) {
@@ -158,7 +161,7 @@ namespace Zetris {
 
                     bool pathSuccess = false;
 
-                    if (pcsolved && InputHelper.BoardEquals(board, pcboard))
+                    if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard))
                         movements = MisaMino.FindPath(
                             board,
                             baseBoardHeight,
@@ -189,20 +192,21 @@ namespace Zetris {
 
                     pcsolved = false;
 
-                    if (movements.Count > 0) {
-                        pcboard = (int[,])board.Clone();
-                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+                    if (valueFinderEnable.Checked)
+                        if (movements.Count > 0) {
+                            pcboard = (int[,])board.Clone();
+                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
 
-                        int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
+                            int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
 
-                        PerfectClear.Find(
-                            pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                            (movements[0] == Instruction.HOLD)? current : hold
-                        );
+                            PerfectClear.Find(
+                                pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
+                                (movements[0] == Instruction.HOLD)? current : hold
+                            );
 
-                    } else {
-                        pcboard = new int[10, 40];
-                    }
+                        } else {
+                            pcboard = new int[10, 40];
+                        }
 
                     ret = true;                    
                     register = false;
@@ -564,9 +568,7 @@ namespace Zetris {
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
 
-            valueFinderLastTime.Text = $"{PerfectClear.LastTime}ms";
-
-            if (pcsolved) valueFinderLastTime.Text = "YES";
+            valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? "PC" : "";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
@@ -579,6 +581,14 @@ namespace Zetris {
             if (checkboxEvents && inMatch) {
                 checkboxEvents = false;
                 valuePuzzleLeague.Checked = !valuePuzzleLeague.Checked;
+                checkboxEvents = true;
+            }
+        }
+
+        private void valueFinderEnable_CheckedChanged(object sender, EventArgs e) {
+            if (checkboxEvents && inMatch) {
+                checkboxEvents = false;
+                valueFinderEnable.Checked = !valueFinderEnable.Checked;
                 checkboxEvents = true;
             }
         }
