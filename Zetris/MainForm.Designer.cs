@@ -375,6 +375,8 @@
             // valueFinderEnable
             // 
             this.valueFinderEnable.AutoSize = true;
+            this.valueFinderEnable.Checked = true;
+            this.valueFinderEnable.CheckState = System.Windows.Forms.CheckState.Checked;
             this.valueFinderEnable.Location = new System.Drawing.Point(7, 21);
             this.valueFinderEnable.Name = "valueFinderEnable";
             this.valueFinderEnable.Size = new System.Drawing.Size(65, 17);
