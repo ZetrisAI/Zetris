@@ -148,7 +148,7 @@ namespace Zetris {
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
-                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null);
+                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null, GameHelper.InSwap(PPT), 0);
                     }
                 }
 
@@ -158,8 +158,11 @@ namespace Zetris {
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     int? hold = GameHelper.getHold(PPT, playerID);
+                    int combo = GameHelper.getCombo(PPT, playerID);
 
                     bool pathSuccess = false;
+
+                    if (PerfectClear.Running) PerfectClear.Abort();
 
                     if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard))
                         movements = MisaMino.FindPath(
@@ -174,14 +177,14 @@ namespace Zetris {
                             out pathSuccess
                         );
 
-                    if (!pathSuccess)
+                    if (!pathSuccess) {
                         movements = MisaMino.FindMove(
                             pieces,
                             current,
                             hold,
                             baseBoardHeight,
                             board,
-                            GameHelper.getCombo(PPT, playerID),
+                            combo,
                             GameHelper.getGarbageOverhead(PPT, playerID),
                             ref pieceUsed,
                             ref spinUsed,
@@ -190,23 +193,27 @@ namespace Zetris {
                             ref finalR
                         );
 
-                    pcsolved = false;
+                    } else {
+                        PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
-                    if (valueFinderEnable.Checked)
-                        if (movements.Count > 0) {
-                            pcboard = (int[,])board.Clone();
-                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+                        if (PerfectClear.LastSolution.Count == 0)
+                            pcsolved = false;
+                    }
 
+                    if (valueFinderEnable.Checked) {
+                        pcboard = (int[,])board.Clone();
+                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+
+                        if (movements.Count > 0 && !pcsolved) {
                             int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                (movements[0] == Instruction.HOLD)? current : hold
+                                (movements[0] == Instruction.HOLD) ? current : hold, GameHelper.InSwap(PPT), combo
                             );
 
-                        } else {
-                            pcboard = new int[10, 40];
                         }
+                    }
 
                     ret = true;                    
                     register = false;
