@@ -193,6 +193,8 @@ namespace Zetris {
                             ref finalR
                         );
 
+                        pcsolved = false;
+
                     } else {
                         PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
