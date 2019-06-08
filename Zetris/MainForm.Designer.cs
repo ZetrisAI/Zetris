@@ -365,9 +365,9 @@
             // valueFinderSolved
             // 
             this.valueFinderSolved.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueFinderSolved.Location = new System.Drawing.Point(125, 22);
+            this.valueFinderSolved.Location = new System.Drawing.Point(74, 22);
             this.valueFinderSolved.Name = "valueFinderSolved";
-            this.valueFinderSolved.Size = new System.Drawing.Size(28, 13);
+            this.valueFinderSolved.Size = new System.Drawing.Size(79, 13);
             this.valueFinderSolved.TabIndex = 3;
             this.valueFinderSolved.Text = "?";
             this.valueFinderSolved.TextAlign = System.Drawing.ContentAlignment.TopRight;

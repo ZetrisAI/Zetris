@@ -164,18 +164,26 @@ namespace Zetris {
 
                     if (PerfectClear.Running) PerfectClear.Abort();
 
-                    if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard))
-                        movements = MisaMino.FindPath(
-                            board,
-                            baseBoardHeight,
-                            pieceUsed = PerfectClear.LastSolution[0].Piece,
-                            finalX = PerfectClear.LastSolution[0].X,
-                            finalY = PerfectClear.LastSolution[0].Y,
-                            finalR = PerfectClear.LastSolution[0].R,
-                            current != PerfectClear.LastSolution[0].Piece,
-                            ref spinUsed,
-                            out pathSuccess
-                        );
+                    if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                        pieceUsed = PerfectClear.LastSolution[0].Piece;
+                        finalX = PerfectClear.LastSolution[0].X;
+                        finalY = PerfectClear.LastSolution[0].Y;
+                        finalR = PerfectClear.LastSolution[0].R;
+
+                        do {
+                            movements = MisaMino.FindPath(
+                                board,
+                                baseBoardHeight,
+                                pieceUsed,
+                                finalX,
+                                finalY,
+                                finalR,
+                                current != pieceUsed,
+                                ref spinUsed,
+                                out pathSuccess
+                            );
+                        } while (!(pathSuccess || --finalY < 3));
+                    }
 
                     if (!pathSuccess) {
                         movements = MisaMino.FindMove(
@@ -577,7 +585,7 @@ namespace Zetris {
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
 
-            valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? "PC" : "";
+            valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count} PC" : "";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
