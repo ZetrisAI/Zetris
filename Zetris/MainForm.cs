@@ -167,7 +167,7 @@ namespace Zetris {
                     if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
                         pieceUsed = PerfectClear.LastSolution[0].Piece;
                         finalX = PerfectClear.LastSolution[0].X;
-                        finalY = PerfectClear.LastSolution[0].Y;
+                        int misaY = finalY = PerfectClear.LastSolution[0].Y;
                         finalR = PerfectClear.LastSolution[0].R;
 
                         do {
@@ -176,13 +176,13 @@ namespace Zetris {
                                 baseBoardHeight,
                                 pieceUsed,
                                 finalX,
-                                finalY,
+                                misaY,
                                 finalR,
                                 current != pieceUsed,
                                 ref spinUsed,
                                 out pathSuccess
                             );
-                        } while (!(pathSuccess || --finalY < 3));
+                        } while (!(pathSuccess || --misaY < 3));
                     }
 
                     if (!pathSuccess) {

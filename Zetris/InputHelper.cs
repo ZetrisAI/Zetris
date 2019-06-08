@@ -336,20 +336,20 @@ namespace Zetris {
 
         public static void ApplyPiece(int[,] board, int piece, int x, int y, int r) {
             fixInput(piece, ref x, ref y, r);
-
+            
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     if (pieces[piece][r][i, j] != -1)
                         board[x + j, y - i] = pieces[piece][r][i, j];
 
-            for (int i = 0; i < 28; i++) {
+            for (int i = 25; i >= 0; i--) {
                 int fill = 0;
                 for (int j = 0; j < 10; j++)
                     fill += Convert.ToInt32(board[j, i] != 255);
 
                 if (fill == 10) {
-                    for (int j = i; j < 27; j++) {
-                        for(int k = 0; k < 10; k++) {
+                    for (int j = i; j < 26; j++) {
+                        for (int k = 0; k < 10; k++) {
                             board[k, j] = board[k, j + 1];
                         }
                     }
@@ -359,8 +359,9 @@ namespace Zetris {
 
         public static bool BoardEquals(int[,] a, int[,] b) {
             for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 28; j++)
-                    if ((a[i, j] == 255) != (b[i, j] == 255)) return false;
+                for (int j = 0; j < 24; j++)
+                    if ((a[i, j] == 255) != (b[i, j] == 255))
+                        return false;
 
             return true;
         }
