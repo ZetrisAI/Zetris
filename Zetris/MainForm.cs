@@ -221,7 +221,6 @@ namespace Zetris {
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
                                 (movements[0] == Instruction.HOLD) ? current : hold, GameHelper.InSwap(PPT), combo
                             );
-
                         }
                     }
 

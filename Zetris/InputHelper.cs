@@ -335,8 +335,24 @@ namespace Zetris {
         }
 
         public static void ApplyPiece(int[,] board, int piece, int x, int y, int r) {
-            fixInput(piece, ref x, ref y, r);
-            
+            if (piece == 6) {
+                if (r == 1) {
+                    x++;
+                }
+
+                if (r == 2) {
+                    x++;
+                    y--;
+                }
+
+                if (r == 3) {
+                    y--;
+                }
+            }
+
+            x--;
+            y = 24 - y;
+
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     if (pieces[piece][r][i, j] != -1)
