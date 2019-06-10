@@ -496,6 +496,8 @@ namespace Zetris {
         decimal speedIncrement = 1;
         decimal speedTick = 0;
 
+        int charindex = 0;
+
         private void applyInputs() {
             int nextFrame = GameHelper.getFrameCount(PPT);
             
@@ -550,7 +552,13 @@ namespace Zetris {
 
                 if (globalFrames % 2 == 0) {
                     if (GameHelper.OutsideMenu(PPT)) {
-                        gamepad.Buttons |= X360Buttons.A;
+                        if (GameHelper.InMultiplayer(PPT)) {
+                            if (GameHelper.CharSelectIndex(PPT, playerID) == 13) {
+                                gamepad.Buttons |= X360Buttons.A;
+                            } else {
+                                gamepad.Buttons |= ((charindex = ++charindex % 5) == 0) ? X360Buttons.Down : X360Buttons.Right;
+                            }
+                        } else gamepad.Buttons |= X360Buttons.A;
                     }
                 }
             }

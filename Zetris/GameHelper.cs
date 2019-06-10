@@ -838,5 +838,11 @@ namespace Zetris {
 
             return ret;
         }
+
+        public static int CharSelectIndex(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                0x140460690
+            )) + 0x458 + 0x58 * index
+        ));
     }
 }
