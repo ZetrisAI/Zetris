@@ -144,6 +144,7 @@ namespace Zetris {
                     softdrop = false;
                     speedTick = 0;
 
+                    PerfectClear.Abort();
                     pcsolved = false;
 
                     if (valueFinderEnable.Checked) {
