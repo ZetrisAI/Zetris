@@ -280,9 +280,21 @@ namespace Zetris {
                             case Instruction.NULL: inputGoal = -1; break;
                             case Instruction.L: inputGoal = GameHelper.getPiecePositionX(PPT, playerID) - 1; break;
                             case Instruction.R: inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1; break;
-                            case Instruction.D: inputGoal = GameHelper.getPiecePositionY(PPT, playerID) + 1; break;
                             case Instruction.DROP: inputGoal = 1; break;
                             case Instruction.HOLD: inputGoal = GameHelper.getHoldPointer(PPT, playerID); break;
+
+                            case Instruction.D:
+                                inputGoal = Math.Min(
+                                    GameHelper.getPiecePositionY(PPT, playerID) + 1,
+                                    InputHelper.FindInputGoalY(
+                                        board,
+                                        pieceUsed,
+                                        GameHelper.getPiecePositionX(PPT, playerID),
+                                        GameHelper.getPiecePositionY(PPT, playerID),
+                                        GameHelper.getPieceRotation(PPT, playerID)
+                                    )
+                                );
+                                break;
 
                             case Instruction.LL:
                                 inputGoal = InputHelper.FindInputGoalX(
@@ -354,7 +366,7 @@ namespace Zetris {
                         case Instruction.HOLD: inputCurrent = (GameHelper.getHoldPointer(PPT, playerID) != inputGoal && GameHelper.getHoldPointer(PPT, playerID) > 0x08000000) ? inputGoal : 0; break;
                     }
 
-                    if (inputCurrent == inputGoal) {
+                    if (inputCurrent == inputGoal || (softdrop && inputCurrent >= inputGoal)) {
                         softdrop = false;
                         movements.RemoveAt(0);
                         inputStarted = movements.Count == 0? 0 : 2;
