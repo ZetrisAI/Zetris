@@ -173,7 +173,7 @@
     <value>ゲームリーダー</value>
   </data>
   <data name="labelFrames.Text" xml:space="preserve">
-    <value>フレーム思考速度</value>
+    <value>前フレーム思考時間</value>
   </data>
   <data name="labelSkipped.Text" xml:space="preserve">
     <value>フレームスキップ回数</value>
