@@ -182,7 +182,7 @@
     <value>프레임 시간</value>
   </data>
   <data name="labelSkipped.Text" xml:space="preserve">
-    <value>프레임 스킾</value>
+    <value>프레임 스킵</value>
   </data>
   <data name="valueFinderEnable.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 17</value>
