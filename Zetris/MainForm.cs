@@ -596,16 +596,16 @@ namespace Zetris {
 
 
         private void updateUI() {
-            buttonGamepad.Text = gamepadPluggedIn? "Disconnect" : "Connect";
+            buttonGamepad.Text = gamepadPluggedIn? Properties.Strings.GamepadConnected : Properties.Strings.GamepadDisconnected;
             valueGamepadInputs.Text = gamepad.Buttons.ToString();
 
-            valueGameState.Text = PPT.CheckProcess()? (inMatch? "Active (Match)" : "Inactive (Menu)") : "Inactive (Closed)";
+            valueGameState.Text = PPT.CheckProcess()? (inMatch? Properties.Strings.GameStateMatch : Properties.Strings.GameStateMenu) : Properties.Strings.GameStateClosed;
                 
             valueInstructions.Text = String.Join(", ", movements);
             
             valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
 
-            valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count} PC" : "";
+            valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count}" : "...";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {

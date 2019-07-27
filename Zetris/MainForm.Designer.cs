@@ -74,85 +74,53 @@
             // 
             // valueInstructions
             // 
-            this.valueInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.valueInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueInstructions.Location = new System.Drawing.Point(5, 96);
+            resources.ApplyResources(this.valueInstructions, "valueInstructions");
             this.valueInstructions.Name = "valueInstructions";
-            this.valueInstructions.Size = new System.Drawing.Size(148, 32);
-            this.valueInstructions.TabIndex = 1;
-            this.valueInstructions.Text = "?";
-            this.valueInstructions.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             // 
             // panelGamepad
             // 
+            resources.ApplyResources(this.panelGamepad, "panelGamepad");
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panelGamepad.Controls.Add(this.valueSpeed);
             this.panelGamepad.Controls.Add(this.buttonGamepad);
             this.panelGamepad.Controls.Add(this.labelGamepad);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
             this.panelGamepad.Controls.Add(this.labelSpeed);
-            this.panelGamepad.Location = new System.Drawing.Point(9, 195);
             this.panelGamepad.Name = "panelGamepad";
-            this.panelGamepad.Size = new System.Drawing.Size(158, 62);
-            this.panelGamepad.TabIndex = 10;
             // 
             // valueSpeed
             // 
+            resources.ApplyResources(this.valueSpeed, "valueSpeed");
             this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
-            this.valueSpeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueSpeed.Location = new System.Drawing.Point(120, 23);
             this.valueSpeed.Name = "valueSpeed";
-            this.valueSpeed.Size = new System.Drawing.Size(33, 13);
-            this.valueSpeed.TabIndex = 5;
-            this.valueSpeed.Text = "100%";
-            this.valueSpeed.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueSpeed_MouseWheel);
             // 
             // buttonGamepad
             // 
+            resources.ApplyResources(this.buttonGamepad, "buttonGamepad");
             this.buttonGamepad.BackColor = System.Drawing.Color.Transparent;
-            this.buttonGamepad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGamepad.Location = new System.Drawing.Point(71, 5);
             this.buttonGamepad.Name = "buttonGamepad";
-            this.buttonGamepad.Size = new System.Drawing.Size(82, 13);
-            this.buttonGamepad.TabIndex = 1;
-            this.buttonGamepad.Text = "?";
-            this.buttonGamepad.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.buttonGamepad.Click += new System.EventHandler(this.buttonGamepad_Click);
             // 
             // labelGamepad
             // 
-            this.labelGamepad.AutoSize = true;
+            resources.ApplyResources(this.labelGamepad, "labelGamepad");
             this.labelGamepad.BackColor = System.Drawing.Color.Transparent;
-            this.labelGamepad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelGamepad.Location = new System.Drawing.Point(5, 5);
             this.labelGamepad.Name = "labelGamepad";
-            this.labelGamepad.Size = new System.Drawing.Size(60, 13);
-            this.labelGamepad.TabIndex = 1;
-            this.labelGamepad.Text = "Gamepad";
             // 
             // valueGamepadInputs
             // 
-            this.valueGamepadInputs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.valueGamepadInputs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueGamepadInputs.Location = new System.Drawing.Point(6, 42);
+            resources.ApplyResources(this.valueGamepadInputs, "valueGamepadInputs");
             this.valueGamepadInputs.Name = "valueGamepadInputs";
-            this.valueGamepadInputs.Size = new System.Drawing.Size(146, 13);
-            this.valueGamepadInputs.TabIndex = 1;
-            this.valueGamepadInputs.Text = "?";
-            this.valueGamepadInputs.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // labelSpeed
             // 
-            this.labelSpeed.AutoSize = true;
-            this.labelSpeed.Location = new System.Drawing.Point(6, 23);
+            resources.ApplyResources(this.labelSpeed, "labelSpeed");
             this.labelSpeed.Name = "labelSpeed";
-            this.labelSpeed.Size = new System.Drawing.Size(41, 13);
-            this.labelSpeed.TabIndex = 4;
-            this.labelSpeed.Text = "Speed:";
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel1.Controls.Add(this.valueGameState);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
@@ -161,247 +129,164 @@
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
-            this.panel1.Location = new System.Drawing.Point(9, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(158, 132);
-            this.panel1.TabIndex = 11;
             // 
             // valueGameState
             // 
-            this.valueGameState.Location = new System.Drawing.Point(8, 74);
+            resources.ApplyResources(this.valueGameState, "valueGameState");
             this.valueGameState.Name = "valueGameState";
-            this.valueGameState.Size = new System.Drawing.Size(145, 13);
-            this.valueGameState.TabIndex = 15;
-            this.valueGameState.Text = "?";
-            this.valueGameState.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // valueMisaMinoLevel
             // 
+            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
             this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.valueMisaMinoLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.valueMisaMinoLevel.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoLevel.FormattingEnabled = true;
             this.valueMisaMinoLevel.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"});
-            this.valueMisaMinoLevel.Location = new System.Drawing.Point(47, 50);
-            this.valueMisaMinoLevel.MaxDropDownItems = 5;
+            resources.GetString("valueMisaMinoLevel.Items"),
+            resources.GetString("valueMisaMinoLevel.Items1"),
+            resources.GetString("valueMisaMinoLevel.Items2"),
+            resources.GetString("valueMisaMinoLevel.Items3"),
+            resources.GetString("valueMisaMinoLevel.Items4"),
+            resources.GetString("valueMisaMinoLevel.Items5"),
+            resources.GetString("valueMisaMinoLevel.Items6"),
+            resources.GetString("valueMisaMinoLevel.Items7"),
+            resources.GetString("valueMisaMinoLevel.Items8"),
+            resources.GetString("valueMisaMinoLevel.Items9")});
             this.valueMisaMinoLevel.Name = "valueMisaMinoLevel";
-            this.valueMisaMinoLevel.Size = new System.Drawing.Size(106, 21);
-            this.valueMisaMinoLevel.TabIndex = 12;
             this.valueMisaMinoLevel.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
             // valueMisaMinoStyle
             // 
+            resources.ApplyResources(this.valueMisaMinoStyle, "valueMisaMinoStyle");
             this.valueMisaMinoStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.valueMisaMinoStyle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.valueMisaMinoStyle.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoStyle.FormattingEnabled = true;
             this.valueMisaMinoStyle.Items.AddRange(new object[] {
-            "T-Spin+",
-            "T-Spin",
-            "Combo",
-            "No Hold",
-            "4-Wide",
-            "Downstack"});
-            this.valueMisaMinoStyle.Location = new System.Drawing.Point(47, 26);
-            this.valueMisaMinoStyle.MaxDropDownItems = 5;
+            resources.GetString("valueMisaMinoStyle.Items"),
+            resources.GetString("valueMisaMinoStyle.Items1"),
+            resources.GetString("valueMisaMinoStyle.Items2"),
+            resources.GetString("valueMisaMinoStyle.Items3"),
+            resources.GetString("valueMisaMinoStyle.Items4"),
+            resources.GetString("valueMisaMinoStyle.Items5")});
             this.valueMisaMinoStyle.Name = "valueMisaMinoStyle";
-            this.valueMisaMinoStyle.Size = new System.Drawing.Size(106, 21);
-            this.valueMisaMinoStyle.TabIndex = 12;
             this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
             // labelMisaMino
             // 
-            this.labelMisaMino.AutoSize = true;
+            resources.ApplyResources(this.labelMisaMino, "labelMisaMino");
             this.labelMisaMino.BackColor = System.Drawing.Color.Transparent;
-            this.labelMisaMino.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMisaMino.Location = new System.Drawing.Point(5, 5);
             this.labelMisaMino.Name = "labelMisaMino";
-            this.labelMisaMino.Size = new System.Drawing.Size(76, 13);
-            this.labelMisaMino.TabIndex = 1;
-            this.labelMisaMino.Text = "MisaMino AI";
             // 
             // labelMisaMinoStyle
             // 
-            this.labelMisaMinoStyle.AutoSize = true;
-            this.labelMisaMinoStyle.Location = new System.Drawing.Point(5, 30);
+            resources.ApplyResources(this.labelMisaMinoStyle, "labelMisaMinoStyle");
             this.labelMisaMinoStyle.Name = "labelMisaMinoStyle";
-            this.labelMisaMinoStyle.Size = new System.Drawing.Size(33, 13);
-            this.labelMisaMinoStyle.TabIndex = 4;
-            this.labelMisaMinoStyle.Text = "Style:";
             // 
             // labelMisaMinoLevel
             // 
-            this.labelMisaMinoLevel.AutoSize = true;
-            this.labelMisaMinoLevel.Location = new System.Drawing.Point(5, 54);
+            resources.ApplyResources(this.labelMisaMinoLevel, "labelMisaMinoLevel");
             this.labelMisaMinoLevel.Name = "labelMisaMinoLevel";
-            this.labelMisaMinoLevel.Size = new System.Drawing.Size(36, 13);
-            this.labelMisaMinoLevel.TabIndex = 4;
-            this.labelMisaMinoLevel.Text = "Level:";
             // 
             // valuePuzzleLeague
             // 
-            this.valuePuzzleLeague.AutoSize = true;
-            this.valuePuzzleLeague.Location = new System.Drawing.Point(7, 21);
+            resources.ApplyResources(this.valuePuzzleLeague, "valuePuzzleLeague");
             this.valuePuzzleLeague.Name = "valuePuzzleLeague";
-            this.valuePuzzleLeague.Size = new System.Drawing.Size(151, 17);
-            this.valuePuzzleLeague.TabIndex = 2;
-            this.valuePuzzleLeague.Text = "Auto Puzzle League Menu";
             this.valuePuzzleLeague.UseVisualStyleBackColor = true;
             this.valuePuzzleLeague.CheckedChanged += new System.EventHandler(this.valuePuzzleLeague_CheckedChanged);
             // 
             // labelDeveloper
             // 
-            this.labelDeveloper.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.labelDeveloper, "labelDeveloper");
             this.labelDeveloper.Name = "labelDeveloper";
-            this.labelDeveloper.Size = new System.Drawing.Size(100, 23);
-            this.labelDeveloper.TabIndex = 0;
             // 
             // panel3
             // 
+            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valuePuzzleLeague);
             this.panel3.Controls.Add(this.labelConfig);
-            this.panel3.Location = new System.Drawing.Point(9, 263);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(158, 41);
-            this.panel3.TabIndex = 10;
             // 
             // labelConfig
             // 
-            this.labelConfig.AutoSize = true;
+            resources.ApplyResources(this.labelConfig, "labelConfig");
             this.labelConfig.BackColor = System.Drawing.Color.Transparent;
-            this.labelConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelConfig.Location = new System.Drawing.Point(5, 5);
             this.labelConfig.Name = "labelConfig";
-            this.labelConfig.Size = new System.Drawing.Size(82, 13);
-            this.labelConfig.TabIndex = 1;
-            this.labelConfig.Text = "Configuration";
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel2.Controls.Add(this.valueFrametime);
             this.panel2.Controls.Add(this.valueSkipped);
             this.panel2.Controls.Add(this.labelMemoryScan);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelSkipped);
-            this.panel2.Location = new System.Drawing.Point(9, 310);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(158, 60);
-            this.panel2.TabIndex = 10;
             // 
             // valueFrametime
             // 
-            this.valueFrametime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueFrametime.Location = new System.Drawing.Point(59, 40);
+            resources.ApplyResources(this.valueFrametime, "valueFrametime");
             this.valueFrametime.Name = "valueFrametime";
-            this.valueFrametime.Size = new System.Drawing.Size(92, 13);
-            this.valueFrametime.TabIndex = 2;
-            this.valueFrametime.Text = "?";
-            this.valueFrametime.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // valueSkipped
             // 
-            this.valueSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueSkipped.Location = new System.Drawing.Point(87, 23);
+            resources.ApplyResources(this.valueSkipped, "valueSkipped");
             this.valueSkipped.Name = "valueSkipped";
-            this.valueSkipped.Size = new System.Drawing.Size(64, 13);
-            this.valueSkipped.TabIndex = 2;
-            this.valueSkipped.Text = "?";
-            this.valueSkipped.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // labelMemoryScan
             // 
-            this.labelMemoryScan.AutoSize = true;
+            resources.ApplyResources(this.labelMemoryScan, "labelMemoryScan");
             this.labelMemoryScan.BackColor = System.Drawing.Color.Transparent;
-            this.labelMemoryScan.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMemoryScan.Location = new System.Drawing.Point(5, 5);
             this.labelMemoryScan.Name = "labelMemoryScan";
-            this.labelMemoryScan.Size = new System.Drawing.Size(83, 13);
-            this.labelMemoryScan.TabIndex = 1;
-            this.labelMemoryScan.Text = "Memory Scan";
             // 
             // labelFrames
             // 
-            this.labelFrames.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFrames.Location = new System.Drawing.Point(5, 40);
+            resources.ApplyResources(this.labelFrames, "labelFrames");
             this.labelFrames.Name = "labelFrames";
-            this.labelFrames.Size = new System.Drawing.Size(146, 13);
-            this.labelFrames.TabIndex = 1;
-            this.labelFrames.Text = "Frametime:";
             // 
             // labelSkipped
             // 
-            this.labelSkipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSkipped.Location = new System.Drawing.Point(5, 23);
+            resources.ApplyResources(this.labelSkipped, "labelSkipped");
             this.labelSkipped.Name = "labelSkipped";
-            this.labelSkipped.Size = new System.Drawing.Size(146, 13);
-            this.labelSkipped.TabIndex = 1;
-            this.labelSkipped.Text = "Frames Skipped:";
             // 
             // panel4
             // 
+            resources.ApplyResources(this.panel4, "panel4");
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel4.Controls.Add(this.valueFinderSolved);
             this.panel4.Controls.Add(this.valueFinderEnable);
             this.panel4.Controls.Add(this.labelFinder);
-            this.panel4.Location = new System.Drawing.Point(9, 148);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(158, 41);
-            this.panel4.TabIndex = 11;
             // 
             // valueFinderSolved
             // 
-            this.valueFinderSolved.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.valueFinderSolved.Location = new System.Drawing.Point(74, 22);
+            resources.ApplyResources(this.valueFinderSolved, "valueFinderSolved");
             this.valueFinderSolved.Name = "valueFinderSolved";
-            this.valueFinderSolved.Size = new System.Drawing.Size(79, 13);
-            this.valueFinderSolved.TabIndex = 3;
-            this.valueFinderSolved.Text = "?";
-            this.valueFinderSolved.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // valueFinderEnable
             // 
-            this.valueFinderEnable.AutoSize = true;
+            resources.ApplyResources(this.valueFinderEnable, "valueFinderEnable");
             this.valueFinderEnable.Checked = true;
             this.valueFinderEnable.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.valueFinderEnable.Location = new System.Drawing.Point(7, 21);
             this.valueFinderEnable.Name = "valueFinderEnable";
-            this.valueFinderEnable.Size = new System.Drawing.Size(65, 17);
-            this.valueFinderEnable.TabIndex = 2;
-            this.valueFinderEnable.Text = "Enabled";
             this.valueFinderEnable.UseVisualStyleBackColor = true;
             this.valueFinderEnable.CheckedChanged += new System.EventHandler(this.valueFinderEnable_CheckedChanged);
             // 
             // labelFinder
             // 
-            this.labelFinder.AutoSize = true;
+            resources.ApplyResources(this.labelFinder, "labelFinder");
             this.labelFinder.BackColor = System.Drawing.Color.Transparent;
-            this.labelFinder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelFinder.Location = new System.Drawing.Point(5, 5);
             this.labelFinder.Name = "labelFinder";
-            this.labelFinder.Size = new System.Drawing.Size(112, 13);
-            this.labelFinder.TabIndex = 1;
-            this.labelFinder.Text = "PC Solution Finder";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(16)))), ((int)(((byte)(16)))));
-            this.ClientSize = new System.Drawing.Size(177, 379);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
@@ -409,10 +294,8 @@
             this.Controls.Add(this.panelGamepad);
             this.ForeColor = System.Drawing.Color.Gainsboro;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.panelGamepad.ResumeLayout(false);

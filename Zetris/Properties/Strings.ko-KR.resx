@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GamepadConnected" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="GamepadDisconnected" xml:space="preserve">
+    <value>연결끊김</value>
+  </data>
+  <data name="GameStateClosed" xml:space="preserve">
+    <value>비활성화(게임종료)</value>
+  </data>
+  <data name="GameStateMatch" xml:space="preserve">
+    <value>활성화(게임중)</value>
+  </data>
+  <data name="GameStateMenu" xml:space="preserve">
+    <value>비활성화(메뉴화면)</value>
+  </data>
 </root>
