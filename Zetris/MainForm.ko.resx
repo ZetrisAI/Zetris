@@ -166,6 +166,24 @@
   <data name="labelMisaMinoLevel.Text" xml:space="preserve">
     <value>난이도</value>
   </data>
+  <data name="valueFrametime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>74, 40</value>
+  </data>
+  <data name="valueFrametime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 13</value>
+  </data>
+  <data name="labelMemoryScan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="labelMemoryScan.Text" xml:space="preserve">
+    <value>메모리 스캔</value>
+  </data>
+  <data name="labelFrames.Text" xml:space="preserve">
+    <value>프레임 시간</value>
+  </data>
+  <data name="labelSkipped.Text" xml:space="preserve">
+    <value>프레임 스킾</value>
+  </data>
   <data name="valueFinderEnable.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 17</value>
   </data>

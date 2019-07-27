@@ -166,6 +166,16 @@
   <data name="labelMisaMinoLevel.Text" xml:space="preserve">
     <value>レベル</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="valueFrametime.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="valueFrametime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>80, 40</value>
+  </data>
+  <data name="valueFrametime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 13</value>
+  </data>
   <data name="labelMemoryScan.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 13</value>
   </data>
