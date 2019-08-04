@@ -213,7 +213,13 @@ namespace Zetris {
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
-                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+
+                        bool fuck = false;
+                        try {
+                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
+                        } catch {
+                            fuck = true;
+                        }
 
                         if (movements.Count > 0 && !pcsolved) {
                             int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
