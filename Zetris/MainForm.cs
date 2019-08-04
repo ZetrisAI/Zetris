@@ -221,7 +221,7 @@ namespace Zetris {
                             fuck = true;
                         }
 
-                        if (movements.Count > 0 && !pcsolved) {
+                        if (movements.Count > 0 && !pcsolved && !fuck) {
                             int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
 
                             PerfectClear.Find(
