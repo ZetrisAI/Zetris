@@ -736,6 +736,32 @@ namespace Zetris {
             return Math.Max(ret, 0);
         }
 
+        public static int getBackToBack(ProcessMemory Game, int index) {
+            int ret = -1;
+            switch (index) {
+                case 0:
+                    ret = Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadByte(new IntPtr(
+                                0x140598A20
+                            )) + 0x38
+                        )) + 0x3DD
+                    ));
+                    break;
+
+                case 1:
+                    ret = Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadByte(new IntPtr(
+                                0x140598A28
+                            )) + 0x38
+                        )) + 0x3DD
+                    ));
+                    break;
+            }
+            return Math.Max(ret, 0);
+        }
+
         public static int getFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140461B20
