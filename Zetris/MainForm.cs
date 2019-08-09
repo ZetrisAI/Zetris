@@ -161,6 +161,9 @@ namespace Zetris {
                 }
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
+                    inputStarted = 0;
+                    softdrop = false;
+
                     int? hold = GameHelper.getHold(PPT, playerID);
                     int combo = GameHelper.getCombo(PPT, playerID);
 
