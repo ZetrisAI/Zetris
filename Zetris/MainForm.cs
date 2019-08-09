@@ -91,9 +91,9 @@ namespace Zetris {
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
-            if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4)
-                playerID = 1 - playerID;
-
+            //if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4) code for being player 2 in MP arcade, restore eventually or maybe it gets changed when player is programmable idk
+            //    playerID = 1 - playerID;
+            
             int temp = GameHelper.getRating(PPT);
 
             if (temp != currentRating) {
@@ -156,7 +156,7 @@ namespace Zetris {
                 if (drop != state && drop == 1) {
                     register = true;
                 }
-
+                
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
                     int? hold = GameHelper.getHold(PPT, playerID);
                     int combo = GameHelper.getCombo(PPT, playerID);
