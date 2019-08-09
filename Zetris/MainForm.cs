@@ -149,7 +149,10 @@ namespace Zetris {
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
-                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null, GameHelper.InSwap(PPT), 0);
+                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(
+                            GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], 
+                            null, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), 0
+                        );
                     }
                 }
 
@@ -226,7 +229,7 @@ namespace Zetris {
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                (movements[0] == Instruction.HOLD) ? current : hold, GameHelper.InSwap(PPT), combo
+                                (movements[0] == Instruction.HOLD) ? current : hold, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), combo
                             );
                         }
                     }
