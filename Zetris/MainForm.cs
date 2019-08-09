@@ -21,30 +21,7 @@ namespace Zetris {
         void ResetGame() {
             if (!GameHelper.InSwap(PPT) || !valuePuzzleLeague.Checked) return;
 
-            ScanTimer.Enabled = false;
-
-            foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
-                process.Kill();
-            }
-
-            PPT.TrustProcess = false;
-
-            PPT.CheckProcess();
-
-            Thread.Sleep(10000);
-
-            PPT.CheckProcess();
-            Process.Start("steam://rungameid/546050");
-            ratingSafe = 0;
-            currentRating = 0;
-
-            Thread.Sleep(15000);
-
-            PPT.CheckProcess();
-
-            PPT.TrustProcess = true;
-
-            ScanTimer.Enabled = true;
+            Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
         }
 
         int gamepadIndex = 4;
