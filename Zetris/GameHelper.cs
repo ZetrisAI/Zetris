@@ -11,6 +11,10 @@ namespace Zetris {
             0x140573854
         ));
 
+        public static bool Online(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+            0x14059894C
+        )) == 1;
+
         public static bool InMultiplayer(ProcessMemory Game) => Game.ReadByte(new IntPtr(
             0x140573858
         )) == 3;

@@ -119,7 +119,7 @@ namespace Zetris {
             }
 
             if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4) {
+                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4 && GameHelper.Online(PPT)) {
                     ResetGame();
                     return false;
                 }
