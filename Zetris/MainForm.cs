@@ -57,6 +57,7 @@ namespace Zetris {
         int finalX, finalY, finalR;
         int[] queue = new int[5];
         bool register = false;
+        bool shouldHaveRegistered = false;
         int baseBoardHeight;
 
         int[,] pcboard;
@@ -95,7 +96,7 @@ namespace Zetris {
                 return false;
             }
 
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) > 1) {
                 if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4 && GameHelper.Online(PPT)) {
                     ResetGame();
                     return false;
@@ -126,18 +127,20 @@ namespace Zetris {
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
-                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(
-                            GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], 
+                        PerfectClear.Find(
+                            pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], 
                             null, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), 0
                         );
                     }
                 }
 
-                if (drop != state && drop == 1) {
-                    register = true;
+                if (drop != state) {
+                    if (drop == 1) register = !shouldHaveRegistered;
+                    else if (drop == 0) shouldHaveRegistered = true;
                 }
 
                 if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
+                    shouldHaveRegistered = false;
                     inputStarted = 0;
                     softdrop = false;
 
