@@ -59,6 +59,7 @@ namespace Zetris {
         bool register = false;
         bool shouldHaveRegistered = false;
         int baseBoardHeight;
+        int old_y;
 
         int[,] pcboard;
         bool pcsolved = false;
@@ -135,11 +136,13 @@ namespace Zetris {
                 }
 
                 if (drop != state) {
-                    if (drop == 1) register = !shouldHaveRegistered;
-                    else if (drop == 0) shouldHaveRegistered = true;
+                    if (drop == 1) {
+                        register = !shouldHaveRegistered;
+                        old_y = y;
+                    } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
-                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
+                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y)) {
                     shouldHaveRegistered = false;
                     inputStarted = 0;
                     softdrop = false;
