@@ -692,7 +692,7 @@ namespace Zetris {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadByte(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
                                             0x140461B20
                                         )) + 0x378
                                     )) + 0x30
@@ -705,7 +705,7 @@ namespace Zetris {
                         ret = Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadByte(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
                                         0x140598A28
                                     )) + 0x140
                                 )) + 0x48
@@ -718,7 +718,7 @@ namespace Zetris {
                     case 0:
                         ret = Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                Game.ReadByte(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
                                     0x140598A20
                                 )) + 0x38
                             )) + 0x3DC
@@ -728,7 +728,7 @@ namespace Zetris {
                     case 1:
                         ret = Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                Game.ReadByte(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
                                     0x140598A28
                                 )) + 0x38
                             )) + 0x3DC
@@ -737,7 +737,7 @@ namespace Zetris {
                 }
             }
 
-            return Math.Max(ret, 0);
+            return Math.Max(ret & 255, 0);
         }
 
         public static int getFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
