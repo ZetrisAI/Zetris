@@ -954,11 +954,11 @@ namespace Zetris {
             return Math.Max(ret, 0);
         }
 
-        public static int getBackToBack(ProcessMemory Game, int index) {
-            int ret = -1;
+        public static bool getBackToBack(ProcessMemory Game, int index) {
+            byte ret = 0;
             switch (index) {
                 case 0:
-                    ret = Game.ReadInt32(new IntPtr(
+                    ret = Game.ReadByte(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadByte(new IntPtr(
                                 0x140598A20
@@ -968,7 +968,7 @@ namespace Zetris {
                     break;
 
                 case 1:
-                    ret = Game.ReadInt32(new IntPtr(
+                    ret = Game.ReadByte(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadByte(new IntPtr(
                                 0x140598A28
@@ -978,7 +978,7 @@ namespace Zetris {
                     break;
 
                 case 2:
-                    ret = Game.ReadInt32(new IntPtr(
+                    ret = Game.ReadByte(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadByte(new IntPtr(
                                 0x140598A28
@@ -997,7 +997,7 @@ namespace Zetris {
                     ));
                     break;
             }
-            return Math.Max(ret, 0);
+            return ret == 1;
         }
 
         public static int getFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
