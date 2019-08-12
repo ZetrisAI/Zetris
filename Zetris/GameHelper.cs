@@ -43,17 +43,17 @@ namespace Zetris {
             )) + 0x118 + index * 0x50
         ));
 
-        public static int FindPlayer(ProcessMemory Game) { //I forced this to always return 2, default return values are 0, i, 0
+        public static int FindPlayer(ProcessMemory Game) {
             if (PlayerCount(Game) < 2)                     //TODO make this programmable
-                return 2;
+                return 0;
 
             int localSteam = LocalSteam(Game);
 
             for (int i = 0; i < 4; i++)
                 if (localSteam == PlayerSteam(Game, i))
-                    return 2;               
+                    return i;               
 
-            return 2;
+            return 0;
         }
 
         public static int scoreAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
@@ -189,6 +189,15 @@ namespace Zetris {
                                 )) + 0x28
                             )) + 0x428
                         )) + 0xDA0;
+
+                    case 3:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x1405989D8
+                                )) + 0x28
+                            )) + 0x3C0
+                        )) + 0x50;
                 }
             }
 
@@ -250,6 +259,15 @@ namespace Zetris {
                                 )) + 0x30
                             )) + 0x5C8
                         )) + 0xA6C;
+
+                    case 3:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x14057F050
+                                )) + 0x18
+                            )) + 0xB8
+                        )) + 0x15C;
                 }
             }
 
@@ -327,6 +345,19 @@ namespace Zetris {
                                 )) + 0x140
                             ))+ 0x110
                         ));
+
+                    case 3:
+                        return Game.ReadByte(new IntPtr(
+                            Game.ReadByte(new IntPtr(
+                                Game.ReadByte(new IntPtr(
+                                    Game.ReadByte(new IntPtr(
+                                        Game.ReadByte(new IntPtr(
+                                            0x140598A28
+                                        )) + 0x28
+                                    )) + 0x40
+                                )) + 0x140
+                            )) + 0x110
+                        ));
                 }
             }
             
@@ -398,6 +429,17 @@ namespace Zetris {
                                 )) + 0x188
                             )) + 0x100
                         ));
+
+                    case 3:
+                        return Game.ReadByte(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x390
+                                )) + 0xB8
+                            )) + 0x5B0
+                        ));
                 }
             }
 
@@ -468,6 +510,17 @@ namespace Zetris {
                                     )) + 0x120
                                 )) + 0x188
                             )) + 0x101
+                        ));
+
+                    case 3:
+                        return Game.ReadByte(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x390
+                                )) + 0xB8
+                            )) + 0x5B1
                         ));
                 }
             }
@@ -545,6 +598,17 @@ namespace Zetris {
                                     Game.ReadInt32(new IntPtr(
                                         0x140461B20
                                     )) + 0x388
+                                )) + 0x5D0
+                            )) + 0x18
+                        ));
+
+                    case 3:
+                        return Game.ReadByte(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x1404611B8
+                                    )) + 0x30
                                 )) + 0x5D0
                             )) + 0x18
                         ));
@@ -627,6 +691,17 @@ namespace Zetris {
                                 )) + 0x5D0
                             )) + 0x1C
                         ));
+
+                    case 3:
+                        return Game.ReadByte(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x1404611B8
+                                    )) + 0x30
+                                )) + 0x5D0
+                            )) + 0x1C
+                        ));
                 }
             }
 
@@ -689,6 +764,15 @@ namespace Zetris {
                                     0x140461B20
                                 )) + 0x388
                             )) + 0x5D8
+                        )) + 0x8;
+
+                    case 3:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x140598A28
+                                )) + 0x38
+                            )) + 0x3D0
                         )) + 0x8;
                 }
             }
@@ -775,6 +859,17 @@ namespace Zetris {
                                 )) + 0x3C0
                             )) + 0xB04
                         ));
+
+                    case 3:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        0x1404611B8
+                                    )) + 0x30
+                                )) + 0x5C8
+                            )) + 0xB04
+                        ));
                 }
             }
 
@@ -843,6 +938,16 @@ namespace Zetris {
                             )) + 0x3DC
                         ));
                         break;
+
+                    case 3:
+                        ret = Game.ReadByte(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x1405989D8
+                                )) + 0x28
+                            )) + 0x3DC
+                        ));
+                        break;
                 }
             }
 
@@ -878,6 +983,16 @@ namespace Zetris {
                             Game.ReadByte(new IntPtr(
                                 0x140598A28
                             )) + 0x1F8
+                        )) + 0x3DD
+                    ));
+                    break;
+
+                case 3:
+                    ret = Game.ReadByte(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x1405989D8
+                            )) + 0x28
                         )) + 0x3DD
                     ));
                     break;
@@ -985,6 +1100,14 @@ namespace Zetris {
                                 0x140598A28
                             )) + 0x38
                         ));
+                        break;
+
+                    case 3:
+                        ptr = Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A28
+                            )) + 0x38
+                        )) + 0x324;
                         break;
                 }
 

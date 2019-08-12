@@ -89,7 +89,7 @@ namespace Zetris {
             bool ret = false;
 
             numplayers = GameHelper.getPlayerCount(PPT);
-            playerID = GameHelper.FindPlayer(PPT);
+            playerID = 3;// GameHelper.FindPlayer(PPT);
 
             //if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4) code for being player 2 in MP arcade, restore eventually or maybe it gets changed when player is programmable idk
             //    playerID = 1 - playerID;
