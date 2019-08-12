@@ -1107,7 +1107,7 @@ namespace Zetris {
                             Game.ReadInt32(new IntPtr(
                                 0x140598A28
                             )) + 0x38
-                        )) + 0x324;
+                        ));
                         break;
                 }
 
