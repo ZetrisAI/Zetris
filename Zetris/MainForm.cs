@@ -598,13 +598,13 @@ namespace Zetris {
                 
             valueInstructions.Text = String.Join(", ", movements);
             
-            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = valueMPPlayer.Enabled = !inMatch;
+            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
 
             valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count}" : "...";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
-            MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1);
+            MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1, valueMisaMino4w.Checked);
         }
 
         bool checkboxEvents = true;
@@ -623,6 +623,16 @@ namespace Zetris {
                 valueFinderEnable.Checked = !valueFinderEnable.Checked;
                 checkboxEvents = true;
             }
+        }
+
+        private void valueMisaMino4w_CheckedChanged(object sender, EventArgs e) {
+            if (inMatch) {
+                if (checkboxEvents) {
+                    checkboxEvents = false;
+                    valueMisaMino4w.Checked = !valueMisaMino4w.Checked;
+                    checkboxEvents = true;
+                }
+            } else valueMisaMino_SelectedIndexChanged(sender, e);
         }
 
         private void valueSpeed_MouseWheel(object sender, MouseEventArgs e) {
@@ -688,7 +698,7 @@ namespace Zetris {
             scp.PlugIn(gamepadIndex);
             gamepadPluggedIn = true;
 
-            valueMisaMinoLevel.SelectedIndex = 4;
+            valueMisaMinoLevel.SelectedIndex = 9;
             valueMisaMinoStyle.SelectedIndex = 0;
 
             valueMisaMino_SelectedIndexChanged(sender, e);

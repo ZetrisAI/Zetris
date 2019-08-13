@@ -39,6 +39,7 @@
             this.valueGamepadInputs = new System.Windows.Forms.Label();
             this.labelSpeed = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.valueMisaMino4w = new System.Windows.Forms.CheckBox();
             this.valueGameState = new System.Windows.Forms.Label();
             this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
@@ -81,26 +82,26 @@
             // 
             // panelGamepad
             // 
-            resources.ApplyResources(this.panelGamepad, "panelGamepad");
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panelGamepad.Controls.Add(this.valueSpeed);
             this.panelGamepad.Controls.Add(this.buttonGamepad);
             this.panelGamepad.Controls.Add(this.labelGamepad);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
             this.panelGamepad.Controls.Add(this.labelSpeed);
+            resources.ApplyResources(this.panelGamepad, "panelGamepad");
             this.panelGamepad.Name = "panelGamepad";
             // 
             // valueSpeed
             // 
-            resources.ApplyResources(this.valueSpeed, "valueSpeed");
             this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.valueSpeed, "valueSpeed");
             this.valueSpeed.Name = "valueSpeed";
             this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueSpeed_MouseWheel);
             // 
             // buttonGamepad
             // 
-            resources.ApplyResources(this.buttonGamepad, "buttonGamepad");
             this.buttonGamepad.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.buttonGamepad, "buttonGamepad");
             this.buttonGamepad.Name = "buttonGamepad";
             this.buttonGamepad.Click += new System.EventHandler(this.buttonGamepad_Click);
             // 
@@ -122,8 +123,8 @@
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel1.Controls.Add(this.valueMisaMino4w);
             this.panel1.Controls.Add(this.valueGameState);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
@@ -131,7 +132,17 @@
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
+            // 
+            // valueMisaMino4w
+            // 
+            resources.ApplyResources(this.valueMisaMino4w, "valueMisaMino4w");
+            this.valueMisaMino4w.Checked = true;
+            this.valueMisaMino4w.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.valueMisaMino4w.Name = "valueMisaMino4w";
+            this.valueMisaMino4w.UseVisualStyleBackColor = true;
+            this.valueMisaMino4w.CheckedChanged += new System.EventHandler(this.valueMisaMino4w_CheckedChanged);
             // 
             // valueGameState
             // 
@@ -140,9 +151,9 @@
             // 
             // valueMisaMinoLevel
             // 
-            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
             this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
             this.valueMisaMinoLevel.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoLevel.FormattingEnabled = true;
             this.valueMisaMinoLevel.Items.AddRange(new object[] {
@@ -161,9 +172,9 @@
             // 
             // valueMisaMinoStyle
             // 
-            resources.ApplyResources(this.valueMisaMinoStyle, "valueMisaMinoStyle");
             this.valueMisaMinoStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.valueMisaMinoStyle, "valueMisaMinoStyle");
             this.valueMisaMinoStyle.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoStyle.FormattingEnabled = true;
             this.valueMisaMinoStyle.Items.AddRange(new object[] {
@@ -207,19 +218,19 @@
             // 
             // panel3
             // 
-            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valueMPPlayer);
             this.panel3.Controls.Add(this.labelMPPlayer);
             this.panel3.Controls.Add(this.valuePuzzleLeague);
             this.panel3.Controls.Add(this.labelConfig);
+            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
             // 
             // valueMPPlayer
             // 
-            resources.ApplyResources(this.valueMPPlayer, "valueMPPlayer");
             this.valueMPPlayer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMPPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.valueMPPlayer, "valueMPPlayer");
             this.valueMPPlayer.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMPPlayer.FormattingEnabled = true;
             this.valueMPPlayer.Items.AddRange(new object[] {
@@ -242,13 +253,13 @@
             // 
             // panel2
             // 
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel2.Controls.Add(this.valueFrametime);
             this.panel2.Controls.Add(this.valueSkipped);
             this.panel2.Controls.Add(this.labelMemoryScan);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelSkipped);
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // valueFrametime
@@ -279,11 +290,11 @@
             // 
             // panel4
             // 
-            resources.ApplyResources(this.panel4, "panel4");
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel4.Controls.Add(this.valueFinderSolved);
             this.panel4.Controls.Add(this.valueFinderEnable);
             this.panel4.Controls.Add(this.labelFinder);
+            resources.ApplyResources(this.panel4, "panel4");
             this.panel4.Name = "panel4";
             // 
             // valueFinderSolved
@@ -368,6 +379,7 @@
         private System.Windows.Forms.Label valueFinderSolved;
         private System.Windows.Forms.ComboBox valueMPPlayer;
         private System.Windows.Forms.Label labelMPPlayer;
+        private System.Windows.Forms.CheckBox valueMisaMino4w;
     }
 }
 
