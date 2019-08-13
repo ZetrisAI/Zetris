@@ -598,7 +598,7 @@ namespace Zetris {
                 
             valueInstructions.Text = String.Join(", ", movements);
             
-            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
+            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = valueMPPlayer.Enabled = !inMatch;
 
             valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count}" : "...";
         }
