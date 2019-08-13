@@ -70,8 +70,8 @@ namespace Zetris {
             numplayers = GameHelper.getPlayerCount(PPT);
             playerID = GameHelper.FindPlayer(PPT);
 
-            if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4)
-                playerID = 1 - playerID;
+            if (GameHelper.InMultiplayer(PPT))
+                playerID = valueMPPlayer.SelectedIndex;
             
             int temp = GameHelper.getRating(PPT);
 
@@ -677,9 +677,9 @@ namespace Zetris {
 
         void MainForm_Load(object sender, EventArgs e) {
             string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1 && args[1] == "--switch") {
-                gamepadIndex = 3;
-                this.Text = "switch";
+            if (args.Length > 2 && args[1] == "--gamepadIndex" && int.TryParse(args[2], out int index) && 1 <= index && index <= 4) {
+                gamepadIndex = index;
+                this.Text = args[2];
             }
 
             scp.UnplugAll();
@@ -692,6 +692,8 @@ namespace Zetris {
             valueMisaMinoStyle.SelectedIndex = 0;
 
             valueMisaMino_SelectedIndexChanged(sender, e);
+
+            valueMPPlayer.SelectedIndex = 1;
 
             PerfectClear.Finished += (bool success) => {
                 pcsolved = success;

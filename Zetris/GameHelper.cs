@@ -48,7 +48,7 @@ namespace Zetris {
         ));
 
         public static int FindPlayer(ProcessMemory Game) {
-            if (PlayerCount(Game) < 2)                     //TODO make this programmable
+            if (PlayerCount(Game) < 2)
                 return 0;
 
             int localSteam = LocalSteam(Game);
