@@ -72,7 +72,7 @@ namespace Zetris {
 
             if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4)
                 playerID = 1 - playerID;
-
+            
             int temp = GameHelper.getRating(PPT);
 
             if (temp != currentRating) {
