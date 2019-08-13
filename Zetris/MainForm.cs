@@ -21,30 +21,7 @@ namespace Zetris {
         void ResetGame() {
             if (!GameHelper.InSwap(PPT) || !valuePuzzleLeague.Checked) return;
 
-            ScanTimer.Enabled = false;
-
-            foreach (var process in Process.GetProcessesByName("puyopuyotetris")) {
-                process.Kill();
-            }
-
-            PPT.TrustProcess = false;
-
-            PPT.CheckProcess();
-
-            Thread.Sleep(10000);
-
-            PPT.CheckProcess();
-            Process.Start("steam://rungameid/546050");
-            ratingSafe = 0;
-            currentRating = 0;
-
-            Thread.Sleep(15000);
-
-            PPT.CheckProcess();
-
-            PPT.TrustProcess = true;
-
-            ScanTimer.Enabled = true;
+            Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
         }
 
         int gamepadIndex = 4;
@@ -80,7 +57,9 @@ namespace Zetris {
         int finalX, finalY, finalR;
         int[] queue = new int[5];
         bool register = false;
+        bool shouldHaveRegistered = false;
         int baseBoardHeight;
+        int old_y;
 
         int[,] pcboard;
         bool pcsolved = false;
@@ -118,8 +97,8 @@ namespace Zetris {
                 return false;
             }
 
-            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) != 0x0) {
-                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4) {
+            if (GameHelper.boardAddress(PPT, playerID) != 0x0 && GameHelper.OutsideMenu(PPT) && GameHelper.getBigFrameCount(PPT) > 1) {
+                if (numplayers < 2 && GameHelper.CurrentMode(PPT) == 4 && GameHelper.Online(PPT)) {
                     ResetGame();
                     return false;
                 }
@@ -149,15 +128,25 @@ namespace Zetris {
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
-                        PerfectClear.Find(pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], null, GameHelper.InSwap(PPT), 0);
+                        PerfectClear.Find(
+                            pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], 
+                            null, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), 0
+                        );
                     }
                 }
 
-                if (drop != state && drop == 1) {
-                    register = true;
+                if (drop != state) {
+                    if (drop == 1) {
+                        register = !shouldHaveRegistered;
+                        old_y = y;
+                    } else if (drop == 0) shouldHaveRegistered = true;
                 }
-                
-                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y <= 5) {
+
+                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y)) {
+                    shouldHaveRegistered = false;
+                    inputStarted = 0;
+                    softdrop = false;
+
                     int? hold = GameHelper.getHold(PPT, playerID);
                     int combo = GameHelper.getCombo(PPT, playerID);
 
@@ -226,7 +215,7 @@ namespace Zetris {
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                (movements[0] == Instruction.HOLD) ? current : hold, GameHelper.InSwap(PPT), combo
+                                (movements[0] == Instruction.HOLD) ? current : hold, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), combo
                             );
                         }
                     }
