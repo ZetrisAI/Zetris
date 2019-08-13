@@ -48,6 +48,8 @@
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
             this.labelDeveloper = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.valueMPPlayer = new System.Windows.Forms.ComboBox();
+            this.labelMPPlayer = new System.Windows.Forms.Label();
             this.labelConfig = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.valueFrametime = new System.Windows.Forms.Label();
@@ -59,8 +61,6 @@
             this.valueFinderSolved = new System.Windows.Forms.Label();
             this.valueFinderEnable = new System.Windows.Forms.CheckBox();
             this.labelFinder = new System.Windows.Forms.Label();
-            this.valueMPPlayer = new System.Windows.Forms.ComboBox();
-            this.labelMPPlayer = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -81,26 +81,26 @@
             // 
             // panelGamepad
             // 
+            resources.ApplyResources(this.panelGamepad, "panelGamepad");
             this.panelGamepad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panelGamepad.Controls.Add(this.valueSpeed);
             this.panelGamepad.Controls.Add(this.buttonGamepad);
             this.panelGamepad.Controls.Add(this.labelGamepad);
             this.panelGamepad.Controls.Add(this.valueGamepadInputs);
             this.panelGamepad.Controls.Add(this.labelSpeed);
-            resources.ApplyResources(this.panelGamepad, "panelGamepad");
             this.panelGamepad.Name = "panelGamepad";
             // 
             // valueSpeed
             // 
-            this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.valueSpeed, "valueSpeed");
+            this.valueSpeed.BackColor = System.Drawing.Color.Transparent;
             this.valueSpeed.Name = "valueSpeed";
             this.valueSpeed.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.valueSpeed_MouseWheel);
             // 
             // buttonGamepad
             // 
-            this.buttonGamepad.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.buttonGamepad, "buttonGamepad");
+            this.buttonGamepad.BackColor = System.Drawing.Color.Transparent;
             this.buttonGamepad.Name = "buttonGamepad";
             this.buttonGamepad.Click += new System.EventHandler(this.buttonGamepad_Click);
             // 
@@ -122,6 +122,7 @@
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel1.Controls.Add(this.valueGameState);
             this.panel1.Controls.Add(this.valueMisaMinoLevel);
@@ -130,7 +131,6 @@
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMinoLevel);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // valueGameState
@@ -140,9 +140,9 @@
             // 
             // valueMisaMinoLevel
             // 
+            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
             this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
             this.valueMisaMinoLevel.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoLevel.FormattingEnabled = true;
             this.valueMisaMinoLevel.Items.AddRange(new object[] {
@@ -161,9 +161,9 @@
             // 
             // valueMisaMinoStyle
             // 
+            resources.ApplyResources(this.valueMisaMinoStyle, "valueMisaMinoStyle");
             this.valueMisaMinoStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueMisaMinoStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.valueMisaMinoStyle, "valueMisaMinoStyle");
             this.valueMisaMinoStyle.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueMisaMinoStyle.FormattingEnabled = true;
             this.valueMisaMinoStyle.Items.AddRange(new object[] {
@@ -172,7 +172,8 @@
             resources.GetString("valueMisaMinoStyle.Items2"),
             resources.GetString("valueMisaMinoStyle.Items3"),
             resources.GetString("valueMisaMinoStyle.Items4"),
-            resources.GetString("valueMisaMinoStyle.Items5")});
+            resources.GetString("valueMisaMinoStyle.Items5"),
+            resources.GetString("valueMisaMinoStyle.Items6")});
             this.valueMisaMinoStyle.Name = "valueMisaMinoStyle";
             this.valueMisaMinoStyle.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
@@ -206,13 +207,32 @@
             // 
             // panel3
             // 
+            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel3.Controls.Add(this.valueMPPlayer);
             this.panel3.Controls.Add(this.labelMPPlayer);
             this.panel3.Controls.Add(this.valuePuzzleLeague);
             this.panel3.Controls.Add(this.labelConfig);
-            resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
+            // 
+            // valueMPPlayer
+            // 
+            resources.ApplyResources(this.valueMPPlayer, "valueMPPlayer");
+            this.valueMPPlayer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.valueMPPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.valueMPPlayer.ForeColor = System.Drawing.Color.Gainsboro;
+            this.valueMPPlayer.FormattingEnabled = true;
+            this.valueMPPlayer.Items.AddRange(new object[] {
+            resources.GetString("valueMPPlayer.Items"),
+            resources.GetString("valueMPPlayer.Items1"),
+            resources.GetString("valueMPPlayer.Items2"),
+            resources.GetString("valueMPPlayer.Items3")});
+            this.valueMPPlayer.Name = "valueMPPlayer";
+            // 
+            // labelMPPlayer
+            // 
+            resources.ApplyResources(this.labelMPPlayer, "labelMPPlayer");
+            this.labelMPPlayer.Name = "labelMPPlayer";
             // 
             // labelConfig
             // 
@@ -222,13 +242,13 @@
             // 
             // panel2
             // 
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel2.Controls.Add(this.valueFrametime);
             this.panel2.Controls.Add(this.valueSkipped);
             this.panel2.Controls.Add(this.labelMemoryScan);
             this.panel2.Controls.Add(this.labelFrames);
             this.panel2.Controls.Add(this.labelSkipped);
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
             // 
             // valueFrametime
@@ -259,11 +279,11 @@
             // 
             // panel4
             // 
+            resources.ApplyResources(this.panel4, "panel4");
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel4.Controls.Add(this.valueFinderSolved);
             this.panel4.Controls.Add(this.valueFinderEnable);
             this.panel4.Controls.Add(this.labelFinder);
-            resources.ApplyResources(this.panel4, "panel4");
             this.panel4.Name = "panel4";
             // 
             // valueFinderSolved
@@ -285,25 +305,6 @@
             resources.ApplyResources(this.labelFinder, "labelFinder");
             this.labelFinder.BackColor = System.Drawing.Color.Transparent;
             this.labelFinder.Name = "labelFinder";
-            // 
-            // valueMPPlayer
-            // 
-            this.valueMPPlayer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.valueMPPlayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.valueMPPlayer, "valueMPPlayer");
-            this.valueMPPlayer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueMPPlayer.FormattingEnabled = true;
-            this.valueMPPlayer.Items.AddRange(new object[] {
-            resources.GetString("valueMPPlayer.Items"),
-            resources.GetString("valueMPPlayer.Items1"),
-            resources.GetString("valueMPPlayer.Items2"),
-            resources.GetString("valueMPPlayer.Items3")});
-            this.valueMPPlayer.Name = "valueMPPlayer";
-            // 
-            // labelMPPlayer
-            // 
-            resources.ApplyResources(this.labelMPPlayer, "labelMPPlayer");
-            this.labelMPPlayer.Name = "labelMPPlayer";
             // 
             // MainForm
             // 

@@ -146,6 +146,9 @@
     <value>포와이드</value>
   </data>
   <data name="valueMisaMinoStyle.Items5" xml:space="preserve">
+    <value>티스핀3</value>
+  </data>
+  <data name="valueMisaMinoStyle.Items6" xml:space="preserve">
     <value>2와이드</value>
   </data>
   <data name="labelMisaMino.Size" type="System.Drawing.Size, System.Drawing">
