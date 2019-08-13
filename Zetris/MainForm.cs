@@ -89,7 +89,7 @@ namespace Zetris {
             bool ret = false;
 
             numplayers = GameHelper.getPlayerCount(PPT);
-            playerID = 3;// GameHelper.FindPlayer(PPT);
+            playerID = GameHelper.FindPlayer(PPT);
 
             if (GameHelper.InMultiplayer(PPT) && gamepadIndex == 4)
                 playerID = 1 - playerID;
