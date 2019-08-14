@@ -37,6 +37,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ProcessMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ProcessMemory.1.0.0\lib\net45\ProcessMemory.dll</HintPath>
+    </Reference>
     <Reference Include="ScpDriverInterface">
       <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
@@ -127,6 +130,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,10 +151,6 @@
     <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
       <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
       <Name>MisaMinoNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ProcessMemory\ProcessMemory\ProcessMemory.csproj">
-      <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
-      <Name>ProcessMemory</Name>
     </ProjectReference>
     <ProjectReference Include="D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj">
       <Project>{12ac9064-faf9-4714-8e9f-9ec11d897daf}</Project>

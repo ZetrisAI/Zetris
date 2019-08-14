@@ -10,49 +10,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisaMinoNET", "..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj", "{AA5BA1EC-C51B-49F2-BE93-B018601E8111}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessMemory", "..\ProcessMemory\ProcessMemory\ProcessMemory.csproj", "{35B5C872-D829-428F-9DFA-8EF2B4DE194C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectClearNET", "D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj", "{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfinder-dll", "D:\sfinder-cpp\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj", "{F71BF46C-2C69-40AF-A5DF-A73E25A21997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Debug|x64.ActiveCfg = Debug|x64
 		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Debug|x64.Build.0 = Debug|x64
-		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Release|Any CPU.ActiveCfg = Release|x64
 		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Release|x64.ActiveCfg = Release|x64
 		{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}.Release|x64.Build.0 = Release|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.ActiveCfg = Debug|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.Build.0 = Debug|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|Any CPU.ActiveCfg = Release|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.ActiveCfg = Release|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.Build.0 = Release|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Debug|x64.ActiveCfg = Debug|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Debug|x64.Build.0 = Debug|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Release|Any CPU.ActiveCfg = Release|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Release|x64.ActiveCfg = Release|x64
-		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Release|x64.Build.0 = Release|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.ActiveCfg = Debug|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.Build.0 = Debug|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|Any CPU.ActiveCfg = Release|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.ActiveCfg = Release|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.Build.0 = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|Any CPU.ActiveCfg = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|Any CPU.Build.0 = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.ActiveCfg = Debug|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.Build.0 = Debug|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|Any CPU.ActiveCfg = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.ActiveCfg = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
