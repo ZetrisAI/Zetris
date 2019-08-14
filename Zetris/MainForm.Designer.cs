@@ -138,8 +138,6 @@
             // valueMisaMino4w
             // 
             resources.ApplyResources(this.valueMisaMino4w, "valueMisaMino4w");
-            this.valueMisaMino4w.Checked = true;
-            this.valueMisaMino4w.CheckState = System.Windows.Forms.CheckState.Checked;
             this.valueMisaMino4w.Name = "valueMisaMino4w";
             this.valueMisaMino4w.UseVisualStyleBackColor = true;
             this.valueMisaMino4w.CheckedChanged += new System.EventHandler(this.valueMisaMino4w_CheckedChanged);
