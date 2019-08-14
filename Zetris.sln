@@ -5,6 +5,7 @@ VisualStudioVersion = 15.0.28010.2019
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{9BBBC443-4C69-44CE-8C41-19FD0C68F2C2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D} = {9B91BF39-F215-4609-B4BD-B203C8C4A70D}
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997} = {F71BF46C-2C69-40AF-A5DF-A73E25A21997}
 	EndProjectSection
 EndProject
@@ -13,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectClearNET", "D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj", "{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfinder-dll", "D:\sfinder-cpp\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj", "{F71BF46C-2C69-40AF-A5DF-A73E25A21997}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MisaMino", "..\MisaMino\MisaMinoNET\MisaMino\MisaMino.vcxproj", "{9B91BF39-F215-4609-B4BD-B203C8C4A70D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +39,10 @@ Global
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.Build.0 = Debug|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.ActiveCfg = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.ActiveCfg = Debug|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.Build.0 = Debug|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.ActiveCfg = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

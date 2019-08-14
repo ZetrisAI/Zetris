@@ -152,6 +152,10 @@
       <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
       <Name>MisaMinoNET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMino\MisaMino.vcxproj">
+      <Project>{9b91bf39-f215-4609-b4bd-b203c8c4a70d}</Project>
+      <Name>MisaMino</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj">
       <Project>{12ac9064-faf9-4714-8e9f-9ec11d897daf}</Project>
       <Name>PerfectClearNET</Name>
