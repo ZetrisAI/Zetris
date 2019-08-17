@@ -597,13 +597,13 @@ namespace Zetris {
                 
             valueInstructions.Text = String.Join(", ", movements);
             
-            valueMisaMinoLevel.Enabled = valueMisaMinoStyle.Enabled = !inMatch;
+            valueMisaMinoStyle.Enabled = valueMPPlayer.Enabled = !inMatch;
 
             valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count}" : "...";
         }
 
         private void valueMisaMino_SelectedIndexChanged(object sender, EventArgs e) {
-            MisaMino.Configure(valueMisaMinoLevel.SelectedIndex + 1, valueMisaMinoStyle.SelectedIndex + 1, valueMisaMino4w.Checked);
+            MisaMino.Configure(valueMisaMinoStyle.SelectedIndex + 1, valueMisaMino4w.Checked);
         }
 
         bool checkboxEvents = true;
@@ -696,8 +696,7 @@ namespace Zetris {
             scp = new ScpBus();
             scp.PlugIn(gamepadIndex);
             gamepadPluggedIn = true;
-
-            valueMisaMinoLevel.SelectedIndex = 9;
+            
             valueMisaMinoStyle.SelectedIndex = 0;
 
             valueMisaMino_SelectedIndexChanged(sender, e);
