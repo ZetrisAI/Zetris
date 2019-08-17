@@ -122,14 +122,14 @@
   </metadata>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="valueInstructions.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+    <value>Bottom</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="valueInstructions.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
   </data>
   <data name="valueInstructions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 115</value>
+    <value>5, 90</value>
   </data>
   <data name="valueInstructions.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 32</value>
@@ -154,7 +154,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;valueInstructions.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="valueSpeed.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
@@ -307,7 +307,7 @@
     <value>4</value>
   </data>
   <data name="panelGamepad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 214</value>
+    <value>9, 189</value>
   </data>
   <data name="panelGamepad.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 62</value>
@@ -327,6 +327,90 @@
   <data name="&gt;&gt;panelGamepad.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="&gt;&gt;valueMisaMino4w.Name" xml:space="preserve">
+    <value>valueMisaMino4w</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMino4w.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMino4w.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMino4w.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;valueGameState.Name" xml:space="preserve">
+    <value>valueGameState</value>
+  </data>
+  <data name="&gt;&gt;valueGameState.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueGameState.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;valueGameState.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMinoStyle.Name" xml:space="preserve">
+    <value>valueMisaMinoStyle</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMinoStyle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMinoStyle.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;valueMisaMinoStyle.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMino.Name" xml:space="preserve">
+    <value>labelMisaMino</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMino.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMino.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMino.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMinoStyle.Name" xml:space="preserve">
+    <value>labelMisaMinoStyle</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMinoStyle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMinoStyle.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;labelMisaMinoStyle.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 10</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 126</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="valueMisaMino4w.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="valueMisaMino4w.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -334,7 +418,7 @@
     <value>NoControl</value>
   </data>
   <data name="valueMisaMino4w.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 76</value>
+    <value>7, 51</value>
   </data>
   <data name="valueMisaMino4w.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 17</value>
@@ -357,8 +441,11 @@
   <data name="&gt;&gt;valueMisaMino4w.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="valueGameState.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="valueGameState.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 96</value>
+    <value>8, 71</value>
   </data>
   <data name="valueGameState.Size" type="System.Drawing.Size, System.Drawing">
     <value>145, 13</value>
@@ -383,63 +470,6 @@
   </data>
   <data name="&gt;&gt;valueGameState.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="valueMisaMinoLevel.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items1" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items2" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items3" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items4" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items5" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items6" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items7" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items8" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="valueMisaMinoLevel.Items9" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="valueMisaMinoLevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>47, 50</value>
-  </data>
-  <data name="valueMisaMinoLevel.MaxDropDownItems" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="valueMisaMinoLevel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 21</value>
-  </data>
-  <data name="valueMisaMinoLevel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;valueMisaMinoLevel.Name" xml:space="preserve">
-    <value>valueMisaMinoLevel</value>
-  </data>
-  <data name="&gt;&gt;valueMisaMinoLevel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;valueMisaMinoLevel.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;valueMisaMinoLevel.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="valueMisaMinoStyle.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -487,7 +517,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;valueMisaMinoStyle.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="labelMisaMino.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -517,7 +547,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;labelMisaMino.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="labelMisaMinoStyle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -544,55 +574,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;labelMisaMinoStyle.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="labelMisaMinoLevel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="labelMisaMinoLevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 54</value>
-  </data>
-  <data name="labelMisaMinoLevel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>36, 13</value>
-  </data>
-  <data name="labelMisaMinoLevel.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="labelMisaMinoLevel.Text" xml:space="preserve">
-    <value>Level:</value>
-  </data>
-  <data name="&gt;&gt;labelMisaMinoLevel.Name" xml:space="preserve">
-    <value>labelMisaMinoLevel</value>
-  </data>
-  <data name="&gt;&gt;labelMisaMinoLevel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;labelMisaMinoLevel.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;labelMisaMinoLevel.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 10</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 151</value>
-  </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="valuePuzzleLeague.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -736,7 +718,7 @@
     <value>3</value>
   </data>
   <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 282</value>
+    <value>9, 257</value>
   </data>
   <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 67</value>
@@ -901,7 +883,7 @@
     <value>4</value>
   </data>
   <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 355</value>
+    <value>9, 330</value>
   </data>
   <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 60</value>
@@ -1009,7 +991,7 @@
     <value>2</value>
   </data>
   <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 167</value>
+    <value>9, 142</value>
   </data>
   <data name="panel4.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 41</value>
@@ -1039,7 +1021,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>177, 425</value>
+    <value>177, 399</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

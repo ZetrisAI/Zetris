@@ -41,11 +41,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.valueMisaMino4w = new System.Windows.Forms.CheckBox();
             this.valueGameState = new System.Windows.Forms.Label();
-            this.valueMisaMinoLevel = new System.Windows.Forms.ComboBox();
             this.valueMisaMinoStyle = new System.Windows.Forms.ComboBox();
             this.labelMisaMino = new System.Windows.Forms.Label();
             this.labelMisaMinoStyle = new System.Windows.Forms.Label();
-            this.labelMisaMinoLevel = new System.Windows.Forms.Label();
             this.valuePuzzleLeague = new System.Windows.Forms.CheckBox();
             this.labelDeveloper = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -126,12 +124,10 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.panel1.Controls.Add(this.valueMisaMino4w);
             this.panel1.Controls.Add(this.valueGameState);
-            this.panel1.Controls.Add(this.valueMisaMinoLevel);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
             this.panel1.Controls.Add(this.labelMisaMino);
             this.panel1.Controls.Add(this.valueInstructions);
             this.panel1.Controls.Add(this.labelMisaMinoStyle);
-            this.panel1.Controls.Add(this.labelMisaMinoLevel);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -146,27 +142,6 @@
             // 
             resources.ApplyResources(this.valueGameState, "valueGameState");
             this.valueGameState.Name = "valueGameState";
-            // 
-            // valueMisaMinoLevel
-            // 
-            this.valueMisaMinoLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.valueMisaMinoLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.valueMisaMinoLevel, "valueMisaMinoLevel");
-            this.valueMisaMinoLevel.ForeColor = System.Drawing.Color.Gainsboro;
-            this.valueMisaMinoLevel.FormattingEnabled = true;
-            this.valueMisaMinoLevel.Items.AddRange(new object[] {
-            resources.GetString("valueMisaMinoLevel.Items"),
-            resources.GetString("valueMisaMinoLevel.Items1"),
-            resources.GetString("valueMisaMinoLevel.Items2"),
-            resources.GetString("valueMisaMinoLevel.Items3"),
-            resources.GetString("valueMisaMinoLevel.Items4"),
-            resources.GetString("valueMisaMinoLevel.Items5"),
-            resources.GetString("valueMisaMinoLevel.Items6"),
-            resources.GetString("valueMisaMinoLevel.Items7"),
-            resources.GetString("valueMisaMinoLevel.Items8"),
-            resources.GetString("valueMisaMinoLevel.Items9")});
-            this.valueMisaMinoLevel.Name = "valueMisaMinoLevel";
-            this.valueMisaMinoLevel.SelectedIndexChanged += new System.EventHandler(this.valueMisaMino_SelectedIndexChanged);
             // 
             // valueMisaMinoStyle
             // 
@@ -196,11 +171,6 @@
             // 
             resources.ApplyResources(this.labelMisaMinoStyle, "labelMisaMinoStyle");
             this.labelMisaMinoStyle.Name = "labelMisaMinoStyle";
-            // 
-            // labelMisaMinoLevel
-            // 
-            resources.ApplyResources(this.labelMisaMinoLevel, "labelMisaMinoLevel");
-            this.labelMisaMinoLevel.Name = "labelMisaMinoLevel";
             // 
             // valuePuzzleLeague
             // 
@@ -354,9 +324,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelMisaMino;
         private System.Windows.Forms.Label labelMisaMinoStyle;
-        private System.Windows.Forms.Label labelMisaMinoLevel;
         private System.Windows.Forms.ComboBox valueMisaMinoStyle;
-        private System.Windows.Forms.ComboBox valueMisaMinoLevel;
         private System.Windows.Forms.CheckBox valuePuzzleLeague;
         private System.Windows.Forms.Label labelDeveloper;
         private System.Windows.Forms.Panel panel3;
