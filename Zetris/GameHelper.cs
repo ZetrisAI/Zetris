@@ -1147,5 +1147,21 @@ namespace Zetris {
                 )) + 0x40
             )) + 0x28
         )) != 0;
+
+        public static uint RNG(ProcessMemory Game, int index) => Game.ReadUInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x140598A20 + 8 * index
+                                )) + 0x138
+                            )) + 0x10
+                        )) + 0x80
+                    )) + 0x78
+                )) + 0x78
+            )) + 0x80
+        ));
     }
 }
