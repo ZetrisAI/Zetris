@@ -622,6 +622,8 @@ namespace Zetris {
             
             valueMisaMinoStyle.Enabled = valueMPPlayer.Enabled = !inMatch;
 
+            valueMisaMinoNodes.Text = MisaMino.LastSolution.Nodes.ToString();
+
             valueFinderSolved.Text = (valueFinderEnable.Checked && inMatch && pcsolved) ? $"{PerfectClear.LastSolution.Count}" : "...";
         }
 

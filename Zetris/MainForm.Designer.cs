@@ -60,6 +60,7 @@
             this.valueFinderSolved = new System.Windows.Forms.Label();
             this.valueFinderEnable = new System.Windows.Forms.CheckBox();
             this.labelFinder = new System.Windows.Forms.Label();
+            this.valueMisaMinoNodes = new System.Windows.Forms.Label();
             this.panelGamepad.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -122,6 +123,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.panel1.Controls.Add(this.valueMisaMinoNodes);
             this.panel1.Controls.Add(this.valueMisaMino4w);
             this.panel1.Controls.Add(this.valueGameState);
             this.panel1.Controls.Add(this.valueMisaMinoStyle);
@@ -285,6 +287,11 @@
             this.labelFinder.BackColor = System.Drawing.Color.Transparent;
             this.labelFinder.Name = "labelFinder";
             // 
+            // valueMisaMinoNodes
+            // 
+            resources.ApplyResources(this.valueMisaMinoNodes, "valueMisaMinoNodes");
+            this.valueMisaMinoNodes.Name = "valueMisaMinoNodes";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -346,6 +353,7 @@
         private System.Windows.Forms.ComboBox valueMPPlayer;
         private System.Windows.Forms.Label labelMPPlayer;
         private System.Windows.Forms.CheckBox valueMisaMino4w;
+        private System.Windows.Forms.Label valueMisaMinoNodes;
     }
 }
 
