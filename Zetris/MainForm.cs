@@ -220,7 +220,7 @@ namespace Zetris {
                             pcsolved = false;
                     }
 
-                    wasHold = movements[0] == Instruction.HOLD;
+                    wasHold = (movements.Count > 0)? movements[0] == Instruction.HOLD : false;
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
