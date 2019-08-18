@@ -262,6 +262,12 @@ namespace Zetris {
             }
         }
 
+        public static bool FitPieceWithConvert(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            return FitPiece(board, piece, x, y, r);
+        }
+
         public static int FindInputGoalX(int[,] board, int piece, int x, int y, int r, int d) {
             fixInput(piece, ref x, ref y, r);
 
@@ -334,6 +340,25 @@ namespace Zetris {
             return true;
         }
 
+        public static void ClearLines(int[,] board, out int cleared) {
+            cleared = 0;
+
+            for (int i = 25; i >= 0; i--) {
+                int fill = 0;
+                for (int j = 0; j < 10; j++)
+                    fill += Convert.ToInt32(board[j, i] != 255);
+
+                if (fill == 10) {
+                    cleared++;
+                    for (int j = i; j < 26; j++) {
+                        for (int k = 0; k < 10; k++) {
+                            board[k, j] = board[k, j + 1];
+                        }
+                    }
+                }
+            }
+        }
+
         public static void ApplyPiece(int[,] board, int piece, int x, int y, int r) {
             if (piece == 6) {
                 if (r == 1) {
@@ -358,19 +383,7 @@ namespace Zetris {
                     if (pieces[piece][r][i, j] != -1)
                         board[x + j, y - i] = pieces[piece][r][i, j];
 
-            for (int i = 25; i >= 0; i--) {
-                int fill = 0;
-                for (int j = 0; j < 10; j++)
-                    fill += Convert.ToInt32(board[j, i] != 255);
-
-                if (fill == 10) {
-                    for (int j = i; j < 26; j++) {
-                        for (int k = 0; k < 10; k++) {
-                            board[k, j] = board[k, j + 1];
-                        }
-                    }
-                }
-            }
+            ClearLines(board, out int _);
         }
 
         public static bool BoardEquals(int[,] a, int[,] b) {

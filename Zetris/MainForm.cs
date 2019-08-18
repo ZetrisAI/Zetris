@@ -8,6 +8,9 @@ using MisaMinoNET;
 using PerfectClearNET;
 using ScpDriverInterface;
 
+// Suppresses naming rule violation
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006")]
+
 namespace Zetris {
     public partial class MainForm : Form {
         public MainForm() {
@@ -59,6 +62,9 @@ namespace Zetris {
         bool shouldHaveRegistered = false;
         int baseBoardHeight;
         int old_y;
+
+        bool misasolved = false;
+        bool wasHold;
 
         int[,] pcboard;
         bool pcsolved = false;
@@ -115,7 +121,9 @@ namespace Zetris {
                 }
 
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
-                    MisaMino.Reset();
+                    MisaMino.Reset(); // this will abort as well
+                    misasolved = false;
+                    wasHold = false;
                     register = false;
                     movements.Clear();
                     inputStarted = 0;
@@ -125,19 +133,42 @@ namespace Zetris {
                     PerfectClear.Abort();
                     pcsolved = false;
 
+                    pcboard = (int[,])board.Clone();
+                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray();
+
+                    MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, 0);
+
                     if (valueFinderEnable.Checked) {
-                        pcboard = (int[,])board.Clone();
                         PerfectClear.Find(
-                            pcboard, pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[0], 
+                            pcboard, q, pieces[0], 
                             null, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), 0
                         );
                     }
                 }
 
+                int? hold = GameHelper.getHold(PPT, playerID);
+                int combo = GameHelper.getCombo(PPT, playerID);
+
                 if (drop != state) {
                     if (drop == 1) {
                         register = !shouldHaveRegistered;
                         old_y = y;
+
+                        int start = Convert.ToInt32(hold == null && wasHold);
+
+                        int[,] misaboard = (int[,])board.Clone();
+                        InputHelper.ClearLines(misaboard, out int cleared);
+
+                        MisaMino.FindMove(
+                            pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(),
+                            pieces[start],
+                            wasHold? current : hold,
+                            21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
+                            misaboard,
+                            combo + Convert.ToInt32(cleared > 0),
+                            GameHelper.getGarbageOverhead(PPT, playerID) // todo
+                        );
+
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
@@ -146,11 +177,9 @@ namespace Zetris {
                     inputStarted = 0;
                     softdrop = false;
 
-                    int? hold = GameHelper.getHold(PPT, playerID);
-                    int combo = GameHelper.getCombo(PPT, playerID);
-
                     bool pathSuccess = false;
 
+                    if (MisaMino.Running) MisaMino.Abort();
                     if (PerfectClear.Running) PerfectClear.Abort();
 
                     if (valueFinderEnable.Checked && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
@@ -175,20 +204,12 @@ namespace Zetris {
                     }
 
                     if (!pathSuccess) {
-                        movements = MisaMino.FindMove(
-                            pieces,
-                            current,
-                            hold,
-                            baseBoardHeight,
-                            board,
-                            combo,
-                            GameHelper.getGarbageOverhead(PPT, playerID),
-                            ref pieceUsed,
-                            ref spinUsed,
-                            ref finalX,
-                            ref finalY,
-                            ref finalR
-                        );
+                        movements = MisaMino.LastSolution.Instructions;
+                        pieceUsed = MisaMino.LastSolution.PieceUsed;
+                        spinUsed = MisaMino.LastSolution.SpinUsed;
+                        finalX = MisaMino.LastSolution.FinalX;
+                        finalY = MisaMino.LastSolution.FinalY;
+                        finalR = MisaMino.LastSolution.FinalR;
 
                         pcsolved = false;
 
@@ -198,6 +219,8 @@ namespace Zetris {
                         if (PerfectClear.LastSolution.Count == 0)
                             pcsolved = false;
                     }
+
+                    wasHold = movements[0] == Instruction.HOLD;
 
                     if (valueFinderEnable.Checked) {
                         pcboard = (int[,])board.Clone();
@@ -210,11 +233,11 @@ namespace Zetris {
                         }
 
                         if (movements.Count > 0 && !pcsolved && !fuck) {
-                            int start = Convert.ToInt32(hold == null && movements[0] == Instruction.HOLD);
+                            int start = Convert.ToInt32(hold == null && wasHold);
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                (movements[0] == Instruction.HOLD) ? current : hold, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), combo
+                                wasHold? current : hold, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), combo
                             );
                         }
                     }
@@ -276,7 +299,7 @@ namespace Zetris {
                             case Instruction.R: inputGoal = GameHelper.getPiecePositionX(PPT, playerID) + 1; break;
                             case Instruction.DROP: inputGoal = 1; break;
                             case Instruction.HOLD: inputGoal = GameHelper.getHoldPointer(PPT, playerID); break;
-
+                            
                             case Instruction.D:
                                 inputGoal = Math.Min(
                                     GameHelper.getPiecePositionY(PPT, playerID) + 1,
@@ -702,6 +725,10 @@ namespace Zetris {
             valueMisaMino_SelectedIndexChanged(sender, e);
 
             valueMPPlayer.SelectedIndex = 1;
+
+            MisaMino.Finished += (bool success) => {
+                misasolved = success;
+            };
 
             PerfectClear.Finished += (bool success) => {
                 pcsolved = success;
