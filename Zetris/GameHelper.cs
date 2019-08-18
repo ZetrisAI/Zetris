@@ -1087,7 +1087,9 @@ namespace Zetris {
                 switch (index) {
                     case 0:
                         ptr = Game.ReadInt32(new IntPtr(
-                            0x1405989D0
+                            Game.ReadInt32(new IntPtr(
+                                0x140598A20
+                            )) + 0x1F8
                         ));
                         break;
 
