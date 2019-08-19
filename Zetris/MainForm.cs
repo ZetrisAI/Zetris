@@ -141,7 +141,7 @@ namespace Zetris {
                     if (valueFinderEnable.Checked) {
                         PerfectClear.Find(
                             pcboard, q, pieces[0], 
-                            null, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), 0
+                            null, valueMisaMinoStyle.SelectedIndex != 3, 8, GameHelper.InSwap(PPT), 0
                         );
                     }
                 }
@@ -237,7 +237,7 @@ namespace Zetris {
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                wasHold? current : hold, valueMisaMinoStyle.SelectedIndex != 3, GameHelper.InSwap(PPT), combo
+                                wasHold? current : hold, valueMisaMinoStyle.SelectedIndex != 3, 8, GameHelper.InSwap(PPT), combo
                             );
                         }
                     }
