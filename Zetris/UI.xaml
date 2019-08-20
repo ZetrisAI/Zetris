@@ -3,13 +3,13 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Zetris="clr-namespace:Zetris"
-                      Title="Zetris Configuration" TitleCharacterCasing="Normal" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+                      Title="Zetris" TitleCharacterCasing="Normal" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
                       BorderThickness="0" Background="#0A0A0A" Foreground="#DCDCDC" GlowBrush="{DynamicResource AccentColorBrush}"
                       SizeToContent="WidthAndHeight">
 
     <StackPanel Margin="15 10">
         <StackPanel Margin="0 0 0 15" HorizontalAlignment="Center">
-            <TextBlock Margin="5 0 5 1" Foreground="#707070" Text="Inactive" />
+            <TextBlock Margin="5 0 5 1" Foreground="#707070" Text="Inactive" x:Name="State" />
             
             <Border BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         </StackPanel>

@@ -11,6 +11,7 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
+        static UI Window = null;
         static int playerID = 0;
 
         static void ResetGame() {
@@ -600,7 +601,7 @@ namespace Zetris {
         }
 
         static void updateUI() {
-            // TODO pass inMatch to UI
+            Window?.SetActive(inMatch);
         }
 
         public static void UpdateConfig() =>
@@ -637,7 +638,9 @@ namespace Zetris {
 
         public static bool Started { get; private set; } = false;
 
-        public static void Start() {
+        public static void Start(UI window) {
+            Window = window;
+
             Started = true;
 
             Task.Run(() => Loop());

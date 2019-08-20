@@ -26,7 +26,21 @@ namespace Zetris {
             C4W.IsChecked = Preferences.C4W;
             Player.RawValue = Preferences.Player + 1;
 
-            Bot.Start();
+            Bot.Start(this);
+        }
+
+        bool Active = false;
+        public void SetActive(bool state) {
+            if (Active != state) {
+                Active = state;
+
+                Dispatcher.InvokeAsync(() => UpdateActive());
+            }
+        }
+
+        void UpdateActive() {
+            State.Text = Active? "Active" : "Inactive";
+            Style.IsEnabled = Speed.Enabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
         }
 
         void StyleChanged(object sender, SelectionChangedEventArgs e) =>
