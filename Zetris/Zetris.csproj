@@ -72,6 +72,9 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Dial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,6 +82,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dial.xaml.cs">
+      <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI.xaml.cs">
       <DependentUpon>UI.xaml</DependentUpon>
