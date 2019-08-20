@@ -83,7 +83,9 @@ namespace Zetris {
         double _default = 50;
         public double Default {
             get => _default;
-            set => _default = Math.Max(_min, Math.Min(_max, value));
+            set {
+                Value = ToValue(_raw = _default = Math.Max(_min, Math.Min(_max, value)));
+            }
         }
 
         string _title = "Dial";

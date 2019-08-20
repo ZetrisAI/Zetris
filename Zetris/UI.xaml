@@ -22,7 +22,7 @@
 
             <TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="Style:" />
 
-            <ComboBox Grid.Column="1" Height="14" SelectedIndex="0">
+            <ComboBox Grid.Column="1" Height="14" SelectedIndex="0" x:Name="Style" SelectionChanged="StyleChanged">
                 <ComboBoxItem Content="T-Spin+" />
                 <ComboBoxItem Content="T-Spin" />
                 <ComboBoxItem Content="Combo" />
@@ -33,17 +33,17 @@
             </ComboBox>
         </Grid>
 
-        <Zetris:Dial Margin="0 0 0 5" Title="Speed:" Scale="0.5" Minimum="10" Maximum="100" Unit="%" />
+        <Zetris:Dial Margin="0 0 0 5" Title="Speed:" Scale="0.5" Minimum="10" Maximum="100" Unit="%" x:Name="Speed" Changed="SpeedChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
-        <CheckBox Margin="0 0 0 5" Content="Perfect Clear Finder" />
+        <CheckBox Margin="0 0 0 5" Content="Perfect Clear Finder" x:Name="PerfectClear" Click="PerfectClearChanged" />
 
-        <CheckBox Margin="0 0 0 5" Content="Center 4-Wide" />
+        <CheckBox Margin="0 0 0 5" Content="Center 4-Wide" x:Name="C4W" Click="C4WChanged" />
         
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
-        <Zetris:Dial Margin="0 0 0 5" Title="MP Arcade Player:" Scale="0.5" FillStart="False" Minimum="1" Maximum="4" Unit="P" />
+        <Zetris:Dial Margin="0 0 0 5" Title="MP Arcade Player:" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="4" Unit="P" x:Name="Player" Changed="PlayerChanged" />
 
         <CheckBox Content="Gamepad Connected" />
     </StackPanel>

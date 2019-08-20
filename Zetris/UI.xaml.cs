@@ -17,6 +17,29 @@ using MahApps.Metro.Controls;
 
 namespace Zetris {
     public partial class UI {
-        public UI() => InitializeComponent();
+        public UI() {
+            InitializeComponent();
+
+            Style.SelectedIndex = Preferences.Style;
+            Speed.RawValue = Preferences.Speed;
+            PerfectClear.IsChecked = Preferences.PerfectClear;
+            C4W.IsChecked = Preferences.C4W;
+            Player.RawValue = Preferences.Player + 1;
+        }
+
+        void StyleChanged(object sender, SelectionChangedEventArgs e)
+            => Preferences.Style = Style.SelectedIndex;
+
+        void SpeedChanged(double NewValue)
+            => Preferences.Speed = (int)Speed.RawValue;
+
+        void PerfectClearChanged(object sender, RoutedEventArgs e)
+            => Preferences.PerfectClear = PerfectClear.IsChecked == true;
+
+        void C4WChanged(object sender, RoutedEventArgs e)
+            => Preferences.C4W = C4W.IsChecked == true;
+
+        void PlayerChanged(double NewValue)
+            => Preferences.Player = (int)Player.RawValue - 1;
     }
 }

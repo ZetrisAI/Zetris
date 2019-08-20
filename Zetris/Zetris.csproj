@@ -86,6 +86,7 @@
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Preferences.cs" />
     <Compile Include="UI.xaml.cs">
       <DependentUpon>UI.xaml</DependentUpon>
       <SubType>Code</SubType>
