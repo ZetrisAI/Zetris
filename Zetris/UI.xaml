@@ -43,7 +43,7 @@
         
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
-        <Zetris:Dial Margin="0 0 0 5" Title="MP Arcade Player:" Scale="0.5" Minimum="1" Maximum="4" Unit="P" />
+        <Zetris:Dial Margin="0 0 0 5" Title="MP Arcade Player:" Scale="0.5" FillStart="False" Minimum="1" Maximum="4" Unit="P" />
 
         <CheckBox Content="Gamepad Connected" />
     </StackPanel>

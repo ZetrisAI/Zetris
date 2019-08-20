@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Zetris {
@@ -147,10 +138,22 @@ namespace Zetris {
             }
         }
 
+        bool _fillstart = true;
+        public bool FillStart {
+            get => _fillstart;
+            set {
+                if (value != _fillstart) {
+                    _fillstart = value;
+
+                    DrawArcMain();
+                }
+            }
+        }
+
         string ValueString => $"{RawValue}{Unit}";
 
         void DrawArc(Path Arc, double value, bool overrideBase) {
-            double angle_starting = angle_start;
+            double angle_starting = FillStart? angle_start : angle_start - Math.Abs(angle_end - angle_start) * value * 0.9;
 
             double x_start = (radius * (Math.Cos(angle_starting) + 1) + strokeHalf) * _scale;
             double y_start = (radius * (-Math.Sin(angle_starting) + 1) + strokeHalf) * _scale;
@@ -207,7 +210,7 @@ namespace Zetris {
 
             Started?.Invoke();
 
-            ArcCanvas.Cursor = Cursors.None;
+            ArcCanvas.Cursor = Cursors.SizeNS;
         }
 
         void Up(object sender, MouseButtonEventArgs e) {
