@@ -25,21 +25,23 @@ namespace Zetris {
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
             Player.RawValue = Preferences.Player + 1;
+
+            Bot.Start();
         }
 
-        void StyleChanged(object sender, SelectionChangedEventArgs e)
-            => Preferences.Style = Style.SelectedIndex;
+        void StyleChanged(object sender, SelectionChangedEventArgs e) =>
+            Preferences.Style = Style.SelectedIndex;
 
-        void SpeedChanged(double NewValue)
-            => Preferences.Speed = (int)Speed.RawValue;
+        void SpeedChanged(double NewValue) =>
+            Preferences.Speed = (int)Speed.RawValue;
 
-        void PerfectClearChanged(object sender, RoutedEventArgs e)
-            => Preferences.PerfectClear = PerfectClear.IsChecked == true;
+        void PerfectClearChanged(object sender, RoutedEventArgs e) =>
+            Preferences.PerfectClear = PerfectClear.IsChecked == true;
 
-        void C4WChanged(object sender, RoutedEventArgs e)
-            => Preferences.C4W = C4W.IsChecked == true;
+        void C4WChanged(object sender, RoutedEventArgs e) =>
+            Preferences.C4W = C4W.IsChecked == true;
 
-        void PlayerChanged(double NewValue)
-            => Preferences.Player = (int)Player.RawValue - 1;
+        void PlayerChanged(double NewValue) =>
+            Preferences.Player = (int)Player.RawValue - 1;
     }
 }
