@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Zetris {
-    public class InputHelper {
+    static class InputHelper {
         private static readonly int[][][,] pieces = new int[7][][,] {
             new int[4][,] { // S
                 new int[,] {

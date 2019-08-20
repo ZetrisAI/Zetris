@@ -2,24 +2,35 @@
 using System.Collections.Generic;
 
 namespace Zetris {
-    class GameHelper {
-        public static bool OutsideMenu(ProcessMemory Game) {
+    static class GameHelper {
+        static ProcessMemory Game = new ProcessMemory("puyopuyotetris", false);
+
+        public static bool CheckProcess() => Game.CheckProcess();
+
+        public static bool TrustProcess {
+            get => Game.TrustProcess;
+            set {
+                Game.TrustProcess = value;
+            }
+        }
+
+        public static bool OutsideMenu() {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
 
-        public static int CurrentMode(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+        public static int CurrentMode() => Game.ReadByte(new IntPtr(
             0x140573854
         ));
 
-        public static bool Online(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+        public static bool Online() => Game.ReadByte(new IntPtr(
             0x14059894C
         )) == 1;
 
-        public static bool InMultiplayer(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+        public static bool InMultiplayer() => Game.ReadByte(new IntPtr(
             0x140573858
         )) == 3;
 
-        public static int MenuHighlighted(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+        public static int MenuHighlighted() => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140573A78
@@ -27,7 +38,7 @@ namespace Zetris {
             )) + 0x8C
         ));
 
-        public static int PlayerCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int PlayerCount() => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140473760
@@ -35,11 +46,11 @@ namespace Zetris {
             )) + 0xB4
         ));
 
-        public static int LocalSteam(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int LocalSteam() => Game.ReadInt32(new IntPtr(
             0x1405A2010
         ));
 
-        public static int PlayerSteam(ProcessMemory Game, int index) => Game.ReadInt32(new IntPtr(
+        public static int PlayerSteam(int index) => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     0x140473760
@@ -47,24 +58,24 @@ namespace Zetris {
             )) + 0x118 + index * 0x50
         ));
 
-        public static int FindPlayer(ProcessMemory Game) {
-            if (PlayerCount(Game) < 2)
+        public static int FindPlayer() {
+            if (PlayerCount() < 2)
                 return 0;
 
-            int localSteam = LocalSteam(Game);
+            int localSteam = LocalSteam();
 
             for (int i = 0; i < 2; i++)
-                if (localSteam == PlayerSteam(Game, i))
+                if (localSteam == PlayerSteam(i))
                     return i;
 
             return 0;
         }
 
-        public static int scoreAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int scoreAddress() => Game.ReadInt32(new IntPtr(
             0x14057F048
         )) + 0x38;
 
-        public static int getPlayerCount(ProcessMemory Game) {
+        public static int getPlayerCount() {
             int ret = Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -79,7 +90,7 @@ namespace Zetris {
             return ret;
         }
 
-        public static int leagueAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int leagueAddress() => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -89,7 +100,7 @@ namespace Zetris {
             )) + 0x970
         )) - 0x38;
 
-        public static bool InSwap(ProcessMemory Game) {
+        public static bool InSwap() {
             //return false;
             if (Game.ReadBoolean(new IntPtr(0x14059894C))) {
                 if (Game.ReadBoolean(new IntPtr(0x1404385C4))) {
@@ -102,7 +113,7 @@ namespace Zetris {
             }
         }
 
-        public static int SwapType(ProcessMemory Game) => Game.ReadByte(new IntPtr(
+        public static int SwapType() => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -114,16 +125,16 @@ namespace Zetris {
             )) + 0x50
         ));
 
-        public static int charAddress(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int charAddress() => Game.ReadInt32(new IntPtr(
             0x140460690
         ));
 
-        public static short getRating(ProcessMemory Game) => Game.ReadInt16(new IntPtr(
+        public static short getRating() => Game.ReadInt16(new IntPtr(
             0x140599FF0
         ));
 
-        public static int boardAddress(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int boardAddress(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadInt32(new IntPtr(
@@ -190,8 +201,22 @@ namespace Zetris {
             return -1;
         }
 
-        public static int piecesAddress(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int[,] getBoard(int index) {
+            int[,] ret = new int[10, 40];
+
+            int boardaddr = boardAddress(index);
+            for (int i = 0; i < 10; i++) {
+                int columnAddress = Game.ReadInt32(new IntPtr(boardaddr + i * 0x08));
+                for (int j = 0; j < 28; j++) {
+                    ret[i, j] = Game.ReadByte(new IntPtr(columnAddress + j * 0x04));
+                }
+            }
+
+            return ret;
+        }
+
+        public static int piecesAddress(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadInt32(new IntPtr(
@@ -242,8 +267,20 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getCurrentPiece(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int[] getPieces(int index) {
+            int[] ret = new int[5];
+
+            int pieceaddr = piecesAddress(index);
+
+            for (int i = 0; i < 5; i++) {
+                ret[i] = Game.ReadByte(new IntPtr(pieceaddr + i * 0x04));
+            }
+
+            return ret;
+        }
+
+        public static int getCurrentPiece(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadByte(new IntPtr(
@@ -306,8 +343,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPiecePositionX(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getPiecePositionX(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadByte(new IntPtr(
@@ -362,8 +399,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPiecePositionY(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getPiecePositionY(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadByte(new IntPtr(
@@ -418,8 +455,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPieceRotation(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getPieceRotation(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadByte(new IntPtr(
@@ -486,8 +523,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getPieceDropped(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getPieceDropped(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadByte(new IntPtr(
@@ -554,8 +591,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getHoldPointer(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getHoldPointer(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadInt32(new IntPtr(
@@ -608,8 +645,8 @@ namespace Zetris {
             return -1;
         }
 
-        public static int? getHold(ProcessMemory Game, int index) {
-            int ptr = getHoldPointer(Game, index);
+        public static int? getHold(int index) {
+            int ptr = getHoldPointer(index);
 
             if (ptr < 0x0800000) return null;
 
@@ -618,8 +655,8 @@ namespace Zetris {
             ));
         }
 
-        public static int getGarbageOverhead(ProcessMemory Game, int index) {
-            if (InSwap(Game)) {
+        public static int getGarbageOverhead(int index) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         return Game.ReadInt32(new IntPtr(
@@ -682,10 +719,10 @@ namespace Zetris {
             return -1;
         }
 
-        public static int getCombo(ProcessMemory Game, int index) {
+        public static int getCombo(int index) {
             int ret = -1;
 
-            if (InSwap(Game)) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         ret = Game.ReadInt32(new IntPtr(
@@ -740,16 +777,16 @@ namespace Zetris {
             return Math.Max(ret & 255, 0);
         }
 
-        public static int getFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getFrameCount() => Game.ReadInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140461B20
             )) + 0x424
         ));
 
-        public static int getBigFrameCount(ProcessMemory Game) {
+        public static int getBigFrameCount() {
             int addr;
 
-            if (InSwap(Game)) {
+            if (InSwap()) {
                 addr = Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
@@ -782,15 +819,15 @@ namespace Zetris {
             return x;
         }
 
-        public static int getMenuFrameCount(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
+        public static int getMenuFrameCount() => Game.ReadInt32(new IntPtr(
             0x140461B7C
         ));
 
-        public static List<int> getNextFromBags(ProcessMemory Game, int index) {
+        public static List<int> getNextFromBags(int index) {
             List<int> ret = new List<int>();
             int ptr = 0;
 
-            if (InSwap(Game)) {
+            if (InSwap()) {
                 switch (index) {
                     case 0:
                         ptr = Game.ReadInt32(new IntPtr(
@@ -843,7 +880,7 @@ namespace Zetris {
             return ret;
         }
 
-        public static int CharSelectIndex(ProcessMemory Game, int index) => Game.ReadByte(new IntPtr(
+        public static int CharSelectIndex(int index) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140460690
             )) + 0x458 + 0x48 * index
