@@ -13,8 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using MahApps.Metro.Controls;
+
 namespace Zetris {
-    public partial class MainWindow: Window {
-        public MainWindow() => InitializeComponent();
+    public partial class UI {
+        public UI() => InitializeComponent();
     }
 }

@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 using System.Windows;
 
 namespace Zetris {
-    public partial class App: Application {}
+    public partial class App {}
 }

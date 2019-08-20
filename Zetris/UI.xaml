@@ -1,0 +1,39 @@
+﻿<Controls:MetroWindow x:Class="Zetris.UI"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Title="Zetris" TitleCharacterCasing="Normal" ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+                      BorderThickness="0" Background="#0A0A0A" Foreground="#DCDCDC" GlowBrush="{DynamicResource AccentColorBrush}"
+                      Width="200" Height="400">
+
+    <StackPanel Margin="10 5">
+        <TextBlock Margin="0 0 0 5" Foreground="#707070" Text="Configuration" />
+
+        <Grid Margin="0 0 0 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="Style:" />
+
+            <ComboBox Grid.Column="1" SelectedIndex="0">
+                <ComboBoxItem Content="T-Spin+" />
+                <ComboBoxItem Content="T-Spin" />
+                <ComboBoxItem Content="Combo" />
+                <ComboBoxItem Content="No Hold" />
+                <ComboBoxItem Content="4-Wide" />
+                <ComboBoxItem Content="TST" />
+                <ComboBoxItem Content="Downstack" />
+            </ComboBox>
+        </Grid>
+
+        <CheckBox Margin="0 0 0 5" Content="Center 4-Wide" />
+
+        <CheckBox Margin="0 0 0 5" Content="Perfect Clear Finder" />
+
+        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+        <TextBlock Margin="0 0 0 5" Foreground="#707070" Text="Gamepad" />
+    </StackPanel>
+</Controls:MetroWindow>
