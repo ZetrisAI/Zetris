@@ -359,7 +359,7 @@ namespace Zetris {
             }
         }
 
-        public static void ApplyPiece(int[,] board, int piece, int x, int y, int r) {
+        public static void ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
             if (piece == 6) {
                 if (r == 1) {
                     x++;
@@ -383,7 +383,7 @@ namespace Zetris {
                     if (pieces[piece][r][i, j] != -1)
                         board[x + j, y - i] = pieces[piece][r][i, j];
 
-            ClearLines(board, out int _);
+            ClearLines(board, out c);
         }
 
         public static bool BoardEquals(int[,] a, int[,] b) {

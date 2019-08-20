@@ -123,6 +123,7 @@ namespace Zetris {
                 if (GameHelper.getBigFrameCount(PPT) < 6) {
                     MisaMino.Reset(); // this will abort as well
                     misasolved = false;
+                    b2b = 0;
                     wasHold = false;
                     register = false;
                     movements.Clear();
@@ -136,7 +137,7 @@ namespace Zetris {
                     pcboard = (int[,])board.Clone();
                     int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray();
 
-                    MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, 0);
+                    MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
                     if (valueFinderEnable.Checked) {
                         PerfectClear.Find(
@@ -166,6 +167,7 @@ namespace Zetris {
                             21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
                             misaboard,
                             combo + Convert.ToInt32(cleared > 0),
+                            b2b,
                             GameHelper.getGarbageOverhead(PPT, playerID) // todo
                         );
 
@@ -207,6 +209,7 @@ namespace Zetris {
                         movements = MisaMino.LastSolution.Instructions;
                         pieceUsed = MisaMino.LastSolution.PieceUsed;
                         spinUsed = MisaMino.LastSolution.SpinUsed;
+                        b2b = MisaMino.LastSolution.B2B;
                         finalX = MisaMino.LastSolution.FinalX;
                         finalY = MisaMino.LastSolution.FinalY;
                         finalR = MisaMino.LastSolution.FinalR;
@@ -222,24 +225,22 @@ namespace Zetris {
 
                     wasHold = (movements.Count > 0)? movements[0] == Instruction.HOLD : false;
 
-                    if (valueFinderEnable.Checked) {
-                        pcboard = (int[,])board.Clone();
+                    pcboard = (int[,])board.Clone();
 
-                        bool fuck = false;
-                        try {
-                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR);
-                        } catch {
-                            fuck = true;
-                        }
+                    bool fuck = false;
+                    try {
+                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
+                    } catch {
+                        fuck = true;
+                    }
 
-                        if (movements.Count > 0 && !pcsolved && !fuck) {
-                            int start = Convert.ToInt32(hold == null && wasHold);
+                    if (valueFinderEnable.Checked && movements.Count > 0 && !pcsolved && !fuck) {
+                        int start = Convert.ToInt32(hold == null && wasHold);
 
-                            PerfectClear.Find(
-                                pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
-                                wasHold? current : hold, valueMisaMinoStyle.SelectedIndex != 3, 8, GameHelper.InSwap(PPT), combo
-                            );
-                        }
+                        PerfectClear.Find(
+                            pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(PPT, playerID)).ToArray(), pieces[start],
+                            wasHold? current : hold, valueMisaMinoStyle.SelectedIndex != 3, 8, GameHelper.InSwap(PPT), combo
+                        );
                     }
 
                     ret = true;                    
@@ -265,6 +266,8 @@ namespace Zetris {
             return ret;
         }
 
+        int clear = 0;
+        int b2b = 0;
         int inputStarted = 0;
         int inputGoal = -1;
         bool softdrop = false;
@@ -288,6 +291,8 @@ namespace Zetris {
                         desiredR = finalR;
                         desiredHold = movements.Contains(Instruction.HOLD);
                         inputStarted = 3;
+
+                        if (clear > 0) b2b += -1;
                     }
                 }
 
