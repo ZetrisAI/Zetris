@@ -19,7 +19,9 @@ namespace Zetris {
         static void ResetGame() {
             if (!GameHelper.InSwap() || !Preferences.Auto) return;
 
+#if !PUBLIC
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
+#endif
         }
 
         static int gamepadIndex = 4;
