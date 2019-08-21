@@ -21,6 +21,7 @@ namespace Zetris {
             get => _style;
             set {
                 _style = Math.Max(0, Math.Min(2, value));
+                Bot.UpdateConfig();
                 Save();
             }
         }
@@ -48,6 +49,7 @@ namespace Zetris {
             get => _c4w;
             set {
                 _c4w = value;
+                Bot.UpdateConfig();
                 Save();
             }
         }

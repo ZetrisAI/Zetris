@@ -623,8 +623,10 @@ namespace Zetris {
             Window?.SetActive(inMatch);
         }
 
-        public static void UpdateConfig() =>
+        public static void UpdateConfig() {
+            if (!Started) return;
             MisaMino.Configure(Preferences.Style + 1, Preferences.C4W);
+        }
         
         static int framesSkipped = 0;
 
