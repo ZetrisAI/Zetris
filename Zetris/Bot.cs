@@ -63,6 +63,8 @@ namespace Zetris {
         static int[,] pcboard;
         static bool pcsolved = false;
 
+        static int startbreak = 0;
+
         static bool runLogic() {
             bool ret = false;
 
@@ -108,31 +110,35 @@ namespace Zetris {
 
                 int[] pieces = GameHelper.getPieces(playerID);
 
-                if (GameHelper.getBigFrameCount() < 6) {
-                    MisaMino.Reset(); // this will abort as well
-                    misasolved = false;
-                    b2b = 0;
-                    wasHold = false;
-                    register = false;
-                    movements.Clear();
-                    inputStarted = 0;
-                    softdrop = false;
-                    speedTick = 0;
+                if (GameHelper.getBigFrameCount() < 6) startbreak = 0;
+                else if (GameHelper.getBigFrameCount() < 40) {
+                    if (++startbreak % 6 == 0) {
+                        MisaMino.Reset(); // this will abort as well
+                        misasolved = false;
+                        b2b = 0;
+                        firstHold = false;
+                        wasHold = false;
+                        register = false;
+                        movements.Clear();
+                        inputStarted = 0;
+                        softdrop = false;
+                        speedTick = 0;
 
-                    PerfectClear.Abort();
-                    pcsolved = false;
+                        PerfectClear.Abort();
+                        pcsolved = false;
 
-                    pcboard = (int[,])board.Clone();
-                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                        pcboard = (int[,])board.Clone();
+                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
 
-                    if (!danger) {
-                        MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+                        if (!danger) {
+                            MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
-                        if (Preferences.PerfectClear) {
-                            PerfectClear.Find(
-                                pcboard, q, pieces[0],
-                                null, Preferences.Style != 3, 8, GameHelper.InSwap(), 0
-                            );
+                            if (Preferences.PerfectClear) {
+                                PerfectClear.Find(
+                                    pcboard, q, pieces[0],
+                                    null, Preferences.Style != 3, 8, GameHelper.InSwap(), 0
+                                );
+                            }
                         }
                     }
                 }
