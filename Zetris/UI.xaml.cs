@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ using MahApps.Metro.Controls;
 
 namespace Zetris {
     public partial class UI {
+        static string InactiveString, ActiveString;
+
         public UI() {
             InitializeComponent();
 
@@ -31,6 +34,48 @@ namespace Zetris {
             ((StackPanel)Auto.Parent).Children.Remove(Auto);
 #endif
 
+            switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
+                case "ko":
+                    InactiveString = "비활성화";
+                    ActiveString = "활성화";
+                    StyleText.Text = "스타일:";
+                    StyleTspin.Content = "티스핀+";
+                    StyleNoHold.Content = "노홀드";
+                    Speed.Title = "플레이 속도:";
+                    PerfectClear.Content = "퍼펙트 클리어 모드";
+                    C4W.Content = "센터 포와이드";
+                    Player.Title = "멀티아케이드:";
+                    Gamepad.Content = "게임패드 연결";
+                    break;
+                    
+                case "ja":
+                    InactiveString = "停止";
+                    ActiveString = "動作中";
+                    StyleText.Text = "立ち回り:";
+                    StyleTspin.Content = "Tスピン（強）";
+                    StyleNoHold.Content = "ホールドなし";
+                    Speed.Title = "速度:";
+                    PerfectClear.Content = "パフェ発見機";
+                    C4W.Content = "中開けREN";
+                    Player.Title = "ドリームアーケード みんなで:";
+                    Gamepad.Content = "コントローラー接続中";
+                    break;
+                    
+                default:
+                    InactiveString = "Inactive";
+                    ActiveString = "Active";
+                    StyleText.Text = "Style:";
+                    StyleTspin.Content = "T-Spin+";
+                    StyleNoHold.Content = "No Hold";
+                    Speed.Title = "Speed:";
+                    PerfectClear.Content = "Perfect Clear Finder";
+                    C4W.Content = "Center 4-Wide";
+                    Player.Title = "MP Arcade Player:";
+                    Gamepad.Content = "Gamepad Connected";
+                    break;
+            }
+
+            UpdateActive();
             Bot.Start(this);
         }
 
@@ -44,7 +89,7 @@ namespace Zetris {
         }
 
         void UpdateActive() {
-            State.Text = Active? "Active" : "Inactive";
+            State.Text = Active? ActiveString : InactiveString;
             Style.IsEnabled = Speed.Enabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
         }
 
