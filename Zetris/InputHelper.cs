@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Zetris {
-    public class InputHelper {
+    static class InputHelper {
         private static readonly int[][][,] pieces = new int[7][][,] {
             new int[4][,] { // S
                 new int[,] {
@@ -293,7 +293,7 @@ namespace Zetris {
         public static int FixWall(int[,] board, int piece, int x, int y, int r) {
             fixInput(piece, ref x, ref y, r);
 
-            int d = (x > 4)? -1 : 1;
+            int d = (x > 4) ? -1 : 1;
             while (!FitPiece(board, piece, x, y, r)) {
                 x += d;
                 if (x > 11) {
