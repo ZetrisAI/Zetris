@@ -531,7 +531,6 @@ namespace Zetris {
         }
 
         static X360Buttons previousInputs = X360Buttons.None;
-        static decimal speedIncrement = 1;
         static decimal speedTick = 0;
 
         static int charindex = 0;
@@ -601,7 +600,7 @@ namespace Zetris {
                 }
             }
 
-            speedTick += speedIncrement;
+            speedTick += Preferences.Speed / 100M;
 
             if (speedTick < 1 && inMatch) {
                 gamepad.Buttons = X360Buttons.None;
