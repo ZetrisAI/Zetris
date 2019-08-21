@@ -65,5 +65,8 @@ namespace Zetris {
         
         void AutoChanged(object sender, RoutedEventArgs e) =>
             Preferences.Auto = Auto.IsChecked == true;
+
+        void GamepadChanged(object sender, RoutedEventArgs e) =>
+            Bot.SetGamepad(Gamepad.IsChecked == true);
     }
 }

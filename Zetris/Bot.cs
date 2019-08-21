@@ -22,17 +22,14 @@ namespace Zetris {
 
         static int gamepadIndex = 4;
         static ScpBus scp = new ScpBus();
-        static bool gamepadPluggedIn = false;
         static X360Controller gamepad = new X360Controller();
 
-        static void buttonGamepad_Click(object sender, EventArgs e) {
+        public static void SetGamepad(bool state) {
             scp.Unplug(gamepadIndex);
             scp = new ScpBus();
             gamepad = new X360Controller();
 
-            if (!gamepadPluggedIn) scp.PlugIn(gamepadIndex);
-
-            gamepadPluggedIn = !gamepadPluggedIn;
+            if (state) scp.PlugIn(gamepadIndex);
         }
 
         static int currentRating, numplayers, frames, globalFrames;
@@ -662,7 +659,6 @@ namespace Zetris {
 
             scp = new ScpBus();
             scp.PlugIn(gamepadIndex);
-            gamepadPluggedIn = true;
 
             UpdateConfig();
 
@@ -684,7 +680,6 @@ namespace Zetris {
             while (!Disposed) {}
 
             scp.UnplugAll();
-            gamepadPluggedIn = false;
         }
     }
 }

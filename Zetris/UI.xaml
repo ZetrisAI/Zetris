@@ -47,6 +47,6 @@
 
         <CheckBox Margin="0 0 0 5" Content="Auto Puzzle League Menu" x:Name="Auto" Click="AutoChanged" />
 
-        <CheckBox Content="Gamepad Connected" />
+        <CheckBox Content="Gamepad Connected" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
     </StackPanel>
 </Controls:MetroWindow>
