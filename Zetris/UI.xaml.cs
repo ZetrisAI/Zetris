@@ -48,6 +48,9 @@ namespace Zetris {
             Style.IsEnabled = Speed.Enabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
         }
 
+        public void SetGamepadIndex(int index) =>
+            Title = $"Zetris [{index}]";
+
         void StyleChanged(object sender, SelectionChangedEventArgs e) =>
             Preferences.Style = Style.SelectedIndex;
 

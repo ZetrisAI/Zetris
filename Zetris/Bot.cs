@@ -14,6 +14,8 @@ namespace Zetris {
         static UI Window = null;
         static int playerID = 0;
 
+        public static string[] Args;
+
         static void ResetGame() {
             if (!GameHelper.InSwap() || !Preferences.Auto) return;
 
@@ -647,18 +649,7 @@ namespace Zetris {
         public static bool Started { get; private set; } = false;
 
         public static void Start(UI window) {
-            Window = window;
-
-            Started = true;
-
-            Task.Run(() => Loop());
-        }
-
-        static Bot() {
-            scp.UnplugAll();
-
-            scp = new ScpBus();
-            scp.PlugIn(gamepadIndex);
+            if (Started) return;
 
             UpdateConfig();
 
@@ -669,6 +660,22 @@ namespace Zetris {
             PerfectClear.Finished += (bool success) => {
                 pcsolved = success;
             };
+
+            Window = window;
+
+            if (Args.Length > 1 && Args[0] == "--gamepadIndex" && int.TryParse(Args[1], out int index) && 1 <= index && index <= 4) {
+                gamepadIndex = index;
+                Window?.SetGamepadIndex(gamepadIndex);
+            }
+
+            scp.UnplugAll();
+
+            scp = new ScpBus();
+            scp.PlugIn(gamepadIndex);
+
+            Started = true;
+
+            Task.Run(() => Loop());
         }
 
         static bool Disposing = false;
@@ -677,7 +684,7 @@ namespace Zetris {
         public static void Dispose(object sender, EventArgs e) {
             Disposing = true;
 
-            while (!Disposed) {}
+            while (!Disposed && Started) {}
 
             scp.UnplugAll();
         }
