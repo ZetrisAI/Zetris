@@ -57,8 +57,6 @@ namespace Zetris {
         static int old_y;
 
         static bool misasolved = false;
-        static bool firstHold;
-        static bool wasHold;
 
         static int[,] pcboard;
         static bool pcsolved = false;
@@ -116,8 +114,6 @@ namespace Zetris {
                         MisaMino.Reset(); // this will abort as well
                         misasolved = false;
                         b2b = 0;
-                        firstHold = false;
-                        wasHold = false;
                         register = false;
                         movements.Clear();
                         inputStarted = 0;
@@ -151,17 +147,15 @@ namespace Zetris {
                         register = !shouldHaveRegistered;
                         old_y = y;
 
-                        int start = Convert.ToInt32(firstHold);
-
                         int[,] misaboard = (int[,])board.Clone();
                         InputHelper.ClearLines(misaboard, out int cleared);
 
                         if (!danger)
                             MisaMino.FindMove(
                                 pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
-                                pieces[start],
-                                wasHold && !firstHold? current : hold,
-                                21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
+                                pieces[0],
+                                hold,
+                                21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[0], 4, 4, 0)),
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
                                 b2b,
@@ -220,8 +214,8 @@ namespace Zetris {
                             if (PerfectClear.LastSolution.Count == 0)
                                 pcsolved = false;
                         }
-                        
-                        firstHold = (wasHold = (movements.Count > 0) ? movements[0] == Instruction.HOLD : false) && hold == null;
+
+                        bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
                         pcboard = (int[,])board.Clone();
 
@@ -233,7 +227,7 @@ namespace Zetris {
                         }
 
                         if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
-                            int start = Convert.ToInt32(firstHold);
+                            int start = Convert.ToInt32(wasHold && hold == null);
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(), pieces[start],
