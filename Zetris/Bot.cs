@@ -136,7 +136,7 @@ namespace Zetris {
                             if (Preferences.PerfectClear) {
                                 PerfectClear.Find(
                                     pcboard, q, pieces[0],
-                                    null, Preferences.Style != 3, 8, GameHelper.InSwap(), 0
+                                    null, Preferences.Style != 3, 6, GameHelper.InSwap(), 0
                                 );
                             }
                         }
@@ -237,7 +237,7 @@ namespace Zetris {
 
                             PerfectClear.Find(
                                 pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(), pieces[start],
-                                wasHold? current : hold, Preferences.Style != 3, 8, GameHelper.InSwap(), combo
+                                wasHold? current : hold, Preferences.Style != 3, 6, GameHelper.InSwap(), combo
                             );
                         }
                     }
