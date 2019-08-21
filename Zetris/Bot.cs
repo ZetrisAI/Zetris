@@ -57,6 +57,7 @@ namespace Zetris {
         static int old_y;
 
         static bool misasolved = false;
+        static bool firstHold;
         static bool wasHold;
 
         static int[,] pcboard;
@@ -153,7 +154,7 @@ namespace Zetris {
                             MisaMino.FindMove(
                                 pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
                                 pieces[start],
-                                wasHold ? current : hold,
+                                wasHold && !firstHold? current : hold,
                                 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
@@ -213,8 +214,8 @@ namespace Zetris {
                             if (PerfectClear.LastSolution.Count == 0)
                                 pcsolved = false;
                         }
-
-                        wasHold = (movements.Count > 0) ? movements[0] == Instruction.HOLD : false;
+                        
+                        firstHold = (wasHold = (movements.Count > 0) ? movements[0] == Instruction.HOLD : false) && hold == null;
 
                         pcboard = (int[,])board.Clone();
 
