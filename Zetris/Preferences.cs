@@ -20,7 +20,7 @@ namespace Zetris {
         public static int Style {
             get => _style;
             set {
-                _style = Math.Max(0, Math.Min(6, value));
+                _style = Math.Max(0, Math.Min(2, value));
                 Save();
             }
         }

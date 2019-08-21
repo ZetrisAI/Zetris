@@ -24,12 +24,8 @@
 
             <ComboBox Grid.Column="1" Height="14" SelectedIndex="0" x:Name="Style" SelectionChanged="StyleChanged">
                 <ComboBoxItem Content="T-Spin+" />
-                <ComboBoxItem Content="T-Spin" />
-                <ComboBoxItem Content="Combo" />
                 <ComboBoxItem Content="No Hold" />
-                <ComboBoxItem Content="4-Wide" />
                 <ComboBoxItem Content="TST" />
-                <ComboBoxItem Content="Downstack" />
             </ComboBox>
         </Grid>
 
