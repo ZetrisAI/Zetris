@@ -57,5 +57,8 @@ namespace Zetris {
 
         void PlayerChanged(double NewValue) =>
             Preferences.Player = (int)Player.RawValue - 1;
+
+        void AutoChanged(object sender, RoutedEventArgs e) =>
+            Preferences.Auto = Auto.IsChecked == true;
     }
 }
