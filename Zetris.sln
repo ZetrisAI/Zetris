@@ -22,27 +22,38 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Public|x64 = Public|x64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Debug|x64.ActiveCfg = Debug|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Debug|x64.Build.0 = Debug|x64
+		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Public|x64.ActiveCfg = Public|x64
+		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Public|x64.Build.0 = Public|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.ActiveCfg = Release|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.Build.0 = Release|x64
 		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.ActiveCfg = Debug|x64
 		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.Build.0 = Debug|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.ActiveCfg = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.Build.0 = Release|x64
 		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.ActiveCfg = Release|x64
 		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.Build.0 = Release|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.ActiveCfg = Debug|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.Build.0 = Debug|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.ActiveCfg = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.Build.0 = Release|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.ActiveCfg = Release|x64
 		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.Build.0 = Release|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.ActiveCfg = Debug|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.Build.0 = Debug|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.ActiveCfg = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.Build.0 = Release|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.ActiveCfg = Release|x64
 		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.Build.0 = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.ActiveCfg = Debug|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.Build.0 = Debug|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.ActiveCfg = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.Build.0 = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.ActiveCfg = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

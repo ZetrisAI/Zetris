@@ -83,6 +83,12 @@ namespace Zetris {
 
             board = GameHelper.getBoard(playerID);
 
+            bool danger = false;
+
+#if PUBLIC
+            danger = GameHelper.Online();
+#endif
+
             if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
                 ResetGame();
                 return false;
@@ -117,13 +123,15 @@ namespace Zetris {
                     pcboard = (int[,])board.Clone();
                     int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
 
-                    MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+                    if (!danger) {
+                        MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
-                    if (Preferences.PerfectClear) {
-                        PerfectClear.Find(
-                            pcboard, q, pieces[0],
-                            null, Preferences.Style != 3, 8, GameHelper.InSwap(), 0
-                        );
+                        if (Preferences.PerfectClear) {
+                            PerfectClear.Find(
+                                pcboard, q, pieces[0],
+                                null, Preferences.Style != 3, 8, GameHelper.InSwap(), 0
+                            );
+                        }
                     }
                 }
 
@@ -140,16 +148,17 @@ namespace Zetris {
                         int[,] misaboard = (int[,])board.Clone();
                         InputHelper.ClearLines(misaboard, out int cleared);
 
-                        MisaMino.FindMove(
-                            pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
-                            pieces[start],
-                            wasHold ? current : hold,
-                            21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
-                            misaboard,
-                            combo + Convert.ToInt32(cleared > 0),
-                            b2b,
-                            GameHelper.getGarbageOverhead(playerID) // todo
-                        );
+                        if (!danger)
+                            MisaMino.FindMove(
+                                pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
+                                pieces[start],
+                                wasHold ? current : hold,
+                                21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[start], 4, 4, 0)),
+                                misaboard,
+                                combo + Convert.ToInt32(cleared > 0),
+                                b2b,
+                                GameHelper.getGarbageOverhead(playerID) // todo
+                            );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
@@ -164,63 +173,65 @@ namespace Zetris {
                     if (MisaMino.Running) MisaMino.Abort();
                     if (PerfectClear.Running) PerfectClear.Abort();
 
-                    if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
-                        pieceUsed = PerfectClear.LastSolution[0].Piece;
-                        finalX = PerfectClear.LastSolution[0].X;
-                        int misaY = finalY = PerfectClear.LastSolution[0].Y;
-                        finalR = PerfectClear.LastSolution[0].R;
+                    if (!danger) {
+                        if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                            pieceUsed = PerfectClear.LastSolution[0].Piece;
+                            finalX = PerfectClear.LastSolution[0].X;
+                            int misaY = finalY = PerfectClear.LastSolution[0].Y;
+                            finalR = PerfectClear.LastSolution[0].R;
 
-                        do {
-                            movements = MisaMino.FindPath(
-                                board,
-                                baseBoardHeight,
-                                pieceUsed,
-                                finalX,
-                                misaY,
-                                finalR,
-                                current != pieceUsed,
-                                ref spinUsed,
-                                out pathSuccess
-                            );
-                        } while (!(pathSuccess || --misaY < 3));
-                    }
+                            do {
+                                movements = MisaMino.FindPath(
+                                    board,
+                                    baseBoardHeight,
+                                    pieceUsed,
+                                    finalX,
+                                    misaY,
+                                    finalR,
+                                    current != pieceUsed,
+                                    ref spinUsed,
+                                    out pathSuccess
+                                );
+                            } while (!(pathSuccess || --misaY < 3));
+                        }
 
-                    if (!pathSuccess) {
-                        movements = MisaMino.LastSolution.Instructions;
-                        pieceUsed = MisaMino.LastSolution.PieceUsed;
-                        spinUsed = MisaMino.LastSolution.SpinUsed;
-                        b2b = MisaMino.LastSolution.B2B;
-                        finalX = MisaMino.LastSolution.FinalX;
-                        finalY = MisaMino.LastSolution.FinalY;
-                        finalR = MisaMino.LastSolution.FinalR;
+                        if (!pathSuccess) {
+                            movements = MisaMino.LastSolution.Instructions;
+                            pieceUsed = MisaMino.LastSolution.PieceUsed;
+                            spinUsed = MisaMino.LastSolution.SpinUsed;
+                            b2b = MisaMino.LastSolution.B2B;
+                            finalX = MisaMino.LastSolution.FinalX;
+                            finalY = MisaMino.LastSolution.FinalY;
+                            finalR = MisaMino.LastSolution.FinalR;
 
-                        pcsolved = false;
-
-                    } else {
-                        PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
-
-                        if (PerfectClear.LastSolution.Count == 0)
                             pcsolved = false;
-                    }
 
-                    wasHold = (movements.Count > 0) ? movements[0] == Instruction.HOLD : false;
+                        } else {
+                            PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
-                    pcboard = (int[,])board.Clone();
+                            if (PerfectClear.LastSolution.Count == 0)
+                                pcsolved = false;
+                        }
 
-                    bool fuck = false;
-                    try {
-                        InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
-                    } catch {
-                        fuck = true;
-                    }
+                        wasHold = (movements.Count > 0) ? movements[0] == Instruction.HOLD : false;
 
-                    if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
-                        int start = Convert.ToInt32(hold == null && wasHold);
+                        pcboard = (int[,])board.Clone();
 
-                        PerfectClear.Find(
-                            pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(), pieces[start],
-                            wasHold ? current : hold, Preferences.Style != 3, 8, GameHelper.InSwap(), combo
-                        );
+                        bool fuck = false;
+                        try {
+                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
+                        } catch {
+                            fuck = true;
+                        }
+
+                        if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
+                            int start = Convert.ToInt32(hold == null && wasHold);
+
+                            PerfectClear.Find(
+                                pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(), pieces[start],
+                                wasHold ? current : hold, Preferences.Style != 3, 8, GameHelper.InSwap(), combo
+                            );
+                        }
                     }
 
                     ret = true;

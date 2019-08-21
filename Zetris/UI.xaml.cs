@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,10 @@ namespace Zetris {
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
             Player.RawValue = Preferences.Player + 1;
+
+#if PUBLIC
+            ((StackPanel)Auto.Parent).Children.Remove(Auto);
+#endif
 
             Bot.Start(this);
         }
@@ -57,7 +62,7 @@ namespace Zetris {
 
         void PlayerChanged(double NewValue) =>
             Preferences.Player = (int)Player.RawValue - 1;
-
+        
         void AutoChanged(object sender, RoutedEventArgs e) =>
             Preferences.Auto = Auto.IsChecked == true;
     }

@@ -61,7 +61,17 @@ namespace Zetris {
             }
         }
 
-        public static bool Auto = false;
+        static bool _auto = false;
+        public static bool Auto {
+#if !PUBLIC
+            get => _auto;
+#else
+            get => false;
+#endif
+            set {
+                _auto = value;
+            }
+        }
 
         static void Save() {
             if (!Directory.Exists(UserPath)) Directory.CreateDirectory(UserPath);

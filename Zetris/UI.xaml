@@ -10,7 +10,7 @@
     <StackPanel Margin="15 10">
         <StackPanel Margin="0 0 0 15" HorizontalAlignment="Center">
             <TextBlock Margin="5 0 5 1" Foreground="#707070" Text="Inactive" x:Name="State" />
-            
+
             <Border BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         </StackPanel>
 
@@ -40,7 +40,7 @@
         <CheckBox Margin="0 0 0 5" Content="Perfect Clear Finder" x:Name="PerfectClear" Click="PerfectClearChanged" />
 
         <CheckBox Margin="0 0 0 5" Content="Center 4-Wide" x:Name="C4W" Click="C4WChanged" />
-        
+
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
         <Zetris:Dial Margin="0 0 0 5" Title="MP Arcade Player:" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="4" Unit="P" x:Name="Player" Changed="PlayerChanged" />
