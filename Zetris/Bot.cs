@@ -681,7 +681,7 @@ namespace Zetris {
         static bool Disposing = false;
         public static bool Disposed { get; private set; } = false;
 
-        public static void Dispose(object sender, EventArgs e) {
+        public static void Dispose() {
             Disposing = true;
 
             while (!Disposed && Started) {}
