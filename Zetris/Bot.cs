@@ -430,7 +430,8 @@ namespace Zetris {
                         processInput();
                         return;
 
-                    } else switch (movements[0]) {
+                    } else {
+                        switch (movements[0]) {
                             case Instruction.L:
                             case Instruction.LL: gamepad.Buttons |= X360Buttons.Left; break;
                             case Instruction.R:
@@ -442,6 +443,10 @@ namespace Zetris {
                             case Instruction.DROP: gamepad.Buttons |= X360Buttons.Up; break;
                             case Instruction.HOLD: gamepad.Buttons |= X360Buttons.LeftBumper; break;
                         }
+
+                        if ((movements[0] == Instruction.LSPIN || movements[0] == Instruction.RSPIN) && movements.Count > 1 && movements[1] == Instruction.DROP)
+                            gamepad.Buttons |= X360Buttons.Up;
+                    }
 
                 } else if (inputStarted != 1 && inputStarted != 2) { // Desire mode = faster due to rotation/movement mixing, but can't softdrop/spin
                     int pieceX = GameHelper.getPiecePositionX(playerID);
