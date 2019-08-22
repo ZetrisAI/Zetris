@@ -56,6 +56,7 @@ namespace Zetris {
         static int baseBoardHeight;
         static int old_y;
 
+        static int[,] misaboard;
         static bool misasolved = false;
 
         static int[,] pcboard;
@@ -123,6 +124,7 @@ namespace Zetris {
                         PerfectClear.Abort();
                         pcsolved = false;
 
+                        misaboard = (int[,])board.Clone();
                         pcboard = (int[,])board.Clone();
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
 
@@ -147,8 +149,9 @@ namespace Zetris {
                         register = !shouldHaveRegistered;
                         old_y = y;
 
-                        int[,] misaboard = (int[,])board.Clone();
+                        misaboard = (int[,])board.Clone();
                         InputHelper.ClearLines(misaboard, out int cleared);
+                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), GameHelper.getGarbageDropping(playerID)); // todo ask misa for atk power and cancel, todo puyo chunks
 
                         if (!danger)
                             MisaMino.FindMove(
@@ -159,7 +162,7 @@ namespace Zetris {
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
                                 b2b,
-                                GameHelper.getGarbageOverhead(playerID) // todo
+                                GameHelper.getGarbageTravelling(playerID)
                             );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
@@ -198,6 +201,26 @@ namespace Zetris {
                         }
 
                         if (!pathSuccess) {
+                            if (!InputHelper.BoardEquals(misaboard, board)) {
+                                MisaMino.FindMove(
+                                    pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
+                                    current,
+                                    hold,
+                                    baseBoardHeight,
+                                    board,
+                                    combo,
+                                    b2b,
+                                    GameHelper.getGarbageTravelling(playerID)
+                                );
+
+                                Stopwatch misasearching = new Stopwatch();
+                                misasearching.Start();
+
+                                while (misasearching.ElapsedMilliseconds < 10) {}
+
+                                MisaMino.Abort();
+                            }
+
                             movements = MisaMino.LastSolution.Instructions;
                             pieceUsed = MisaMino.LastSolution.PieceUsed;
                             spinUsed = MisaMino.LastSolution.SpinUsed;

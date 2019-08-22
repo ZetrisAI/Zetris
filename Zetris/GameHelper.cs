@@ -675,7 +675,7 @@ namespace Zetris {
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     0x1404611B8
-                                )) + 0x330
+                                )) + 0x30
                             )) + 0xB8
                         )) + 0x1EC;
                 }
@@ -859,7 +859,7 @@ namespace Zetris {
             )) + 0x458 + 0x48 * index
         ));
 
-        public static uint RNG(ProcessMemory Game, int index) => Game.ReadUInt32(new IntPtr(
+        public static uint RNG(int index) => Game.ReadUInt32(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(

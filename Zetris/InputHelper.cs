@@ -394,5 +394,37 @@ namespace Zetris {
 
             return true;
         }
+
+        public static uint NextRNG(uint rng) => rng * 0x5D588B65 + 0x269EC3;
+        public static int RandomInt(ref uint rng, int count) => (int)((((rng = NextRNG(rng)) >> 16) * count) >> 16);
+
+        public static void AddGarbageLine(int[,] board, int col) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 30; j >= 0; j--) {
+                    board[i, j + 1] = board[i, j];
+                }
+            }
+
+            for (int i = 0; i < 10; i++) {
+                board[i, 0] = 9;
+            }
+
+            board[col, 0] = 255;
+        }
+
+        public static void AddGarbage(int[,] board, uint rng, int lines) {
+            if (lines == 0) return;
+
+            int col = RandomInt(ref rng, 10);
+
+            for (int i = 0; i < lines; i++) {
+                if (70 < RandomInt(ref rng, 99)) {
+                    int newCol = RandomInt(ref rng, 9);
+                    col = newCol + Convert.ToInt32(newCol >= col);
+                }
+
+                AddGarbageLine(board, col);
+            }
+        }
     }
 }
