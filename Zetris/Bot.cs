@@ -55,6 +55,7 @@ namespace Zetris {
         static bool shouldHaveRegistered = false;
         static int baseBoardHeight;
         static int old_y;
+        static int atk = 0;
 
         static int[,] misaboard;
         static bool misasolved = false;
@@ -115,6 +116,7 @@ namespace Zetris {
                         MisaMino.Reset(); // this will abort as well
                         misasolved = false;
                         b2b = 0;
+                        atk = 0;
                         register = false;
                         movements.Clear();
                         inputStarted = 0;
@@ -151,7 +153,18 @@ namespace Zetris {
 
                         misaboard = (int[,])board.Clone();
                         InputHelper.ClearLines(misaboard, out int cleared);
-                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), GameHelper.getGarbageDropping(playerID)); // todo ask misa for atk power and cancel, todo puyo chunks
+
+                        int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
+                        int garbage_travel = GameHelper.getGarbageTravelling(playerID);
+
+                        if (garbage_drop < 0) {
+                            garbage_travel += garbage_drop;
+                            garbage_drop = 0;
+                        }
+
+                        if (garbage_travel < 0) garbage_travel = 0;
+
+                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop); // todo puyo chunks
 
                         if (!danger)
                             MisaMino.FindMove(
@@ -162,7 +175,7 @@ namespace Zetris {
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
                                 b2b,
-                                GameHelper.getGarbageTravelling(playerID)
+                                garbage_travel
                             );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
@@ -225,6 +238,7 @@ namespace Zetris {
                             pieceUsed = MisaMino.LastSolution.PieceUsed;
                             spinUsed = MisaMino.LastSolution.SpinUsed;
                             b2b = MisaMino.LastSolution.B2B;
+                            atk = MisaMino.LastSolution.Attack;
                             finalX = MisaMino.LastSolution.FinalX;
                             finalY = MisaMino.LastSolution.FinalY;
                             finalR = MisaMino.LastSolution.FinalR;
