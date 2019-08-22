@@ -57,12 +57,24 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.0.1\lib\net45\MisaMino.dll</HintPath>
+    </Reference>
+    <Reference Include="MisaMinoNET, Version=1.0.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.0.1\lib\net45\MisaMinoNET.dll</HintPath>
+    </Reference>
+    <Reference Include="PerfectClearNET, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\PerfectClearNET.1.0.0\lib\net45\PerfectClearNET.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="ProcessMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ProcessMemory.1.0.0\lib\net45\ProcessMemory.dll</HintPath>
     </Reference>
     <Reference Include="ScpDriverInterface">
       <HintPath>.\ScpDriverInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="sfinder-dll, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\PerfectClearNET.1.0.0\lib\net45\sfinder-dll.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -134,24 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj">
-      <Project>{aa5ba1ec-c51b-49f2-be93-b018601e8111}</Project>
-      <Name>MisaMinoNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MisaMino\MisaMinoNET\MisaMino\MisaMino.vcxproj">
-      <Project>{9b91bf39-f215-4609-b4bd-b203c8c4a70d}</Project>
-      <Name>MisaMino</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj">
-      <Project>{12ac9064-faf9-4714-8e9f-9ec11d897daf}</Project>
-      <Name>PerfectClearNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\sfinder-cpp\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj">
-      <Project>{f71bf46c-2c69-40af-a5df-a73e25a21997}</Project>
-      <Name>sfinder-dll</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />

@@ -4,20 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{BD58E75E-C306-438B-B16D-BA3BF66BF14E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D} = {9B91BF39-F215-4609-B4BD-B203C8C4A70D}
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF} = {12AC9064-FAF9-4714-8E9F-9EC11D897DAF}
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997} = {F71BF46C-2C69-40AF-A5DF-A73E25A21997}
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111} = {AA5BA1EC-C51B-49F2-BE93-B018601E8111}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MisaMino", "..\MisaMino\MisaMinoNET\MisaMino\MisaMino.vcxproj", "{9B91BF39-F215-4609-B4BD-B203C8C4A70D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisaMinoNET", "..\MisaMino\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj", "{AA5BA1EC-C51B-49F2-BE93-B018601E8111}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectClearNET", "D:\sfinder-cpp\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj", "{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfinder-dll", "D:\sfinder-cpp\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj", "{F71BF46C-2C69-40AF-A5DF-A73E25A21997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,30 +18,6 @@ Global
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Public|x64.Build.0 = Public|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.ActiveCfg = Release|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.Build.0 = Release|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.ActiveCfg = Debug|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.Build.0 = Debug|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.ActiveCfg = Release|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.Build.0 = Release|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.ActiveCfg = Release|x64
-		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.Build.0 = Release|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.ActiveCfg = Debug|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.Build.0 = Debug|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.ActiveCfg = Release|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.Build.0 = Release|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.ActiveCfg = Release|x64
-		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.Build.0 = Release|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.ActiveCfg = Debug|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.Build.0 = Debug|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.ActiveCfg = Release|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.Build.0 = Release|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.ActiveCfg = Release|x64
-		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.Build.0 = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.ActiveCfg = Debug|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.Build.0 = Debug|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.ActiveCfg = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.Build.0 = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.ActiveCfg = Release|x64
-		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
