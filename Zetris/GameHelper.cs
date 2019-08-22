@@ -133,6 +133,10 @@ namespace Zetris {
             0x140599FF0
         ));
 
+        public static bool getPlayerIsTetris(int index) => (Game.ReadByte(new IntPtr(
+            0x140598C27 + 0x68 * index
+        )) & 64) == 1;
+
         public static int boardAddress(int index) {
             if (InSwap()) {
                 switch (index) {

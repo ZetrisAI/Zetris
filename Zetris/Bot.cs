@@ -164,7 +164,12 @@ namespace Zetris {
 
                         if (garbage_travel < 0) garbage_travel = 0;
 
-                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop); // todo puyo chunks
+                        if (!GameHelper.getPlayerIsTetris(1 - playerID) && garbage_drop > 7) {
+                            garbage_travel += garbage_drop - 7;
+                            garbage_drop = 7;
+                        }
+
+                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
                         if (!danger)
                             MisaMino.FindMove(
