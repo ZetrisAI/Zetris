@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -168,14 +169,14 @@ namespace Zetris {
             }
 
             Arc.Data = Geometry.Parse(String.Format("M {0},{1} A {2},{2} {3} {4} {5} {6},{7}",
-                x_start.ToString(),
-                y_start.ToString(),
-                (radius * _scale).ToString(),
-                angle.ToString(),
+                x_start.ToString(CultureInfo.InvariantCulture),
+                y_start.ToString(CultureInfo.InvariantCulture),
+                (radius * _scale).ToString(CultureInfo.InvariantCulture),
+                angle.ToString(CultureInfo.InvariantCulture),
                 large,
                 direction,
-                x_end.ToString(),
-                y_end.ToString()
+                x_end.ToString(CultureInfo.InvariantCulture),
+                y_end.ToString(CultureInfo.InvariantCulture)
             ));
         }
 
