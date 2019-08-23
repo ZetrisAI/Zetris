@@ -21,6 +21,11 @@ namespace Zetris {
 
 #if !PUBLIC
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
+
+            Stopwatch resetting = new Stopwatch();
+            resetting.Start();
+
+            while (resetting.ElapsedMilliseconds < 7000) { }
 #endif
         }
 
