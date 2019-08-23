@@ -239,7 +239,7 @@ namespace Zetris {
                                 Stopwatch misasearching = new Stopwatch();
                                 misasearching.Start();
 
-                                while (misasearching.ElapsedMilliseconds < 10) {}
+                                while (misasearching.ElapsedMilliseconds < 12) {}
 
                                 MisaMino.Abort();
                             }
@@ -449,7 +449,7 @@ namespace Zetris {
                             case Instruction.HOLD: gamepad.Buttons |= X360Buttons.LeftBumper; break;
                         }
 
-                        if ((movements[0] == Instruction.LSPIN || movements[0] == Instruction.RSPIN) && movements.Count > 1 && movements[1] == Instruction.DROP)
+                        if (((movements[0] == Instruction.LSPIN && !previousInputs.HasFlag(X360Buttons.A)) || (movements[0] == Instruction.RSPIN && !previousInputs.HasFlag(X360Buttons.B))) && movements.Count > 1 && movements[1] == Instruction.DROP)
                             gamepad.Buttons |= X360Buttons.Up;
                     }
 
