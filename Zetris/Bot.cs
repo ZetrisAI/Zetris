@@ -636,7 +636,7 @@ namespace Zetris {
                 if (globalFrames % 2 == 0) {
                     if (GameHelper.OutsideMenu()) {
                         if (GameHelper.InMultiplayer()) {
-                            if (GameHelper.CharSelectIndex(playerID) == 13) {
+                            if (!GameHelper.IsCharacterSelect() || GameHelper.CharSelectIndex(playerID) == 13) {
                                 gamepad.Buttons |= X360Buttons.A;
                             } else {
                                 gamepad.Buttons |= ((charindex = ++charindex % 5) == 0) ? X360Buttons.Down : X360Buttons.Right;

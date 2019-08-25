@@ -878,5 +878,15 @@ namespace Zetris {
                 )) + 0x78
             )) + 0x80
         ));
+
+        public static bool IsCharacterSelect() {
+            int P1State = Game.ReadByte(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140460690
+                )) + 0x274
+            ));
+
+            return P1State > 0 && P1State < 16;
+        }
     }
 }
