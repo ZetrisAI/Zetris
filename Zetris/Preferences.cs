@@ -14,7 +14,7 @@ namespace Zetris {
 
         static readonly string FilePath = Path.Combine(UserPath, "Zetris.config");
 
-        static readonly int Version = 0;
+        static readonly int Version = 1;
         
         static int _style = 0;
         public static int Style {
@@ -31,6 +31,15 @@ namespace Zetris {
             get => _speed;
             set {
                 _speed = Math.Max(10, Math.Min(100, value));
+                Save();
+            }
+        }
+
+        static int _previews = 18;
+        public static int Previews {
+            get => _previews;
+            set {
+                _previews = Math.Max(1, Math.Min(18, value));
                 Save();
             }
         }
@@ -87,6 +96,7 @@ namespace Zetris {
 
                     writer.Write(Style);
                     writer.Write(Speed);
+                    writer.Write(Previews);
                     writer.Write(PerfectClear);
                     writer.Write(C4W);
                     writer.Write(Player);
@@ -111,6 +121,10 @@ namespace Zetris {
 
                             Style = reader.ReadInt32();
                             Speed = reader.ReadInt32();
+
+                            if (version > 0)
+                                Previews = reader.ReadInt32();
+
                             PerfectClear = reader.ReadBoolean();
                             C4W = reader.ReadBoolean();
                             Player = reader.ReadInt32();

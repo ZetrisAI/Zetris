@@ -26,6 +26,7 @@ namespace Zetris {
 
             Style.SelectedIndex = Preferences.Style;
             Speed.RawValue = Preferences.Speed;
+            Previews.RawValue = Preferences.Previews;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
             Player.RawValue = Preferences.Player + 1;
@@ -42,6 +43,7 @@ namespace Zetris {
                     StyleTspin.Content = "티스핀+";
                     StyleNoHold.Content = "노홀드";
                     Speed.Title = "플레이 속도:";
+                    Previews.Title = "";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     C4W.Content = "센터 포와이드";
                     Player.Title = "멀티아케이드:";
@@ -55,6 +57,7 @@ namespace Zetris {
                     StyleTspin.Content = "Tスピン（強）";
                     StyleNoHold.Content = "ホールドなし";
                     Speed.Title = "速度:";
+                    Previews.Title = "";
                     PerfectClear.Content = "パフェ発見機";
                     C4W.Content = "中開けREN";
                     Player.Title = "ドリームアーケード みんなで:";
@@ -68,6 +71,7 @@ namespace Zetris {
                     StyleTspin.Content = "T-Spin+";
                     StyleNoHold.Content = "No Hold";
                     Speed.Title = "Speed:";
+                    Previews.Title = "Previews:";
                     PerfectClear.Content = "Perfect Clear Finder";
                     C4W.Content = "Center 4-Wide";
                     Player.Title = "MP Arcade Player:";
@@ -90,7 +94,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Style.IsEnabled = Speed.Enabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
+            Style.IsEnabled = Speed.Enabled = Previews.Enabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
         }
 
         public void SetGamepadIndex(int index) =>
@@ -101,6 +105,9 @@ namespace Zetris {
 
         void SpeedChanged(double NewValue) =>
             Preferences.Speed = (int)Speed.RawValue;
+
+        void PreviewsChanged(double NewValue) =>
+            Preferences.Previews = (int)Previews.RawValue;
 
         void PerfectClearChanged(object sender, RoutedEventArgs e) =>
             Preferences.PerfectClear = PerfectClear.IsChecked == true;
