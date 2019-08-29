@@ -688,10 +688,6 @@ namespace Zetris {
             return 0;
         }
 
-        public static int getGarbageTravelling(int index) => Game.ReadInt32(new IntPtr(
-            getGarbagePointer(index)
-        ));
-
         public static int getGarbageDropping(int index) => Game.ReadInt32(new IntPtr(
             getGarbagePointer(index) + 0x8
         ));

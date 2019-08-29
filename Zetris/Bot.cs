@@ -160,19 +160,12 @@ namespace Zetris {
                         InputHelper.ClearLines(misaboard, out int cleared);
 
                         int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
-                        int garbage_travel = GameHelper.getGarbageTravelling(playerID);
 
-                        if (garbage_drop < 0) {
-                            garbage_travel += garbage_drop;
+                        if (garbage_drop < 0)
                             garbage_drop = 0;
-                        }
 
-                        if (garbage_travel < 0) garbage_travel = 0;
-
-                        if (!GameHelper.getPlayerIsTetris(1 - playerID) && garbage_drop > 7) {
-                            garbage_travel += garbage_drop - 7;
+                        if (!GameHelper.getPlayerIsTetris(1 - playerID) && garbage_drop > 7)
                             garbage_drop = 7;
-                        }
 
                         InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
@@ -185,7 +178,7 @@ namespace Zetris {
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
                                 b2b,
-                                garbage_travel
+                                0
                             );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
@@ -233,7 +226,7 @@ namespace Zetris {
                                     board,
                                     combo,
                                     b2b,
-                                    GameHelper.getGarbageTravelling(playerID)
+                                    0
                                 );
 
                                 Stopwatch misasearching = new Stopwatch();
