@@ -115,9 +115,9 @@ namespace Zetris {
 
                 int[] pieces = GameHelper.getPieces(playerID);
 
-                if (GameHelper.getBigFrameCount() < 6) startbreak = 0;
+                if (GameHelper.getBigFrameCount() < 15) startbreak = 0;
                 else if (GameHelper.getBigFrameCount() < 40) {
-                    if (++startbreak % 6 == 0) {
+                    if (++startbreak == 10) {
                         MisaMino.Reset(); // this will abort as well
                         misasolved = false;
                         b2b = 0;
@@ -133,7 +133,9 @@ namespace Zetris {
 
                         misaboard = (int[,])board.Clone();
                         pcboard = (int[,])board.Clone();
+
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
 
                         if (!danger) {
                             MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
@@ -169,9 +171,12 @@ namespace Zetris {
 
                         InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
+                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+
                         if (!danger)
                             MisaMino.FindMove(
-                                pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
+                                q,
                                 pieces[0],
                                 hold,
                                 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[0], 4, 4, 0)),
@@ -218,8 +223,11 @@ namespace Zetris {
 
                         if (!pathSuccess) {
                             if (!InputHelper.BoardEquals(misaboard, board)) {
+                                int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                                q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+
                                 MisaMino.FindMove(
-                                    pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray(),
+                                    q,
                                     current,
                                     hold,
                                     baseBoardHeight,
@@ -269,8 +277,11 @@ namespace Zetris {
                         if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
+                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+
                             PerfectClear.Find(
-                                pcboard, pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray(), pieces[start],
+                                pcboard, q, pieces[start],
                                 wasHold? current : hold, Preferences.Style != 3, 6, GameHelper.InSwap(), combo
                             );
                         }
