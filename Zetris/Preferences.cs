@@ -81,7 +81,7 @@ namespace Zetris {
             set {
                 if (Freeze) return;
 
-                _player = Math.Max(0, Math.Min(3, value));
+                _player = Math.Max(0, Math.Min(1, value));
                 Save();
             }
         }
