@@ -884,5 +884,11 @@ namespace Zetris {
 
             return P1State > 0 && P1State < 16;
         }
+
+        public static byte CharacterSelectState(int index) => Game.ReadByte(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                0x140460690
+            )) + 0x1B8 + 0x30 * index
+        ));
     }
 }

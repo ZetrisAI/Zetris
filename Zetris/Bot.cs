@@ -637,16 +637,17 @@ namespace Zetris {
             } else if (GameHelper.InMultiplayer()) {
                 gamepad.Buttons = X360Buttons.None;
 
-                if (globalFrames % 2 == 0) {
-                    if (GameHelper.OutsideMenu()) {
-                        if (GameHelper.InMultiplayer()) {
-                            if (!GameHelper.IsCharacterSelect() || GameHelper.CharSelectIndex(playerID) == 13) {
-                                gamepad.Buttons |= X360Buttons.A;
-                            } else {
-                                gamepad.Buttons |= ((charindex = ++charindex % 5) == 0) ? X360Buttons.Down : X360Buttons.Right;
-                            }
-                        } else gamepad.Buttons |= X360Buttons.A;
-                    }
+                if (globalFrames % 2 == 0 && GameHelper.OutsideMenu()) {
+                    if (!GameHelper.IsCharacterSelect())
+                        gamepad.Buttons |= X360Buttons.A;
+
+                    else if (GameHelper.CharSelectIndex(playerID) == 13)
+                        gamepad.Buttons |= X360Buttons.A;
+
+                    else if (GameHelper.CharacterSelectState(playerID) > 1)
+                        gamepad.Buttons |= X360Buttons.B;
+
+                    else gamepad.Buttons |= ((charindex = ++charindex % 5) == 0) ? X360Buttons.Down : X360Buttons.Right;
                 }
             }
 
