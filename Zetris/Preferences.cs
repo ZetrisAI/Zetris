@@ -15,11 +15,15 @@ namespace Zetris {
         static readonly string FilePath = Path.Combine(UserPath, "Zetris.config");
 
         static readonly int Version = 1;
+
+        public static bool Freeze = false;
         
         static int _style = 0;
         public static int Style {
             get => _style;
             set {
+                if (Freeze) return;
+
                 _style = Math.Max(0, Math.Min(2, value));
                 Bot.UpdateConfig();
                 Save();
@@ -30,6 +34,8 @@ namespace Zetris {
         public static int Speed {
             get => _speed;
             set {
+                if (Freeze) return;
+
                 _speed = Math.Max(10, Math.Min(100, value));
                 Save();
             }
@@ -39,6 +45,8 @@ namespace Zetris {
         public static int Previews {
             get => _previews;
             set {
+                if (Freeze) return;
+
                 _previews = Math.Max(1, Math.Min(18, value));
                 Save();
             }
@@ -48,6 +56,8 @@ namespace Zetris {
         public static bool PerfectClear {
             get => _perfect;
             set {
+                if (Freeze) return;
+
                 _perfect = value;
                 Save();
             }
@@ -57,6 +67,8 @@ namespace Zetris {
         public static bool C4W {
             get => _c4w;
             set {
+                if (Freeze) return;
+
                 _c4w = value;
                 Bot.UpdateConfig();
                 Save();
@@ -67,6 +79,8 @@ namespace Zetris {
         public static int Player {
             get => _player;
             set {
+                if (Freeze) return;
+
                 _player = Math.Max(0, Math.Min(3, value));
                 Save();
             }
@@ -80,6 +94,8 @@ namespace Zetris {
             get => false;
 #endif
             set {
+                if (Freeze) return;
+
                 _auto = value;
             }
         }

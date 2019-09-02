@@ -22,7 +22,11 @@ namespace Zetris {
         static string InactiveString, ActiveString;
 
         public UI() {
+            Preferences.Freeze = true;
+
             InitializeComponent();
+
+            Preferences.Freeze = false;
 
             Style.SelectedIndex = Preferences.Style;
             Speed.RawValue = Preferences.Speed;
