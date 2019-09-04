@@ -135,15 +135,15 @@ namespace Zetris {
                         pcboard = (int[,])board.Clone();
 
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                        q = q.Take(Math.Min(q.Length, Style.Current.Previews)).ToArray();
 
                         if (!danger) {
                             MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
-                            if (Preferences.PerfectClear) {
+                            if (Style.Current.PerfectClear) {
                                 PerfectClear.Find(
                                     pcboard, q, pieces[0],
-                                    null, Preferences.Style != 3, 6, GameHelper.InSwap(), 0
+                                    null, Style.Current.HoldAllowed, 6, GameHelper.InSwap(), 0
                                 );
                             }
                         }
@@ -172,7 +172,7 @@ namespace Zetris {
                         InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                        q = q.Take(Math.Min(q.Length, Style.Current.Previews)).ToArray();
 
                         if (!danger)
                             MisaMino.FindMove(
@@ -200,7 +200,7 @@ namespace Zetris {
                     if (PerfectClear.Running) PerfectClear.Abort();
 
                     if (!danger) {
-                        if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                        if (Style.Current.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
                             pieceUsed = PerfectClear.LastSolution[0].Piece;
                             finalX = PerfectClear.LastSolution[0].X;
                             int misaY = finalY = PerfectClear.LastSolution[0].Y;
@@ -224,7 +224,7 @@ namespace Zetris {
                         if (!pathSuccess) {
                             if (!InputHelper.BoardEquals(misaboard, board)) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                                q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                                q = q.Take(Math.Min(q.Length, Style.Current.Previews)).ToArray();
 
                                 MisaMino.FindMove(
                                     q,
@@ -274,15 +274,15 @@ namespace Zetris {
                             fuck = true;
                         }
 
-                        if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
+                        if (Style.Current.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                            q = q.Take(Math.Min(q.Length, Style.Current.Previews)).ToArray();
 
                             PerfectClear.Find(
                                 pcboard, q, pieces[start],
-                                wasHold? current : hold, Preferences.Style != 3, 6, GameHelper.InSwap(), combo
+                                wasHold? current : hold, Style.Current.HoldAllowed, 6, GameHelper.InSwap(), combo
                             );
                         }
                     }
@@ -651,7 +651,7 @@ namespace Zetris {
                 }
             }
 
-            speedTick += Preferences.Speed / 100M;
+            speedTick += Style.Current.Speed / 100M;
 
             if (speedTick < 1 && inMatch) {
                 gamepad.Buttons = X360Buttons.None;
@@ -675,7 +675,7 @@ namespace Zetris {
 
         public static void UpdateConfig() {
             if (!Started) return;
-            MisaMino.Configure(Preferences.Style + 1, Preferences.C4W);
+            MisaMino.Configure(Style.Current.Parameters, Style.Current.HoldAllowed);
         }
         
         static int framesSkipped = 0;
