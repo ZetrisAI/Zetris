@@ -115,6 +115,7 @@
     <Compile Include="GameHelper.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="Preferences.cs" />
+    <Compile Include="Style.cs" />
     <Compile Include="UI.xaml.cs">
       <DependentUpon>UI.xaml</DependentUpon>
       <SubType>Code</SubType>
