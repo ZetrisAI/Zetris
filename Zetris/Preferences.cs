@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
+using MisaMinoNET;
+
 namespace Zetris {
     public static class Preferences {
         static readonly string UserPath = Path.Combine(
@@ -14,66 +16,13 @@ namespace Zetris {
 
         static readonly string FilePath = Path.Combine(UserPath, "Zetris.config");
 
-        static readonly int Version = 1;
+        static readonly int Version = 2;
 
-        public static bool Freeze = false;
-        
-        static int _style = 0;
-        public static int Style {
-            get => _style;
-            set {
-                if (Freeze) return;
+        public static bool Freeze = true;
 
-                _style = Math.Max(0, Math.Min(2, value));
-                Bot.UpdateConfig();
-                Save();
-            }
-        }
-
-        static int _speed = 100;
-        public static int Speed {
-            get => _speed;
-            set {
-                if (Freeze) return;
-
-                _speed = Math.Max(10, Math.Min(100, value));
-                Save();
-            }
-        }
-
-        static int _previews = 18;
-        public static int Previews {
-            get => _previews;
-            set {
-                if (Freeze) return;
-
-                _previews = Math.Max(1, Math.Min(18, value));
-                Save();
-            }
-        }
-
-        static bool _perfect = false;
-        public static bool PerfectClear {
-            get => _perfect;
-            set {
-                if (Freeze) return;
-
-                _perfect = value;
-                Save();
-            }
-        }
-
-        static bool _c4w = false;
-        public static bool C4W {
-            get => _c4w;
-            set {
-                if (Freeze) return;
-
-                _c4w = value;
-                Bot.UpdateConfig();
-                Save();
-            }
-        }
+        public static List<Style> Styles { get; private set; } = new List<Style>() {
+            new Style("T-spin+")
+        };
 
         static int _player = 1;
         public static int Player {
@@ -82,6 +31,7 @@ namespace Zetris {
                 if (Freeze) return;
 
                 _player = Math.Max(0, Math.Min(1, value));
+
                 Save();
             }
         }
@@ -100,7 +50,7 @@ namespace Zetris {
             }
         }
 
-        static void Save() {
+        public static void Save() {
             if (!Directory.Exists(UserPath)) Directory.CreateDirectory(UserPath);
 
             try {
@@ -110,11 +60,16 @@ namespace Zetris {
                     writer.Write(new char[] {'Z', 'E', 'T', 'R'});
                     writer.Write(Version);
 
-                    writer.Write(Style);
-                    writer.Write(Speed);
-                    writer.Write(Previews);
-                    writer.Write(PerfectClear);
-                    writer.Write(C4W);
+                    writer.Write(Styles.Count);
+                    foreach (Style style in Styles) {
+                        writer.Write(style.Name);
+                        writer.Write(style.Parameters.ToArray().SelectMany(BitConverter.GetBytes).ToArray());
+                        writer.Write(style.Speed);
+                        writer.Write(style.Previews);
+                        writer.Write(style.HoldAllowed);
+                        writer.Write(style.PerfectClear);
+                    }
+
                     writer.Write(Player);
                 }
 
@@ -135,14 +90,30 @@ namespace Zetris {
 
                             if (version > Version) throw new InvalidDataException();
 
-                            Style = reader.ReadInt32();
-                            Speed = reader.ReadInt32();
+                            if (version <= 1) return;
 
-                            if (version > 0)
-                                Previews = reader.ReadInt32();
+                            Styles = new List<Style>();
 
-                            PerfectClear = reader.ReadBoolean();
-                            C4W = reader.ReadBoolean();
+                            int count = reader.ReadInt32();
+                            for (int i = 0; i < count; i++) {
+                                string name = reader.ReadString();
+
+                                byte[] bytes = reader.ReadBytes(68);
+                                int[] param = new int[17];
+
+                                for (int j = 0; j < 17; j++)
+                                    param[j] = BitConverter.ToInt32(bytes, j * 4);
+
+                                Styles.Add(new Style(
+                                    name,
+                                    MisaMinoParameters.FromArray(param),
+                                    reader.ReadInt32(),
+                                    reader.ReadInt32(),
+                                    reader.ReadBoolean(),
+                                    reader.ReadBoolean()
+                                ));
+                            }
+
                             Player = reader.ReadInt32();
                         }
                     } catch {}
