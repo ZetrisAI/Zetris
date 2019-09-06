@@ -16,7 +16,7 @@ namespace Zetris {
 
             InitializeComponent();
 
-            Content = (CustomStyle = style).ToString();
+            Text.Text = (CustomStyle = style).ToString();
             _editor = editor;
         }
 
@@ -25,7 +25,14 @@ namespace Zetris {
         void Duplicate(object sender, RoutedEventArgs e) => _editor.Duplicate(this);
 
         void Rename(object sender, RoutedEventArgs e) {
+            Input.Text = CustomStyle.ToString();
+            Input.SelectionStart = 0;
+            Input.SelectionLength = Input.Text.Length;
+            Input.CaretIndex = Input.Text.Length;
 
+            Input.Opacity = 1;
+            Input.IsHitTestVisible = true;
+            Input.Focus();
         }
 
         void Delete(object sender, RoutedEventArgs e) => _editor.Delete(this);
@@ -33,5 +40,18 @@ namespace Zetris {
         void Import(object sender, RoutedEventArgs e) => _editor.Import(this);
 
         void Export(object sender, RoutedEventArgs e) => _editor.Export(this);
+
+        private void InputLostFocus(object sender, RoutedEventArgs e) {
+            Text.Text = CustomStyle.Name = Input.Text;
+            Input.Opacity = 0;
+            Input.IsHitTestVisible = false;
+        }
+
+        private void InputKeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                InputLostFocus(sender, e);
+                e.Handled = true;
+            }
+        }
     }
 }

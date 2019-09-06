@@ -12,7 +12,7 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" Height="150" x:Name="StyleList" SelectionChanged="StyleListChanged">
+        <ListBox Grid.Column="0" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="New" Click="NewEmpty" />
