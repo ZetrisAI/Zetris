@@ -207,6 +207,10 @@ namespace Zetris {
         void Down(object sender, MouseButtonEventArgs e) {
             if (!Enabled || e.ChangedButton != MouseButton.Left) return;
 
+            // Kill Rename TextBox
+            FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), null);
+            Keyboard.ClearFocus();
+
             mouseHeld = true;
             e.MouseDevice.Capture(ArcCanvas);
 
