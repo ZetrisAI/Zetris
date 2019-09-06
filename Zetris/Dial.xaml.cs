@@ -18,8 +18,8 @@ namespace Zetris {
         const double angle_end = -1 * Math.PI / 3;
         const double angle_center = Math.PI / 2;
 
-        double ToValue(double rawValue) => (rawValue - _min) / (_max - _min);
-        double ToRawValue(double value) => _min + (_max - _min) * value;
+        double ToValue(double rawValue) => Math.Pow((rawValue - _min) / (_max - _min), 1 / _exp);
+        double ToRawValue(double value) => _min + (_max - _min) * Math.Pow(value, _exp);
 
         double _min = 0;
         public double Minimum {
@@ -38,6 +38,17 @@ namespace Zetris {
             set {
                 if (_max != value) {
                     _max = value;
+                    Value = ToValue(_raw);
+                }
+            }
+        }
+
+        double _exp = 1;
+        public double Exponent {
+            get => _exp;
+            set {
+                if (_exp != value) {
+                    _exp = value;
                     Value = ToValue(_raw);
                 }
             }
@@ -221,7 +232,7 @@ namespace Zetris {
             
             double Y = e.GetPosition(ArcCanvas).Y;
             
-            Value += (lastY - Y) / 200;
+            Value += (lastY - Y) / 300;
             lastY = Y;
         }
     }
