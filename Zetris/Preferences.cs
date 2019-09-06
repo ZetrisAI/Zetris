@@ -21,7 +21,7 @@ namespace Zetris {
         static bool Initialized = false;
 
         public static List<Style> Styles { get; private set; } = new List<Style>() {
-            new Style("T-spin+"),
+            new Style("T-Spin+"),
             new Style("TST", new MisaMinoParameters(13, 9, 17, 10, 725, 25, 39, 2, 12, 19, 7, 4, 21, 16, 14, 19, 0))
         };
 
