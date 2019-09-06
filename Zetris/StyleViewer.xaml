@@ -16,7 +16,7 @@
     <Grid>
         <TextBlock VerticalAlignment="Center" x:Name="Text" />
 
-        <TextBox Opacity="0" IsHitTestVisible="False" Background="#161616" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0 1" x:Name="Input"
+        <TextBox Opacity="0" IsEnabled="False" IsHitTestVisible="False" Background="#161616" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="0 1" x:Name="Input"
                  LostFocus="InputLostFocus" KeyUp="InputKeyUp" />
     </Grid>
 </ListBoxItem>

@@ -34,7 +34,7 @@ namespace Zetris {
             Input.CaretIndex = Input.Text.Length;
 
             Input.Opacity = 1;
-            Input.IsHitTestVisible = true;
+            Input.IsEnabled = Input.IsHitTestVisible = true;
             Input.Focus();
         }
 
@@ -55,7 +55,7 @@ namespace Zetris {
         private void InputLostFocus(object sender, RoutedEventArgs e) {
             Text.Text = CustomStyle.Name = Input.Text;
             Input.Opacity = 0;
-            Input.IsHitTestVisible = false;
+            Input.IsEnabled = Input.IsHitTestVisible = false;
         }
 
         private void InputKeyUp(object sender, KeyEventArgs e) {
