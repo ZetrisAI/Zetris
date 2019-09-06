@@ -101,6 +101,10 @@
     <Page Include="Dial.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Editor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +120,9 @@
     <Compile Include="InputHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Style.cs" />
+    <Compile Include="Editor.xaml.cs">
+      <DependentUpon>Editor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI.xaml.cs">
       <DependentUpon>UI.xaml</DependentUpon>
       <SubType>Code</SubType>

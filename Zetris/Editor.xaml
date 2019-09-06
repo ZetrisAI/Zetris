@@ -1,0 +1,37 @@
+﻿<Controls:MetroWindow x:Class="Zetris.Editor"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Zetris="clr-namespace:Zetris"
+                      Style="{StaticResource ZetrisWindow}"
+                      Title="Style Editor" WindowStartupLocation="CenterOwner" Width="650">
+
+    <Grid Margin="15 10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+
+        <ListBox Grid.Column="0" x:Name="StyleList" SelectionChanged="StyleListChanged" />
+
+        <UniformGrid Grid.Column="1" Margin="10 0 0 0" Rows="6" Columns="3" x:Name="Layout">
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="miny_factor" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hole" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="open_hole" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="v_transitions" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="tspin3" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="clear_efficient" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="upcomeAtt" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="h_factor" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hole_dis_factor2" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hole_dis" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hole_dis_factor" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="tspin" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hold_T" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="hold_I" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="clear_useless_factor" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="dif_factor" />
+            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="strategy_4w" />
+        </UniformGrid>
+    </Grid>
+</Controls:MetroWindow>
