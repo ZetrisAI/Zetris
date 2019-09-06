@@ -4,7 +4,7 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Zetris="clr-namespace:Zetris"
                       Style="{StaticResource ZetrisWindow}"
-                      Title="Style Editor" WindowStartupLocation="CenterOwner" Width="650">
+                      WindowStartupLocation="CenterOwner" Width="650">
 
     <Grid Margin="15 10">
         <Grid.ColumnDefinitions>
@@ -12,7 +12,14 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" x:Name="StyleList" SelectionChanged="StyleListChanged" />
+        <ListBox Grid.Column="0" Height="150" x:Name="StyleList" SelectionChanged="StyleListChanged">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="New" Click="NewEmpty" />
+                    <MenuItem Header="Import" Click="ImportEmpty" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
 
         <UniformGrid Grid.Column="1" Margin="10 0 0 0" Rows="6" Columns="3" x:Name="Layout">
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="1000" Exponent="2.7" Changed="ParameterChanged" Title="miny_factor" />
