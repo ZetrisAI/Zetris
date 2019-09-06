@@ -32,5 +32,7 @@ namespace Zetris {
             Name = name;
             Parameters = parameters?? new MisaMinoParameters();
         }
+
+        public override string ToString() => Name;
     }
 }
