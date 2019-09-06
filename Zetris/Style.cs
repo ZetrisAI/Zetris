@@ -25,6 +25,8 @@ namespace Zetris {
             arr[index] = value;
             Parameters = MisaMinoParameters.FromArray(arr);
 
+            if (Preferences.CurrentStyle == this) Bot.UpdateConfig();
+
             Preferences.Save();
         }
 
