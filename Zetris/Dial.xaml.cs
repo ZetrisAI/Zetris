@@ -7,7 +7,7 @@ using System.Windows.Shapes;
 
 namespace Zetris {
     public partial class Dial: UserControl {
-        public delegate void DialChangedEventHandler(double NewValue);
+        public delegate void DialChangedEventHandler(Dial sender, double NewValue);
         public event DialChangedEventHandler Changed;
 
         const double width = 43, height = 39;
@@ -85,7 +85,7 @@ namespace Zetris {
                     Value = ToValue(_raw);
                     Display.Text = ValueString;
 
-                    Changed?.Invoke(_raw);
+                    Changed?.Invoke(this, _raw);
 
                     _rawchanging = false;
                 }
@@ -222,7 +222,7 @@ namespace Zetris {
             mouseHeld = false;
             e.MouseDevice.Capture(null);
 
-            Changed?.Invoke(RawValue);
+            Changed?.Invoke(this, RawValue);
 
             ArcCanvas.Cursor = Cursors.Hand;
         }
