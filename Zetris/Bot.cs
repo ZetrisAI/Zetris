@@ -675,7 +675,7 @@ namespace Zetris {
 
         public static void UpdateConfig() {
             if (!Started) return;
-            MisaMino.Configure(Preferences.Styles[Preferences.StyleIndex].Parameters, Preferences.HoldAllowed);
+            MisaMino.Configure(Preferences.CurrentStyle.Parameters, Preferences.HoldAllowed);
         }
         
         static int framesSkipped = 0;
