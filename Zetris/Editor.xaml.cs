@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using Microsoft.Win32;
 
 using MahApps.Metro.Controls;
 
@@ -63,8 +66,11 @@ namespace Zetris {
             StyleList.SelectedIndex = index;
         }
 
+        void New(int index) =>
+            Insert(index, new Style("New Style"));
+
         public void New(StyleViewer item) =>
-            Insert(StyleList.Items.IndexOf(item), new Style("New Style"));
+            New(StyleList.Items.IndexOf(item));
 
         public void Duplicate(StyleViewer item) {
             int index = StyleList.Items.IndexOf(item);
@@ -84,21 +90,25 @@ namespace Zetris {
             StyleList.SelectedIndex = Math.Min(index, StyleList.Items.Count - 1);
         }
 
-        public void Import(StyleViewer item) {
-            int index = StyleList.Items.IndexOf(item);
+        void Import(int index) {
+            OpenFileDialog ofd = new OpenFileDialog() {
+                Filter = "Zetris Style Files|*.zst",
+                Title = "Import Zetris Style"
+            };
 
+            if (ofd.ShowDialog(Window.GetWindow(this)) == true)
+                using (FileStream file = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
+                    Insert(index, Binary.DecodeStyle(file));
         }
 
-        public void Export(StyleViewer item) {
-            int index = StyleList.Items.IndexOf(item);
+        public void Import(StyleViewer item) =>
+            Import(StyleList.Items.IndexOf(item));
 
-        }
+        void NewEmpty(object sender, RoutedEventArgs e) =>
+            New(Preferences.Styles.Count);
 
-        void NewEmpty(object sender, RoutedEventArgs e) => Insert(Preferences.Styles.Count, new Style("New Style"));
-
-        void ImportEmpty(object sender, RoutedEventArgs e) {
-            
-        }
+        void ImportEmpty(object sender, RoutedEventArgs e) =>
+            Import(Preferences.Styles.Count);
 
         void ParameterChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Styles[StyleList.SelectedIndex].SetParameter(Layout.Children.IndexOf(sender), (int)NewValue);

@@ -97,6 +97,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Binary.cs" />
     <Compile Include="Bot.cs" />
     <Page Include="StyleViewer.xaml">
       <Generator>MSBuild:Compile</Generator>

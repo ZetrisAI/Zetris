@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
+using Microsoft.Win32;
 
 namespace Zetris {
     public partial class StyleViewer: ListBoxItem {
@@ -39,7 +42,15 @@ namespace Zetris {
 
         void Import(object sender, RoutedEventArgs e) => _editor.Import(this);
 
-        void Export(object sender, RoutedEventArgs e) => _editor.Export(this);
+        void Export(object sender, RoutedEventArgs e) {
+            SaveFileDialog sfd = new SaveFileDialog() {
+                Filter = "Zetris Style Files|*.zst",
+                Title = "Export Zetris Style"
+            };
+
+            if (sfd.ShowDialog(Window.GetWindow(this)) == true)
+                File.WriteAllBytes(sfd.FileName, Binary.EncodeStyle(CustomStyle).ToArray());
+        }
 
         private void InputLostFocus(object sender, RoutedEventArgs e) {
             Text.Text = CustomStyle.Name = Input.Text;
