@@ -98,6 +98,9 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Bot.cs" />
+    <Page Include="StyleViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dial.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,6 +115,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StyleViewer.xaml.cs">
+      <DependentUpon>StyleViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
