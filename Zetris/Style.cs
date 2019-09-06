@@ -30,6 +30,8 @@ namespace Zetris {
             Preferences.Save();
         }
 
+        public Style Clone() => new Style($"{Name} (Copy)", MisaMinoParameters.FromArray(Parameters.ToArray()));
+
         public Style(string name, MisaMinoParameters parameters = null) {
             Name = name;
             Parameters = parameters?? new MisaMinoParameters();
