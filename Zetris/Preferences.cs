@@ -34,6 +34,8 @@ namespace Zetris {
             }
         }
 
+        public static Style CurrentStyle => Styles[StyleIndex];
+
         static int _speed = 100;
         public static int Speed {
             get => _speed;
@@ -133,53 +135,52 @@ namespace Zetris {
         }
 
         static Preferences() {
-            if (!File.Exists(FilePath)) return;
+            if (File.Exists(FilePath))
+                using (FileStream file = File.Open(FilePath, FileMode.Open, FileAccess.Read))
+                    try {
+                        using (BinaryReader reader = new BinaryReader(file)) {
+                            if (!reader.ReadChars(4).SequenceEqual(new char[] {'Z', 'E', 'T', 'R'})) throw new InvalidDataException();
 
-            using (FileStream file = File.Open(FilePath, FileMode.Open, FileAccess.Read))
-                try {
-                    using (BinaryReader reader = new BinaryReader(file)) {
-                        if (!reader.ReadChars(4).SequenceEqual(new char[] {'Z', 'E', 'T', 'R'})) throw new InvalidDataException();
+                            int version = reader.ReadInt32();
 
-                        int version = reader.ReadInt32();
+                            if (version > Version) throw new InvalidDataException();
 
-                        if (version > Version) throw new InvalidDataException();
+                            if (version >= 1) {
+                                Styles = new List<Style>();
 
-                        if (version >= 1) {
-                            Styles = new List<Style>();
+                                int count = reader.ReadInt32();
+                                for (int i = 0; i < count; i++) {
+                                    string name = reader.ReadString();
 
-                            int count = reader.ReadInt32();
-                            for (int i = 0; i < count; i++) {
-                                string name = reader.ReadString();
+                                    byte[] bytes = reader.ReadBytes(68);
+                                    int[] param = new int[17];
 
-                                byte[] bytes = reader.ReadBytes(68);
-                                int[] param = new int[17];
+                                    for (int j = 0; j < 17; j++)
+                                        param[j] = BitConverter.ToInt32(bytes, j * 4);
 
-                                for (int j = 0; j < 17; j++)
-                                    param[j] = BitConverter.ToInt32(bytes, j * 4);
+                                    Styles.Add(new Style(
+                                        name,
+                                        MisaMinoParameters.FromArray(param)
+                                    ));
+                                }
+                            } else reader.ReadInt32();
 
-                                Styles.Add(new Style(
-                                    name,
-                                    MisaMinoParameters.FromArray(param)
-                                ));
+                            if (version >= 1)
+                                StyleIndex = reader.ReadInt32();
+
+                            Speed = reader.ReadInt32();
+
+                            if (version >= 1) {
+                                Previews = reader.ReadInt32();
+                                HoldAllowed = reader.ReadBoolean();
                             }
-                        } else reader.ReadInt32();
 
-                        if (version >= 1)
-                            StyleIndex = reader.ReadInt32();
-
-                        Speed = reader.ReadInt32();
-
-                        if (version >= 1) {
-                            Previews = reader.ReadInt32();
-                            HoldAllowed = reader.ReadBoolean();
+                            PerfectClear = reader.ReadBoolean();
+                            C4W = reader.ReadBoolean();
+                            Player = reader.ReadInt32();
                         }
-
-                        PerfectClear = reader.ReadBoolean();
-                        C4W = reader.ReadBoolean();
-                        Player = reader.ReadInt32();
-                    }
-                } catch {}
-
+                    } catch {}
+            
             Initialized = true;
         }
     }
