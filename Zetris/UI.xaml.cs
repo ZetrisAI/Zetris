@@ -23,10 +23,17 @@ namespace Zetris {
 
         static string InactiveString, ActiveString;
 
+        Editor Editor = null;
+
         public UI() {
             InitializeComponent();
 
             FreezeEvents = false;
+
+            foreach (Style style in Preferences.Styles)
+                Style.Items.Add(style);
+
+            Style.SelectedIndex = Preferences.StyleIndex;
 
             Speed.RawValue = Preferences.Speed;
             Previews.RawValue = Preferences.Previews;
@@ -44,6 +51,7 @@ namespace Zetris {
                     InactiveString = "비활성화";
                     ActiveString = "활성화";
                     StyleText.Text = "스타일:";
+                    Edit.Content = "";
                     Speed.Title = "플레이 속도:";
                     Previews.Title = "";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
@@ -57,6 +65,7 @@ namespace Zetris {
                     InactiveString = "停止";
                     ActiveString = "動作中";
                     StyleText.Text = "立ち回り:";
+                    Edit.Content = "";
                     Speed.Title = "速度:";
                     Previews.Title = "";
                     PerfectClear.Content = "パフェ発見機";
@@ -70,6 +79,7 @@ namespace Zetris {
                     InactiveString = "Inactive";
                     ActiveString = "Active";
                     StyleText.Text = "Style:";
+                    Edit.Content = "Edit Styles";
                     Speed.Title = "Speed:";
                     Previews.Title = "Previews:";
                     HoldAllowed.Content = "Hold Allowed";
@@ -95,17 +105,24 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
+
+            if (Active) Editor?.Close();
         }
 
-        public void SetGamepadIndex(int index) =>
-            Title = $"Zetris [{index}]";
+        public void SetGamepadIndex(int index) => Title = $"Zetris [{index}]";
+        
+        void StyleChanged(object sender, SelectionChangedEventArgs e) {
+            if (!FreezeEvents) Preferences.StyleIndex = Style.SelectedIndex;
+        }
 
-        void SpeedChanged(double NewValue) {
+        void EditClicked(object sender, RoutedEventArgs e) => (Editor = new Editor(this)).ShowDialog();
+
+        void SpeedChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Speed = (int)Speed.RawValue;
         }
 
-        void PreviewsChanged(double NewValue) {
+        void PreviewsChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Previews = (int)Previews.RawValue;
         }
 
@@ -121,7 +138,7 @@ namespace Zetris {
             if (!FreezeEvents) Preferences.C4W = C4W.IsChecked == true;
         }
 
-        void PlayerChanged(double NewValue) {
+        void PlayerChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Player = (int)Player.RawValue - 1;
         }
         
