@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,6 +23,26 @@ namespace Zetris {
             Text.Text = (CustomStyle = style).ToString();
             _editor = editor;
         }
+
+        void StyleDrag(object sender, MouseEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Released || Input.IsEnabled) return;
+
+            DragDrop.DoDragDrop(this, this, DragDropEffects.Move | DragDropEffects.Copy);
+        }
+
+        void StyleDragOver(object sender, DragEventArgs e) {
+            if (!e.Data.GetFormats().SequenceEqual(new string[] { "Zetris.StyleViewer" }) || (StyleViewer)e.Data.GetData(typeof(StyleViewer)) == this)
+                e.Effects = DragDropEffects.None;
+            else if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.Move;
+
+            e.Handled = true;
+        }
+
+        void StyleDrop(object sender, DragEventArgs e) =>
+            _editor.StyleListDrop(sender, e);
 
         void New(object sender, RoutedEventArgs e) => _editor.New(this);
 

@@ -58,6 +58,35 @@ namespace Zetris {
                 ((Dial)Layout.Children[i]).RawValue = Preferences.Styles[StyleList.SelectedIndex].GetParameter(i);
         }
 
+        void StyleListDragOver(object sender, DragEventArgs e) {
+            if (!e.Data.GetFormats().SequenceEqual(new string[] { "Zetris.StyleViewer" }))
+                e.Effects = DragDropEffects.None;
+            else if (e.KeyStates.HasFlag(DragDropKeyStates.ControlKey))
+                e.Effects = DragDropEffects.Copy;
+            else
+                e.Effects = DragDropEffects.Move;
+
+            e.Handled = true;
+        }
+
+        public void StyleListDrop(object sender, DragEventArgs e) {
+            StyleViewer dropped = (StyleViewer)e.Data.GetData(typeof(StyleViewer));
+            int source = StyleList.Items.IndexOf(dropped);
+            int dest = (sender is StyleViewer viewer)? StyleList.Items.IndexOf(viewer) : StyleList.Items.Count;
+
+            if (!e.KeyStates.HasFlag(DragDropKeyStates.ControlKey)) {
+                if (dest == StyleList.Items.Count) dest--;
+
+                Preferences.Styles.RemoveAt(source);
+                StyleList.Items.RemoveAt(source);
+
+                Insert(dest, dropped.CustomStyle);
+
+            } else Insert(dest, dropped.CustomStyle.Clone());
+
+            e.Handled = true;
+        }
+
         void Insert(int index, Style style) {
             Preferences.Styles.Insert(index, style);
             Preferences.Save();
