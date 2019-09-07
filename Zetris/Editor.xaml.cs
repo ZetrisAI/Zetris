@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -51,6 +52,9 @@ namespace Zetris {
             }
         }
 
+        void EditorClosing(object sender, CancelEventArgs e) =>
+            Preferences.StyleIndex = StyleList.SelectedIndex;
+
         int lastSelected = -1;
 
         void StyleListChanged(object sender, SelectionChangedEventArgs e) {
@@ -83,6 +87,8 @@ namespace Zetris {
             int source = StyleList.Items.IndexOf(dropped);
             int dest = (sender is StyleViewer viewer)? StyleList.Items.IndexOf(viewer) : StyleList.Items.Count;
 
+            FreezeEvents = true;
+
             if (!e.KeyStates.HasFlag(DragDropKeyStates.ControlKey)) {
                 if (dest == StyleList.Items.Count) dest--;
 
@@ -92,6 +98,8 @@ namespace Zetris {
                 Insert(dest, dropped.CustomStyle);
 
             } else Insert(dest, dropped.CustomStyle.Clone());
+
+            FreezeEvents = false;
 
             e.Handled = true;
         }

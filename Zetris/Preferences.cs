@@ -28,6 +28,7 @@ namespace Zetris {
             get => _styleindex;
             set {
                 _styleindex = Math.Max(0, Math.Min(Styles.Count - 1, value));
+                Bot.UpdateConfig();
                 Save();
             }
         }

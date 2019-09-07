@@ -116,7 +116,20 @@ namespace Zetris {
             if (!FreezeEvents) Preferences.StyleIndex = Style.SelectedIndex;
         }
 
-        void EditClicked(object sender, RoutedEventArgs e) => (Editor = new Editor(this)).ShowDialog();
+        void EditClicked(object sender, RoutedEventArgs e) {
+            (Editor = new Editor(this)).ShowDialog();
+
+            FreezeEvents = true;
+
+            Style.Items.Clear();
+
+            foreach (Style style in Preferences.Styles)
+                Style.Items.Add(style);
+
+            Style.SelectedIndex = Preferences.StyleIndex;
+            
+            FreezeEvents = false;
+        }
 
         void SpeedChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Speed = (int)Speed.RawValue;
