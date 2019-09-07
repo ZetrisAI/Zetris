@@ -51,11 +51,20 @@ namespace Zetris {
             }
         }
 
+        int lastSelected = -1;
+
         void StyleListChanged(object sender, SelectionChangedEventArgs e) {
-            if (StyleList.SelectedIndex == -1) return;
+            if (StyleList.SelectedIndex == -1) {
+                if (lastSelected != -1)
+                    StyleList.SelectedIndex = lastSelected;
+
+                return;
+            }
 
             for (int i = 0; i < 17; i++)
                 ((Dial)Layout.Children[i]).RawValue = Preferences.Styles[StyleList.SelectedIndex].GetParameter(i);
+
+            lastSelected = StyleList.SelectedIndex;
         }
 
         void StyleListDragOver(object sender, DragEventArgs e) {
