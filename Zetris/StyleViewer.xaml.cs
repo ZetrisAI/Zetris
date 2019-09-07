@@ -50,6 +50,7 @@ namespace Zetris {
 
         void Rename(object sender, RoutedEventArgs e) {
             Input.Text = CustomStyle.ToString();
+
             Input.SelectionStart = 0;
             Input.SelectionLength = Input.Text.Length;
             Input.CaretIndex = Input.Text.Length;
@@ -73,15 +74,15 @@ namespace Zetris {
                 File.WriteAllBytes(sfd.FileName, Binary.EncodeStyle(CustomStyle).ToArray());
         }
 
-        private void InputLostFocus(object sender, RoutedEventArgs e) {
+        void InputLostFocus(object sender, RoutedEventArgs e) {
             Text.Text = CustomStyle.Name = Input.Text;
             Input.Opacity = 0;
             Input.IsEnabled = Input.IsHitTestVisible = false;
         }
 
-        private void InputKeyUp(object sender, KeyEventArgs e) {
+        void InputKeyUp(object sender, KeyEventArgs e) {
             if (e.Key == Key.Enter) {
-                InputLostFocus(sender, e);
+                InputLostFocus(null, null);
                 e.Handled = true;
             }
         }

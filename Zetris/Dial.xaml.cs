@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -126,6 +127,15 @@ namespace Zetris {
             }
         }
 
+        bool _precise = true;
+        public bool AllowPrecise {
+            get => _precise;
+            set {
+                if (!(_precise = value) && Input.IsEnabled)
+                    InputLostFocus(null, null);
+            }
+        }
+
         double _scale = 1;
         public double Scale {
             get => _scale;
@@ -207,6 +217,11 @@ namespace Zetris {
         void Down(object sender, MouseButtonEventArgs e) {
             if (!Enabled || e.ChangedButton != MouseButton.Left) return;
 
+            if (e.ClickCount == 2 && AllowPrecise) {
+                DisplayPressed(sender, e);
+                return;
+            }
+
             // Kill Rename TextBox
             FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), null);
             Keyboard.ClearFocus();
@@ -238,6 +253,82 @@ namespace Zetris {
             
             Value += (lastY - Y) / 300;
             lastY = Y;
+        }
+
+        Action InputUpdate;
+
+        void InputChanged(object sender, TextChangedEventArgs e) {
+            string text = Input.Text;
+
+            if (text == null) return;
+            if (text == "") return;
+
+            InputUpdate = () => Input.Text = RawValue.ToString();
+
+            if (int.TryParse(text, out int value)) {
+                if (Minimum <= value && value <= Maximum) {
+                    RawValue = value;
+                    InputUpdate = () => Input.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xDC, 0xDC, 0xDC));
+                } else {
+                    InputUpdate = () => Input.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xBE, 0x17, 0x07));
+                }
+
+                InputUpdate += () => {
+                    if (value < 0) text = $"-{text.Substring(1).TrimStart('0')}";
+                    else if (value > 0) text = text.TrimStart('0');
+                    else text = "0";
+
+                    if (Minimum >= 0) {
+                        if (value < 0) text = "0";
+
+                    } else {
+                        int lower = -(int)Math.Pow(10, ((int)Minimum).ToString().Length - 1) + 1;
+                        if (value < lower) text = lower.ToString();
+                    }
+
+                    int upper = (int)Math.Pow(10, ((int)Maximum).ToString().Length) - 1;
+                    if (value > upper) text = upper.ToString();
+
+                    Input.Text = text;
+                };
+            }
+
+            if (Minimum < 0 && text == "-") InputUpdate = null;
+
+            Dispatcher.InvokeAsync(() => {
+                InputUpdate?.Invoke();
+                InputUpdate = null;
+            });
+        }
+
+        void DisplayPressed(object sender, MouseButtonEventArgs e) {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && Enabled && AllowPrecise) {
+                Input.Text = RawValue.ToString();
+
+                Input.SelectionStart = 0;
+                Input.SelectionLength = Input.Text.Length;
+                Input.CaretIndex = Input.Text.Length;
+
+                Input.Opacity = 1;
+                Input.IsEnabled = Input.IsHitTestVisible = true;
+                Input.Focus();
+
+                e.Handled = true;
+            }
+        }
+        
+        protected void InputLostFocus(object sender, RoutedEventArgs e) {
+            Input.Opacity = 0;
+            Input.IsEnabled = Input.IsHitTestVisible = false;
+
+            Changed?.Invoke(this, _raw);
+        }
+
+        protected void InputKeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                InputLostFocus(null, null);
+                e.Handled = true;
+            }
         }
     }
 }
