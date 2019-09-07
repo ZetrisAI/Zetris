@@ -160,7 +160,7 @@ namespace Zetris {
             if (!FreezeEvents) Preferences.Styles[StyleList.SelectedIndex].SetParameter(Layout.Children.IndexOf(sender), (int)NewValue);
         }
 
-        void EditorKeyDown(object sender, KeyEventArgs e) {
+        void EditorKeyUp(object sender, KeyEventArgs e) {
             StyleViewer selected = (StyleViewer)StyleList.SelectedItem;
 
             if ((e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl)) || e.Key == Key.Add || e.Key == Key.Insert)

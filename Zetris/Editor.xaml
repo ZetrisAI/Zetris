@@ -5,7 +5,7 @@
                       xmlns:Zetris="clr-namespace:Zetris"
                       Style="{StaticResource ZetrisWindow}"
                       WindowStartupLocation="CenterOwner" Width="700"
-                      KeyDown="EditorKeyDown" Closing="EditorClosing">
+                      KeyUp="EditorKeyUp" Closing="EditorClosing">
 
     <Grid Margin="15 10">
         <Grid.ColumnDefinitions>

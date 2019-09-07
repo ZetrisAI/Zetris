@@ -317,18 +317,18 @@ namespace Zetris {
             }
         }
         
-        protected void InputLostFocus(object sender, RoutedEventArgs e) {
+        void InputLostFocus(object sender, RoutedEventArgs e) {
             Input.Opacity = 0;
             Input.IsEnabled = Input.IsHitTestVisible = false;
 
             Changed?.Invoke(this, _raw);
         }
 
-        protected void InputKeyUp(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
+        void InputKeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter)
                 InputLostFocus(null, null);
-                e.Handled = true;
-            }
+
+            e.Handled = true;
         }
     }
 }

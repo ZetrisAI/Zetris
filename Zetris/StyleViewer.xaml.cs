@@ -81,10 +81,10 @@ namespace Zetris {
         }
 
         void InputKeyUp(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Enter) {
+            if (e.Key == Key.Enter)
                 InputLostFocus(null, null);
-                e.Handled = true;
-            }
+
+            e.Handled = true;
         }
     }
 }
