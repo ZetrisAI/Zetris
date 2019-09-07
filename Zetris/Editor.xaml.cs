@@ -159,5 +159,27 @@ namespace Zetris {
         void ParameterChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Styles[StyleList.SelectedIndex].SetParameter(Layout.Children.IndexOf(sender), (int)NewValue);
         }
+
+        void EditorKeyDown(object sender, KeyEventArgs e) {
+            StyleViewer selected = (StyleViewer)StyleList.SelectedItem;
+
+            if ((e.Key == Key.N && Keyboard.IsKeyDown(Key.LeftCtrl)) || e.Key == Key.Add || e.Key == Key.Insert)
+                New(selected);
+
+            else if (e.Key == Key.D && Keyboard.IsKeyDown(Key.LeftCtrl))
+                Duplicate(selected);
+
+            else if ((e.Key == Key.R && Keyboard.IsKeyDown(Key.LeftCtrl)) || e.Key == Key.F2)
+                selected.Rename(null, null);
+            
+            else if (e.Key == Key.Delete || e.Key == Key.Back)
+                Delete(selected);
+
+            else if (e.Key == Key.I && Keyboard.IsKeyDown(Key.LeftCtrl))
+                Import(selected);
+
+            else if (e.Key == Key.E && Keyboard.IsKeyDown(Key.LeftCtrl))
+                selected.Export(null, null);
+        }
     }
 }

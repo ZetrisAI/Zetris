@@ -48,7 +48,7 @@ namespace Zetris {
 
         void Duplicate(object sender, RoutedEventArgs e) => _editor.Duplicate(this);
 
-        void Rename(object sender, RoutedEventArgs e) {
+        public void Rename(object sender, RoutedEventArgs e) {
             Input.Text = CustomStyle.ToString();
 
             Input.SelectionStart = 0;
@@ -64,7 +64,7 @@ namespace Zetris {
 
         void Import(object sender, RoutedEventArgs e) => _editor.Import(this);
 
-        void Export(object sender, RoutedEventArgs e) {
+        public void Export(object sender, RoutedEventArgs e) {
             SaveFileDialog sfd = new SaveFileDialog() {
                 Filter = "Zetris Style Files|*.zst",
                 Title = "Export Zetris Style"
