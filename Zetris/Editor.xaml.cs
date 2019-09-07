@@ -108,11 +108,11 @@ namespace Zetris {
             Insert(index, new Style("New Style"));
 
         public void New(StyleViewer item) =>
-            New(StyleList.Items.IndexOf(item));
+            New(StyleList.Items.IndexOf(item) + 1);
 
         public void Duplicate(StyleViewer item) {
             int index = StyleList.Items.IndexOf(item);
-            Insert(index, Preferences.Styles[index].Clone());
+            Insert(index + 1, Preferences.Styles[index].Clone());
         }
 
         public void Delete(StyleViewer item) {
