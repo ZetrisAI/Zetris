@@ -20,8 +20,8 @@
         <TextBlock Grid.Column="2" VerticalAlignment="Center" x:Name="Display" MouseDown="DisplayPressed" />
 
         <Canvas Grid.Column="2" ClipToBounds="True">
-            <TextBox Background="#161616" BorderThickness="0" IsEnabled="False" Opacity="0" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="1" MaxHeight="15" x:Name="Input"
-                 TextChanged="InputChanged" LostFocus="InputLostFocus" KeyUp="InputKeyUp" />
+            <TextBox Background="#161616" BorderBrush="#161616" IsEnabled="False" Opacity="0" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="1" x:Name="Input"
+                     TextChanged="InputChanged" LostFocus="InputLostFocus" KeyUp="InputKeyUp" />
         </Canvas>
     </Grid>
 </UserControl>

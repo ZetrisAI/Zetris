@@ -9,17 +9,19 @@
     <Grid Margin="15 10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" Height="150" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged" AllowDrop="True" DragOver="StyleListDragOver" Drop="StyleListDrop">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="New" Click="NewEmpty" />
-                    <MenuItem Header="Import" Click="ImportEmpty" />
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
+        <Border Grid.Column="0" BorderBrush="#202020" BorderThickness="0 0 1 0">
+            <ListBox Margin="0 0 10 0" Height="156" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged" AllowDrop="True" DragOver="StyleListDragOver" Drop="StyleListDrop">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="New" Click="NewEmpty" />
+                        <MenuItem Header="Import" Click="ImportEmpty" />
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+        </Border>
 
         <UniformGrid Grid.Column="1" Margin="10 0 0 0" Rows="6" Columns="3" x:Name="Layout">
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="miny_factor" />
