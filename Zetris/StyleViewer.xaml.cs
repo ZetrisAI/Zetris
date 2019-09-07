@@ -44,6 +44,13 @@ namespace Zetris {
         void StyleDrop(object sender, DragEventArgs e) =>
             _editor.StyleListDrop(sender, e);
 
+        void StyleDown(object sender, MouseButtonEventArgs e) {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2) {
+                Rename(null, null);
+                e.Handled = true;
+            }
+        }
+
         void New(object sender, RoutedEventArgs e) => _editor.New(this);
 
         void Duplicate(object sender, RoutedEventArgs e) => _editor.Duplicate(this);
