@@ -95,7 +95,7 @@ namespace Zetris {
             bool danger = false;
 
 #if PUBLIC
-            danger = GameHelper.Online();
+            danger = GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
 #endif
 
             if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {

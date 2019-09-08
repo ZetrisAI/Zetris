@@ -26,6 +26,12 @@ namespace Zetris {
             0x14059894C
         )) == 1;
 
+        public static int LobbyPtr() => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                0x140473760
+            )) + 0x20
+        ));
+
         public static bool InMultiplayer() => Game.ReadByte(new IntPtr(
             0x140573858
         )) == 3;
@@ -48,14 +54,13 @@ namespace Zetris {
 
         public static int LocalSteam() => Game.ReadInt32(new IntPtr(
             0x1405A2010
+#if PUBLIC
+            + LobbyPtr()
+#endif
         ));
 
         public static int PlayerSteam(int index) => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140473760
-                )) + 0x20
-            )) + 0x118 + index * 0x50
+            LobbyPtr() + 0x118 + index * 0x50
         ));
 
         public static int FindPlayer() {
@@ -209,6 +214,10 @@ namespace Zetris {
             int[,] ret = new int[10, 40];
 
             int boardaddr = boardAddress(index);
+#if PUBLIC
+            boardaddr += LobbyPtr();
+#endif
+
             for (int i = 0; i < 10; i++) {
                 int columnAddress = Game.ReadInt32(new IntPtr(boardaddr + i * 0x08));
                 for (int j = 0; j < 28; j++) {
@@ -275,6 +284,9 @@ namespace Zetris {
             int[] ret = new int[5];
 
             int pieceaddr = piecesAddress(index);
+#if PUBLIC
+            pieceaddr += LobbyPtr();
+#endif
 
             for (int i = 0; i < 5; i++) {
                 ret[i] = Game.ReadByte(new IntPtr(pieceaddr + i * 0x04));
@@ -528,6 +540,10 @@ namespace Zetris {
         }
 
         public static int getPieceDropped(int index) {
+#if PUBLIC
+            index += LobbyPtr();
+#endif
+
             if (InSwap()) {
                 switch (index) {
                     case 0:
@@ -778,6 +794,10 @@ namespace Zetris {
                     )) + 0x100
                 )) + 0x58;
             }
+
+#if PUBLIC
+            addr += LobbyPtr();
+#endif
 
             int x = Game.ReadInt32(new IntPtr(
                 addr
