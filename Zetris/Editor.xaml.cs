@@ -39,7 +39,7 @@ namespace Zetris {
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
-                    Title = "";
+                    Title = "스타일 변경";
                     break;
                     
                 case "ja":

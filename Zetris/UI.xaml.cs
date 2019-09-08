@@ -51,11 +51,11 @@ namespace Zetris {
                     InactiveString = "비활성화";
                     ActiveString = "활성화";
                     StyleText.Text = "스타일:";
-                    Edit.Content = "";
+                    Edit.Content = "플레이 스타일 변경";
                     Speed.Title = "플레이 속도:";
-                    Previews.Title = "";
+                    Previews.Title = "넥스트 보기 사이즈";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
-                    HoldAllowed.Content = "";
+                    HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
