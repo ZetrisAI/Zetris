@@ -5,12 +5,12 @@
 
     <ListBoxItem.ContextMenu>
         <ContextMenu>
-            <MenuItem Header="New" Click="New" />
-            <MenuItem Header="Duplicate" Click="Duplicate" />
-            <MenuItem Header="Rename" Click="Rename" />
-            <MenuItem Header="Delete" Click="Delete" />
-            <MenuItem Header="Import" Click="Import" />
-            <MenuItem Header="Export" Click="Export" />
+            <MenuItem x:Name="NewItem" Click="New" />
+            <MenuItem x:Name="DuplicateItem" Click="Duplicate" />
+            <MenuItem x:Name="RenameItem" Click="Rename" />
+            <MenuItem x:Name="DeleteItem" Click="Delete" />
+            <MenuItem x:Name="ImportItem" Click="Import" />
+            <MenuItem x:Name="ExportItem" Click="Export" />
         </ContextMenu>
     </ListBoxItem.ContextMenu>
 

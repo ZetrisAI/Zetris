@@ -4,7 +4,7 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Zetris="clr-namespace:Zetris"
                       Style="{StaticResource ZetrisWindow}"
-                      Title="Zetris" WindowStartupLocation="CenterScreen" Width="180">
+                      Title="Zetris" WindowStartupLocation="CenterScreen" Width="200">
 
     <StackPanel Margin="15 10">
         <StackPanel Margin="0 0 0 15" HorizontalAlignment="Center">

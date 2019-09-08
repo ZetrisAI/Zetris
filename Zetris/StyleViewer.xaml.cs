@@ -22,6 +22,35 @@ namespace Zetris {
 
             Text.Text = (CustomStyle = style).ToString();
             _editor = editor;
+
+            switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
+                case "ko":
+                    NewItem.Header = "";
+                    DuplicateItem.Header = "";
+                    RenameItem.Header = "";
+                    DeleteItem.Header = "";
+                    ImportItem.Header = "";
+                    ExportItem.Header = "";
+                    break;
+
+                case "ja":
+                    NewItem.Header = "新規作成";
+                    DuplicateItem.Header = "複製";
+                    RenameItem.Header = "名前の変更";
+                    DeleteItem.Header = "削除";
+                    ImportItem.Header = "保存";
+                    ExportItem.Header = "読み込み";
+                    break;
+
+                default:
+                    NewItem.Header = "New";
+                    DuplicateItem.Header = "Duplicate";
+                    RenameItem.Header = "Rename";
+                    DeleteItem.Header = "Delete";
+                    ImportItem.Header = "Import";
+                    ExportItem.Header = "Export";
+                    break;
+            }
         }
 
         void StyleDrag(object sender, MouseEventArgs e) {

@@ -65,11 +65,11 @@ namespace Zetris {
                     InactiveString = "停止";
                     ActiveString = "動作中";
                     StyleText.Text = "立ち回り:";
-                    Edit.Content = "";
+                    Edit.Content = "立ち回り設定";
                     Speed.Title = "速度:";
-                    Previews.Title = "";
+                    Previews.Title = "ネクスト可視数";
                     PerfectClear.Content = "パフェ発見機";
-                    HoldAllowed.Content = "";
+                    HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";

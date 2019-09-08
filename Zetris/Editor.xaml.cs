@@ -43,7 +43,7 @@ namespace Zetris {
                     break;
                     
                 case "ja":
-                    Title = "";
+                    Title = "立ち回り設定";
                     break;
                     
                 default:
