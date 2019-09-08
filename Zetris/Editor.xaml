@@ -4,7 +4,7 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:Zetris="clr-namespace:Zetris"
                       Style="{StaticResource ZetrisWindow}"
-                      WindowStartupLocation="CenterOwner" Width="700"
+                      WindowStartupLocation="CenterOwner" Width="530"
                       KeyUp="EditorKeyUp" Closing="EditorClosing">
 
     <Grid Margin="15 10">
@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" BorderBrush="#202020" BorderThickness="0 0 1 0">
-            <ListBox Margin="0 0 10 0" Height="156" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged" AllowDrop="True" DragOver="StyleListDragOver" Drop="StyleListDrop">
+            <ListBox Margin="0 0 10 0" Height="208" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged" AllowDrop="True" DragOver="StyleListDragOver" Drop="StyleListDrop">
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="New" Click="NewEmpty" />
@@ -24,7 +24,7 @@
             </ListBox>
         </Border>
 
-        <UniformGrid Grid.Column="1" Margin="10 0 0 0" Rows="6" Columns="3" x:Name="Layout">
+        <UniformGrid Grid.Column="1" Margin="10 0 0 0" Rows="8" Columns="2" x:Name="Layout">
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="miny_factor" />
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="hole" />
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="open_hole" />
@@ -41,7 +41,6 @@
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="hold_I" />
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="clear_useless_factor" />
             <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="dif_factor" />
-            <Zetris:Dial Scale="0.5" Minimum="0" Maximum="500" Exponent="2" Changed="ParameterChanged" Title="strategy_4w" />
         </UniformGrid>
     </Grid>
 </Controls:MetroWindow>

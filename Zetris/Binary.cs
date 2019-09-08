@@ -75,16 +75,16 @@ namespace Zetris {
 
         static void WriteStyle(BinaryWriter writer, Style style) {
             writer.Write(style.Name);
-            writer.Write(style.Parameters.ToArray().SelectMany(BitConverter.GetBytes).ToArray());
+            writer.Write(style.Parameters.ToArray().SelectMany(BitConverter.GetBytes).Take(16).ToArray());
         }
 
         static Style ReadStyle(BinaryReader reader) {
             string name = reader.ReadString();
 
-            byte[] bytes = reader.ReadBytes(68);
+            byte[] bytes = reader.ReadBytes(64);
             int[] param = new int[17];
 
-            for (int j = 0; j < 17; j++)
+            for (int j = 0; j < 16; j++)
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
 
             return new Style(name, MisaMinoParameters.FromArray(param));
