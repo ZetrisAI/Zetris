@@ -75,7 +75,7 @@ namespace Zetris {
 
         static void WriteStyle(BinaryWriter writer, Style style) {
             writer.Write(style.Name);
-            writer.Write(style.Parameters.ToArray().SelectMany(BitConverter.GetBytes).Take(16).ToArray());
+            writer.Write(style.Parameters.ToArray().Take(16).SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         static Style ReadStyle(BinaryReader reader) {
