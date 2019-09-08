@@ -65,7 +65,7 @@ namespace Zetris {
                     InactiveString = "停止";
                     ActiveString = "動作中";
                     StyleText.Text = "立ち回り:";
-                    Edit.Content = "立ち回り設定";
+                    Edit.Content = "詳細設定";
                     Speed.Title = "速度:";
                     Previews.Title = "ネクスト可視数";
                     PerfectClear.Content = "パフェ発見機";

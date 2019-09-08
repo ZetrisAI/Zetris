@@ -40,14 +40,20 @@ namespace Zetris {
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
                     Title = "스타일 변경";
+                    ofdFilter = "";
+                    ofdTitle = "";
                     break;
                     
                 case "ja":
                     Title = "立ち回り設定";
+                    ofdFilter = "Zetrisのスタイルのファイル";
+                    ofdTitle = "インポート形式";
                     break;
                     
                 default:
                     Title = "Style Editor";
+                    ofdFilter = "Zetris Style File";
+                    ofdTitle = "Import Style";
                     break;
             }
         }
@@ -136,10 +142,12 @@ namespace Zetris {
             StyleList.SelectedIndex = Math.Min(index, StyleList.Items.Count - 1);
         }
 
+        string ofdFilter, ofdTitle;
+
         void Import(int index) {
             OpenFileDialog ofd = new OpenFileDialog() {
-                Filter = "Zetris Style Files|*.zst",
-                Title = "Import Zetris Style"
+                Filter = $"{ofdFilter}|*.zst",
+                Title = ofdTitle
             };
 
             if (ofd.ShowDialog(Window.GetWindow(this)) == true)

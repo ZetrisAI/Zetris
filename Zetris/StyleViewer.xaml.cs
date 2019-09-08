@@ -31,6 +31,8 @@ namespace Zetris {
                     DeleteItem.Header = "";
                     ImportItem.Header = "";
                     ExportItem.Header = "";
+                    sfdFilter = "";
+                    sfdTitle = "";
                     break;
 
                 case "ja":
@@ -40,6 +42,8 @@ namespace Zetris {
                     DeleteItem.Header = "削除";
                     ImportItem.Header = "保存";
                     ExportItem.Header = "読み込み";
+                    sfdFilter = "Zetrisのスタイルのファイル";
+                    sfdTitle = "エクスポート形式";
                     break;
 
                 default:
@@ -49,6 +53,8 @@ namespace Zetris {
                     DeleteItem.Header = "Delete";
                     ImportItem.Header = "Import";
                     ExportItem.Header = "Export";
+                    sfdFilter = "Zetris Style File";
+                    sfdTitle = "Export Style";
                     break;
             }
         }
@@ -100,10 +106,12 @@ namespace Zetris {
 
         void Import(object sender, RoutedEventArgs e) => _editor.Import(this);
 
+        string sfdFilter, sfdTitle;
+
         public void Export(object sender, RoutedEventArgs e) {
             SaveFileDialog sfd = new SaveFileDialog() {
-                Filter = "Zetris Style Files|*.zst",
-                Title = "Export Zetris Style"
+                Filter = $"{sfdFilter}|*.zst",
+                Title = sfdTitle
             };
 
             if (sfd.ShowDialog(Window.GetWindow(this)) == true)
