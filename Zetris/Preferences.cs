@@ -77,6 +77,7 @@ namespace Zetris {
             get => _c4w;
             set {
                 _c4w = value;
+                Bot.UpdateConfig();
                 Save();
             }
         }
