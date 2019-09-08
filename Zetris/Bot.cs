@@ -162,14 +162,19 @@ namespace Zetris {
                         InputHelper.ClearLines(misaboard, out int cleared);
 
                         int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
+                        int garbage_left = 0;
 
                         if (garbage_drop < 0)
                             garbage_drop = 0;
 
-                        if (!GameHelper.getPlayerIsTetris(1 - playerID) && garbage_drop > 7)
-                            garbage_drop = 7;
+                        bool swap = GameHelper.InSwap();
 
-                        InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
+                        if ((swap || !GameHelper.getPlayerIsTetris(1 - playerID)) && garbage_drop > 7) {
+                            garbage_left = garbage_drop - 7;
+                            garbage_drop = 7;
+                        }
+
+                        if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
                         q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
@@ -183,7 +188,7 @@ namespace Zetris {
                                 misaboard,
                                 combo + Convert.ToInt32(cleared > 0),
                                 b2b,
-                                0
+                                0 // garbage_left TODO Zetris-21 stress test this
                             );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
