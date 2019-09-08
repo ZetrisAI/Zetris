@@ -30,7 +30,7 @@
 
         <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="10" Maximum="100" Unit="%" AllowPrecise="False" x:Name="Speed" Changed="SpeedChanged" />
 
-        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="1" Maximum="18" Exponent="2" AllowPrecise="False" x:Name="Previews" Changed="PreviewsChanged" />
+        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="0" Maximum="18" Exponent="1.5" AllowPrecise="False" x:Name="Previews" Changed="PreviewsChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 

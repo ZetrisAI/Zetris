@@ -48,7 +48,7 @@ namespace Zetris {
         public static int Previews {
             get => _previews;
             set {
-                _previews = Math.Max(1, Math.Min(18, value));
+                _previews = Math.Max(0, Math.Min(18, value));
                 Save();
             }
         }
