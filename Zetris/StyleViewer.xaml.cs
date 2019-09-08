@@ -25,14 +25,14 @@ namespace Zetris {
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
-                    NewItem.Header = "";
-                    DuplicateItem.Header = "";
-                    RenameItem.Header = "";
-                    DeleteItem.Header = "";
-                    ImportItem.Header = "";
-                    ExportItem.Header = "";
-                    sfdFilter = "";
-                    sfdTitle = "";
+                    NewItem.Header = "신규 생성";
+                    DuplicateItem.Header = "복제하기";
+                    RenameItem.Header = "이름 바꾸기";
+                    DeleteItem.Header = "삭제";
+                    ImportItem.Header = "가져오기";
+                    ExportItem.Header = "내보내기";
+                    sfdFilter = "Zetris 스타일 파일";
+                    sfdTitle = "스타일 내보내기";
                     break;
 
                 case "ja":

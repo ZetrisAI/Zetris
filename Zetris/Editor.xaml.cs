@@ -40,17 +40,23 @@ namespace Zetris {
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
                     Title = "스타일 변경";
-                    ofdFilter = "";
-                    ofdTitle = "";
+                    NewItem.Header = "신규 생성";
+                    ImportItem.Header = "가져오기";
+                    ofdFilter = "Zetris 스타일 파일";
+                    ofdTitle = "스타일 가져오기";
                     break;
                     
                 case "ja":
                     Title = "立ち回り設定";
+                    NewItem.Header = "新規作成";
+                    ImportItem.Header = "保存";
                     ofdFilter = "Zetrisのスタイルのファイル";
                     ofdTitle = "インポート形式";
                     break;
                     
                 default:
+                    NewItem.Header = "New";
+                    ImportItem.Header = "Import";
                     Title = "Style Editor";
                     ofdFilter = "Zetris Style File";
                     ofdTitle = "Import Style";

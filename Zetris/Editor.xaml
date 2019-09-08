@@ -17,8 +17,8 @@
             <ListBox Margin="0 0 10 0" Height="208" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="StyleList" SelectionChanged="StyleListChanged" AllowDrop="True" DragOver="StyleListDragOver" Drop="StyleListDrop">
                 <ListBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="New" Click="NewEmpty" />
-                        <MenuItem Header="Import" Click="ImportEmpty" />
+                        <MenuItem x:Name="NewItem" Click="NewEmpty" />
+                        <MenuItem x:Name="ImportItem" Click="ImportEmpty" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
             </ListBox>

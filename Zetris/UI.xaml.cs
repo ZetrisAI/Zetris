@@ -53,7 +53,7 @@ namespace Zetris {
                     StyleText.Text = "스타일:";
                     Edit.Content = "플레이 스타일 변경";
                     Speed.Title = "플레이 속도:";
-                    Previews.Title = "넥스트 보기 사이즈";
+                    Previews.Title = "넥스트 보기 사이즈:";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
@@ -67,7 +67,7 @@ namespace Zetris {
                     StyleText.Text = "立ち回り:";
                     Edit.Content = "詳細設定";
                     Speed.Title = "速度:";
-                    Previews.Title = "ネクスト可視数";
+                    Previews.Title = "ネクスト可視数:";
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
