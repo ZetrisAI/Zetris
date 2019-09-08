@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,6 +46,8 @@ namespace Zetris {
 #if PUBLIC
             ((StackPanel)Auto.Parent).Children.Remove(Auto);
 #endif
+
+            Version.Text = $"Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
