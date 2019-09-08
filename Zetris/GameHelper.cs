@@ -675,9 +675,35 @@ namespace Zetris {
             ));
         }
 
-        public static int getGarbagePointer(int index) {
+        public static int getGarbageDropping(int index) {
             if (InSwap()) {
-                return 0; // todo implement
+                switch (index) {
+                    case 0:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B98
+                                        )) + 0x88
+                                    )) + 0x18
+                                )) + 0xD0
+                            )) + 0x150
+                        ));
+
+                    case 1:
+                        return Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B28
+                                        )) + 0x380
+                                    )) + 0x1F0
+                                )) + 0xE8
+                            )) + 0x308
+                        ));
+                }
 
             } else {
                 switch (index) {
@@ -685,28 +711,35 @@ namespace Zetris {
                         return Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    0x1405989D0
-                                )) + 0x78
-                            )) + 0xB8
-                        )) + 0x210;
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            Game.ReadInt32(new IntPtr(
+                                                0x140461B20
+                                            )) + 0x378
+                                        )) + 0x28
+                                    )) + 0x18
+                                )) + 0xD0
+                            )) + 0x64
+                        ));
 
                     case 1:
                         return Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    0x1404611B8
-                                )) + 0x30
-                            )) + 0xB8
-                        )) + 0x1EC;
+                                    Game.ReadInt32(new IntPtr(
+                                        Game.ReadInt32(new IntPtr(
+                                            0x140461B20
+                                        )) + 0x378
+                                    )) + 0x28
+                                )) + 0xD0
+                            )) + 0x3C
+                        ));
                 }
             }
 
             return 0;
         }
 
-        public static int getGarbageDropping(int index) => Game.ReadInt32(new IntPtr(
-            getGarbagePointer(index) + 0x8
-        ));
 
         public static int getCombo(int index) {
             int ret = -1;
