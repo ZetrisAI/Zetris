@@ -21,7 +21,8 @@ namespace Zetris {
         public static List<Style> Styles = new List<Style>() {
             new Style("T-Spin+ B2B"),
             new Style("T-Spin+", new MisaMinoParameters(13, 9, 17, 10, 29, 25, 39, 2, 12, 19, 7, 24, 21, 16, 14, 19, 6, 30, 0, 24)),
-            new Style("TST", new MisaMinoParameters(13, 9, 17, 10, 500, 25, 39, 2, 12, 19, 7, 1, 21, 16, 14, 19, 35, 20, 20, 0, 0))
+            new Style("TST", new MisaMinoParameters(13, 9, 17, 10, 500, 25, 39, 2, 12, 19, 7, 1, 21, 16, 14, 19, 35, 20, 20, 0, 0)),
+            new Style("20 TSD", new MisaMinoParameters(0, 0, 0, 500, 0, 0, 0, 2, 12, 19, 7, 74, 0, 0, 0, 19, 500, 0, 0, 0, 0))
         };
 
         static int _styleindex = 0;
