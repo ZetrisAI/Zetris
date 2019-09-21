@@ -9,7 +9,7 @@ using MisaMinoNET;
 
 namespace Zetris {
     public static class Binary {
-        static readonly int Version = 1;
+        static readonly int Version = 2;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -53,7 +53,7 @@ namespace Zetris {
 
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
-                        Preferences.Styles.Add(ReadStyle(reader));
+                        Preferences.Styles.Add(ReadStyle(reader, version));
 
                 } else reader.ReadInt32();
 
@@ -75,17 +75,26 @@ namespace Zetris {
 
         static void WriteStyle(BinaryWriter writer, Style style) {
             writer.Write(style.Name);
-            writer.Write(style.Parameters.ToArray().Take(16).SelectMany(BitConverter.GetBytes).ToArray());
+            writer.Write(style.Parameters.ToArray().Take(20).SelectMany(BitConverter.GetBytes).ToArray());
         }
 
-        static Style ReadStyle(BinaryReader reader) {
+        static Style ReadStyle(BinaryReader reader, int version) {
             string name = reader.ReadString();
 
-            byte[] bytes = reader.ReadBytes(64);
-            int[] param = new int[17];
+            int size = (version <= 1)? 16 : 20;
 
-            for (int j = 0; j < 16; j++)
+            byte[] bytes = reader.ReadBytes(size * 4);
+            int[] param = new int[21];
+
+            for (int j = 0; j < size; j++)
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
+
+            if (version <= 1) {
+                param[16] = 6;
+                param[17] = 30;
+                param[18] = 0;
+                param[19] = 24;
+            }
 
             return new Style(name, MisaMinoParameters.FromArray(param));
         }
@@ -106,7 +115,7 @@ namespace Zetris {
             using (BinaryReader reader = new BinaryReader(input)) {
                 int version = DecodeHeader(reader);
 
-                return ReadStyle(reader);
+                return ReadStyle(reader, version);
             }
         }
     }
