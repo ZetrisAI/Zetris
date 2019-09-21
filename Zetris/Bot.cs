@@ -686,25 +686,18 @@ namespace Zetris {
 
             MisaMino.Configure(param, Preferences.HoldAllowed);
         }
-        
-        static int framesSkipped = 0;
 
         static void Loop() {
             while (!Disposing) {
-                bool actualFrame = false, logicFrame = false;
-
                 if (GameHelper.CheckProcess()) {
                     GameHelper.TrustProcess = true;
 
                     int prev = globalFrames;
                     globalFrames = GameHelper.getMenuFrameCount();
 
-                    if (actualFrame = globalFrames > prev) {
-                        logicFrame = runLogic();
+                    if (globalFrames > prev) {
+                        runLogic();
                         applyInputs();
-
-                        framesSkipped += globalFrames - prev - 1;
-                        if (prev < 60) framesSkipped = 0;
                     }
 
                     GameHelper.TrustProcess = false;
