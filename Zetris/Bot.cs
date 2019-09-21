@@ -714,8 +714,6 @@ namespace Zetris {
         public static void Start(UI window) {
             if (Started) return;
 
-            UpdateConfig();
-
             MisaMino.Finished += (bool success) => {
                 misasolved = success;
             };
@@ -737,6 +735,8 @@ namespace Zetris {
             scp.PlugIn(gamepadIndex);
 
             Started = true;
+
+            UpdateConfig();
 
             Task.Run(() => Loop());
         }
