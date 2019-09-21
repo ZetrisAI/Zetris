@@ -747,7 +747,10 @@ namespace Zetris {
         public static void Dispose() {
             Disposing = true;
 
-            while (!Disposed && Started) {}
+            while (!Disposed && Started) {
+                MisaMino.Abort();
+                PerfectClear.Abort();
+            }
 
             scp.UnplugAll();
         }
