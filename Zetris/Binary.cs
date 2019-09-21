@@ -48,16 +48,22 @@ namespace Zetris {
             using (BinaryReader reader = new BinaryReader(input)) {
                 int version = DecodeHeader(reader);
 
-                if (version >= 1) {
-                    Preferences.Styles = new List<Style>();
+                if (version == 0) reader.ReadInt32();
+                else if (version >= 1) {
+                    int start = 0;
+
+                    if (version == 1) {
+                        Preferences.Styles.RemoveRange(1, 2);
+                        start = 1;
+
+                    } else Preferences.Styles = new List<Style>();
 
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
-                        Preferences.Styles.Add(ReadStyle(reader, version));
+                        Preferences.Styles.Insert(start + i, ReadStyle(reader, version));
+                }
 
-                } else reader.ReadInt32();
-
-                if (version >= 1)
+                if (version >= 2)
                     Preferences.StyleIndex = reader.ReadInt32();
 
                 Preferences.Speed = reader.ReadInt32();
