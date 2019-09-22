@@ -61,7 +61,7 @@ namespace Zetris {
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
-                    TSDOnly.Content = "";
+                    TSDOnly.Content = "TSD만 (20TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     break;
@@ -76,7 +76,7 @@ namespace Zetris {
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
-                    TSDOnly.Content = "";
+                    TSDOnly.Content = "TSDのみ(TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     break;
