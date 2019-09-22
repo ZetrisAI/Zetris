@@ -41,6 +41,7 @@ namespace Zetris {
             HoldAllowed.IsChecked = Preferences.HoldAllowed;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
+            TSDOnly.IsChecked = Preferences.TSDOnly;
             Player.RawValue = Preferences.Player + 1;
 
 #if PUBLIC
@@ -60,6 +61,7 @@ namespace Zetris {
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
+                    TSDOnly.Content = "";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     break;
@@ -74,6 +76,7 @@ namespace Zetris {
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
+                    TSDOnly.Content = "";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     break;
@@ -88,6 +91,7 @@ namespace Zetris {
                     HoldAllowed.Content = "Hold Allowed";
                     PerfectClear.Content = "Perfect Clear Finder";
                     C4W.Content = "Center 4-Wide";
+                    TSDOnly.Content = "TSD Only (for 20 TSD)";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
                     break;
@@ -108,7 +112,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
         }
@@ -152,6 +156,10 @@ namespace Zetris {
 
         void C4WChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.C4W = C4W.IsChecked == true;
+        }
+
+        void TSDOnlyChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.TSDOnly = TSDOnly.IsChecked == true;
         }
 
         void PlayerChanged(Dial sender, double NewValue) {

@@ -684,7 +684,7 @@ namespace Zetris {
             MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
 
-            MisaMino.Configure(param, Preferences.HoldAllowed);
+            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.TSDOnly);
         }
 
         static void Loop() {

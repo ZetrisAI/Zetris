@@ -84,6 +84,16 @@ namespace Zetris {
             }
         }
 
+        static bool _tsd = false;
+        public static bool TSDOnly {
+            get => _tsd;
+            set {
+                _tsd = value;
+                Bot.UpdateConfig();
+                Save();
+            }
+        }
+
         static int _player = 1;
         public static int Player {
             get => _player;

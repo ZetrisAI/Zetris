@@ -38,6 +38,7 @@ namespace Zetris {
                 writer.Write(Preferences.HoldAllowed);
                 writer.Write(Preferences.PerfectClear);
                 writer.Write(Preferences.C4W);
+                writer.Write(Preferences.TSDOnly);
                 writer.Write(Preferences.Player);
             }
 
@@ -75,6 +76,10 @@ namespace Zetris {
 
                 Preferences.PerfectClear = reader.ReadBoolean();
                 Preferences.C4W = reader.ReadBoolean();
+
+                if (version >= 2)
+                    Preferences.TSDOnly = reader.ReadBoolean();
+
                 Preferences.Player = reader.ReadInt32();
             }
         }
