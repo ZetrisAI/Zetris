@@ -101,7 +101,7 @@ namespace Zetris {
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
 
             if (version <= 1) {
-                param[16] = 6;
+                param[16] = 1;
                 param[17] = 30;
                 param[18] = 0;
                 param[19] = 24;
