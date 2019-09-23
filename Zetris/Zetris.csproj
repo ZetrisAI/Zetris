@@ -58,12 +58,10 @@
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.2.0\lib\net45\MisaMino.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\MisaMinoNET.1.2.1\lib\net45\MisaMino.dll</HintPath>
     </Reference>
-    <Reference Include="MisaMinoNET, Version=1.2.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.2.0\lib\net45\MisaMinoNET.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MisaMinoNET, Version=1.2.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.2.1\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
     <Reference Include="PerfectClearNET, Version=1.0.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\PerfectClearNET.1.0.1\lib\net45\PerfectClearNET.dll</HintPath>
