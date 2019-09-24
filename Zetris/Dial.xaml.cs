@@ -17,7 +17,6 @@ namespace Zetris {
 
         const double angle_start = 4 * Math.PI / 3;
         const double angle_end = -1 * Math.PI / 3;
-        const double angle_center = Math.PI / 2;
 
         double ToValue(double rawValue) => Math.Pow((rawValue - _min) / (_max - _min), 1 / _exp);
         double ToRawValue(double value) => _min + (_max - _min) * Math.Pow(value, _exp);
@@ -305,9 +304,9 @@ namespace Zetris {
             if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && Enabled && AllowPrecise) {
                 Input.Text = RawValue.ToString();
 
+                Input.CaretIndex = Input.Text.Length;
                 Input.SelectionStart = 0;
                 Input.SelectionLength = Input.Text.Length;
-                Input.CaretIndex = Input.Text.Length;
 
                 Input.Opacity = 1;
                 Input.IsEnabled = Input.IsHitTestVisible = true;

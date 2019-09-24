@@ -93,9 +93,9 @@ namespace Zetris {
         public void Rename(object sender, RoutedEventArgs e) {
             Input.Text = CustomStyle.ToString();
 
+            Input.CaretIndex = Input.Text.Length;
             Input.SelectionStart = 0;
             Input.SelectionLength = Input.Text.Length;
-            Input.CaretIndex = Input.Text.Length;
 
             Input.Opacity = 1;
             Input.IsEnabled = Input.IsHitTestVisible = true;
