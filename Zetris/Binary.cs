@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris {
     public static class Binary {
-        static readonly int Version = 2;
+        static readonly int Version = 3;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -50,17 +50,18 @@ namespace Zetris {
 
                 if (version == 0) reader.ReadInt32();
                 else if (version >= 1) {
-                    int start = 0;
-
-                    if (version == 1) {
-                        Preferences.Styles.RemoveRange(1, 2);
-                        start = 1;
-
-                    } else Preferences.Styles = new List<Style>();
+                    if (version >= 3)
+                        Preferences.Styles = new List<Style>();
 
                     int count = reader.ReadInt32();
-                    for (int i = 0; i < count; i++)
-                        Preferences.Styles.Insert(start + i, ReadStyle(reader, version));
+                    for (int i = 0; i < count; i++) {
+                        Style style = ReadStyle(reader, version);
+
+                        if (Preferences.Styles.Select(x => x.Name).Contains(style.Name))
+                            continue;
+
+                        Preferences.Styles.Add(style);
+                    }
                 }
 
                 if (version >= 2)
@@ -100,7 +101,7 @@ namespace Zetris {
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
 
             if (version <= 1) {
-                param[16] = 1;
+                param[16] = 0;
                 param[17] = 30;
                 param[18] = 0;
                 param[19] = 24;
