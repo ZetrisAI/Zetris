@@ -226,7 +226,7 @@ namespace Zetris {
                         }
 
                         if (!pathSuccess) {
-                            if (!InputHelper.BoardEquals(misaboard, board)) {
+                            if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
                                 q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
 
