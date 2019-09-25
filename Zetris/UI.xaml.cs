@@ -7,7 +7,7 @@ namespace Zetris {
     public partial class UI {
         public static bool FreezeEvents = true;
 
-        static string InactiveString, ActiveString;
+        static string InactiveString, ActiveString, ConfidenceString, ThinkingTimeString;
 
         Editor Editor = null;
 
@@ -39,6 +39,8 @@ namespace Zetris {
                 case "ko":
                     InactiveString = "비활성화";
                     ActiveString = "활성화";
+                    ConfidenceString = "자신:";
+                    ThinkingTimeString = "생각 하는시간:";
                     StyleText.Text = "스타일:";
                     Edit.Content = "플레이 스타일 변경";
                     Speed.Title = "플레이 속도:";
@@ -46,7 +48,7 @@ namespace Zetris {
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
-                    TSDOnly.Content = "TSD만 (20TSD)";
+                    TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     break;
@@ -54,6 +56,8 @@ namespace Zetris {
                 case "ja":
                     InactiveString = "停止";
                     ActiveString = "動作中";
+                    ConfidenceString = "自信:";
+                    ThinkingTimeString = "思考時間:";
                     StyleText.Text = "立ち回り:";
                     Edit.Content = "詳細設定";
                     Speed.Title = "速度:";
@@ -61,7 +65,7 @@ namespace Zetris {
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
-                    TSDOnly.Content = "TSDのみ(TSD20発用)";
+                    TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     break;
@@ -69,6 +73,8 @@ namespace Zetris {
                 default:
                     InactiveString = "Inactive";
                     ActiveString = "Active";
+                    ConfidenceString = "Confidence:";
+                    ThinkingTimeString = "Thinking Time:";
                     StyleText.Text = "Style:";
                     Edit.Content = "Edit Styles";
                     Speed.Title = "Speed:";
@@ -95,11 +101,26 @@ namespace Zetris {
             }
         }
 
+        public void SetConfidence(string confidence) {
+            Dispatcher.InvokeAsync(() => {
+                Confidence.Text = $"{ConfidenceString} {confidence}";
+                Info.MaxHeight = double.PositiveInfinity;
+            });
+        }
+
+        public void SetThinkingTime(long time) {
+            Dispatcher.InvokeAsync(() => {
+                ThinkingTime.Text = $"{ThinkingTimeString} {time}ms";
+                Info.MaxHeight = double.PositiveInfinity;
+            });
+        }
+
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
             Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
+            else Info.MaxHeight = 0;
         }
 
         public void SetGamepadIndex(int index) => Title = $"Zetris [{index}]";

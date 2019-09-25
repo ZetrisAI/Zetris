@@ -258,6 +258,9 @@ namespace Zetris {
                             finalY = MisaMino.LastSolution.FinalY;
                             finalR = MisaMino.LastSolution.FinalR;
 
+                            Window?.SetConfidence($"{MisaMino.LastSolution.Nodes} ({MisaMino.LastSolution.Depth})");
+                            Window?.SetThinkingTime(MisaMino.LastSolution.Time);
+
                             pcsolved = false;
 
                         } else {
@@ -265,6 +268,9 @@ namespace Zetris {
 
                             if (PerfectClear.LastSolution.Count == 0)
                                 pcsolved = false;
+
+                            Window?.SetConfidence($"[PC] {PerfectClear.LastSolution.Count + 1}");
+                            Window?.SetThinkingTime(PerfectClear.LastTime);
                         }
 
                         bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;

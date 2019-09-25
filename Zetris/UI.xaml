@@ -7,11 +7,21 @@
                       Title="Zetris" WindowStartupLocation="CenterScreen" Width="200">
 
     <StackPanel Margin="15 10">
-        <StackPanel Margin="0 0 0 15" HorizontalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center">
             <TextBlock Margin="5 0 5 1" Foreground="#707070" x:Name="State" />
 
             <Border BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         </StackPanel>
+
+        <Grid MinHeight="15">
+            <StackPanel x:Name="Info">
+                <TextBlock Margin="0 5" x:Name="Confidence" />
+
+                <TextBlock Margin="0 0 0 5" x:Name="ThinkingTime" />
+
+                <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+            </StackPanel>
+        </Grid>
 
         <Grid Margin="0 0 0 5">
             <Grid.ColumnDefinitions>
