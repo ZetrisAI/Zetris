@@ -167,12 +167,18 @@ namespace Zetris {
                             garbage_drop = 0;
 
                         bool swap = GameHelper.InSwap();
+                        bool puyoexists = false;
 
-                        if ((swap || !GameHelper.getPlayerIsTetris(1 - playerID)) && garbage_drop > 7) {
+                        for (int i = 0; i < numplayers; i++)
+                            if (puyoexists = !GameHelper.getPlayerIsTetris(i)) break;
+
+                        // puyo chunks
+                        if ((swap || puyoexists) && garbage_drop > 7) {
                             garbage_left = garbage_drop - 7;
                             garbage_drop = 7;
                         }
 
+                        // damage blocking
                         if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
 
                         int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
