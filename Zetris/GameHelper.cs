@@ -655,12 +655,8 @@ namespace Zetris {
             } else {
                 addr = Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                0x140598A20
-                            )) + 0x138
-                        )) + 0x18
-                    )) + 0x100
+                        0x140598A28
+                    )) + 0x140
                 )) + 0x58;
             }
 
@@ -668,17 +664,9 @@ namespace Zetris {
             addr += LobbyPtr();
 #endif
 
-            int x = Game.ReadInt32(new IntPtr(
+            return Game.ReadInt32(new IntPtr(
                 addr
             ));
-
-            if (x == 8) {
-                return Game.ReadInt32(new IntPtr(
-                    addr + 0x8
-                ));
-            }
-
-            return x;
         }
 
         public static int getMenuFrameCount() => Game.ReadInt32(new IntPtr(
