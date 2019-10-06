@@ -723,11 +723,9 @@ namespace Zetris {
                 ptr = Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                0x140461B20
-                            )) + 0x378 + index * 8
-                        )) + 0xA8
-                    )) + 0x320
+                            0x140461B20
+                        )) + 0x378 + index * 8
+                    )) + 0xA8
                 ));
             }
 
