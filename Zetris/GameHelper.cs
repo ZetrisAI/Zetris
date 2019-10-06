@@ -179,10 +179,14 @@ namespace Zetris {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
-                            0x140461B20
-                        )) + 0x378 + index * 0x8
-                    )) + 0x5C8
-                )) + 0xA0;
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x140461B20
+                                )) + 0x378 + index * 0x8
+                            )) + 0xA8
+                        )) + 0x3C0
+                    )) + 0x18
+                )) + 0x50;
             }
 
             return -1;
