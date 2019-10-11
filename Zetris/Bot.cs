@@ -75,6 +75,40 @@ namespace Zetris {
 #else
             false;
 #endif
+
+        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
+            int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
+            int garbage_left = 0;
+
+            if (garbage_drop < 0)
+                garbage_drop = 0;
+
+            bool swap = GameHelper.InSwap();
+
+            if ((swap || !GameHelper.getPlayerIsTetris(1 - playerID)) && garbage_drop > 7) {
+                garbage_left = garbage_drop - 7;
+                garbage_drop = 7;
+            }
+
+            if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
+
+            if (MisaMino.Running) MisaMino.Abort();
+
+            misasolved = false;
+
+            if (!danger)
+                MisaMino.FindMove(
+                    q,
+                    current,
+                    hold,
+                    21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
+                    misaboard,
+                    combo + Convert.ToInt32(cleared > 0),
+                    b2b,
+                    0 // garbage_left TODO Zetris-21 stress test this
+                );
+        }
+
         static bool runLogic() {
             bool ret = false;
 
@@ -157,38 +191,17 @@ namespace Zetris {
                         register = !shouldHaveRegistered;
                         old_y = y;
 
-                        misaboard = (int[,])board.Clone();
-                        InputHelper.ClearLines(misaboard, out int cleared);
+                        int[,] clearedboard = (int[,])board.Clone();
+                        InputHelper.ClearLines(clearedboard, out int cleared);
 
-                        int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
-                        int garbage_left = 0;
+                        if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
+                            misaboard = clearedboard;
 
-                        if (garbage_drop < 0)
-                            garbage_drop = 0;
+                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
 
-                        bool swap = GameHelper.InSwap();
-
-                        if ((swap || !GameHelper.getPlayerIsTetris(1 - playerID)) && garbage_drop > 7) {
-                            garbage_left = garbage_drop - 7;
-                            garbage_drop = 7;
+                            misaPrediction(pieces[0], q, hold, combo, cleared);
                         }
-
-                        if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
-
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
-
-                        if (!danger)
-                            MisaMino.FindMove(
-                                q,
-                                pieces[0],
-                                hold,
-                                21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[0], 4, 4, 0)),
-                                misaboard,
-                                combo + Convert.ToInt32(cleared > 0),
-                                b2b,
-                                0 // garbage_left TODO Zetris-21 stress test this
-                            );
 
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
@@ -277,11 +290,11 @@ namespace Zetris {
 
                         bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
-                        pcboard = (int[,])board.Clone();
+                        misaboard = (int[,])board.Clone();
 
                         bool fuck = false;
                         try {
-                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
+                            InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear);
                         } catch {
                             fuck = true;
 
@@ -296,16 +309,26 @@ namespace Zetris {
                             }
                         }
 
-                        if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
+                        if (!fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
                             q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
 
-                            PerfectClear.Find(
-                                pcboard, q, pieces[start],
-                                wasHold? current : hold, Preferences.HoldAllowed, 6, GameHelper.InSwap(), combo
-                            );
+                            int futureCurrent = pieces[start];
+                            int? futureHold = wasHold? current : hold;
+                            int futureCombo = combo + Convert.ToInt32(clear > 0);
+
+                            misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
+
+                            if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved) {
+                                pcboard = (int[,])misaboard.Clone();
+
+                                PerfectClear.Find(
+                                    pcboard, q, futureCurrent,
+                                    futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap(), futureCombo
+                                );
+                            }
                         }
                     }
 
