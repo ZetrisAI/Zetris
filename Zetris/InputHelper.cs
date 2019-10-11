@@ -360,21 +360,6 @@ namespace Zetris {
         }
 
         public static void ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
-            if (piece == 6) {
-                if (r == 1) {
-                    x++;
-                }
-
-                if (r == 2) {
-                    x++;
-                    y--;
-                }
-
-                if (r == 3) {
-                    y--;
-                }
-            }
-
             x--;
             y = 24 - y;
 
