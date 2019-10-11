@@ -54,6 +54,17 @@ namespace Zetris {
             }
         }
 
+        string _maxoverride = "";
+        public string MaximumOverride {
+            get => _maxoverride;
+            set {
+                if (_maxoverride != value) {
+                    _maxoverride = value;
+                    DrawArcMain();
+                }
+            }
+        }
+
         bool _valuechanging = false;
         double _value = 0.5;
         public double Value {
@@ -164,7 +175,7 @@ namespace Zetris {
             }
         }
 
-        string ValueString => $"{RawValue}{Unit}";
+        string ValueString => (MaximumOverride != "" && RawValue == Maximum)? MaximumOverride : $"{RawValue}{Unit}";
 
         void DrawArc(Path Arc, double value, bool overrideBase) {
             double angle_starting = FillStart? angle_start : angle_start - Math.Abs(angle_end - angle_start) * value * 0.9;
