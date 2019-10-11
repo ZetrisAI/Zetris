@@ -78,10 +78,23 @@ namespace Zetris {
             false;
 #endif
 
+        static void printBoards(int[,] board1, int[,] board2) {
+            for (int y = 39; y >= 0; y--) {
+                string o = "";
 
+                for (int x = 0; x < 10; x++) {
+                    o += board1[x, y] >= 255 ? "." : board1[x, y].ToString();
+                }
 
+                o += "    ";
 
+                for (int x = 0; x < 10; x++) {
+                    o += board2[x, y] >= 255 ? "." : board2[x, y].ToString();
+                }
+
+                Console.WriteLine(o);
             }
+        }
 
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
 
@@ -198,6 +211,7 @@ namespace Zetris {
 
                         if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
                             Console.WriteLine("ARE");
+                            printBoards(misaboard, clearedboard);
 
                             misaboard = clearedboard;
 
@@ -303,15 +317,7 @@ namespace Zetris {
                         } catch {
                             fuck = true;
 
-                            /*using (EventLog log = new EventLog("Application")) {
-                                log.Source = "Zetris";
-                                log.WriteEntry(
-                                    "Unable to apply piece:\n" +
-                                    $"p{pieceUsed} x{finalX} y{finalY} r{finalR}\n" +
-                                    $"board{String.Join(" ", board.Cast<int>())}",
-                                    EventLogEntryType.Warning
-                                );
-                            }*/
+                            Console.WriteLine("FUCK");
                         }
 
                         if (!fuck) {
