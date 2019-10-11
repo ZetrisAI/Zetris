@@ -298,7 +298,7 @@ namespace Zetris {
                         } catch {
                             fuck = true;
 
-                            using (EventLog log = new EventLog("Application")) {
+                            /*using (EventLog log = new EventLog("Application")) {
                                 log.Source = "Zetris";
                                 log.WriteEntry(
                                     "Unable to apply piece:\n" +
@@ -306,7 +306,7 @@ namespace Zetris {
                                     $"board{String.Join(" ", board.Cast<int>())}",
                                     EventLogEntryType.Warning
                                 );
-                            }
+                            }*/
                         }
 
                         if (!fuck) {
