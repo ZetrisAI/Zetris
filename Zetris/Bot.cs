@@ -284,6 +284,16 @@ namespace Zetris {
                             InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
                         } catch {
                             fuck = true;
+
+                            using (EventLog log = new EventLog("Application")) {
+                                log.Source = "Zetris";
+                                log.WriteEntry(
+                                    "Unable to apply piece:\n" +
+                                    $"p{pieceUsed} x{finalX} y{finalY} r{finalR}\n" +
+                                    $"board{String.Join(" ", board.Cast<int>())}",
+                                    EventLogEntryType.Warning
+                                );
+                            }
                         }
 
                         if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
