@@ -69,6 +69,12 @@ namespace Zetris {
 
         static int startbreak = 0;
 
+        static bool danger =>
+#if PUBLIC
+            GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
+#else
+            false;
+#endif
         static bool runLogic() {
             bool ret = false;
 
@@ -90,12 +96,6 @@ namespace Zetris {
             baseBoardHeight = 25 - y;
 
             board = GameHelper.getBoard(playerID);
-
-            bool danger = false;
-
-#if PUBLIC
-            danger = GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
-#endif
 
             if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
                 ResetGame();
