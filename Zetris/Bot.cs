@@ -273,6 +273,8 @@ namespace Zetris {
                             Window?.SetThinkingTime(PerfectClear.LastTime);
                         }
 
+                        misasolved = false;
+
                         bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
                         pcboard = (int[,])board.Clone();
