@@ -10,6 +10,8 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
+        const int rngsearch_max = 40;
+
         static UI Window = null;
         static int playerID = 0;
 
@@ -61,10 +63,10 @@ namespace Zetris {
         static int old_y;
         static int atk = 0;
 
-        static int[,] misaboard;
+        static int[,] misaboard = new int[10, 40];
         static bool misasolved = false;
 
-        static int[,] pcboard;
+        static int[,] pcboard = new int[10, 40];
         static bool pcsolved = false;
 
         static int startbreak = 0;
@@ -76,21 +78,20 @@ namespace Zetris {
             false;
 #endif
 
-        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
-            int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
-            int garbage_left = 0;
 
-            if (garbage_drop < 0)
-                garbage_drop = 0;
 
-            bool swap = GameHelper.InSwap();
 
-            if ((swap || !GameHelper.getPlayerIsTetris(1 - playerID)) && garbage_drop > 7) {
-                garbage_left = garbage_drop - 7;
-                garbage_drop = 7;
             }
 
-            if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
+        static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
+
+        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
+            if (!GameHelper.InSwap() || cleared == 0) 
+                InputHelper.AddGarbage(
+                    misaboard,
+                    GameHelper.RNG(playerID),
+                    GameHelper.CalculateGarbage(playerID, atk, out int garbage_left)
+                );
 
             if (MisaMino.Running) MisaMino.Abort();
 
@@ -167,10 +168,11 @@ namespace Zetris {
                         misaboard = (int[,])board.Clone();
                         pcboard = (int[,])board.Clone();
 
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, 0, rngsearch_max)).ToArray();
+                        q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                         if (!danger) {
+                            Console.WriteLine("Start");
                             MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
                             if (Preferences.PerfectClear) {
@@ -195,10 +197,12 @@ namespace Zetris {
                         InputHelper.ClearLines(clearedboard, out int cleared);
 
                         if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
+                            Console.WriteLine("ARE");
+
                             misaboard = clearedboard;
 
-                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, atk, rngsearch_max)).ToArray();
+                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             misaPrediction(pieces[0], q, hold, combo, cleared);
                         }
@@ -241,8 +245,9 @@ namespace Zetris {
                         if (!pathSuccess) {
                             if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                                q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                                q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
+                                Console.WriteLine("Rush");
                                 MisaMino.FindMove(
                                     q,
                                     current,
@@ -312,13 +317,14 @@ namespace Zetris {
                         if (!fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
-                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, atk, rngsearch_max)).ToArray();
+                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             int futureCurrent = pieces[start];
                             int? futureHold = wasHold? current : hold;
                             int futureCombo = combo + Convert.ToInt32(clear > 0);
 
+                            Console.WriteLine("AOT");
                             misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
 
                             if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved) {

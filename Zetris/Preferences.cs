@@ -44,11 +44,11 @@ namespace Zetris {
             }
         }
 
-        static int _previews = 18;
+        static int _previews = 19;
         public static int Previews {
             get => _previews;
             set {
-                _previews = Math.Max(0, Math.Min(18, value));
+                _previews = Math.Max(0, Math.Min(19, value));
                 Save();
             }
         }
