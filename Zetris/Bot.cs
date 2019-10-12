@@ -18,9 +18,9 @@ namespace Zetris {
         public static string[] Args;
 
         static void ResetGame() {
+#if !PUBLIC
             if (GameHelper.InSwap() || !Preferences.Auto) return;
 
-#if !PUBLIC
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
 
             Stopwatch resetting = new Stopwatch();
@@ -77,24 +77,6 @@ namespace Zetris {
 #else
             false;
 #endif
-
-        static void printBoards(int[,] board1, int[,] board2) {
-            for (int y = 39; y >= 0; y--) {
-                string o = "";
-
-                for (int x = 0; x < 10; x++) {
-                    o += board1[x, y] >= 255 ? "." : board1[x, y].ToString();
-                }
-
-                o += "    ";
-
-                for (int x = 0; x < 10; x++) {
-                    o += board2[x, y] >= 255 ? "." : board2[x, y].ToString();
-                }
-
-                Console.WriteLine(o);
-            }
-        }
 
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
 
@@ -185,7 +167,7 @@ namespace Zetris {
                         q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                         if (!danger) {
-                            Console.WriteLine("Start");
+                            LogHelper.LogText("Start");
                             MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
 
                             if (Preferences.PerfectClear) {
@@ -210,8 +192,8 @@ namespace Zetris {
                         InputHelper.ClearLines(clearedboard, out int cleared);
 
                         if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
-                            Console.WriteLine("ARE");
-                            printBoards(misaboard, clearedboard);
+                            LogHelper.LogText("ARE");
+                            LogHelper.LogBoard(misaboard, clearedboard);
 
                             misaboard = clearedboard;
 
@@ -236,7 +218,7 @@ namespace Zetris {
 
                     if (!danger) {
                         if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
-                            Console.WriteLine("Detected PC");
+                            LogHelper.LogText("Detected PC");
 
                             pieceUsed = PerfectClear.LastSolution[0].Piece;
                             finalX = PerfectClear.LastSolution[0].X;
@@ -259,13 +241,13 @@ namespace Zetris {
                         }
 
                         if (!pathSuccess) {
-                            Console.WriteLine("Using Misa!");
+                            LogHelper.LogText("Using Misa!");
 
                             if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
                                 q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
-                                Console.WriteLine("Rush");
+                                LogHelper.LogText("Rush");
                                 MisaMino.FindMove(
                                     q,
                                     current,
@@ -300,7 +282,7 @@ namespace Zetris {
                             pcsolved = false;
 
                         } else {
-                            Console.WriteLine("Using PC!");
+                            LogHelper.LogText("Using PC!");
                             PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
                             if (PerfectClear.LastSolution.Count == 0)
@@ -322,7 +304,7 @@ namespace Zetris {
                         } catch {
                             fuck = true;
 
-                            Console.WriteLine("FUCK");
+                            LogHelper.LogText("FUCK");
                         }
 
                         if (!fuck) {
@@ -335,7 +317,7 @@ namespace Zetris {
                             int? futureHold = wasHold? current : hold;
                             int futureCombo = combo + Convert.ToInt32(clear > 0);
 
-                            Console.WriteLine("AOT");
+                            LogHelper.LogText("AOT");
                             misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
 
                             pcboard = (int[,])misaboard.Clone();
