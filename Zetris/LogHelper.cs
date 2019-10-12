@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zetris {
     static class LogHelper {
+        [Conditional("VERBOSE")]
         public static void LogText(string text) {
             Console.WriteLine(text);
         }
 
+        [Conditional("VERBOSE")]
         public static void LogBoard(params int[][,] boards) {
             for (int y = 30; y >= 0; y--) {
                 string[] o = new string[boards.Length];
