@@ -365,6 +365,9 @@ namespace Zetris {
                     inMatch = false;
 
                     menuStartFrames = GameHelper.getMenuFrameCount();
+
+                    MisaMino.Abort();
+                    PerfectClear.Abort();
                 }
             }
 
