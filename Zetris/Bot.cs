@@ -163,7 +163,7 @@ namespace Zetris {
                         misaboard = (int[,])board.Clone();
                         pcboard = (int[,])board.Clone();
 
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, 0, rngsearch_max)).ToArray();
+                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToArray();
                         q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                         if (!danger) {
@@ -197,7 +197,7 @@ namespace Zetris {
 
                             misaboard = clearedboard;
 
-                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, atk, rngsearch_max)).ToArray();
+                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
                             q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             misaPrediction(pieces[0], q, hold, combo, cleared);
@@ -310,7 +310,7 @@ namespace Zetris {
                         if (!fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
-                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, atk, rngsearch_max)).ToArray();
+                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
                             q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             int futureCurrent = pieces[start];
