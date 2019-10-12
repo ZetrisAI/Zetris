@@ -236,6 +236,8 @@ namespace Zetris {
 
                     if (!danger) {
                         if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                            Console.WriteLine("Detected PC");
+
                             pieceUsed = PerfectClear.LastSolution[0].Piece;
                             finalX = PerfectClear.LastSolution[0].X;
                             int misaY = finalY = PerfectClear.LastSolution[0].Y;
@@ -257,6 +259,8 @@ namespace Zetris {
                         }
 
                         if (!pathSuccess) {
+                            Console.WriteLine("Using Misa!");
+
                             if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
                                 q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
@@ -296,6 +300,7 @@ namespace Zetris {
                             pcsolved = false;
 
                         } else {
+                            Console.WriteLine("Using PC!");
                             PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
                             if (PerfectClear.LastSolution.Count == 0)
@@ -333,14 +338,13 @@ namespace Zetris {
                             Console.WriteLine("AOT");
                             misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
 
-                            if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved) {
-                                pcboard = (int[,])misaboard.Clone();
+                            pcboard = (int[,])misaboard.Clone();
 
+                            if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved)
                                 PerfectClear.Find(
                                     pcboard, q, futureCurrent,
                                     futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap(), futureCombo
                                 );
-                            }
                         }
                     }
 
