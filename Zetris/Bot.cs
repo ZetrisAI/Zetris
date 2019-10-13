@@ -10,7 +10,7 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
-        const int rngsearch_max = 40;
+        const int rngsearch_max = 1000;
 
         static UI Window = null;
         static int playerID = 0;
