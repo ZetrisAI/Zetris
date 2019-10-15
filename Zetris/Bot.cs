@@ -684,8 +684,27 @@ namespace Zetris {
                 gamepad.Buttons = X360Buttons.None;
 
                 if (globalFrames % 2 == 0 && GameHelper.OutsideMenu()) {
-                    if (!GameHelper.IsCharacterSelect())
-                        gamepad.Buttons |= X360Buttons.A;
+                    if (!GameHelper.IsCharacterSelect()) {
+                        bool yes = true;
+                        if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0) {
+                            if (GameHelper.MenuNavigation(0) == 25 && GameHelper.MenuNavigation(1) == 1) {  //end of match
+                                if (GameHelper.MenuNavigation(2) != 0) {                                    //not default position
+                                    if (GameHelper.ConfirmingReplay() == 1) {                               //in replay confrim sub menu
+                                        gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
+                                    }
+                                }
+                                else
+                                {
+                                    gamepad.Buttons |= X360Buttons.Up;
+                                    yes = false;
+                                }
+                            }
+                        }
+
+                        if (yes) {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
+                    }
 
                     else if (GameHelper.CharSelectIndex(playerID) == 13)
                         gamepad.Buttons |= X360Buttons.A;

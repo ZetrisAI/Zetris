@@ -51,6 +51,8 @@
         <CheckBox Margin="0 0 0 5" x:Name="C4W" Click="C4WChanged" />
 
         <CheckBox Margin="0 0 0 5" x:Name="TSDOnly" Click="TSDOnlyChanged" />
+        
+        <CheckBox Margin="0 0 0 5" x:Name="SaveReplay" Click="SaveReplayChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 

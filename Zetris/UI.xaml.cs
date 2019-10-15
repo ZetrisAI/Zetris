@@ -27,6 +27,7 @@ namespace Zetris {
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
             TSDOnly.IsChecked = Preferences.TSDOnly;
+            SaveReplay.IsChecked = Preferences.SaveReplay;
             Player.RawValue = Preferences.Player + 1;
 
 #if PUBLIC
@@ -49,6 +50,7 @@ namespace Zetris {
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     TSDOnly.Content = "TSD만 (20 TSD)";
+                    SaveReplay.Content = "Auto-Save Replay";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     break;
@@ -66,6 +68,7 @@ namespace Zetris {
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
+                    SaveReplay.Content = "Auto-Save Replay";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     break;
@@ -83,6 +86,7 @@ namespace Zetris {
                     PerfectClear.Content = "Perfect Clear Finder";
                     C4W.Content = "Center 4-Wide";
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
+                    SaveReplay.Content = "Auto-Save Replay";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
                     break;
@@ -117,7 +121,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = TSDOnly.IsEnabled = SaveReplay.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
@@ -166,6 +170,10 @@ namespace Zetris {
 
         void TSDOnlyChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.TSDOnly = TSDOnly.IsChecked == true;
+        }
+
+        void SaveReplayChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.SaveReplay = SaveReplay.IsChecked == true;
         }
 
         void PlayerChanged(Dial sender, double NewValue) {
