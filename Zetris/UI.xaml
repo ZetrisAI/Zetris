@@ -57,6 +57,8 @@
         <Zetris:Dial Margin="0 0 0 5" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="2" Unit="P" AllowPrecise="False" x:Name="Player" Changed="PlayerChanged" />
 
         <CheckBox Margin="0 0 0 5" Content="Auto Puzzle League" x:Name="Auto" Click="AutoChanged" />
+        
+        <CheckBox Margin="0 0 0 5" Content="Auto-Save Replay" x:Name="SaveReplay" Click="SaveReplayChanged" />
 
         <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
 

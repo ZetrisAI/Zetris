@@ -19,6 +19,58 @@ namespace Zetris {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
 
+        public static byte MenuNavigation(int type) {
+            int addr = Game.ReadInt32(new IntPtr(0x140461B38));
+
+            switch(type) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(addr + 0x8C)); //menu type
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(addr + 0x95)); //paused
+
+                case 2:
+                    return Game.ReadByte(new IntPtr(addr + 0x98)); //menu selection
+            }
+            return 0;
+        }
+
+        public static byte CanSaveReplay() {
+            return Game.ReadByte(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140461B48
+                )) + 0x41
+            ));
+        }
+
+        public static byte ConfirmingReplay() {
+            return Game.ReadByte(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                 0x140461B40
+                                )) + 0x40
+                            )) + 0xB0
+                        )) + 0x108
+                    )) + 0x168
+                )) + 0xC0
+            ));
+        }
+
+        public static int ReplayMenuSelection() => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            0x140461B40
+                        )) + 0xB8
+                    ))
+                )) + 0xF0
+            )) + 0x8
+        ));
+
         public static int CurrentMode() => Game.ReadByte(new IntPtr(
             0x140573854
         ));
