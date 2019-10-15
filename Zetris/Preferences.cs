@@ -94,10 +94,13 @@ namespace Zetris {
 
         static bool _replay = false;
         public static bool SaveReplay {
+#if !PUBLIC
             get => _replay;
+#else
+            get => false;
+#endif
             set {
                 _replay = value;
-                Bot.UpdateConfig();
                 Save();
             }
         }
