@@ -97,12 +97,12 @@ namespace Zetris {
             danger = GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
 #endif
 
-            if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
+            if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) < 0x1000 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
                 ResetGame();
                 return false;
             }
 
-            if (GameHelper.boardAddress(playerID) != 0x0 && GameHelper.OutsideMenu() && GameHelper.getBigFrameCount() > 1) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && GameHelper.getBigFrameCount() > 1) {
                 if (numplayers < 2 && GameHelper.CurrentMode() == 4 && GameHelper.Online()) {
                     ResetGame();
                     return false;
@@ -606,7 +606,7 @@ namespace Zetris {
 
             bool addDown = false;
 
-            if (GameHelper.boardAddress(playerID) != 0x0 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getBigFrameCount() != 0x0) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getBigFrameCount() != 0x0) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
