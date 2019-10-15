@@ -171,7 +171,7 @@ namespace Zetris {
         }
 
         void SaveReplayChanged(object sender, RoutedEventArgs e) {
-            Preferences.SaveReplay = SaveReplay.IsChecked == true;
+            if (!FreezeEvents) Preferences.SaveReplay = SaveReplay.IsChecked == true;
         }
 
         void PlayerChanged(Dial sender, double NewValue) {
