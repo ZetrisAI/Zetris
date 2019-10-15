@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Zetris {
     public partial class UI {
-        public static bool FreezeEvents = true;
+        static bool FreezeEvents = true;
 
         static string InactiveString, ActiveString, ConfidenceString, ThinkingTimeString;
 
