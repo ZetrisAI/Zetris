@@ -67,7 +67,7 @@ namespace Zetris {
         static int[,] pcboard;
         static bool pcsolved = false;
 
-        static int startbreak = 0;
+        static bool startbreak = false;
 
         static bool runLogic() {
             bool ret = false;
@@ -102,7 +102,7 @@ namespace Zetris {
                 return false;
             }
 
-            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && GameHelper.getBigFrameCount() > 1) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && GameHelper.getPlayer1Base() > 0x1000) {
                 if (numplayers < 2 && GameHelper.CurrentMode() == 4 && GameHelper.Online()) {
                     ResetGame();
                     return false;
@@ -114,40 +114,41 @@ namespace Zetris {
 
                 int[] pieces = GameHelper.getPieces(playerID);
 
-                if (GameHelper.getBigFrameCount() < 15) startbreak = 0;
-                else if (GameHelper.getBigFrameCount() < 40) {
-                    if (++startbreak == 10) {
-                        MisaMino.Reset(); // this will abort as well
-                        misasolved = false;
-                        b2b = 0;
-                        atk = 0;
-                        register = false;
-                        movements.Clear();
-                        inputStarted = 0;
-                        softdrop = false;
-                        speedTick = 0;
+                bool startanim = GameHelper.getStartAnimation() > 0x1000;
 
-                        PerfectClear.Abort();
-                        pcsolved = false;
+                if (startanim && !startbreak) {
+                    MisaMino.Reset(); // this will abort as well
+                    misasolved = false;
+                    b2b = 0;
+                    atk = 0;
+                    register = false;
+                    movements.Clear();
+                    inputStarted = 0;
+                    softdrop = false;
+                    speedTick = 0;
 
-                        misaboard = (int[,])board.Clone();
-                        pcboard = (int[,])board.Clone();
+                    PerfectClear.Abort();
+                    pcsolved = false;
 
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                    misaboard = (int[,])board.Clone();
+                    pcboard = (int[,])board.Clone();
 
-                        if (!danger) {
-                            MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
+                    q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
 
-                            if (Preferences.PerfectClear) {
-                                PerfectClear.Find(
-                                    pcboard, q, pieces[0],
-                                    null, Preferences.HoldAllowed, 6, GameHelper.InSwap(), 0
-                                );
-                            }
+                    if (!danger) {
+                        MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+
+                        if (Preferences.PerfectClear) {
+                            PerfectClear.Find(
+                                pcboard, q, pieces[0],
+                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap(), 0
+                            );
                         }
                     }
                 }
+
+                startbreak = startanim;
 
                 int? hold = GameHelper.getHold(playerID);
                 int combo = GameHelper.getCombo(playerID);
@@ -606,7 +607,7 @@ namespace Zetris {
 
             bool addDown = false;
 
-            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getBigFrameCount() != 0x0) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getPlayer1Base() > 0x1000) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();

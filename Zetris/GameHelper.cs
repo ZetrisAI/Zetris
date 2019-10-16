@@ -645,33 +645,17 @@ namespace Zetris {
             )) + 0x424
         ));
 
-        public static int getBigFrameCount() {
-            int addr;
+        public static int getPlayer1Base() => Game.ReadInt32(new IntPtr(
+            0x140598A20
+        ));
 
-            if (InSwap()) {
-                addr = Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140598A20
-                        )) + 0x20
-                    )) + 0x40
-                )) + 0xF8;
-            } else {
-                addr = Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140598A28
-                    )) + 0x140
-                )) + 0x58;
-            }
-
-#if PUBLIC
-            addr += LobbyPtr();
-#endif
-
-            return Game.ReadInt32(new IntPtr(
-                addr
-            ));
-        }
+        public static int getStartAnimation() => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140461B20
+                )) + 0x3A8
+            )) + 0xB8
+        ));
 
         public static int getMenuFrameCount() => Game.ReadInt32(new IntPtr(
             0x140461B7C
