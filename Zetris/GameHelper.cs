@@ -181,12 +181,14 @@ namespace Zetris {
                         Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    0x140461B20
-                                )) + 0x378 + index * 0x8
-                            )) + 0xA8
+                                    Game.ReadInt32(new IntPtr(
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0xC0
+                            )) + 0x10
                         )) + 0x3C0
                     )) + 0x18
-                )) + 0x50;
+                ));
             }
 
             return -1;
@@ -201,10 +203,10 @@ namespace Zetris {
 #endif
 
             for (int i = 0; i < 10; i++) {
+                int columnAddress = Game.ReadInt32(new IntPtr(boardaddr + i * 0x08));
                 for (int j = 0; j < 28; j++) {
-                    ret[i, j] = Game.ReadByte(new IntPtr(boardaddr + 0x30 + j * 0x04));
+                    ret[i, j] = Game.ReadByte(new IntPtr(columnAddress + j * 0x04));
                 }
-                boardaddr = Game.ReadInt32(new IntPtr(boardaddr + 0x8));
             }
 
             return ret;
