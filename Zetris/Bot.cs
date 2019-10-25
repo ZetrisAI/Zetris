@@ -10,15 +10,17 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
+        const int rngsearch_max = 1000;
+
         static UI Window = null;
         static int playerID = 0;
 
         public static string[] Args;
 
         static void ResetGame() {
+#if !PUBLIC
             if (GameHelper.InSwap() || !Preferences.Auto) return;
 
-#if !PUBLIC
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
 
             Stopwatch resetting = new Stopwatch();
@@ -61,13 +63,47 @@ namespace Zetris {
         static int old_y;
         static int atk = 0;
 
-        static int[,] misaboard;
+        static int[,] misaboard = new int[10, 40];
         static bool misasolved = false;
 
-        static int[,] pcboard;
+        static int[,] pcboard = new int[10, 40];
         static bool pcsolved = false;
 
         static bool startbreak = false;
+
+        static bool danger =>
+#if PUBLIC
+            GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
+#else
+            false;
+#endif
+
+        static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
+
+        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
+            if (!GameHelper.InSwap() || cleared == 0) 
+                InputHelper.AddGarbage(
+                    misaboard,
+                    GameHelper.RNG(playerID),
+                    GameHelper.CalculateGarbage(playerID, atk, out int garbage_left)
+                );
+
+            if (MisaMino.Running) MisaMino.Abort();
+
+            misasolved = false;
+
+            if (!danger)
+                MisaMino.FindMove(
+                    q,
+                    current,
+                    hold,
+                    21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
+                    misaboard,
+                    combo + Convert.ToInt32(cleared > 0),
+                    b2b,
+                    0 // garbage_left TODO Zetris-21 stress test this
+                );
+        }
 
         static bool runLogic() {
             bool ret = false;
@@ -90,12 +126,6 @@ namespace Zetris {
             baseBoardHeight = 25 - y;
 
             board = GameHelper.getBoard(playerID);
-
-            bool danger = false;
-
-#if PUBLIC
-            danger = GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
-#endif
 
             if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) < 0x1000 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
                 ResetGame();
@@ -133,8 +163,8 @@ namespace Zetris {
                     misaboard = (int[,])board.Clone();
                     pcboard = (int[,])board.Clone();
 
-                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                    q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToArray();
+                    q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                     if (!danger) {
                         MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
@@ -158,45 +188,21 @@ namespace Zetris {
                         register = !shouldHaveRegistered;
                         old_y = y;
 
-                        misaboard = (int[,])board.Clone();
-                        InputHelper.ClearLines(misaboard, out int cleared);
+                        int[,] clearedboard = (int[,])board.Clone();
+                        InputHelper.ClearLines(clearedboard, out int cleared);
 
-                        int garbage_drop = GameHelper.getGarbageDropping(playerID) - atk;
-                        int garbage_left = 0;
+                        if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
+                            LogHelper.LogText("ARE");
+                            LogHelper.LogBoard(misaboard, clearedboard);
 
-                        if (garbage_drop < 0)
-                            garbage_drop = 0;
+                            misaboard = clearedboard;
 
-                        bool swap = GameHelper.InSwap();
-                        bool puyoexists = false;
+                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
+                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
-                        for (int i = 0; i < numplayers; i++)
-                            if (puyoexists = !GameHelper.getPlayerIsTetris(i)) break;
-
-                        // puyo chunks
-                        if ((swap || puyoexists) && garbage_drop > 7) {
-                            garbage_left = garbage_drop - 7;
-                            garbage_drop = 7;
+                            misaPrediction(pieces[0], q, hold, combo, cleared);
                         }
-
-                        // damage blocking
-                        if (!swap || cleared == 0) InputHelper.AddGarbage(misaboard, GameHelper.RNG(playerID), garbage_drop);
-
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                        q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
-
-                        if (!danger)
-                            MisaMino.FindMove(
-                                q,
-                                pieces[0],
-                                hold,
-                                21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, pieces[0], 4, 4, 0)),
-                                misaboard,
-                                combo + Convert.ToInt32(cleared > 0),
-                                b2b,
-                                0 // garbage_left TODO Zetris-21 stress test this
-                            );
-
+                        
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
@@ -212,9 +218,11 @@ namespace Zetris {
 
                     if (!danger) {
                         if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                            LogHelper.LogText("Detected PC");
+
                             pieceUsed = PerfectClear.LastSolution[0].Piece;
                             finalX = PerfectClear.LastSolution[0].X;
-                            int misaY = finalY = PerfectClear.LastSolution[0].Y;
+                            finalY = PerfectClear.LastSolution[0].Y;
                             finalR = PerfectClear.LastSolution[0].R;
 
                             do {
@@ -223,20 +231,23 @@ namespace Zetris {
                                     baseBoardHeight,
                                     pieceUsed,
                                     finalX,
-                                    misaY,
+                                    finalY,
                                     finalR,
                                     current != pieceUsed,
                                     ref spinUsed,
                                     out pathSuccess
                                 );
-                            } while (!(pathSuccess || --misaY < 3));
+                            } while (!(pathSuccess || --finalY < 3));
                         }
 
                         if (!pathSuccess) {
+                            LogHelper.LogText("Using Misa!");
+
                             if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                                q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                                q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
+                                LogHelper.LogText("Rush");
                                 MisaMino.FindMove(
                                     q,
                                     current,
@@ -271,6 +282,7 @@ namespace Zetris {
                             pcsolved = false;
 
                         } else {
+                            LogHelper.LogText("Using PC!");
                             PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
 
                             if (PerfectClear.LastSolution.Count == 0)
@@ -280,27 +292,41 @@ namespace Zetris {
                             Window?.SetThinkingTime(PerfectClear.LastTime);
                         }
 
+                        misasolved = false;
+
                         bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
-                        pcboard = (int[,])board.Clone();
+                        misaboard = (int[,])board.Clone();
 
                         bool fuck = false;
                         try {
-                            InputHelper.ApplyPiece(pcboard, pieceUsed, finalX, finalY, finalR, out clear);
+                            InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear);
                         } catch {
                             fuck = true;
+
+                            LogHelper.LogText("FUCK");
                         }
 
-                        if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved && !fuck) {
+                        if (!fuck) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
-                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).ToArray();
-                            q = q.Take(Math.Min(q.Length, Preferences.Previews)).ToArray();
+                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
+                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
-                            PerfectClear.Find(
-                                pcboard, q, pieces[start],
-                                wasHold? current : hold, Preferences.HoldAllowed, 6, GameHelper.InSwap(), combo
-                            );
+                            int futureCurrent = pieces[start];
+                            int? futureHold = wasHold? current : hold;
+                            int futureCombo = combo + Convert.ToInt32(clear > 0);
+
+                            LogHelper.LogText("AOT");
+                            misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
+
+                            pcboard = (int[,])misaboard.Clone();
+
+                            if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved)
+                                PerfectClear.Find(
+                                    pcboard, q, futureCurrent,
+                                    futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap(), futureCombo
+                                );
                         }
                     }
 
@@ -321,6 +347,9 @@ namespace Zetris {
                     inMatch = false;
 
                     menuStartFrames = GameHelper.getMenuFrameCount();
+
+                    MisaMino.Abort();
+                    PerfectClear.Abort();
                 }
             }
 
@@ -655,8 +684,27 @@ namespace Zetris {
                 gamepad.Buttons = X360Buttons.None;
 
                 if (globalFrames % 2 == 0 && GameHelper.OutsideMenu()) {
-                    if (!GameHelper.IsCharacterSelect())
-                        gamepad.Buttons |= X360Buttons.A;
+                    if (!GameHelper.IsCharacterSelect()) {
+                        bool yes = true;
+                        if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0) {
+                            if (GameHelper.MenuNavigation(0) == 25 && GameHelper.MenuNavigation(1) == 1) {  //end of match
+                                if (GameHelper.MenuNavigation(2) != 0) {                                    //not default position
+                                    if (GameHelper.ConfirmingReplay() == 1) {                               //in replay confrim sub menu
+                                        gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
+                                    }
+                                }
+                                else
+                                {
+                                    gamepad.Buttons |= X360Buttons.Up;
+                                    yes = false;
+                                }
+                            }
+                        }
+
+                        if (yes) {
+                            gamepad.Buttons |= X360Buttons.A;
+                        }
+                    }
 
                     else if (GameHelper.CharSelectIndex(playerID) == 13)
                         gamepad.Buttons |= X360Buttons.A;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29403.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{BD58E75E-C306-438B-B16D-BA3BF66BF14E}"
 EndProject
@@ -10,6 +10,7 @@ Global
 		Debug|x64 = Debug|x64
 		Public|x64 = Public|x64
 		Release|x64 = Release|x64
+		Verbose|x64 = Verbose|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Debug|x64.ActiveCfg = Debug|x64
@@ -18,6 +19,8 @@ Global
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Public|x64.Build.0 = Public|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.ActiveCfg = Release|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.Build.0 = Release|x64
+		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.ActiveCfg = Verbose|x64
+		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.Build.0 = Verbose|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

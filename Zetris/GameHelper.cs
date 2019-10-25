@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Zetris {
     static class GameHelper {
@@ -17,6 +18,58 @@ namespace Zetris {
         public static bool OutsideMenu() {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
+
+        public static byte MenuNavigation(int type) {
+            int addr = Game.ReadInt32(new IntPtr(0x140461B38));
+
+            switch(type) {
+                case 0:
+                    return Game.ReadByte(new IntPtr(addr + 0x8C)); //menu type
+
+                case 1:
+                    return Game.ReadByte(new IntPtr(addr + 0x95)); //paused
+
+                case 2:
+                    return Game.ReadByte(new IntPtr(addr + 0x98)); //menu selection
+            }
+            return 0;
+        }
+
+        public static byte CanSaveReplay() {
+            return Game.ReadByte(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    0x140461B48
+                )) + 0x41
+            ));
+        }
+
+        public static byte ConfirmingReplay() {
+            return Game.ReadByte(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                 0x140461B40
+                                )) + 0x40
+                            )) + 0xB0
+                        )) + 0x108
+                    )) + 0x168
+                )) + 0xC0
+            ));
+        }
+
+        public static int ReplayMenuSelection() => Game.ReadInt32(new IntPtr(
+            Game.ReadInt32(new IntPtr(
+                Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            0x140461B40
+                        )) + 0xB8
+                    ))
+                )) + 0xF0
+            )) + 0x8
+        ));
 
         public static int CurrentMode() => Game.ReadByte(new IntPtr(
             0x140573854
@@ -716,6 +769,36 @@ namespace Zetris {
             return ret;
         }
 
+        public static List<int> getNextFromRNG(int index, int amount, int atk) {
+            List<int> ret = new List<int>();
+
+            uint seed = RNG(index);
+
+            int garbage_drop = CalculateGarbage(index, atk, out int _);
+
+            if (amount % 7 != 0) amount += 7 - amount % 7;
+
+            for (int x = 0; x < amount / 7; x++) {
+                List<int> bag = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+
+                for (int i = 0; i < 7; i++) {
+                    seed *= 0x5D588B65;
+                    seed += 0x269EC3;
+
+                    int newIndex = (Convert.ToInt32((seed >> 16) * (7 - i)) >> 16) + i;
+
+                    int newValue = bag[newIndex];
+                    int oldValue = bag[i];
+                    bag[i] = newValue;
+                    bag[newIndex] = oldValue;
+                }
+
+                ret = ret.Concat(bag).ToList();
+            }
+
+            return ret;
+        }
+
         public static int CharSelectIndex(int index) => Game.ReadByte(new IntPtr(
             Game.ReadInt32(new IntPtr(
                 0x140460690
@@ -753,5 +836,17 @@ namespace Zetris {
                 0x140460690
             )) + 0x1B8 + 0x30 * index
         ));
+
+        public static int CalculateGarbage(int index, int atk, out int garbage_left) {
+            int garbage_drop = Math.Max(0, getGarbageDropping(index) - atk);
+            garbage_left = 0;
+
+            if ((InSwap() || !getPlayerIsTetris(1 - index)) && garbage_drop > 7) {
+                garbage_left = garbage_drop - 7;
+                garbage_drop = 7;
+            }
+
+            return garbage_drop;
+        }
     }
 }

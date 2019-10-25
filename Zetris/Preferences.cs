@@ -44,11 +44,11 @@ namespace Zetris {
             }
         }
 
-        static int _previews = 18;
+        static int _previews = 19;
         public static int Previews {
             get => _previews;
             set {
-                _previews = Math.Max(0, Math.Min(18, value));
+                _previews = Math.Max(0, Math.Min(19, value));
                 Save();
             }
         }
@@ -88,6 +88,19 @@ namespace Zetris {
             set {
                 _tsd = value;
                 Bot.UpdateConfig();
+                Save();
+            }
+        }
+
+        static bool _replay = false;
+        public static bool SaveReplay {
+#if !PUBLIC
+            get => _replay;
+#else
+            get => false;
+#endif
+            set {
+                _replay = value;
                 Save();
             }
         }

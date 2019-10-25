@@ -50,6 +50,17 @@
   <PropertyGroup>
     <StartupObject>Zetris.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Verbose|x64'">
+    <OutputPath>bin\x64\Verbose\</OutputPath>
+    <DefineConstants>TRACE;VERBOSE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
@@ -58,13 +69,14 @@
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.3.0\lib\net45\MisaMino.dll</HintPath>
+      <HintPath>..\packages\MisaMinoNET.1.3.4\lib\net45\MisaMino.dll</HintPath>
     </Reference>
-    <Reference Include="MisaMinoNET, Version=1.3.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.3.0\lib\net45\MisaMinoNET.dll</HintPath>
+    <Reference Include="MisaMinoNET, Version=1.3.4.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.3.4\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
-    <Reference Include="PerfectClearNET, Version=1.0.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\PerfectClearNET.1.0.1\lib\net45\PerfectClearNET.dll</HintPath>
+    <Reference Include="PerfectClearNET, Version=1.0.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\PerfectClearNET.1.0.2\lib\net45\PerfectClearNET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="ProcessMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -74,7 +86,8 @@
       <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
     <Reference Include="sfinder-dll, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\PerfectClearNET.1.0.1\lib\net45\sfinder-dll.dll</HintPath>
+      <HintPath>..\packages\PerfectClearNET.1.0.2\lib\net45\sfinder-dll.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -117,6 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
     </Compile>
