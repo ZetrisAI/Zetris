@@ -191,11 +191,7 @@ namespace Zetris {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     if (pieces[piece][r][i, j] != -1) {
-                        try {
-                            if (board[x + j, y - i] != 255) {
-                                return false;
-                            }
-                        } catch {
+                        if (x + j < 0 || 9 < x + j || y - i < 0 || 32 < y - i || board[x + j, y - i] != 255) {
                             return false;
                         }
                     }
