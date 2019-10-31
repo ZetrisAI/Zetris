@@ -19,6 +19,14 @@ namespace Zetris {
             return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
         }
 
+        public static int GameEnd() {
+            return Game.ReadByte(new IntPtr(    //16 if in post game menu
+                Game.ReadInt32(new IntPtr(      //36 if in post game pre-menu area (I.E. league results)
+                    0x140460690
+                )) + 0x78
+            ));
+        }
+
         public static byte MenuNavigation(int type) {
             int addr = Game.ReadInt32(new IntPtr(0x140461B38));
 
