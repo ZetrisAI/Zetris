@@ -636,7 +636,7 @@ namespace Zetris {
 
             bool addDown = false;
 
-            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getPlayer1Base() > 0x1000 && !(GameHelper.GameEnd() != 16 || GameHelper.GameEnd() != 36)) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getPlayer1Base() > 0x1000 && GameHelper.GameEnd() != 16 && GameHelper.GameEnd() != 36) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
@@ -645,6 +645,23 @@ namespace Zetris {
                 addDown = softdrop;
                 frames = nextFrame;
 
+            } else if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0 && GameHelper.MenuNavigation(0) != 250 && GameHelper.OutsideMenu()) {
+                gamepad.Buttons = X360Buttons.None;
+                if (globalFrames % 2 == 0) { 
+                    if (GameHelper.MenuNavigation(1) == 1) {                 //end of match
+                        if (GameHelper.MenuNavigation(2) != 0) {             //not default position
+                            if (GameHelper.ConfirmingReplay() == 1) {        //in replay confrim sub menu
+                                gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.A;
+                            }
+                        } else {
+                            gamepad.Buttons |= X360Buttons.Up;
+                        }
+                    } else {
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
+                }
             } else if (Preferences.Auto) {
                 int mode = GameHelper.CurrentMode();
                 gamepad.Buttons = X360Buttons.None;
@@ -685,25 +702,7 @@ namespace Zetris {
 
                 if (globalFrames % 2 == 0 && GameHelper.OutsideMenu()) {
                     if (!GameHelper.IsCharacterSelect()) {
-                        bool yes = true;
-                        if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0) {
-                            if (GameHelper.MenuNavigation(0) == 25 && GameHelper.MenuNavigation(1) == 1) {  //end of match
-                                if (GameHelper.MenuNavigation(2) != 0) {                                    //not default position
-                                    if (GameHelper.ConfirmingReplay() == 1) {                               //in replay confrim sub menu
-                                        gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
-                                    }
-                                }
-                                else
-                                {
-                                    gamepad.Buttons |= X360Buttons.Up;
-                                    yes = false;
-                                }
-                            }
-                        }
-
-                        if (yes) {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
+                        gamepad.Buttons |= X360Buttons.A;
                     }
 
                     else if (GameHelper.CharSelectIndex(playerID) == 13)

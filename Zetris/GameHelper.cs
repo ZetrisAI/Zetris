@@ -32,7 +32,8 @@ namespace Zetris {
 
             switch(type) {
                 case 0:
-                    return Game.ReadByte(new IntPtr(addr + 0x8C)); //menu type
+                    addr += 250;
+                    return (byte)addr;  //used for when pointer is dead, 250 is arbitrary
 
                 case 1:
                     return Game.ReadByte(new IntPtr(addr + 0x95)); //paused
@@ -54,30 +55,24 @@ namespace Zetris {
         public static byte ConfirmingReplay() {
             return Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                 0x140461B40
-                                )) + 0x40
-                            )) + 0xB0
-                        )) + 0x108
-                    )) + 0x168
-                )) + 0xC0
+                    0x140461B48
+                )) + 0x40
             ));
         }
 
-        public static int ReplayMenuSelection() => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
+        public static int ReplayMenuSelection() {
+            return Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
-                            0x140461B40
-                        )) + 0xB8
-                    ))
-                )) + 0xF0
-            )) + 0x8
-        ));
+                            Game.ReadInt32(new IntPtr(
+                                0x140461B40
+                            )) + 0xB8
+                        )) + 0x140
+                    )) + 0x18
+                )) + 0x8
+            ));
+        }
 
         public static int CurrentMode() => Game.ReadByte(new IntPtr(
             0x140573854
