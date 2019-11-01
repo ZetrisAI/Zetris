@@ -200,37 +200,19 @@ namespace Zetris {
 
         public static int boardAddress(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
+                return Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                Game.ReadInt32(new IntPtr(
-                                                    0x140461B20
-                                                )) + 0x380
-                                            )) + 0x18
-                                        )) + 0xC0
-                                    )) + 0x10
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-                }
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0xA8
+                            )) + 0x300
+                        )) + 0x3C0
+                    )) + 0x18
+                ));
             } else {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -246,8 +228,6 @@ namespace Zetris {
                     )) + 0x18
                 ));
             }
-
-            return -1;
         }
 
         public static int[,] getBoard(int index) {
@@ -270,29 +250,15 @@ namespace Zetris {
 
         public static int piecesAddress(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
+                return Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140461B20
-                                    )) + 0x380
-                                )) + 0x18
-                            )) + 0xB8
-                        )) + 0x15C;
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x1404611B8
-                                    )) + 0x88
-                                )) + 0x1E0
-                            )) + 0xB8
-                        )) + 0x15C;
-                }
+                                0x140461B20
+                            )) + 0x378 + index * 0x8
+                        )) + 0x20
+                    )) + 0x2C0
+                )) + 0x15C;
             } else {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -302,8 +268,6 @@ namespace Zetris {
                     )) + 0xB8
                 )) + 0x15C;
             }
-
-            return -1;
         }
 
         public static int[] getPieces(int index) {
@@ -323,35 +287,19 @@ namespace Zetris {
 
         public static int getCurrentPiece(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x380
-                                        )) + 0x18
-                                    )) + 0x40
-                                )) + 0x140
-                            )) + 0x110
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1404611B8
-                                        )) + 0x30
-                                    )) + 0xC0
-                                )) + 0x18
-                            )) + 0x610
-                        ));
-                }
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0x1E0
+                            )) + 0x40
+                        )) + 0x140
+                    )) + 0x110
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -365,35 +313,21 @@ namespace Zetris {
                     )) + 0x110
                 ));
             }
-
-            return -1;
         }
 
         public static int getPiecePositionX(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0x18
-                                )) + 0x40
-                            )) + 0x100
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x1405989C8
-                                )) + 0x40
-                            )) + 0x100
-                        ));
-                }
+                                    0x140461B20 
+                                )) + 0x378 + index * 0x8
+                            )) + 0x1E0
+                        )) + 0x40
+                    )) + 0x100
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -407,35 +341,21 @@ namespace Zetris {
                     )) + 0x1E
                 ));
             }
-
-            return -1;
         }
 
         public static int getPiecePositionY(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0x18
-                                )) + 0x40
-                            )) + 0x101
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x1405989C8
-                                )) + 0x40
-                            )) + 0x101
-                        ));
-                }
+                                    0x140461B20
+                                )) + 0x378 + index * 0x8
+                            )) + 0x1E0
+                        )) + 0x40
+                    )) + 0x101
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -449,41 +369,23 @@ namespace Zetris {
                     )) + 0x1F
                 ));
             }
-
-            return -1;
         }
 
         public static int getPieceRotation(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0x30
-                                    )) + 0x300
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-                }
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0xA8
+                            )) + 0x300
+                        )) + 0x3C8
+                    )) + 0x18
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -497,8 +399,6 @@ namespace Zetris {
                     )) + 0x18
                 ));
             }
-
-            return -1;
         }
 
         public static int getPieceDropped(int index) {
@@ -507,35 +407,19 @@ namespace Zetris {
 #endif
 
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0x30
-                                    )) + 0x300
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
-                }
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0xA8
+                            )) + 0x300
+                        )) + 0x3C8
+                    )) + 0x1C
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -549,37 +433,21 @@ namespace Zetris {
                     )) + 0x1C
                 ));
             }
-
-            return -1;
         }
 
         public static int getHoldPointer(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
+                return Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x30
-                                )) + 0x300
-                            )) + 0x3D0
-                        )) + 0x8;
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140598A28
-                                    )) + 0x140
-                                )) + 0x48
-                            )) + 0x3D0
-                        )) + 0x8;
-                }
+                                    0x140461B20
+                                )) + 0x378 + index * 0x8
+                            )) + 0x30
+                        )) + 0x300
+                    )) + 0x3D0
+                )) + 0x8;
             } else {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -591,8 +459,6 @@ namespace Zetris {
                     )) + 0x3D0
                 )) + 0x8;
             }
-
-            return -1;
         }
 
         public static int? getHold(int index) {
@@ -607,34 +473,19 @@ namespace Zetris {
 
         public static int getGarbageDropping(int index) {
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
+                return Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
                                     Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B98
-                                        )) + 0x88
-                                    )) + 0x18
-                                )) + 0xD0
-                            )) + 0x150
-                        ));
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B28
-                                        )) + 0x380
-                                    )) + 0x1F0
-                                )) + 0xE8
-                            )) + 0x308
-                        ));
-                }
-
+                                        0x140461B20
+                                    )) + 0x378 + index * 0x8
+                                )) + 0xA8
+                            )) + 0x300
+                        )) + 0x3C0
+                    )) + 18
+                ));
             } else {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -652,36 +503,18 @@ namespace Zetris {
 
 
         public static int getCombo(int index) {
-            int ret = -1;
-
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        ret = Game.ReadInt32(new IntPtr(
+                return Game.ReadByte(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
                                 Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x30
-                                )) + 0x300
-                            )) + 0x3DC
-                        ));
-                        break;
-
-                    case 1:
-                        ret = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140598A28
-                                    )) + 0x140
-                                )) + 0x48
-                            )) + 0x3DC
-                        ));
-                        break;
-                }
+                                    0x140461B20
+                                )) + 0x378 + index * 0x8
+                            )) + 0x1E0
+                        )) + 0xA8
+                    )) + 0x3DC
+                ));
             } else {
                 return Game.ReadByte(new IntPtr(
                     Game.ReadInt32(new IntPtr(
@@ -693,8 +526,6 @@ namespace Zetris {
                     )) + 0x3DC
                 ));
             }
-
-            return Math.Max(ret & 255, 0);
         }
 
         public static int getFrameCount() => Game.ReadInt32(new IntPtr(
@@ -724,35 +555,15 @@ namespace Zetris {
             int ptr = 0;
 
             if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        ptr = Game.ReadInt32(new IntPtr(
+                ptr = Game.ReadInt32(new IntPtr(
+                    Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x28
-                                )) + 0x88
-                            )) + 0x78
-                        ));
-                        break;
-
-                    case 1:
-                        ptr = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x138
-                                    )) + 0x10
-                                )) + 0x80
-                            )) + 0x78
-                        ));
-                        break;
-                }
+                                0x140461B20
+                            )) + 0x378 + index * 0x8
+                        )) + 0x1D8
+                    )) + 0x2B0
+                ));
             } else {
                 ptr = Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
