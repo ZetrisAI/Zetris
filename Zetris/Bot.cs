@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MisaMinoNET;
@@ -748,6 +749,8 @@ namespace Zetris {
         }
 
         static void Loop() {
+            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+
             while (!Disposing) {
                 if (GameHelper.CheckProcess()) {
                     GameHelper.TrustProcess = true;
@@ -756,6 +759,8 @@ namespace Zetris {
                     globalFrames = GameHelper.getMenuFrameCount();
 
                     if (globalFrames > prev) {
+                        if (globalFrames != prev + 1)
+                            LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
                         runLogic();
                         applyInputs();
                     }
@@ -764,6 +769,7 @@ namespace Zetris {
                 }
 
                 updateUI();
+                Thread.Sleep(10);
             }
 
             Disposed = true;
