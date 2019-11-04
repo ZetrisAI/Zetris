@@ -250,15 +250,27 @@ namespace Zetris {
 
         public static int piecesAddress(int index) {
             if (InSwap()) {
-                return Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
+                if (index == 0) {
+                    return Game.ReadInt32(new IntPtr(
                         Game.ReadInt32(new IntPtr(
                             Game.ReadInt32(new IntPtr(
-                                0x140461B20
-                            )) + 0x378 + index * 0x8
-                        )) + 0x20
-                    )) + 0x2C0
-                )) + 0x15C;
+                                Game.ReadInt32(new IntPtr(
+                                    0x140461B20
+                                )) + 0x380
+                            )) + 0x18
+                        )) + 0xB8
+                    )) + 0x15C;
+                } else {
+                    return Game.ReadInt32(new IntPtr(
+                        Game.ReadInt32(new IntPtr(
+                            Game.ReadInt32(new IntPtr(
+                                Game.ReadInt32(new IntPtr(
+                                    0x140461B20
+                                )) + 0x378 + index * 0x8
+                            )) + 0x1E0
+                        )) + 0xB8
+                    )) + 0x15C;
+                }
             } else {
                 return Game.ReadInt32(new IntPtr(
                     Game.ReadInt32(new IntPtr(
