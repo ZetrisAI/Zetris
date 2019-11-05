@@ -579,7 +579,19 @@ namespace Zetris {
 
             uint seed = RNG(index);
 
-            int garbage_drop = CalculateGarbage(index, atk, out int _);
+            int garbage_drop = CalculateGarbage(index, atk, out int garbage_left);
+
+            while (garbage_drop > 0) {
+                seed = InputHelper.NextRNG(seed);
+
+                for (int i = 0; i < garbage_drop; i++) {
+                    if (70 < InputHelper.RandomInt(ref seed, 99))
+                        seed = InputHelper.NextRNG(seed);
+                }
+
+                if (garbage_left > 0)
+                    garbage_drop = CalculateGarbage(index, 0, out garbage_left, garbage_left);
+            }
 
             if (amount % 7 != 0) amount += 7 - amount % 7;
 
@@ -642,11 +654,13 @@ namespace Zetris {
             )) + 0x1B8 + 0x30 * index
         ));
 
-        public static int CalculateGarbage(int index, int atk, out int garbage_left) {
-            int garbage_drop = Math.Max(0, getGarbageDropping(index) - atk);
+        public static int CalculateGarbage(int index, int atk, out int garbage_left, int garbage_drop = -1) {
+            if (garbage_drop == -1)
+                garbage_drop = Math.Max(0, getGarbageDropping(index) - atk);
+
             garbage_left = 0;
 
-            if ((InSwap() || !getPlayerIsTetris(1 - index)) && garbage_drop > 7) {
+            if ((InSwap.Call() || !getPlayerIsTetris(1 - index)) && garbage_drop > 7) {
                 garbage_left = garbage_drop - 7;
                 garbage_drop = 7;
             }
