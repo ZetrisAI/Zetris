@@ -589,6 +589,8 @@ namespace Zetris {
                         seed = InputHelper.NextRNG(seed);
                 }
 
+                garbage_drop = 0;
+
                 if (garbage_left > 0)
                     garbage_drop = CalculateGarbage(index, 0, out garbage_left, garbage_left);
             }
