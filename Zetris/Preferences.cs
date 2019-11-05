@@ -109,7 +109,7 @@ namespace Zetris {
         public static int Player {
             get => _player;
             set {
-                _player = Math.Max(0, Math.Min(1, value));
+                _player = Math.Max(0, Math.Min(3, value));
                 Save();
             }
         }

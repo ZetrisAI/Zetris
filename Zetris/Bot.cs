@@ -69,7 +69,7 @@ namespace Zetris {
         static int[,] pcboard = new int[10, 40];
         static bool pcsolved = false;
 
-        static int startbreak = 0;
+        static bool startbreak = false;
 
         static bool danger =>
 #if PUBLIC
@@ -127,13 +127,13 @@ namespace Zetris {
 
             board = GameHelper.getBoard(playerID);
 
-            if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) == 0x0 && ratingSafe + 1500 < GameHelper.getMenuFrameCount()) {
+            if (GameHelper.OutsideMenu() && GameHelper.CurrentMode() == 4 && numplayers < 2 && GameHelper.boardAddress(playerID) < 0x1000 && ratingSafe + 1500 < GameHelper.getMenuFrameCount() && !(GameHelper.GameEnd() != 16 || GameHelper.GameEnd() != 36)) {
                 ResetGame();
                 return false;
             }
 
-            if (GameHelper.boardAddress(playerID) != 0x0 && GameHelper.OutsideMenu() && GameHelper.getBigFrameCount() > 1) {
-                if (numplayers < 2 && GameHelper.CurrentMode() == 4 && GameHelper.Online()) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && GameHelper.getPlayer1Base() > 0x1000) {
+                if (numplayers < 2 && GameHelper.CurrentMode() == 4 && GameHelper.Online() && !(GameHelper.GameEnd() != 16 || GameHelper.GameEnd() != 36)) {
                     ResetGame();
                     return false;
                 }
@@ -144,41 +144,41 @@ namespace Zetris {
 
                 int[] pieces = GameHelper.getPieces(playerID);
 
-                if (GameHelper.getBigFrameCount() < 15) startbreak = 0;
-                else if (GameHelper.getBigFrameCount() < 40) {
-                    if (++startbreak == 10) {
-                        MisaMino.Reset(); // this will abort as well
-                        misasolved = false;
-                        b2b = 0;
-                        atk = 0;
-                        register = false;
-                        movements.Clear();
-                        inputStarted = 0;
-                        softdrop = false;
-                        speedTick = 0;
+                bool startanim = GameHelper.getStartAnimation() > 0x1000;
 
-                        PerfectClear.Abort();
-                        pcsolved = false;
+                if (startanim && !startbreak) {
+                    MisaMino.Reset(); // this will abort as well
+                    misasolved = false;
+                    b2b = 0;
+                    atk = 0;
+                    register = false;
+                    movements.Clear();
+                    inputStarted = 0;
+                    softdrop = false;
+                    speedTick = 0;
 
-                        misaboard = (int[,])board.Clone();
-                        pcboard = (int[,])board.Clone();
+                    PerfectClear.Abort();
+                    pcsolved = false;
 
-                        int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToArray();
-                        q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
+                    misaboard = (int[,])board.Clone();
+                    pcboard = (int[,])board.Clone();
 
-                        if (!danger) {
-                            LogHelper.LogText("Start");
-                            MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToArray();
+                    q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
-                            if (Preferences.PerfectClear) {
-                                PerfectClear.Find(
-                                    pcboard, q, pieces[0],
-                                    null, Preferences.HoldAllowed, 6, GameHelper.InSwap(), 0
-                                );
-                            }
+                    if (!danger) {
+                        MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+
+                        if (Preferences.PerfectClear) {
+                            PerfectClear.Find(
+                                pcboard, q, pieces[0],
+                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap(), 0
+                            );
                         }
                     }
                 }
+
+                startbreak = startanim;
 
                 int? hold = GameHelper.getHold(playerID);
                 int combo = GameHelper.getCombo(playerID);
@@ -202,7 +202,7 @@ namespace Zetris {
 
                             misaPrediction(pieces[0], q, hold, combo, cleared);
                         }
-
+                        
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
@@ -636,7 +636,7 @@ namespace Zetris {
 
             bool addDown = false;
 
-            if (GameHelper.boardAddress(playerID) != 0x0 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getBigFrameCount() != 0x0) {
+            if (GameHelper.boardAddress(playerID) > 0x1000 && GameHelper.OutsideMenu() && nextFrame > 0 && GameHelper.getPlayer1Base() > 0x1000 && GameHelper.GameEnd() != 16 && GameHelper.GameEnd() != 36) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
@@ -645,6 +645,23 @@ namespace Zetris {
                 addDown = softdrop;
                 frames = nextFrame;
 
+            } else if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0 && GameHelper.MenuNavigation(0) != 250 && GameHelper.OutsideMenu()) {
+                gamepad.Buttons = X360Buttons.None;
+                if (globalFrames % 2 == 0) { 
+                    if (GameHelper.MenuNavigation(1) == 1) {                 //end of match
+                        if (GameHelper.MenuNavigation(2) != 0) {             //not default position
+                            if (GameHelper.ConfirmingReplay() == 1) {        //in replay confrim sub menu
+                                gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
+                            } else {
+                                gamepad.Buttons |= X360Buttons.A;
+                            }
+                        } else {
+                            gamepad.Buttons |= X360Buttons.Up;
+                        }
+                    } else {
+                        gamepad.Buttons |= X360Buttons.A;
+                    }
+                }
             } else if (Preferences.Auto) {
                 int mode = GameHelper.CurrentMode();
                 gamepad.Buttons = X360Buttons.None;
@@ -685,25 +702,7 @@ namespace Zetris {
 
                 if (globalFrames % 2 == 0 && GameHelper.OutsideMenu()) {
                     if (!GameHelper.IsCharacterSelect()) {
-                        bool yes = true;
-                        if (Preferences.SaveReplay && GameHelper.CanSaveReplay() == 0) {
-                            if (GameHelper.MenuNavigation(0) == 25 && GameHelper.MenuNavigation(1) == 1) {  //end of match
-                                if (GameHelper.MenuNavigation(2) != 0) {                                    //not default position
-                                    if (GameHelper.ConfirmingReplay() == 1) {                               //in replay confrim sub menu
-                                        gamepad.Buttons |= (GameHelper.ReplayMenuSelection() == 1) ? X360Buttons.A : X360Buttons.Right;
-                                    }
-                                }
-                                else
-                                {
-                                    gamepad.Buttons |= X360Buttons.Up;
-                                    yes = false;
-                                }
-                            }
-                        }
-
-                        if (yes) {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
+                        gamepad.Buttons |= X360Buttons.A;
                     }
 
                     else if (GameHelper.CharSelectIndex(playerID) == 13)
