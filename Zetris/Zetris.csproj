@@ -130,6 +130,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CachedMethod.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
