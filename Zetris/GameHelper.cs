@@ -132,10 +132,6 @@ namespace Zetris {
             return 0;
         }
 
-        public static int scoreAddress() => Game.ReadInt32(new IntPtr(
-            0x14057F048
-        )) + 0x38;
-
         public static int getPlayerCount() {
             int ret = Game.ReadByte(new IntPtr(
                 Game.ReadInt32(new IntPtr(
@@ -150,16 +146,6 @@ namespace Zetris {
 
             return ret;
         }
-
-        public static int leagueAddress() => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140473760
-                    )) + 0x68
-                )) + 0x20
-            )) + 0x970
-        )) - 0x38;
 
         public static bool InSwap() {
             //return false;
@@ -184,10 +170,6 @@ namespace Zetris {
                     )) + 0x18
                 )) + 0xD0
             )) + 0x50
-        ));
-
-        public static int charAddress() => Game.ReadInt32(new IntPtr(
-            0x140460690
         ));
 
         public static short getRating() => Game.ReadInt16(new IntPtr(
@@ -509,10 +491,7 @@ namespace Zetris {
                     )) + 0x3C
                 ));
             }
-
-            return 0;
         }
-
 
         public static int getCombo(int index) {
             if (InSwap()) {
@@ -564,7 +543,7 @@ namespace Zetris {
 
         public static List<int> getNextFromBags(int index) {
             List<int> ret = new List<int>();
-            int ptr = 0;
+            int ptr;
 
             if (InSwap()) {
                 ptr = Game.ReadInt32(new IntPtr(
