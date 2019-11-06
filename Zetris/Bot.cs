@@ -81,11 +81,13 @@ namespace Zetris {
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
 
         static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
+            int garbage_left = 0;
+
             if (!GameHelper.InSwap.Call() || cleared == 0) 
                 InputHelper.AddGarbage(
                     misaboard,
                     GameHelper.RNG.Call(playerID),
-                    GameHelper.CalculateGarbage(playerID, atk, out int garbage_left)
+                    GameHelper.CalculateGarbage(playerID, atk, out garbage_left)
                 );
 
             if (MisaMino.Running) MisaMino.Abort();
@@ -101,7 +103,7 @@ namespace Zetris {
                     misaboard,
                     combo + Convert.ToInt32(cleared > 0),
                     b2b,
-                    0 // garbage_left TODO Zetris-21 stress test this
+                    garbage_left
                 );
         }
 
@@ -256,7 +258,7 @@ namespace Zetris {
                                     board,
                                     combo,
                                     b2b,
-                                    0
+                                    GameHelper.getGarbageDropping.Call(playerID)
                                 );
 
                                 Stopwatch misasearching = new Stopwatch();
