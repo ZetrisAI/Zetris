@@ -108,7 +108,7 @@ namespace Zetris {
         static bool runLogic() {
             bool ret = false;
 
-            numplayers = GameHelper.getPlayerCount.Call();
+            numplayers = GameHelper.PlayerCount.Call();
             playerID = GameHelper.FindPlayer.Call();
 
             if (GameHelper.InMultiplayer.Call())
@@ -393,7 +393,7 @@ namespace Zetris {
                             case Instruction.L: inputGoal = GameHelper.getPiecePositionX.Call(playerID) - 1; break;
                             case Instruction.R: inputGoal = GameHelper.getPiecePositionX.Call(playerID) + 1; break;
                             case Instruction.DROP: inputGoal = 1; break;
-                            case Instruction.HOLD: inputGoal = GameHelper.getHoldPointer.Call(playerID); break;
+                            case Instruction.HOLD: inputGoal = (int)GameHelper.getHoldPointer.Call(playerID); break;
 
                             case Instruction.D:
                                 inputGoal = Math.Min(
