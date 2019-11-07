@@ -125,7 +125,7 @@ namespace Zetris {
             Game.ReadInt32(new IntPtr(
                 0x1405A2010
 #if PUBLIC
-                + LobbyPtr()
+                + LobbyPtr.Call()
 #endif
             ))
         );
@@ -238,7 +238,7 @@ namespace Zetris {
 
             int boardaddr = boardAddress.Call(index);
 #if PUBLIC
-            boardaddr += LobbyPtr();
+            boardaddr += LobbyPtr.Call();
 #endif
 
             for (int i = 0; i < 10; i++) {
@@ -290,7 +290,7 @@ namespace Zetris {
 
             int pieceaddr = piecesAddress.Call(index);
 #if PUBLIC
-            pieceaddr += LobbyPtr();
+            pieceaddr += LobbyPtr.Call();
 #endif
 
             for (int i = 0; i < 5; i++) {
@@ -418,7 +418,7 @@ namespace Zetris {
 
         public static CachedMethod<int, int> getPieceDropped = new CachedMethod<int, int>((index) => {
 #if PUBLIC
-            index += LobbyPtr();
+            index += LobbyPtr.Call();
 #endif
 
             if (InSwap.Call()) {

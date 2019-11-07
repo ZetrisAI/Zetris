@@ -73,7 +73,7 @@ namespace Zetris {
 
         static bool danger =>
 #if PUBLIC
-            GameHelper.Online() || (GameHelper.LobbyPtr() != 0);
+            GameHelper.Online.Call() || (GameHelper.LobbyPtr.Call() != 0);
 #else
             false;
 #endif
