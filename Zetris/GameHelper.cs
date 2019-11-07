@@ -499,7 +499,7 @@ namespace Zetris {
                                 )) + 0xA8
                             )) + 0x300
                         )) + 0x3C0
-                    )) + 18
+                    )) + 0x18
                 ));
             } else {
                 return Game.ReadInt32(new IntPtr(
