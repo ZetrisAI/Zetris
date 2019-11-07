@@ -79,9 +79,6 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="ProcessMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ProcessMemory.1.0.0\lib\net45\ProcessMemory.dll</HintPath>
-    </Reference>
     <Reference Include="ScpDriverInterface">
       <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
@@ -179,6 +176,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProcessMemory\ProcessMemory\ProcessMemory.csproj">
+      <Project>{35b5c872-d829-428f-9dfa-8ef2b4de194c}</Project>
+      <Name>ProcessMemory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

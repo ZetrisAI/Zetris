@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29403.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{BD58E75E-C306-438B-B16D-BA3BF66BF14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessMemory", "..\ProcessMemory\ProcessMemory\ProcessMemory.csproj", "{35B5C872-D829-428F-9DFA-8EF2B4DE194C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.Build.0 = Release|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.ActiveCfg = Verbose|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.Build.0 = Verbose|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Debug|x64.ActiveCfg = Debug|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Debug|x64.Build.0 = Debug|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Public|x64.ActiveCfg = Release|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Public|x64.Build.0 = Release|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Release|x64.ActiveCfg = Release|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Release|x64.Build.0 = Release|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Verbose|x64.ActiveCfg = Release|x64
+		{35B5C872-D829-428F-9DFA-8EF2B4DE194C}.Verbose|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
