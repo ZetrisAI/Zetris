@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PPT_TAS {
+namespace Zetris {
     static class Program {
         [STAThread]
         static void Main() {

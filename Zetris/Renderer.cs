@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace PPT_TAS {
+namespace Zetris {
     public class Renderer {
         public static readonly (int, int)[][][] pieces = new (int, int)[7][][] {
             new (int, int)[4][] { // S
@@ -95,10 +95,10 @@ namespace PPT_TAS {
                         Rectangle mino = new Rectangle(new Point(i * pxBoard.Width, (23 - j) * pxBoard.Height), pxBoard);
 
                         gfx.FillRectangle(BackgroundColors[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
-                        gfx.DrawImage(Properties.Resources.Grid, mino);
+                        gfx.DrawImage(Properties.Resources.grid, mino);
 
                         if (board[i, j] != 255)
-                            gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{board[i, j]}"), mino);
+                            gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"_{board[i, j]}"), mino);
                     }
                 }
 
@@ -118,7 +118,7 @@ namespace PPT_TAS {
                     }
 
                     Rectangle mino = new Rectangle(new Point(0, h), pxQueue);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Queue_{queue[i++]}"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"_{queue[i++]}_mini"), mino);
                 }
 
                 gfx.Flush();
@@ -131,7 +131,7 @@ namespace PPT_TAS {
                 
                 if (h != 255) {
                     Rectangle mino = new Rectangle(new Point(0, 0), pxHold);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Queue_{h}"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"_{h}_mini"), mino);
                 }
 
                 gfx.Flush();
@@ -148,13 +148,13 @@ namespace PPT_TAS {
 
                 foreach ((int, int) offset in pieces[c][r]) {
                     Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * pxBoard.Width, (ghost - 1 + offset.Item2) * pxBoard.Height), pxBoard);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_{c}"), mino);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Ghost_Deco"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"_{c}_ghost"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"deco_ghost"), mino);
                 }
 
                 foreach ((int, int) offset in pieces[c][r]) {
                     Rectangle mino = new Rectangle(new Point((x - 1 + offset.Item1) * pxBoard.Width, (y - 1 + offset.Item2) * pxBoard.Height), pxBoard);
-                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"Mino_{c}"), mino);
+                    gfx.DrawImage((Image)Properties.Resources.ResourceManager.GetObject($"_{c}"), mino);
                 }
 
                 gfx.Flush();

@@ -1,4 +1,4 @@
-﻿namespace PPT_TAS {
+﻿namespace Zetris {
     partial class Dialog {
         /// <summary>
         /// Required designer variable.

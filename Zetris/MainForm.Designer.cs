@@ -1,4 +1,4 @@
-﻿namespace PPT_TAS {
+﻿namespace Zetris {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.

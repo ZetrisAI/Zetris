@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PPT_TAS {
+namespace Zetris {
     class GameHelper {
         public static bool OutsideMenu(ProcessMemory Game) => Game.ReadInt32(new IntPtr(
             0x140573A78

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 using ScpDriverInterface;
 
-namespace PPT_TAS {
+namespace Zetris {
     public partial class MainForm : Form {
         public MainForm() {
             InitializeComponent();
