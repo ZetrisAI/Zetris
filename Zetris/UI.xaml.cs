@@ -27,12 +27,10 @@ namespace Zetris {
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
             TSDOnly.IsChecked = Preferences.TSDOnly;
-            SaveReplay.IsChecked = Preferences.SaveReplay;
             Player.RawValue = Preferences.Player + 1;
 
 #if PUBLIC
-            ((StackPanel)Auto.Parent).Children.Remove(Auto);
-            ((StackPanel)SaveReplay.Parent).Children.Remove(SaveReplay);
+            ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
 #endif
 
             Version.Text = $"Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
@@ -170,16 +168,16 @@ namespace Zetris {
             if (!FreezeEvents) Preferences.TSDOnly = TSDOnly.IsChecked == true;
         }
 
+        void PuzzleLeagueChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.PuzzleLeague = PuzzleLeague.IsChecked == true;
+        }
+
         void SaveReplayChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.SaveReplay = SaveReplay.IsChecked == true;
         }
 
         void PlayerChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Player = (int)Player.RawValue - 1;
-        }
-        
-        void AutoChanged(object sender, RoutedEventArgs e) {
-            if (!FreezeEvents) Preferences.Auto = Auto.IsChecked == true;
         }
 
         void GamepadChanged(object sender, RoutedEventArgs e) {

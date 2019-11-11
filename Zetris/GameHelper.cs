@@ -15,961 +15,365 @@ namespace Zetris {
             }
         }
 
-        public static bool OutsideMenu() {
-            return Game.ReadInt32(new IntPtr(0x140573A78)) == 0x0;
-        }
+        public static CachedMethod<bool> OutsideMenu = new CachedMethod<bool>(() =>
+            Game.ReadInt32(
+                new IntPtr(0x140573A78)
+            ) == 0x0
+        );
 
-        public static byte MenuNavigation(int type) {
-            int addr = Game.ReadInt32(new IntPtr(0x140461B38));
+        public static CachedMethod<int> GameEnd = new CachedMethod<int>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140460690),         // 16 if in post game menu
+                new int[] {0x78}                 // 36 if in post game pre-menu area (I.E. league results)
+            ) ?? 0
+        );
 
-            switch(type) {
-                case 0:
-                    return Game.ReadByte(new IntPtr(addr + 0x8C)); //menu type
+        public static CachedMethod<int, byte> MenuNavigation = new CachedMethod<int, byte>((type) => {
+            int addr = Game.ReadInt32(
+                new IntPtr(0x140461B38)
+            );
 
-                case 1:
-                    return Game.ReadByte(new IntPtr(addr + 0x95)); //paused
+            switch (type) {
+                case 0: //used for when pointer is dead, 250 is arbitrary
+                    return (byte)(addr + 250);
 
-                case 2:
-                    return Game.ReadByte(new IntPtr(addr + 0x98)); //menu selection
+                case 1: //paused
+                    return Game.ReadByte(
+                        new IntPtr(addr + 0x95)
+                    );
+
+                case 2: //menu selection
+                    return Game.ReadByte(
+                        new IntPtr(addr + 0x98)
+                    ); 
             }
+
             return 0;
-        }
+        });
 
-        public static byte CanSaveReplay() {
-            return Game.ReadByte(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140461B48
-                )) + 0x41
-            ));
-        }
+        public static CachedMethod<byte> CanSaveReplay = new CachedMethod<byte>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B48),
+                new int[] {0x41}
+            )?? 0
+        );
 
-        public static byte ConfirmingReplay() {
-            return Game.ReadByte(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                 0x140461B40
-                                )) + 0x40
-                            )) + 0xB0
-                        )) + 0x108
-                    )) + 0x168
-                )) + 0xC0
-            ));
-        }
+        public static CachedMethod<byte> ConfirmingReplay = new CachedMethod<byte>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B48),
+                new int[] {0x40}
+            )?? 0
+        );
 
-        public static int ReplayMenuSelection() => Game.ReadInt32(new IntPtr(
+        public static CachedMethod<int> ReplayMenuSelection = new CachedMethod<int>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B40),
+                new int[] {0xB8, 0x140, 0x18, 0x8}
+            )?? 0
+        );
+
+        public static CachedMethod<int> CurrentMode = new CachedMethod<int>(() =>
+            Game.ReadByte(
+                new IntPtr(0x140573854)
+            )
+        );
+
+        public static CachedMethod<bool> Online = new CachedMethod<bool>(() =>
+            Game.ReadByte(
+                new IntPtr(0x14059894C)
+            ) == 1
+        );
+
+        public static CachedMethod<long> LobbyPtr = new CachedMethod<long>(() =>
+            Game.TraverseInt64(
+                new IntPtr(0x140473760),
+                new int[] {0x20}
+            )?? 0
+        );
+
+        public static CachedMethod<bool> InMultiplayer = new CachedMethod<bool>(() =>
+            Game.ReadByte(
+                new IntPtr(0x140573858)
+            ) == 3
+        );
+
+        public static CachedMethod<int> MenuHighlighted = new CachedMethod<int>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140573A78),
+                new int[] {0x98, 0x8C}
+            )?? 0
+        );
+
+        public static CachedMethod<int> PlayerCount = new CachedMethod<int>(() =>
+            Math.Max(0, Math.Min(4, Game.TraverseInt32(  // Limit this between 0 and 4.
+                new IntPtr(0x140473760),
+                new int[] {0x20, 0xB4}
+            )?? 0))
+        );
+
+        public static CachedMethod<int> LocalSteam = new CachedMethod<int>(() =>
             Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140461B40
-                        )) + 0xB8
-                    ))
-                )) + 0xF0
-            )) + 0x8
-        ));
-
-        public static int CurrentMode() => Game.ReadByte(new IntPtr(
-            0x140573854
-        ));
-
-        public static bool Online() => Game.ReadByte(new IntPtr(
-            0x14059894C
-        )) == 1;
-
-        public static int LobbyPtr() => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                0x140473760
-            )) + 0x20
-        ));
-
-        public static bool InMultiplayer() => Game.ReadByte(new IntPtr(
-            0x140573858
-        )) == 3;
-
-        public static int MenuHighlighted() => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140573A78
-                )) + 0x98
-            )) + 0x8C
-        ));
-
-        public static int PlayerCount() => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140473760
-                )) + 0x20
-            )) + 0xB4
-        ));
-
-        public static int LocalSteam() => Game.ReadInt32(new IntPtr(
-            0x1405A2010
+                0x1405A2010
 #if PUBLIC
-            + LobbyPtr()
+                + LobbyPtr.Call()
 #endif
-        ));
+            ))
+        );
 
-        public static int PlayerSteam(int index) => Game.ReadInt32(new IntPtr(
-            LobbyPtr() + 0x118 + index * 0x50
-        ));
+        public static CachedMethod<int, int> PlayerSteam = new CachedMethod<int, int>((index) =>
+            Game.ReadInt32(
+                new IntPtr(LobbyPtr.Call() + 0x118 + index * 0x50)
+            )
+        );
 
-        public static int FindPlayer() {
-            if (PlayerCount() < 2)
+        public static CachedMethod<int> FindPlayer = new CachedMethod<int>(() => {
+            if (PlayerCount.Call() < 2)
                 return 0;
 
-            int localSteam = LocalSteam();
+            int localSteam = LocalSteam.Call();
 
-            for (int i = 0; i < 2; i++)
-                if (localSteam == PlayerSteam(i))
+            for (int i = 0; i < 4; i++)
+                if (localSteam == PlayerSteam.Call(i))
                     return i;
 
             return 0;
-        }
+        });
 
-        public static int scoreAddress() => Game.ReadInt32(new IntPtr(
-            0x14057F048
-        )) + 0x38;
+        public static CachedMethod<bool> InSwap = new CachedMethod<bool>(() =>
+            Game.ReadBoolean(new IntPtr(0x14059894C))
+                ? Game.ReadBoolean(new IntPtr(0x1404385C4))
+                    ? Game.ReadByte(new IntPtr(0x140438584)) == 3
+                    : Game.ReadByte(new IntPtr(0x140573794)) == 2
+                : (Game.ReadByte(new IntPtr(0x140451C50)) & 0b11101111) == 4
+        );
 
-        public static int getPlayerCount() {
-            int ret = Game.ReadByte(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140473760
-                    )) + 0x20
-                )) + 0xB4
-            ));
+        public static CachedMethod<int> SwapType = new CachedMethod<int>(() =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                new int[] {0x380, 0x18, 0xD0, 0x50}
+            )?? 0
+        );
 
-            if (ret > 4) ret = 0;
-            if (ret < 0) ret = 0;
+        public static CachedMethod<ushort> getRating = new CachedMethod<ushort>(() =>
+            Game.ReadUInt16(
+                new IntPtr(0x140599FF0)
+            )
+        );
 
-            return ret;
-        }
+        public static CachedMethod<int, bool> getPlayerIsTetris = new CachedMethod<int, bool>((index) =>
+            (Game.ReadByte(
+                new IntPtr(0x140598C27 + 0x68 * index)
+            ) & 64) == 1  // TODO Zetris-25 this is obviously wrong check this the fuck out
+        );
 
-        public static int leagueAddress() => Game.ReadInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        0x140473760
-                    )) + 0x68
-                )) + 0x20
-            )) + 0x970
-        )) - 0x38;
+        public static CachedMethod<int, long> boardAddress = new CachedMethod<int, long>((index) =>
+            Game.TraverseInt64(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C0, 0x18}
+                    : new int[] {0x378 + index * 0x8, 0xC0, 0x10, 0x3C0, 0x18}
+            )?? 0
+        );
 
-        public static bool InSwap() {
-            //return false;
-            if (Game.ReadBoolean(new IntPtr(0x14059894C))) {
-                if (Game.ReadBoolean(new IntPtr(0x1404385C4))) {
-                    return Game.ReadByte(new IntPtr(0x140438584)) == 3;
-                } else {
-                    return Game.ReadByte(new IntPtr(0x140573794)) == 2;
-                }
-            } else {
-                return (Game.ReadByte(new IntPtr(0x140451C50)) & 0b11101111) == 4;
-            }
-        }
-
-        public static int SwapType() => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140461B20
-                        )) + 0x380
-                    )) + 0x18
-                )) + 0xD0
-            )) + 0x50
-        ));
-
-        public static int charAddress() => Game.ReadInt32(new IntPtr(
-            0x140460690
-        ));
-
-        public static short getRating() => Game.ReadInt16(new IntPtr(
-            0x140599FF0
-        ));
-
-        public static bool getPlayerIsTetris(int index) => (Game.ReadByte(new IntPtr(
-            0x140598C27 + 0x68 * index
-        )) & 64) == 1;
-
-        public static int boardAddress(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                Game.ReadInt32(new IntPtr(
-                                                    0x140461B20
-                                                )) + 0x380
-                                            )) + 0x18
-                                        )) + 0xC0
-                                    )) + 0x10
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0xC0
-                                    )) + 0x10
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1404611B8
-                                        )) + 0x30
-                                    )) + 0xA8
-                                )) + 0x3C0
-                            )) + 0x18
-                        ));
-                }
-            }
-
-            return -1;
-        }
-
-        public static int[,] getBoard(int index) {
+        public static CachedMethod<int, int[,]> getBoard = new CachedMethod<int, int[,]>((index) => {
             int[,] ret = new int[10, 40];
 
-            int boardaddr = boardAddress(index);
+            long boardaddr = boardAddress.Call(index);
 #if PUBLIC
-            boardaddr += LobbyPtr();
+            boardaddr += LobbyPtr.Call();
 #endif
 
             for (int i = 0; i < 10; i++) {
-                int columnAddress = Game.ReadInt32(new IntPtr(boardaddr + i * 0x08));
-                for (int j = 0; j < 28; j++) {
+                long columnAddress = Game.ReadInt64(new IntPtr(boardaddr + i * 0x08));
+
+                for (int j = 0; j < 28; j++)
                     ret[i, j] = Game.ReadByte(new IntPtr(columnAddress + j * 0x04));
-                }
             }
 
             return ret;
-        }
+        });
 
-        public static int piecesAddress(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140461B20
-                                    )) + 0x380
-                                )) + 0x18
-                            )) + 0xB8
-                        )) + 0x15C;
+        public static CachedMethod<int, long> piecesAddress = new CachedMethod<int, long>((index) =>
+            (Game.TraverseInt64(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? index == 0
+                        ? new int[] {0x380, 0x18, 0xB8}
+                        : new int[] {0x378 + index * 0x8, 0x1E0, 0xB8}
+                    : new int[] {0x378 + index * 0x8, 0xB8}
+            )?? 0) + 0x15C
+        );
 
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x1404611B8
-                                    )) + 0x88
-                                )) + 0x1E0
-                            )) + 0xB8
-                        )) + 0x15C;
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140461B20
-                                )) + 0x378
-                            )) + 0xB8
-                        )) + 0x15C;
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x1405989D0
-                                    )) + 0x78
-                                )) + 0x28
-                            )) + 0xB8
-                        )) + 0x15C;
-                }
-            }
-
-            return -1;
-        }
-
-        public static int[] getPieces(int index) {
+        public static CachedMethod<int, int[]> getPieces = new CachedMethod<int, int[]>((index) => {
             int[] ret = new int[5];
 
-            int pieceaddr = piecesAddress(index);
+            long pieceaddr = piecesAddress.Call(index);
 #if PUBLIC
-            pieceaddr += LobbyPtr();
+            pieceaddr += LobbyPtr.Call();
 #endif
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++)
                 ret[i] = Game.ReadByte(new IntPtr(pieceaddr + i * 0x04));
-            }
 
             return ret;
-        }
+        });
 
-        public static int getCurrentPiece(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x380
-                                        )) + 0x18
-                                    )) + 0x40
-                                )) + 0x140
-                            )) + 0x110
-                        ));
+        public static CachedMethod<int, int> getCurrentPiece = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0x40, 0x140, 0x110}
+                    : new int[] {0x378 + index * 0x8, 0xC0, 0x120, 0x110}
+            )?? 0
+        );
 
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x1404611B8
-                                        )) + 0x30
-                                    )) + 0xC0
-                                )) + 0x18
-                            )) + 0x610
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x40
-                                )) + 0x140
-                            )) + 0x110
-                        ));
+        public static CachedMethod<int, int> getPiecePositionX = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0x40, 0x100}
+                    : new int[] {0x378 + index * 0x8, 0xC0, 0x120, 0x1E}
+            )?? 0
+        );
 
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B28
-                                        )) + 0x380
-                                    )) + 0x40
-                                )) + 0x140
-                            )) + 0x110
-                        ));
-                }
-            }
+        public static CachedMethod<int, int> getPiecePositionY = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0x40, 0x101}
+                    : new int[] {0x378 + index * 0x8, 0xC0, 0x120, 0x1F}
+            )?? 0
+        );
 
-            return -1;
-        }
+        public static CachedMethod<int, int> getPieceRotation = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C8, 0x18}
+                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3C8, 0x18}
+            )?? 0
+        );
 
-        public static int getPiecePositionX(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0x18
-                                )) + 0x40
-                            )) + 0x100
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x1405989C8
-                                )) + 0x40
-                            )) + 0x100
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140461B20
-                                    )) + 0x378
-                                )) + 0x40
-                            )) + 0x100
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0xC0
-                                )) + 0x120
-                            )) + 0x1E
-                        ));
-                }
-            }
-
-            return -1;
-        }
-
-        public static int getPiecePositionY(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0x18
-                                )) + 0x40
-                            )) + 0x101
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x1405989C8
-                                )) + 0x40
-                            )) + 0x101
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140461B20
-                                    )) + 0x378
-                                )) + 0x40
-                            )) + 0x101
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x380
-                                    )) + 0xC0
-                                )) + 0x120
-                            )) + 0x1F
-                        ));
-                }
-            }
-
-            return -1;
-        }
-
-        public static int getPieceRotation(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0x30
-                                    )) + 0x300
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140460C08
-                                            )) + 0x18
-                                        )) + 0x268
-                                    )) + 0x38
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x1405989D0
-                                            )) + 0x78
-                                        )) + 0x20
-                                    )) + 0xA8
-                                )) + 0x3C8
-                            )) + 0x18
-                        ));
-                }
-            }
-
-            return -1;
-        }
-
-        public static int getPieceDropped(int index) {
+        public static CachedMethod<int, int> getPieceDropped = new CachedMethod<int, int>((index) => {
 #if PUBLIC
-            index += LobbyPtr();
+            index += (int)LobbyPtr.Call();
 #endif
 
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0x30
-                                    )) + 0x300
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
+            return Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C8, 0x1C}
+                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3C8, 0x1C}
+            )?? 0;
+        });
 
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x48
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140460C08
-                                            )) + 0x18
-                                        )) + 0x268
-                                    )) + 0x38
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
+        public static CachedMethod<int, long> getHoldPointer = new CachedMethod<int, long>((index) =>
+            (Game.TraverseInt64(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x30, 0x300, 0x3D0}
+                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3D0}
+            )?? 0) + 0x8
+        );
 
-                    case 1:
-                        return Game.ReadByte(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x1405989D0
-                                            )) + 0x78
-                                        )) + 0x20
-                                    )) + 0xA8
-                                )) + 0x3C8
-                            )) + 0x1C
-                        ));
-                }
-            }
-
-            return -1;
-        }
-
-        public static int getHoldPointer(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x30
-                                )) + 0x300
-                            )) + 0x3D0
-                        )) + 0x8;
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140598A28
-                                    )) + 0x140
-                                )) + 0x48
-                            )) + 0x3D0
-                        )) + 0x8;
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140598A20
-                                )) + 0x38
-                            )) + 0x3D0
-                        )) + 0x8;
-
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x1405989D0
-                                    )) + 0x270
-                                )) + 0x20
-                            )) + 0x3D0
-                        )) + 0x8;
-                }
-            }
-
-            return -1;
-        }
-
-        public static int? getHold(int index) {
-            int ptr = getHoldPointer(index);
+        public static CachedMethod<int, int?> getHold = new CachedMethod<int, int?>((index) => {
+            long ptr = getHoldPointer.Call(index);
 
             if (ptr < 0x0800000) return null;
 
             return Game.ReadInt32(new IntPtr(
                 ptr
             ));
-        }
+        });
 
-        public static int getGarbageDropping(int index) {
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B98
-                                        )) + 0x88
-                                    )) + 0x18
-                                )) + 0xD0
-                            )) + 0x150
-                        ));
+        public static CachedMethod<int, int> getGarbageDropping = new CachedMethod<int, int>((index) =>
+            Game.TraverseInt32(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xD0, 0xA8}
+                    : new int[] {0x378 + index * 0x8, 0xD0, 0x3C}
+            )?? 0
+        );
 
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B28
-                                        )) + 0x380
-                                    )) + 0x1F0
-                                )) + 0xE8
-                            )) + 0x308
-                        ));
-                }
+        public static CachedMethod<int, int> getCombo = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                InSwap.Call()
+                    ? new IntPtr(0x140461B20)
+                    : new IntPtr(0x140598A28),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xA8, 0x3DC}
+                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3DC}
+            )?? 0
+        );
 
-            } else {
-                switch (index) {
-                    case 0:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            Game.ReadInt32(new IntPtr(
-                                                0x140461B20
-                                            )) + 0x378
-                                        )) + 0x28
-                                    )) + 0x18
-                                )) + 0xD0
-                            )) + 0x64
-                        ));
+        public static CachedMethod<int> getFrameCount = new CachedMethod<int>(() =>
+            Game.TraverseInt32(
+                new IntPtr(0x140461B20),
+                new int[] {0x424}
+            )?? 0
+        );
 
-                    case 1:
-                        return Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x28
-                                )) + 0xD0
-                            )) + 0x3C
-                        ));
-                }
-            }
-
-            return 0;
-        }
-
-
-        public static int getCombo(int index) {
-            int ret = -1;
-
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        ret = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140461B20
-                                        )) + 0x378
-                                    )) + 0x30
-                                )) + 0x300
-                            )) + 0x3DC
-                        ));
-                        break;
-
-                    case 1:
-                        ret = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        0x140598A28
-                                    )) + 0x140
-                                )) + 0x48
-                            )) + 0x3DC
-                        ));
-                        break;
-                }
-            } else {
-                switch (index) {
-                    case 0:
-                        ret = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140598A20
-                                )) + 0x38
-                            )) + 0x3DC
-                        ));
-                        break;
-
-                    case 1:
-                        ret = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140598A28
-                                )) + 0x38
-                            )) + 0x3DC
-                        ));
-                        break;
-                }
-            }
-
-            return Math.Max(ret & 255, 0);
-        }
-
-        public static int getFrameCount() => Game.ReadInt32(new IntPtr(
+        public static CachedMethod<int> getPlayer1Base = new CachedMethod<int>(() =>
             Game.ReadInt32(new IntPtr(
-                0x140461B20
-            )) + 0x424
-        ));
+                0x140598A20
+            ))
+        );
+        
+        public static CachedMethod<int> getStartAnimation = new CachedMethod<int>(() =>
+            Game.TraverseInt32(
+                new IntPtr(0x140461B20),
+                new int[] {0x3A8, 0xB8}
+            )?? 0
+        );
 
-        public static int getBigFrameCount() {
-            int addr;
-
-            if (InSwap()) {
-                addr = Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            0x140598A20
-                        )) + 0x20
-                    )) + 0x40
-                )) + 0xF8;
-            } else {
-                addr = Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                0x140598A20
-                            )) + 0x138
-                        )) + 0x18
-                    )) + 0x100
-                )) + 0x58;
-            }
-
-#if PUBLIC
-            addr += LobbyPtr();
-#endif
-
-            int x = Game.ReadInt32(new IntPtr(
-                addr
+        public static int getMenuFrameCount() =>
+            Game.ReadInt32(new IntPtr(
+                0x140461B7C
             ));
 
-            if (x == 8) {
-                return Game.ReadInt32(new IntPtr(
-                    addr + 0x8
-                ));
-            }
-
-            return x;
-        }
-
-        public static int getMenuFrameCount() => Game.ReadInt32(new IntPtr(
-            0x140461B7C
-        ));
-
-        public static List<int> getNextFromBags(int index) {
+        public static CachedMethod<int, List<int>> getNextFromBags = new CachedMethod<int, List<int>>((index) => {
             List<int> ret = new List<int>();
-            int ptr = 0;
 
-            if (InSwap()) {
-                switch (index) {
-                    case 0:
-                        ptr = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x140
-                                    )) + 0x28
-                                )) + 0x88
-                            )) + 0x78
-                        ));
-                        break;
+            long ptr = Game.TraverseInt64(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1D8, 0x2B0}
+                    : new int[] {0x378 + index * 0x8, 0xA8}
+            )?? 0;
 
-                    case 1:
-                        ptr = Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    Game.ReadInt32(new IntPtr(
-                                        Game.ReadInt32(new IntPtr(
-                                            0x140598A28
-                                        )) + 0x138
-                                    )) + 0x10
-                                )) + 0x80
-                            )) + 0x78
-                        ));
-                        break;
-                }
-            } else {
-                ptr = Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140598A20 + index * 8
-                                )) + 0x138
-                            )) + 0x10
-                        )) + 0x80
-                    )) + 0x78
-                ));
-            }
-
-            for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++) {
+            for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++)
                 ret.Add(Game.ReadByte(new IntPtr(
                     ptr + 0x320 + 0x04 * i
                 )));
-            }
 
             return ret;
-        }
+        });
 
         public static List<int> getNextFromRNG(int index, int amount, int atk) {
             List<int> ret = new List<int>();
 
-            uint seed = RNG(index);
+            uint seed = RNG.Call(index);
 
-            int garbage_drop = CalculateGarbage(index, atk, out int _);
+            int garbage_drop = CalculateGarbage(index, atk, out int garbage_left);
+
+            while (garbage_drop > 0) {
+                seed = InputHelper.NextRNG(seed);
+
+                for (int i = 0; i < garbage_drop; i++) {
+                    if (70 < InputHelper.RandomInt(ref seed, 99))
+                        seed = InputHelper.NextRNG(seed);
+                }
+
+                garbage_drop = 0;
+
+                if (garbage_left > 0)
+                    garbage_drop = CalculateGarbage(index, 0, out garbage_left, garbage_left);
+            }
 
             if (amount % 7 != 0) amount += 7 - amount % 7;
 
             for (int x = 0; x < amount / 7; x++) {
-                List<int> bag = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+                List<int> bag = new List<int>() {0, 1, 2, 3, 4, 5, 6};
 
                 for (int i = 0; i < 7; i++) {
                     seed *= 0x5D588B65;
@@ -989,49 +393,43 @@ namespace Zetris {
             return ret;
         }
 
-        public static int CharSelectIndex(int index) => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                0x140460690
-            )) + 0x458 + 0x48 * index
-        ));
+        public static CachedMethod<int, int> CharSelectIndex = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140460690),
+                new int[] {0x458 + 0x48 * index}
+            )?? 0
+        );
 
-        public static uint RNG(int index) => Game.ReadUInt32(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    Game.ReadInt32(new IntPtr(
-                        Game.ReadInt32(new IntPtr(
-                            Game.ReadInt32(new IntPtr(
-                                Game.ReadInt32(new IntPtr(
-                                    0x140598A20 + 8 * index
-                                )) + 0x138
-                            )) + 0x10
-                        )) + 0x80
-                    )) + 0x78
-                )) + 0x78
-            )) + 0x80
-        ));
+        public static CachedMethod<int, uint> RNG = new CachedMethod<int, uint>((index) =>
+            Game.TraverseUInt32(
+                new IntPtr(0x140598A20 + 0x8 * index),
+                new int[] {0x138, 0x10, 0x80, 0x78, 0x78, 0x80}
+            )?? 0
+        );
 
-        public static bool IsCharacterSelect() {
-            int P1State = Game.ReadByte(new IntPtr(
-                Game.ReadInt32(new IntPtr(
-                    0x140460690
-                )) + 0x274
-            ));
+        public static CachedMethod<bool> IsCharacterSelect = new CachedMethod<bool>(() => {
+            int P1State = Game.TraverseByte(
+                new IntPtr(0x140460690),
+                new int[] {0x274}
+            )?? 0;
 
             return P1State > 0 && P1State < 16;
-        }
+        });
 
-        public static byte CharacterSelectState(int index) => Game.ReadByte(new IntPtr(
-            Game.ReadInt32(new IntPtr(
-                0x140460690
-            )) + 0x1B8 + 0x30 * index
-        ));
+        public static CachedMethod<int, byte> CharacterSelectState = new CachedMethod<int, byte>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140460690),
+                new int[] {0x1B8 + 0x30 * index}
+            )?? 0
+        );
 
-        public static int CalculateGarbage(int index, int atk, out int garbage_left) {
-            int garbage_drop = Math.Max(0, getGarbageDropping(index) - atk);
+        public static int CalculateGarbage(int index, int atk, out int garbage_left, int garbage_drop = -1) {
+            if (garbage_drop == -1)
+                garbage_drop = Math.Max(0, getGarbageDropping.Call(index) - atk);
+
             garbage_left = 0;
 
-            if ((InSwap() || !getPlayerIsTetris(1 - index)) && garbage_drop > 7) {
+            if ((InSwap.Call() || !getPlayerIsTetris.Call(1 - index)) && garbage_drop > 7) {
                 garbage_left = garbage_drop - 7;
                 garbage_drop = 7;
             }
