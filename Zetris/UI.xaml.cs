@@ -53,6 +53,7 @@ namespace Zetris {
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     AccurateSync.Content = "";
+                    AccurateSync.ToolTip = "";
                     break;
                     
                 case "ja":
@@ -71,6 +72,7 @@ namespace Zetris {
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     AccurateSync.Content = "";
+                    AccurateSync.ToolTip = "";
                     break;
                     
                 default:
@@ -89,6 +91,8 @@ namespace Zetris {
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
                     AccurateSync.Content = "Accurate Game Sync";
+                    AccurateSync.ToolTip = "If this is checked, Zetris will constantly check for the game advancing to the\n" +
+                                           "next frame instead of sleeping the thread to allow other processes to run.";
                     break;
             }
 
