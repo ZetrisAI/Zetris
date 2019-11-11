@@ -107,9 +107,7 @@ namespace Zetris {
                 );
         }
 
-        static bool runLogic() {
-            bool ret = false;
-
+        static void runLogic() {
             numplayers = GameHelper.PlayerCount.Call();
             playerID = GameHelper.FindPlayer.Call();
 
@@ -131,13 +129,13 @@ namespace Zetris {
 
             if (GameHelper.OutsideMenu.Call() && GameHelper.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.GameEnd.Call() != 16 || GameHelper.GameEnd.Call() != 36)) {
                 ResetGame();
-                return false;
+                return;
             }
 
             if (GameHelper.boardAddress.Call(playerID) > 0x1000 && GameHelper.OutsideMenu.Call() && GameHelper.getPlayer1Base.Call() > 0x1000) {
                 if (numplayers < 2 && GameHelper.CurrentMode.Call() == 4 && GameHelper.Online.Call() && !(GameHelper.GameEnd.Call() != 16 || GameHelper.GameEnd.Call() != 36)) {
                     ResetGame();
-                    return false;
+                    return;
                 }
 
                 int drop = GameHelper.getPieceDropped.Call(playerID);
@@ -332,7 +330,6 @@ namespace Zetris {
                         }
                     }
 
-                    ret = true;
                     register = false;
                 }
 
@@ -354,8 +351,6 @@ namespace Zetris {
                     PerfectClear.Abort();
                 }
             }
-
-            return ret;
         }
 
         static int clear = 0;
