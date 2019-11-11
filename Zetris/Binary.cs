@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris {
     public static class Binary {
-        static readonly int Version = 3;
+        static readonly int Version = 4;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -50,7 +50,7 @@ namespace Zetris {
 
                 if (version == 0) reader.ReadInt32();
                 else if (version >= 1) {
-                    if (version >= 3)
+                    if (version >= 4)
                         Preferences.Styles = new List<Style>();
 
                     int count = reader.ReadInt32();
