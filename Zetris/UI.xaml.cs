@@ -71,8 +71,9 @@ namespace Zetris {
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
-                    AccurateSync.Content = "";
-                    AccurateSync.ToolTip = "";
+                    AccurateSync.Content = "同期の最適化";
+                    AccurateSync.ToolTip = "ここにチェックをいれると、ZetrisのCPU使用率をあげてフレームスキップを防ぎます。\n" +
+                                           "チェックありの方が強いですが、パソコンが重い場合はチェックを外してください";
                     break;
                     
                 default:
@@ -91,8 +92,9 @@ namespace Zetris {
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
                     AccurateSync.Content = "Accurate Game Sync";
-                    AccurateSync.ToolTip = "If this is checked, Zetris will constantly check for the game advancing to the\n" +
-                                           "next frame instead of sleeping the thread to allow other processes to run.";
+                    AccurateSync.ToolTip = "If this is enabled, Zetris will constantly scan for the next game frame to help\n" +
+                                           "prevent frame skipping at the cost of increased CPU usage.\n" +
+                                           "Uncheck this only if your computer has performance issues while running Zetris.";
                     break;
             }
 
