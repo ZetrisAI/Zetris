@@ -752,15 +752,18 @@ namespace Zetris {
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
             while (!Disposing) {
+                bool newFrame = false;
+
                 if (GameHelper.CheckProcess()) {
                     GameHelper.TrustProcess = true;
 
                     int prev = globalFrames;
                     globalFrames = GameHelper.getMenuFrameCount();
 
-                    if (globalFrames > prev) {
+                    if (newFrame = globalFrames > prev) {
                         if (globalFrames != prev + 1)
                             LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
+
                         runLogic();
                         applyInputs();
                     }
@@ -769,7 +772,9 @@ namespace Zetris {
                 }
 
                 updateUI();
-                Thread.Sleep(10);
+
+                if (!newFrame)
+                    Thread.Sleep(10);
             }
 
             Disposed = true;
