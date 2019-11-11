@@ -256,7 +256,7 @@ namespace Zetris {
 
         public static CachedMethod<int, int> getPieceDropped = new CachedMethod<int, int>((index) => {
 #if PUBLIC
-            index += LobbyPtr.Call();
+            index += (int)LobbyPtr.Call();
 #endif
 
             return Game.TraverseByte(
