@@ -51,7 +51,7 @@ namespace Zetris {
 
                 if (version == 0) reader.ReadInt32();
                 else if (version >= 1) {
-                    if (version >= 3)
+                    if (version >= 4)
                         Preferences.Styles = new List<Style>();
 
                     int count = reader.ReadInt32();
