@@ -19,7 +19,7 @@ namespace Zetris {
 
         static void ResetGame() {
 #if !PUBLIC
-            if (GameHelper.InSwap.Call() || !Preferences.Auto) return;
+            if (GameHelper.InSwap.Call() || !Preferences.PuzzleLeague) return;
 
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
 
@@ -651,9 +651,9 @@ namespace Zetris {
             } else if (Preferences.SaveReplay && GameHelper.CanSaveReplay.Call() == 0 && GameHelper.MenuNavigation.Call(0) != 250 && GameHelper.OutsideMenu.Call()) {
                 gamepad.Buttons = X360Buttons.None;
                 if (globalFrames % 2 == 0) { 
-                    if (GameHelper.MenuNavigation.Call(1) == 1) {                 //end of match
-                        if (GameHelper.MenuNavigation.Call(2) != 0) {             //not default position
-                            if (GameHelper.ConfirmingReplay.Call() == 1) {        //in replay confrim sub menu
+                    if (GameHelper.MenuNavigation.Call(1) == 1) {                 // end of match
+                        if (GameHelper.MenuNavigation.Call(2) != 0) {             // not default position
+                            if (GameHelper.ConfirmingReplay.Call() == 1) {        // in replay confirm sub menu
                                 gamepad.Buttons |= (GameHelper.ReplayMenuSelection.Call() == 1) ? X360Buttons.A : X360Buttons.Right;
                             } else {
                                 gamepad.Buttons |= X360Buttons.A;
@@ -665,7 +665,8 @@ namespace Zetris {
                         gamepad.Buttons |= X360Buttons.A;
                     }
                 }
-            } else if (Preferences.Auto) {
+
+            } else if (Preferences.PuzzleLeague) {
                 int mode = GameHelper.CurrentMode.Call();
                 gamepad.Buttons = X360Buttons.None;
 

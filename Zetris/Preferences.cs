@@ -92,6 +92,18 @@ namespace Zetris {
             }
         }
 
+        static bool _puzzleleague = false;
+        public static bool PuzzleLeague {
+#if !PUBLIC
+            get => _puzzleleague;
+#else
+            get => false;
+#endif
+            set {
+                _puzzleleague = value;
+            }
+        }
+
         static bool _replay = false;
         public static bool SaveReplay {
 #if !PUBLIC
@@ -111,18 +123,6 @@ namespace Zetris {
             set {
                 _player = Math.Max(0, Math.Min(3, value));
                 Save();
-            }
-        }
-
-        static bool _auto = false;
-        public static bool Auto {
-#if !PUBLIC
-            get => _auto;
-#else
-            get => false;
-#endif
-            set {
-                _auto = value;
             }
         }
 
