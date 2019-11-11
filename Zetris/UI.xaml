@@ -66,6 +66,8 @@
 
         <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
 
+        <CheckBox Margin="0 0 0 5" x:Name="AccurateSync" Click="AccurateSyncChanged" />
+
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         
         <StackPanel HorizontalAlignment="Center">

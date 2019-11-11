@@ -11,6 +11,8 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
+        static Thread BotThread = null;
+
         const int rngsearch_max = 1000;
 
         static UI Window = null;
@@ -751,8 +753,16 @@ namespace Zetris {
             MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.TSDOnly);
         }
 
+        public static void UpdatePriority() {
+            if (BotThread != null)
+                BotThread.Priority = Preferences.AccurateSync? ThreadPriority.AboveNormal : ThreadPriority.Normal;
+        }
+
         static void Loop() {
-            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+            BotThread = Thread.CurrentThread;
+
+            UpdateConfig();
+            UpdatePriority();
 
             while (!Disposing) {
                 bool newFrame = false;
@@ -778,7 +788,7 @@ namespace Zetris {
 
                 updateUI();
 
-                if (!newFrame)
+                if (!Preferences.AccurateSync && !newFrame)
                     Thread.Sleep(10);
             }
 
@@ -789,6 +799,8 @@ namespace Zetris {
 
         public static void Start(UI window) {
             if (Started) return;
+
+            Started = true;
 
             MisaMino.Finished += (bool success) => {
                 misasolved = success;
@@ -810,11 +822,7 @@ namespace Zetris {
             scp = new ScpBus();
             scp.PlugIn(gamepadIndex);
 
-            Started = true;
-
-            UpdateConfig();
-
-            Task.Run(() => Loop());
+            Task.Run(Loop);
         }
 
         static bool Disposing = false;

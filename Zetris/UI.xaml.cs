@@ -28,6 +28,7 @@ namespace Zetris {
             C4W.IsChecked = Preferences.C4W;
             TSDOnly.IsChecked = Preferences.TSDOnly;
             Player.RawValue = Preferences.Player + 1;
+            AccurateSync.IsChecked = Preferences.AccurateSync;
 
 #if PUBLIC
             ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
@@ -51,6 +52,7 @@ namespace Zetris {
                     TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
+                    AccurateSync.Content = "";
                     break;
                     
                 case "ja":
@@ -68,6 +70,7 @@ namespace Zetris {
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
+                    AccurateSync.Content = "";
                     break;
                     
                 default:
@@ -85,6 +88,7 @@ namespace Zetris {
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
+                    AccurateSync.Content = "Accurate Game Sync";
                     break;
             }
 
@@ -182,6 +186,10 @@ namespace Zetris {
 
         void GamepadChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);
+        }
+
+        void AccurateSyncChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.AccurateSync = AccurateSync.IsChecked == true;
         }
     }
 }
