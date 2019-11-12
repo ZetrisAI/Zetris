@@ -49,7 +49,7 @@ namespace Zetris {
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
-                    AllSpins.Content = "";
+                    AllSpins.Content = "올 스핀";
                     TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
