@@ -750,7 +750,7 @@ namespace Zetris {
 
         public static void UpdatePriority() {
             if (BotThread != null)
-                BotThread.Priority = Preferences.AccurateSync? ThreadPriority.AboveNormal : ThreadPriority.Normal;
+                BotThread.Priority = Preferences.AccurateSync? ThreadPriority.Normal : ThreadPriority.AboveNormal;
         }
 
         static void Loop() {
