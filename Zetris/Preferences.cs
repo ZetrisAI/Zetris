@@ -127,7 +127,7 @@ namespace Zetris {
             }
         }
 
-        static bool _accurate = false;
+        static bool _accurate = true;
         public static bool AccurateSync {
             get => _accurate;
             set {
