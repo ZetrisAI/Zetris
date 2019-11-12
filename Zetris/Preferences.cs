@@ -82,6 +82,16 @@ namespace Zetris {
             }
         }
 
+        static bool _allspins = false;
+        public static bool AllSpins {
+            get => _allspins;
+            set {
+                _allspins = value;
+                Bot.UpdateConfig();
+                Save();
+            }
+        }
+
         static bool _tsd = false;
         public static bool TSDOnly {
             get => _tsd;

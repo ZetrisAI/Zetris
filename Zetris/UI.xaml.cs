@@ -26,6 +26,7 @@ namespace Zetris {
             HoldAllowed.IsChecked = Preferences.HoldAllowed;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             C4W.IsChecked = Preferences.C4W;
+            AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
             Player.RawValue = Preferences.Player + 1;
 
@@ -48,6 +49,7 @@ namespace Zetris {
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
+                    AllSpins.Content = "";
                     TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
@@ -65,6 +67,7 @@ namespace Zetris {
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
+                    AllSpins.Content = "";
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
@@ -82,6 +85,7 @@ namespace Zetris {
                     HoldAllowed.Content = "Hold Allowed";
                     PerfectClear.Content = "Perfect Clear Finder";
                     C4W.Content = "Center 4-Wide";
+                    AllSpins.Content = "All Spins";
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
@@ -97,7 +101,7 @@ namespace Zetris {
             if (Active != state) {
                 Active = state;
 
-                Dispatcher.InvokeAsync(() => UpdateActive());
+                Dispatcher.InvokeAsync(UpdateActive);
             }
         }
 
@@ -117,7 +121,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = C4W.IsEnabled = AllSpins.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
@@ -166,6 +170,10 @@ namespace Zetris {
 
         void TSDOnlyChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.TSDOnly = TSDOnly.IsChecked == true;
+        }
+
+        void AllSpinsChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.AllSpins = AllSpins.IsChecked == true;
         }
 
         void PuzzleLeagueChanged(object sender, RoutedEventArgs e) {
