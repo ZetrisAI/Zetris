@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 using MisaMinoNET;
 
@@ -132,6 +133,16 @@ namespace Zetris {
             get => _player;
             set {
                 _player = Math.Max(0, Math.Min(3, value));
+                Save();
+            }
+        }
+
+        static bool _accurate = true;
+        public static bool AccurateSync {
+            get => _accurate;
+            set {
+                _accurate = value;
+                Bot.UpdatePriority();
                 Save();
             }
         }

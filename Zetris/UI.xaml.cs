@@ -29,6 +29,7 @@ namespace Zetris {
             AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
             Player.RawValue = Preferences.Player + 1;
+            AccurateSync.IsChecked = Preferences.AccurateSync;
 
 #if PUBLIC
             ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
@@ -53,6 +54,10 @@ namespace Zetris {
                     TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
+                    AccurateSync.Content = "게임싱크보정";
+                    AccurateSync.ToolTip = "이 항목을 활성화하면, 제트리스는 CPU 사용량을 증가시켜 프레임 스킵없이\n" +
+                                           "계속 다음 프레임을 확인합니다.\n" +
+                                           "이 항목은 제트리스를 실행할 때 성능문제가 발생할 경우에만 해제해주세요.";
                     break;
                     
                 case "ja":
@@ -71,6 +76,9 @@ namespace Zetris {
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
+                    AccurateSync.Content = "同期の最適化";
+                    AccurateSync.ToolTip = "ここにチェックをいれると、ZetrisのCPU使用率をあげてフレームスキップを防ぎます。\n" +
+                                           "チェックありの方が強いですが、パソコンが重い場合はチェックを外してください";
                     break;
                     
                 default:
@@ -89,6 +97,10 @@ namespace Zetris {
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
+                    AccurateSync.Content = "Accurate Game Sync";
+                    AccurateSync.ToolTip = "If this is enabled, Zetris will constantly scan for the next game frame to help\n" +
+                                           "prevent frame skipping at the cost of increased CPU usage.\n" +
+                                           "Uncheck this only if your computer has performance issues while running Zetris.";
                     break;
             }
 
@@ -190,6 +202,10 @@ namespace Zetris {
 
         void GamepadChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);
+        }
+
+        void AccurateSyncChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.AccurateSync = AccurateSync.IsChecked == true;
         }
     }
 }

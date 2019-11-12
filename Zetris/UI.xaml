@@ -54,6 +54,14 @@
 
         <CheckBox Margin="0 0 0 5" x:Name="TSDOnly" Click="TSDOnlyChanged" />
 
+        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="4" Unit="P" AllowPrecise="False" x:Name="Player" Changed="PlayerChanged" />
+
+        <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
+
+        <CheckBox Margin="0 0 0 5" x:Name="AccurateSync" Click="AccurateSyncChanged" />
+
         <StackPanel x:Name="DevPanel">
             <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
@@ -61,12 +69,6 @@
 
             <CheckBox Margin="0 0 0 5" Content="Auto Save Replay" x:Name="SaveReplay" Click="SaveReplayChanged" />
         </StackPanel>
-
-        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="4" Unit="P" AllowPrecise="False" x:Name="Player" Changed="PlayerChanged" />
-
-        <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         

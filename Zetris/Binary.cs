@@ -40,6 +40,7 @@ namespace Zetris {
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
                 writer.Write(Preferences.Player);
+                writer.Write(Preferences.AccurateSync);
             }
 
             return output;
@@ -85,6 +86,9 @@ namespace Zetris {
                     Preferences.TSDOnly = reader.ReadBoolean();
 
                 Preferences.Player = reader.ReadInt32();
+
+                if (version >= 4)
+                    Preferences.AccurateSync = reader.ReadBoolean();
             }
         }
 

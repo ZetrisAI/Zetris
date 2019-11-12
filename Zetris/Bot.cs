@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MisaMinoNET;
@@ -10,6 +11,8 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
+        static Thread BotThread = null;
+
         const int rngsearch_max = 1000;
 
         static UI Window = null;
@@ -745,15 +748,30 @@ namespace Zetris {
             MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly);
         }
 
+        public static void UpdatePriority() {
+            if (BotThread != null)
+                BotThread.Priority = Preferences.AccurateSync? ThreadPriority.Normal : ThreadPriority.AboveNormal;
+        }
+
         static void Loop() {
+            BotThread = Thread.CurrentThread;
+
+            UpdateConfig();
+            UpdatePriority();
+
             while (!Disposing) {
+                bool newFrame = false;
+
                 if (GameHelper.CheckProcess()) {
                     GameHelper.TrustProcess = true;
 
                     int prev = globalFrames;
                     globalFrames = GameHelper.getMenuFrameCount();
 
-                    if (globalFrames > prev) {
+                    if (newFrame = globalFrames > prev) {
+                        if (globalFrames != prev + 1)
+                            LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
+
                         CachedMethod.InvalidateAll();
 
                         runLogic();
@@ -764,6 +782,9 @@ namespace Zetris {
                 }
 
                 updateUI();
+
+                if (!Preferences.AccurateSync && !newFrame)
+                    Thread.Sleep(10);
             }
 
             Disposed = true;
@@ -773,6 +794,8 @@ namespace Zetris {
 
         public static void Start(UI window) {
             if (Started) return;
+
+            Started = true;
 
             MisaMino.Finished += (bool success) => {
                 misasolved = success;
@@ -794,11 +817,7 @@ namespace Zetris {
             scp = new ScpBus();
             scp.PlugIn(gamepadIndex);
 
-            Started = true;
-
-            UpdateConfig();
-
-            Task.Run(() => Loop());
+            Task.Run(Loop);
         }
 
         static bool Disposing = false;
