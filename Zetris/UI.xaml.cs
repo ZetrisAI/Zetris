@@ -67,7 +67,7 @@ namespace Zetris {
                     PerfectClear.Content = "パフェ発見機";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
-                    AllSpins.Content = "";
+                    AllSpins.Content = "特殊回転テトリス";
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
