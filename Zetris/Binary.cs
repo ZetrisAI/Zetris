@@ -36,7 +36,7 @@ namespace Zetris {
                 writer.Write(Preferences.Previews);
                 writer.Write(Preferences.HoldAllowed);
                 writer.Write(Preferences.PerfectClear);
-                writer.Write(Preferences.AttackBoostPC);
+                writer.Write(Preferences.EnhancePerfect);
                 writer.Write(Preferences.C4W);
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
@@ -80,7 +80,7 @@ namespace Zetris {
                 Preferences.PerfectClear = reader.ReadBoolean();
 
                 if (version >= 5)
-                    Preferences.AttackBoostPC = reader.ReadBoolean();
+                    Preferences.EnhancePerfect = reader.ReadBoolean();
 
                 Preferences.C4W = reader.ReadBoolean();
 

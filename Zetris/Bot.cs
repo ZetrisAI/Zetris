@@ -83,7 +83,7 @@ namespace Zetris {
 
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
 
-        static int getPerfectType() => Convert.ToInt32(Preferences.AttackBoostPC) + Convert.ToInt32(Preferences.AttackBoostPC && Preferences.AllSpins) * 2;
+        static int getPerfectType() => Convert.ToInt32(Preferences.EnhancePerfect) + Convert.ToInt32(Preferences.EnhancePerfect && Preferences.AllSpins) * 2;
 
         static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = 0;
