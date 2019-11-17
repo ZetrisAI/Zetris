@@ -49,7 +49,7 @@ namespace Zetris {
                     Speed.Title = "플레이 속도:";
                     Previews.Title = "넥스트 보기 사이즈:";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
-                    EnhancePerfect.Content = "";
+                    EnhancePerfect.Content = "강화 퍼펙트클리어 공격";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     AllSpins.Content = "올 스핀";
