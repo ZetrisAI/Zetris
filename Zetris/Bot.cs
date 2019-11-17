@@ -83,6 +83,8 @@ namespace Zetris {
 
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
 
+        static int getPerfectType() => Convert.ToInt32(Preferences.AttackBoostPC) + Convert.ToInt32(Preferences.AttackBoostPC && Preferences.AllSpins) * 2;
+
         static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = 0;
 
@@ -175,7 +177,7 @@ namespace Zetris {
                         if (Preferences.PerfectClear) {
                             PerfectClear.Find(
                                 pcboard, q, pieces[0],
-                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), 0
+                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0
                             );
                         }
                     }
@@ -328,7 +330,7 @@ namespace Zetris {
                             if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved)
                                 PerfectClear.Find(
                                     pcboard, q, futureCurrent,
-                                    futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), futureCombo
+                                    futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), futureCombo
                                 );
                         }
                     }

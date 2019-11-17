@@ -73,6 +73,15 @@ namespace Zetris {
             }
         }
 
+        static bool _pcboost = false;
+        public static bool AttackBoostPC {
+            get => _pcboost;
+            set {
+                _pcboost = value;
+                Save();
+            }
+        }
+
         static bool _c4w = false;
         public static bool C4W {
             get => _c4w;
