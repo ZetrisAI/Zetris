@@ -297,9 +297,7 @@ namespace Zetris {
 
         public static CachedMethod<int, int> getCombo = new CachedMethod<int, int>((index) =>
             Game.TraverseByte(
-                InSwap.Call()
-                    ? new IntPtr(0x140461B20)
-                    : new IntPtr(0x140598A28),
+                new IntPtr(0x140461B20),
                 InSwap.Call()
                     ? new int[] {0x378 + index * 0x8, 0x1E0, 0xA8, 0x3DC}
                     : new int[] {0x378 + index * 0x8, 0xA8, 0x3DC}
