@@ -72,7 +72,7 @@ namespace Zetris {
                     Speed.Title = "速度:";
                     Previews.Title = "ネクスト可視数:";
                     PerfectClear.Content = "パフェ発見機";
-                    EnhancePerfect.Content = "";
+                    EnhancePerfect.Content = "火力優先のパフェルートを選択";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     AllSpins.Content = "特殊回転テトリス";
