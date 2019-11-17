@@ -51,7 +51,7 @@
     <StartupObject>Zetris.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Verbose|x64'">
-    <OutputPath>bin\x64\Verbose\</OutputPath>
+    <OutputPath>bin\Verbose\</OutputPath>
     <DefineConstants>TRACE;VERBOSE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
