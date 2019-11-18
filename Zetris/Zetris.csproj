@@ -74,9 +74,8 @@
     <Reference Include="MisaMinoNET, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\MisaMinoNET.1.4.0\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
-    <Reference Include="PerfectClearNET, Version=1.0.2.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\PerfectClearNET.1.0.2\lib\net45\PerfectClearNET.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="PerfectClearNET, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\PerfectClearNET.1.1.0\lib\net45\PerfectClearNET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="ProcessMemory, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -86,8 +85,7 @@
       <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
     <Reference Include="sfinder-dll, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\PerfectClearNET.1.0.2\lib\net45\sfinder-dll.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\PerfectClearNET.1.1.0\lib\net45\sfinder-dll.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
