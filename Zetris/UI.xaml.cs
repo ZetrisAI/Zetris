@@ -23,6 +23,7 @@ namespace Zetris {
 
             Speed.RawValue = Preferences.Speed;
             Previews.RawValue = Preferences.Previews;
+            Intelligence.RawValue = Preferences.Intelligence;
             HoldAllowed.IsChecked = Preferences.HoldAllowed;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             EnhancePerfect.IsChecked = Preferences.EnhancePerfect;
@@ -48,6 +49,7 @@ namespace Zetris {
                     Edit.Content = "플레이 스타일 변경";
                     Speed.Title = "플레이 속도:";
                     Previews.Title = "넥스트 보기 사이즈:";
+                    Intelligence.Title = "";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     EnhancePerfect.Content = "강화 퍼펙트클리어 공격";
                     HoldAllowed.Content = "홀드 사용";
@@ -71,6 +73,7 @@ namespace Zetris {
                     Edit.Content = "詳細設定";
                     Speed.Title = "速度:";
                     Previews.Title = "ネクスト可視数:";
+                    Intelligence.Title = "";
                     PerfectClear.Content = "パフェ発見機";
                     EnhancePerfect.Content = "火力優先のパフェルートを選択";
                     HoldAllowed.Content = "ホールド使用";
@@ -93,6 +96,7 @@ namespace Zetris {
                     Edit.Content = "Edit Styles";
                     Speed.Title = "Speed:";
                     Previews.Title = "Previews:";
+                    Intelligence.Title = "Intelligence:";
                     HoldAllowed.Content = "Hold Allowed";
                     PerfectClear.Content = "Perfect Clear Finder";
                     EnhancePerfect.Content = "Enhance Perfect Clear Attack";
@@ -137,7 +141,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = EnhancePerfect.IsEnabled = C4W.IsEnabled = AllSpins.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = Intelligence.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = EnhancePerfect.IsEnabled = C4W.IsEnabled = AllSpins.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
@@ -170,6 +174,10 @@ namespace Zetris {
 
         void PreviewsChanged(Dial sender, double NewValue) {
             if (!FreezeEvents) Preferences.Previews = (int)Previews.RawValue;
+        }
+
+        void IntelligenceChanged(Dial sender, double NewValue) {
+            if (!FreezeEvents) Preferences.Intelligence = (int)Intelligence.RawValue;
         }
 
         void HoldAllowedChanged(object sender, RoutedEventArgs e) {

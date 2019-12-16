@@ -54,6 +54,16 @@ namespace Zetris {
             }
         }
 
+        static int _intelligence = 100;
+        public static int Intelligence {
+            get => _intelligence;
+            set {
+                _intelligence = Math.Max(10, Math.Min(300, value));
+                Bot.UpdateConfig();
+                Save();
+            }
+        }
+
         static bool _hold = true;
         public static bool HoldAllowed {
             get => _hold;
