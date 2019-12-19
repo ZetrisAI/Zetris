@@ -12,7 +12,7 @@ namespace Zetris {
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
-                    Title = "Zetris - ";
+                    Title = "Zetris - 게임패드 인덱스선택";
                     break;
                     
                 case "ja":
