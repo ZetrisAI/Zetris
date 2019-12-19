@@ -10,8 +10,6 @@ namespace Zetris {
 #endif
 
         void Main(object sender, StartupEventArgs e) {
-            Bot.Args = e.Args;
-
 #if !PUBLIC
             OverrideLocale("en-US");
 #endif

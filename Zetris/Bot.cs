@@ -18,8 +18,6 @@ namespace Zetris {
         static UI Window = null;
         static int playerID = 0;
 
-        public static string[] Args;
-
         static void ResetGame() {
 #if !PUBLIC
             if (GameHelper.InSwap.Call() || !Preferences.PuzzleLeague) return;
@@ -33,7 +31,7 @@ namespace Zetris {
 #endif
         }
 
-        static int gamepadIndex = 4;
+        static int gamepadIndex;
         static ScpBus scp = new ScpBus();
         static X360Controller gamepad = new X360Controller();
 
@@ -794,7 +792,7 @@ namespace Zetris {
 
         public static bool Started { get; private set; } = false;
 
-        public static void Start(UI window) {
+        public static void Start(UI window, int gamepadindex) {
             if (Started) return;
 
             Started = true;
@@ -809,15 +807,10 @@ namespace Zetris {
 
             Window = window;
 
-            if (Args.Length > 1 && Args[0] == "--gamepadIndex" && int.TryParse(Args[1], out int index) && 1 <= index && index <= 4) {
-                gamepadIndex = index;
-                Window?.SetGamepadIndex(gamepadIndex);
-            }
-
             scp.UnplugAll();
 
             scp = new ScpBus();
-            scp.PlugIn(gamepadIndex);
+            scp.PlugIn(gamepadIndex = gamepadindex);
 
             Task.Run(Loop);
         }

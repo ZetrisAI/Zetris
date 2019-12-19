@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Zetris {
     public partial class UI {
@@ -15,6 +16,11 @@ namespace Zetris {
             InitializeComponent();
 
             FreezeEvents = false;
+
+            int? gamepadIndex = null;
+            
+            if (Keyboard.IsKeyDown(Key.LeftShift) && (gamepadIndex = new GamepadIndexWindow().Ask()).HasValue)
+                Title = $"Zetris [{gamepadIndex}]";
 
             foreach (Style style in Preferences.Styles)
                 Style.Items.Add(style);
@@ -113,7 +119,7 @@ namespace Zetris {
             }
 
             UpdateActive();
-            Bot.Start(this);
+            Bot.Start(this, gamepadIndex?? 4);
         }
 
         bool Active = false;
@@ -146,8 +152,6 @@ namespace Zetris {
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
         }
-
-        public void SetGamepadIndex(int index) => Title = $"Zetris [{index}]";
         
         void StyleChanged(object sender, SelectionChangedEventArgs e) {
             if (!FreezeEvents) Preferences.StyleIndex = Style.SelectedIndex;
