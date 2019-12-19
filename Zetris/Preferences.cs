@@ -58,7 +58,7 @@ namespace Zetris {
         public static int Intelligence {
             get => _intelligence;
             set {
-                _intelligence = Math.Max(10, Math.Min(300, value));
+                _intelligence = Math.Max(10, Math.Min(150, value));
                 Bot.UpdateConfig();
                 Save();
             }
