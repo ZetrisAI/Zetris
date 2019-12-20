@@ -55,7 +55,7 @@ namespace Zetris {
                     Edit.Content = "플레이 스타일 변경";
                     Speed.Title = "플레이 속도:";
                     Previews.Title = "넥스트 보기 사이즈:";
-                    Intelligence.Title = "지능";
+                    Intelligence.Title = "지능:";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     EnhancePerfect.Content = "강화 퍼펙트클리어 공격";
                     HoldAllowed.Content = "홀드 사용";
@@ -79,7 +79,7 @@ namespace Zetris {
                     Edit.Content = "詳細設定";
                     Speed.Title = "速度:";
                     Previews.Title = "ネクスト可視数:";
-                    Intelligence.Title = "";
+                    Intelligence.Title = "知能:";
                     PerfectClear.Content = "パフェ発見機";
                     EnhancePerfect.Content = "火力優先のパフェルートを選択";
                     HoldAllowed.Content = "ホールド使用";

@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,7 +15,7 @@ namespace Zetris {
                     break;
                     
                 case "ja":
-                    Title = "Zetris - ";
+                    Title = "Zetris - コントローラー番号を選択";
                     break;
                    
                 default:
