@@ -69,6 +69,10 @@ namespace Zetris {
 
         static int[,] pcboard = new int[10, 40];
         static bool pcsolved = false;
+        static bool pcbuffer = false;
+        static List<Operation> cachedpc = new List<Operation>();
+        static List<Operation> executingpc => pcbuffer? cachedpc : PerfectClear.LastSolution;
+        static bool searchbufpc = false;
 
         static bool startbreak = false;
 
@@ -162,6 +166,9 @@ namespace Zetris {
 
                     PerfectClear.Abort();
                     pcsolved = false;
+                    pcbuffer = false;
+                    cachedpc = new List<Operation>();
+                    searchbufpc = false;
 
                     misaboard = (int[,])board.Clone();
                     pcboard = (int[,])board.Clone();
@@ -217,16 +224,16 @@ namespace Zetris {
                     bool pathSuccess = false;
 
                     if (MisaMino.Running) MisaMino.Abort();
-                    if (PerfectClear.Running) PerfectClear.Abort();
+                    if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
                     if (!danger) {
                         if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
                             LogHelper.LogText("Detected PC");
 
-                            pieceUsed = PerfectClear.LastSolution[0].Piece;
-                            finalX = PerfectClear.LastSolution[0].X;
-                            finalY = PerfectClear.LastSolution[0].Y;
-                            finalR = PerfectClear.LastSolution[0].R;
+                            pieceUsed = executingpc[0].Piece;
+                            finalX = executingpc[0].X;
+                            finalY = executingpc[0].Y;
+                            finalR = executingpc[0].R;
                             
                             movements = MisaMino.FindPath(
                                 board,
@@ -284,15 +291,22 @@ namespace Zetris {
                             Window?.SetThinkingTime(MisaMino.LastSolution.Time);
 
                             pcsolved = false;
+                            pcbuffer = false;
+                            searchbufpc = false;
 
                         } else {
                             LogHelper.LogText("Using PC!");
-                            PerfectClear.LastSolution = PerfectClear.LastSolution.Skip(1).ToList();
+                            cachedpc = executingpc.Skip(1).ToList();
 
-                            if (PerfectClear.LastSolution.Count == 0)
-                                pcsolved = false;
+                            bool prev = pcbuffer;
+                            pcbuffer = cachedpc.Count != 0;
 
-                            Window?.SetConfidence($"[PC] {PerfectClear.LastSolution.Count + 1}");
+                            searchbufpc |= !prev && pcbuffer;
+
+                            if (!pcbuffer)
+                                pcsolved = searchbufpc = false;
+
+                            Window?.SetConfidence($"[PC] {cachedpc.Count + 1}");
                             Window?.SetThinkingTime(PerfectClear.LastTime);
                         }
 
@@ -315,22 +329,69 @@ namespace Zetris {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
-                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             int futureCurrent = pieces[start];
                             int? futureHold = wasHold? current : hold;
                             int futureCombo = combo + Convert.ToInt32(clear > 0);
 
                             LogHelper.LogText("AOT");
-                            misaPrediction(futureCurrent, q, futureHold, futureCombo, clear);
+                            misaPrediction(futureCurrent, q.Take(Math.Min(q.Length, getPreviews())).ToArray(), futureHold, futureCombo, clear);
 
                             pcboard = (int[,])misaboard.Clone();
 
-                            if (Preferences.PerfectClear && movements.Count > 0 && !pcsolved)
-                                PerfectClear.Find(
-                                    pcboard, q, futureCurrent,
-                                    futureHold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), futureCombo
-                                );
+                            if (Preferences.PerfectClear && movements.Count > 0 && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
+                                bool cancel = false;
+
+                                int[,] bufboard = pcboard;
+                                int[] bufq = q;
+                                int bufcurrent = futureCurrent;
+                                int? bufhold = futureHold;
+                                int bufcombo = futureCombo;
+                                
+                                if (searchbufpc) {
+                                    bufboard = new int[10, 40];
+
+                                    for (int i = 0; i < 10; i++)
+                                        for (int j = 0; j < 40; j++)
+                                            bufboard[i, j] = 255;
+                                    
+                                    int[,] tempboard = (int[,])pcboard.Clone();
+
+                                    for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
+                                        bool bufwasHold = bufcurrent != cachedpc[i].Piece;
+
+                                        int bufclear;
+
+                                        try {
+                                            InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out bufclear);
+                                        } catch {
+                                            cancel = true;
+                                            break;
+                                        }
+
+                                        if (!cancel) {
+                                            int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
+                                            
+                                            bufhold = bufwasHold? bufcurrent : bufhold;
+                                            bufcurrent = bufq[bufstart];
+                                            bufq = bufq.Skip(bufstart + 1).ToArray();
+
+                                            bufcombo += Convert.ToInt32(bufclear > 0);
+                                        }
+                                    }
+
+                                    cancel |= !InputHelper.BoardEquals(bufboard, tempboard);
+                                }
+                                
+                                if (!cancel) {
+                                    PerfectClear.Find(
+                                        bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
+                                        bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo
+                                    );
+
+                                    searchbufpc = false;
+                                }
+                            }
                         }
                     }
 
