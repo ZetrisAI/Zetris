@@ -227,20 +227,21 @@ namespace Zetris {
                             finalX = PerfectClear.LastSolution[0].X;
                             finalY = PerfectClear.LastSolution[0].Y;
                             finalR = PerfectClear.LastSolution[0].R;
+                            
+                            movements = MisaMino.FindPath(
+                                board,
+                                baseBoardHeight,
+                                pieceUsed,
+                                finalX,
+                                finalY,
+                                finalR,
+                                current != pieceUsed,
+                                ref spinUsed,
+                                out pathSuccess
+                            );
 
-                            do {
-                                movements = MisaMino.FindPath(
-                                    board,
-                                    baseBoardHeight,
-                                    pieceUsed,
-                                    finalX,
-                                    finalY,
-                                    finalR,
-                                    current != pieceUsed,
-                                    ref spinUsed,
-                                    out pathSuccess
-                                );
-                            } while (!(pathSuccess || --finalY < 3));
+                            if (!pathSuccess)
+                                LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY} => {finalY}, r={finalR}");
                         }
 
                         if (!pathSuccess) {
