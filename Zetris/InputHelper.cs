@@ -407,5 +407,16 @@ namespace Zetris {
                 AddGarbageLine(board, col);
             }
         }
+
+        public static bool FuckItJustDoB2B(int[,] board, int minos) {
+            int count = 0;
+
+            for (int i = 25; i >= 0; i--) 
+                for (int j = 0; j < 10; j++)
+                    if ((count += Convert.ToInt32(board[j, i] != 255)) > minos)
+                        return false;
+            
+            return true;
+        }
     }
 }

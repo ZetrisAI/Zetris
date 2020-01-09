@@ -119,7 +119,7 @@ namespace Zetris {
                     21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
                     misaboard,
                     combo + Convert.ToInt32(cleared > 0),
-                    b2b,
+                    Math.Min(b2b, Convert.ToInt32(InputHelper.FuckItJustDoB2B(misaboard, 25))),
                     garbage_left
                 );
         }
@@ -166,7 +166,7 @@ namespace Zetris {
                 if (startanim && !startbreak) {
                     MisaMino.Reset(); // this will abort as well
                     misasolved = false;
-                    b2b = 0; // todo set this to 1 see if misamino starts like a normal person?
+                    b2b = 1; // Hack that makes MisaMino start like a normal person
                     atk = 0;
                     register = false;
                     movements.Clear();
@@ -193,7 +193,7 @@ namespace Zetris {
                         if (Preferences.PerfectClear) {
                             PerfectClear.Find(
                                 pcboard, q, pieces[0],
-                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0, b2b > 0
+                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0, false
                             );
                         }
                     }
@@ -277,7 +277,7 @@ namespace Zetris {
                                     baseBoardHeight,
                                     board,
                                     combo,
-                                    b2b,  // todo if pc finder interrupted we might have a wrong value. read from game mem here
+                                    Math.Min(b2b, Convert.ToInt32(InputHelper.FuckItJustDoB2B(board, 25))),  // todo if pc finder interrupted we might have a wrong value. read from game mem here
                                     GameHelper.getGarbageDropping.Call(playerID)
                                 );
 
