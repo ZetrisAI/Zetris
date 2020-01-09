@@ -87,6 +87,15 @@ namespace Zetris {
 
         static int getPerfectType() => Convert.ToInt32(Preferences.EnhancePerfect) + Convert.ToInt32(Preferences.EnhancePerfect && Preferences.AllSpins) * 2;
 
+        static bool isPCB2BEnding(int cleared, int piece, int r) => (cleared >= 4) || (Preferences.AllSpins && (
+            piece == 0 ||
+            piece == 1 ||
+            (r != 2 && (
+                piece == 2 ||
+                piece == 3
+            ))
+        ));
+
         static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = 0;
 
@@ -156,7 +165,7 @@ namespace Zetris {
                 if (startanim && !startbreak) {
                     MisaMino.Reset(); // this will abort as well
                     misasolved = false;
-                    b2b = 0;
+                    b2b = 0; // todo set this to 1 see if misamino starts like a normal person?
                     atk = 0;
                     register = false;
                     movements.Clear();
@@ -182,7 +191,7 @@ namespace Zetris {
                         if (Preferences.PerfectClear) {
                             PerfectClear.Find(
                                 pcboard, q, pieces[0],
-                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0
+                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0, b2b > 0
                             );
                         }
                     }
@@ -266,7 +275,7 @@ namespace Zetris {
                                     baseBoardHeight,
                                     board,
                                     combo,
-                                    b2b,
+                                    b2b,  // todo if pc finder interrupted we might have a wrong value. read from game mem here
                                     GameHelper.getGarbageDropping.Call(playerID)
                                 );
 
@@ -296,6 +305,7 @@ namespace Zetris {
 
                         } else {
                             LogHelper.LogText("Using PC!");
+
                             cachedpc = executingpc.Skip(1).ToList();
 
                             bool prev = pcbuffer;
@@ -333,6 +343,7 @@ namespace Zetris {
                             int futureCurrent = pieces[start];
                             int? futureHold = wasHold? current : hold;
                             int futureCombo = combo + Convert.ToInt32(clear > 0);
+                            if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
                             LogHelper.LogText("AOT");
                             misaPrediction(futureCurrent, q.Take(Math.Min(q.Length, getPreviews())).ToArray(), futureHold, futureCombo, clear);
@@ -347,6 +358,7 @@ namespace Zetris {
                                 int bufcurrent = futureCurrent;
                                 int? bufhold = futureHold;
                                 int bufcombo = futureCombo;
+                                bool bufb2b = b2b > 0;
                                 
                                 if (searchbufpc) {
                                     bufboard = new int[10, 40];
@@ -369,6 +381,9 @@ namespace Zetris {
                                             break;
                                         }
 
+                                        if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
+                                            bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
+
                                         if (!cancel) {
                                             int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
                                             
@@ -386,7 +401,7 @@ namespace Zetris {
                                 if (!cancel) {
                                     PerfectClear.Find(
                                         bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                                        bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo
+                                        bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo, bufb2b
                                     );
 
                                     searchbufpc = false;

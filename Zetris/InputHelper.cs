@@ -362,7 +362,7 @@ namespace Zetris {
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     if (pieces[piece][r][i, j] != -1)
-                        board[x + j, y - i] = pieces[piece][r][i, j];
+                        board[x + j, y - i] = pieces[piece][r][i, j]; // todo throw if placing over an existing piece (replace throw and indices check with bool ret value?)
 
             ClearLines(board, out c);
         }
