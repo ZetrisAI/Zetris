@@ -331,16 +331,7 @@ namespace Zetris {
 
                         misaboard = (int[,])board.Clone();
 
-                        bool fuck = false;
-                        try {
-                            InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear);
-                        } catch {
-                            fuck = true;
-
-                            LogHelper.LogText("FUCK");
-                        }
-
-                        if (!fuck) {
+                        if (InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear)) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
@@ -379,25 +370,19 @@ namespace Zetris {
 
                                         int bufclear;
 
-                                        try {
-                                            InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out bufclear);
-                                        } catch {
-                                            cancel = true;
+                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out bufclear))
                                             break;
-                                        }
 
                                         if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
                                             bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
 
-                                        if (!cancel) {
-                                            int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
+                                        int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
                                             
-                                            bufhold = bufwasHold? bufcurrent : bufhold;
-                                            bufcurrent = bufq[bufstart];
-                                            bufq = bufq.Skip(bufstart + 1).ToArray();
+                                        bufhold = bufwasHold? bufcurrent : bufhold;
+                                        bufcurrent = bufq[bufstart];
+                                        bufq = bufq.Skip(bufstart + 1).ToArray();
 
-                                            bufcombo += Convert.ToInt32(bufclear > 0);
-                                        }
+                                        bufcombo += Convert.ToInt32(bufclear > 0);
                                     }
 
                                     cancel |= !InputHelper.BoardEquals(bufboard, tempboard);
@@ -410,9 +395,9 @@ namespace Zetris {
                                     );
 
                                     searchbufpc = false;
-                                }
+                                } else LogHelper.LogText("FUCK but less");
                             }
-                        }
+                        } else LogHelper.LogText("FUCK");
                     }
 
                     register = false;

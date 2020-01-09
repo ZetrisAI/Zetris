@@ -355,16 +355,22 @@ namespace Zetris {
             }
         }
 
-        public static void ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
+        public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
             x--;
             y = 24 - y;
 
+            c = 0;
+
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
-                    if (pieces[piece][r][i, j] != -1)
-                        board[x + j, y - i] = pieces[piece][r][i, j]; // todo throw if placing over an existing piece (replace throw and indices check with bool ret value?)
+                    if (pieces[piece][r][i, j] != -1) {
+                        if (x + j < 0 || y - i < 0 || x + j > 9 || y - i > 39 || board[x + j, y - i] != 255) return false;
+                        board[x + j, y - i] = pieces[piece][r][i, j];
+                    }
 
             ClearLines(board, out c);
+
+            return true;
         }
 
         public static bool BoardEquals(int[,] a, int[,] b) {
