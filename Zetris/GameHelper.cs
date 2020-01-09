@@ -163,7 +163,7 @@ namespace Zetris {
         public static CachedMethod<int, bool> getPlayerIsTetris = new CachedMethod<int, bool>((index) =>
             (Game.ReadByte(
                 new IntPtr(0x140598C27 + 0x68 * index)
-            ) & 64) == 1  // TODO Zetris-25 this is obviously wrong check this the fuck out
+            ) & 64) > 0
         );
 
         public static CachedMethod<int, long> boardAddress = new CachedMethod<int, long>((index) =>
