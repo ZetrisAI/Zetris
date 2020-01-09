@@ -69,6 +69,7 @@ namespace Zetris {
 
         static int[,] pcboard = new int[10, 40];
         static bool pcsolved = false;
+        static bool futurepcsolved = false;
         static bool pcbuffer = false;
         static List<Operation> cachedpc = new List<Operation>();
         static List<Operation> executingpc => pcbuffer? cachedpc : PerfectClear.LastSolution;
@@ -175,6 +176,7 @@ namespace Zetris {
 
                     PerfectClear.Abort();
                     pcsolved = false;
+                    futurepcsolved = false;
                     pcbuffer = false;
                     cachedpc = new List<Operation>();
                     searchbufpc = false;
@@ -300,6 +302,7 @@ namespace Zetris {
                             Window?.SetThinkingTime(MisaMino.LastSolution.Time);
 
                             pcsolved = false;
+                            futurepcsolved = false;
                             pcbuffer = false;
                             searchbufpc = false;
 
@@ -313,8 +316,10 @@ namespace Zetris {
 
                             searchbufpc |= !prev && pcbuffer;
 
-                            if (!pcbuffer)
-                                pcsolved = searchbufpc = false;
+                            if (!pcbuffer) {
+                                pcsolved = futurepcsolved;
+                                searchbufpc = futurepcsolved = false;
+                            }
 
                             Window?.SetConfidence($"[PC] {cachedpc.Count + 1}");
                             Window?.SetThinkingTime(PerfectClear.LastTime);
@@ -874,12 +879,11 @@ namespace Zetris {
 
             Started = true;
 
-            MisaMino.Finished += (bool success) => {
-                misasolved = success;
-            };
+            MisaMino.Finished += (bool success) => misasolved = success;
 
             PerfectClear.Finished += (bool success) => {
-                pcsolved = success;
+                if (pcbuffer) futurepcsolved = success;
+                else pcsolved = success;
             };
 
             Window = window;
