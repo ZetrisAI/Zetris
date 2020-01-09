@@ -277,7 +277,10 @@ namespace Zetris {
                                     baseBoardHeight,
                                     board,
                                     combo,
-                                    Math.Min(b2b, Convert.ToInt32(InputHelper.FuckItJustDoB2B(board, 25))),  // todo if pc finder interrupted we might have a wrong value. read from game mem here
+                                    Math.Min(
+                                        GameHelper.getB2B.Call(playerID), // if pc finder interrupted we might have a wrong value. read from game mem here
+                                        Convert.ToInt32(InputHelper.FuckItJustDoB2B(board, 25))
+                                    ),  
                                     GameHelper.getGarbageDropping.Call(playerID)
                                 );
 

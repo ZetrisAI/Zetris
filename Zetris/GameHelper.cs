@@ -304,6 +304,15 @@ namespace Zetris {
             )?? 0
         );
 
+        public static CachedMethod<int, byte> getB2B = new CachedMethod<int, byte>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xA8, 0x3DD}
+                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3DD}
+            )?? 0
+        );
+
         public static CachedMethod<int> getFrameCount = new CachedMethod<int>(() =>
             Game.TraverseInt32(
                 new IntPtr(0x140461B20),
