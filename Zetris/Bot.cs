@@ -270,6 +270,8 @@ namespace Zetris {
                                 q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                                 LogHelper.LogText("Rush");
+                                LogHelper.LogBoard(misaboard, board);
+
                                 MisaMino.FindMove(
                                     q,
                                     current,
