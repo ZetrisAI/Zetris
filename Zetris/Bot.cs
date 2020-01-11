@@ -119,7 +119,10 @@ namespace Zetris {
                     21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
                     misaboard,
                     combo + Convert.ToInt32(cleared > 0),
-                    Math.Min(b2b, Convert.ToInt32(InputHelper.FuckItJustDoB2B(misaboard, 25))),
+                    Math.Max(
+                        b2b,
+                        Convert.ToInt32(InputHelper.FuckItJustDoB2B(misaboard, 25))
+                    ),
                     garbage_left
                 );
         }
@@ -279,7 +282,7 @@ namespace Zetris {
                                     baseBoardHeight,
                                     board,
                                     combo,
-                                    Math.Min(
+                                    Math.Max(
                                         GameHelper.getB2B.Call(playerID), // if pc finder interrupted we might have a wrong value. read from game mem here
                                         Convert.ToInt32(InputHelper.FuckItJustDoB2B(board, 25))
                                     ),  
