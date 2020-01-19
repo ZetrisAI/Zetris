@@ -344,7 +344,7 @@ namespace Zetris {
             long ptr = Game.TraverseInt64(
                 new IntPtr(0x140461B20),
                 InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1D8, 0x2B0}
+                    ? new int[] {0x378 + index * 0x8, 0x30, 0x300}
                     : new int[] {0x378 + index * 0x8, 0xA8}
             )?? 0;
 
@@ -410,7 +410,9 @@ namespace Zetris {
         public static CachedMethod<int, uint> RNG = new CachedMethod<int, uint>((index) =>
             Game.TraverseUInt32(
                 new IntPtr(0x140461B20),
-                new int[] {0x378 + 0x8 * index, 0x80}
+                InSwap.Call()
+                    ? new int[] {0x378 + 0x8 * index, 0x30, 0x300, 0x78, 0x80}
+                    : new int[] {0x378 + 0x8 * index, 0x80}
             )?? 0
         );
 
