@@ -61,6 +61,7 @@ namespace Zetris {
                     Intelligence.Title = "지능:";
                     PerfectClear.Content = "퍼펙트 클리어 모드";
                     EnhancePerfect.Content = "강화 퍼펙트클리어 공격";
+                    PCThreads.Title = "스레드:";
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     AllSpins.Content = "올 스핀";
@@ -85,6 +86,7 @@ namespace Zetris {
                     Intelligence.Title = "知能:";
                     PerfectClear.Content = "パフェ発見機";
                     EnhancePerfect.Content = "火力優先のパフェルートを選択";
+                    PCThreads.Title = "スレッド:";
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     AllSpins.Content = "特殊回転テトリス";
