@@ -16,6 +16,8 @@ namespace Zetris {
         public UI() {
             InitializeComponent();
 
+            PCThreads.Maximum = Preferences.PCThreadsMaximum;
+
             FreezeEvents = false;
 
             int? gamepadIndex = null;
@@ -34,7 +36,6 @@ namespace Zetris {
             HoldAllowed.IsChecked = Preferences.HoldAllowed;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             EnhancePerfect.IsChecked = Preferences.EnhancePerfect;
-            PCThreads.Maximum = Preferences.PCThreadsMaximum;
             PCThreads.RawValue = Preferences.PCThreads;
             C4W.IsChecked = Preferences.C4W;
             AllSpins.IsChecked = Preferences.AllSpins;
