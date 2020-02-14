@@ -827,6 +827,12 @@ namespace Zetris {
             if (BotThread != null)
                 BotThread.Priority = Preferences.AccurateSync? ThreadPriority.Normal : ThreadPriority.AboveNormal;
         }
+        
+        public static void UpdatePCThreads() {
+            if (!Started) return;
+
+            PerfectClear.SetThreads(Preferences.PCThreads);
+        }
 
         static void Loop() {
             BotThread = Thread.CurrentThread;

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,8 @@ namespace Zetris {
             HoldAllowed.IsChecked = Preferences.HoldAllowed;
             PerfectClear.IsChecked = Preferences.PerfectClear;
             EnhancePerfect.IsChecked = Preferences.EnhancePerfect;
+            PCThreads.Maximum = Preferences.PCThreadsMaximum;
+            PCThreads.RawValue = Preferences.PCThreads;
             C4W.IsChecked = Preferences.C4W;
             AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
@@ -106,6 +109,7 @@ namespace Zetris {
                     HoldAllowed.Content = "Hold Allowed";
                     PerfectClear.Content = "Perfect Clear Finder";
                     EnhancePerfect.Content = "Enhance Perfect Clear Attack";
+                    PCThreads.Title = "Threads:";
                     C4W.Content = "Center 4-Wide";
                     AllSpins.Content = "All Spins";
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
@@ -147,7 +151,7 @@ namespace Zetris {
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
-            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = Intelligence.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = EnhancePerfect.IsEnabled = C4W.IsEnabled = AllSpins.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
+            Edit.IsEnabled = Style.IsEnabled = Speed.Enabled = Previews.Enabled = Intelligence.Enabled = HoldAllowed.IsEnabled = PerfectClear.IsEnabled = EnhancePerfect.IsEnabled = PCThreads.Enabled = C4W.IsEnabled = AllSpins.IsEnabled = TSDOnly.IsEnabled = Player.Enabled = !Active;
 
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
@@ -194,6 +198,10 @@ namespace Zetris {
 
         void EnhancePerfectChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.EnhancePerfect = EnhancePerfect.IsChecked == true;
+        }
+
+        void PCThreadsChanged(Dial sender, double NewValue) {
+            if (!FreezeEvents) Preferences.PCThreads = (uint)PCThreads.RawValue;
         }
 
         void C4WChanged(object sender, RoutedEventArgs e) {

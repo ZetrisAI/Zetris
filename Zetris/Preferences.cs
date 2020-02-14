@@ -92,6 +92,18 @@ namespace Zetris {
             }
         }
 
+        public static uint PCThreadsMaximum => (uint)Environment.ProcessorCount;
+
+        static uint _pcthreads = 1;
+        public static uint PCThreads {
+            get => _pcthreads;
+            set {
+                _pcthreads = Math.Max(1, Math.Min(PCThreadsMaximum, value));
+                Bot.UpdatePCThreads();
+                Save();
+            }
+        }
+
         static bool _c4w = false;
         public static bool C4W {
             get => _c4w;

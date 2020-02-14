@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris {
     public static class Binary {
-        static readonly int Version = 6;
+        static readonly int Version = 7;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -38,6 +38,7 @@ namespace Zetris {
                 writer.Write(Preferences.HoldAllowed);
                 writer.Write(Preferences.PerfectClear);
                 writer.Write(Preferences.EnhancePerfect);
+                writer.Write(Preferences.PCThreads);
                 writer.Write(Preferences.C4W);
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
@@ -89,6 +90,9 @@ namespace Zetris {
 
                 if (version >= 5)
                     Preferences.EnhancePerfect = reader.ReadBoolean();
+
+                if (version >= 7)
+                    Preferences.PCThreads = reader.ReadUInt32();
 
                 Preferences.C4W = reader.ReadBoolean();
 
