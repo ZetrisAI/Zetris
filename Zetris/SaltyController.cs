@@ -19,7 +19,7 @@ namespace Zetris {
 
         static Stopwatch timer;
         public static long Time { get; private set; } = 0;
-        public static bool TimerRunning => timer.IsRunning;
+        public static bool TimerRunning => timer?.IsRunning ?? false;
         
         static int[] SpeedMap = new int[4] {33, 25, 18, 12};
         static int spd;
@@ -68,8 +68,8 @@ namespace Zetris {
         }
 
         public static void GameFinished(int winner) {
-            timer.Stop();
-            Time += timer.ElapsedMilliseconds;
+            timer?.Stop();
+            Time += timer?.ElapsedMilliseconds ?? 0;
 
             if (Active) {
                 if (++score[winner] >= 6) Active = false;

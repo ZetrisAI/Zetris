@@ -457,7 +457,7 @@ namespace Zetris {
             Game.ReadStringUnicode(
                 new IntPtr(0x140598BD4 + 0x68 * index),
                 32
-            )
+            ).Replace("\0", "")
         );
     }
 }

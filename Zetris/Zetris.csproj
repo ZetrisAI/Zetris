@@ -105,9 +105,6 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Bot.cs" />
-    <Page Include="Dial.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,9 +115,6 @@
     </Compile>
     <Compile Include="CachedMethod.cs" />
     <Compile Include="LogHelper.cs" />
-    <Compile Include="Dial.xaml.cs">
-      <DependentUpon>Dial.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GameHelper.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="SaltyController.cs" />

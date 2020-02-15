@@ -32,6 +32,8 @@ namespace Zetris {
                     League.Items.Add("G");
                     League.SelectedIndex = 0;
 
+                    SaltyCopy.Content = "Copy to Clipboard";
+
                     Gamepad.Content = "Gamepad Connected";
                     break;
             }
@@ -92,7 +94,7 @@ namespace Zetris {
             if (!FreezeEvents) SaltyController.League = League.SelectedIndex;
         }
 
-        void CopyClicked(object sender, RoutedEventArgs e)
+        void CopyClicked(object sender, RoutedEventArgs e) 
             => Clipboard.SetText($"[{SaltyController.PlayerName}] {SaltyController.GetScore(1)} - {SaltyController.GetScore(0)} [{League.Items[SaltyController.LeagueUsed]} Gatekeeper {SaltyController.GatekeeperName}]\r\n{SaltyTime.Text}");
 
         void GamepadChanged(object sender, RoutedEventArgs e) {
