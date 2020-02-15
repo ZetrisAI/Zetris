@@ -2,7 +2,6 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:Zetris="clr-namespace:Zetris"
                       Style="{StaticResource ZetrisWindow}"
                       Title="Zetris" WindowStartupLocation="CenterScreen" Width="210">
 

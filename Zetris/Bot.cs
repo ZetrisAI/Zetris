@@ -10,8 +10,6 @@ using ScpDriverInterface;
 
 namespace Zetris {
     public static class Bot {
-        static Thread BotThread = null;
-
         const int rngsearch_max = 1000;
 
         static UI Window = null;
@@ -29,13 +27,11 @@ namespace Zetris {
             if (state) scp.PlugIn(gamepadIndex);
         }
 
-        static int currentRating, numplayers, frames, globalFrames;
+        static int frames, globalFrames;
 
         static int[,] board = new int[10, 40];
 
         static bool inMatch = false;
-        static int menuStartFrames = 0;
-        static int ratingSafe = 0;
 
         static List<Instruction> movements = new List<Instruction>();
         static int state = 0;
@@ -95,16 +91,7 @@ namespace Zetris {
         }
 
         static void runLogic() {
-            numplayers = GameHelper.PlayerCount.Call();
             playerID = GameHelper.FindPlayer.Call();
-
-            int temp = GameHelper.getRating.Call();
-
-            if (temp != currentRating) {
-                ratingSafe = globalFrames;
-            }
-
-            currentRating = temp;
 
             int y = GameHelper.getPiecePositionY.Call(playerID);
             baseBoardHeight = 25 - y;
@@ -255,8 +242,6 @@ namespace Zetris {
             } else {
                 if (inMatch) {
                     inMatch = false;
-
-                    menuStartFrames = globalFrames;
 
                     MisaMino.Abort();
                 }
@@ -550,7 +535,6 @@ namespace Zetris {
 
                 addDown = softdrop;
                 frames = nextFrame;
-
             }
 
             speedTick += SaltyController.Speed / 100M;
@@ -582,20 +566,16 @@ namespace Zetris {
         }
 
         static void Loop() {
-            BotThread = Thread.CurrentThread;
-
             UpdateConfig();
 
             while (!Disposing) {
-                bool newFrame = false;
-
                 if (GameHelper.CheckProcess()) {
                     GameHelper.TrustProcess = true;
 
                     int prev = globalFrames;
                     globalFrames = GameHelper.getMenuFrameCount();
 
-                    if (newFrame = globalFrames > prev) {
+                    if (globalFrames > prev) {
                         if (globalFrames != prev + 1)
                             LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
 
