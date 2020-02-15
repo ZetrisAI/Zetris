@@ -17,6 +17,7 @@ namespace Zetris {
             FreezeEvents = false;
 
             Version.Text = $"Zetris-S3-Gatekeeper";
+            Version.ToolTip = $"Based on Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 default:
