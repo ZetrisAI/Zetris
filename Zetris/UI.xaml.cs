@@ -37,6 +37,8 @@ namespace Zetris {
             }
 
             UpdateActive();
+            SaltyController.Ready(this);
+
             Bot.Start(this, 4);
         }
 
@@ -66,15 +68,35 @@ namespace Zetris {
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
 
+            League.IsEnabled = !Active && !SaltyController.Active;
+
             if (!Active) Info.MaxHeight = 0;
         }
 
-        void GamepadChanged(object sender, RoutedEventArgs e) {
-            if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);
+        public void UpdateSaltyInfo() {
+            Dispatcher.InvokeAsync(() => {
+                League.IsEnabled = !Active && !SaltyController.Active;
+                SaltyInfoPanel.MaxHeight = (SaltyController.Active || SaltyController.Time > 0)? double.PositiveInfinity : 0;
+
+                SaltySettings.Text = $"{SaltyController.Speed}% / {SaltyController.Previews}prev / {SaltyController.Intelligence}iq";
+                SaltyScore.Text = $"[{SaltyController.PlayerName}] {SaltyController.GetScore(1)} - {SaltyController.GetScore(0)} [Zetris]";
+
+                SaltyTimeContainer.MaxHeight = SaltyController.TimerRunning? 0 : double.PositiveInfinity;
+                SaltyTime.Text = $"{(SaltyController.Time / 60000).ToString("00")}:{(SaltyController.Time / 1000 % 60).ToString("00")}.{(SaltyController.Time % 1000).ToString("000")}";
+
+                SaltyCopyContainer.MaxHeight = (SaltyCopy.IsEnabled = (SaltyController.Time > 0 && !SaltyController.Active && (SaltyController.GetScore(0) == 6 || SaltyController.GetScore(1) == 6)))? double.PositiveInfinity : 0;
+            });
         }
 
         void LeagueChanged(object sender, SelectionChangedEventArgs e) {
             if (!FreezeEvents) SaltyController.League = League.SelectedIndex;
+        }
+
+        void CopyClicked(object sender, RoutedEventArgs e)
+            => Clipboard.SetText($"[{SaltyController.PlayerName}] {SaltyController.GetScore(1)} - {SaltyController.GetScore(0)} [{League.Items[SaltyController.LeagueUsed]} Gatekeeper {SaltyController.GatekeeperName}]\r\n{SaltyTime.Text}");
+
+        void GamepadChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);
         }
     }
 }

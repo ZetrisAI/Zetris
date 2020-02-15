@@ -445,5 +445,19 @@ namespace Zetris {
 
             return garbage_drop;
         }
+
+        public static CachedMethod<int, int> StarCount = new CachedMethod<int, int>((index) =>
+            Game.TraverseByte(
+                new IntPtr(0x14057F048),
+                new int[] {0x38 + 0x04 * index}
+            )?? 0
+        );
+
+        public static CachedMethod<int, string> PlayerName = new CachedMethod<int, string>((index) =>
+            Game.ReadStringUnicode(
+                new IntPtr(0x140598BD4 + 0x68 * index),
+                32
+            )
+        );
     }
 }

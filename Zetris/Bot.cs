@@ -49,6 +49,8 @@ namespace Zetris {
         static int[,] misaboard = new int[10, 40];
         static bool misasolved = false;
 
+        static int[] prevStars = new int[2] {0, 0};
+
         static bool startbreak = false;
 
         static bool danger =>
@@ -108,6 +110,11 @@ namespace Zetris {
                 bool startanim = GameHelper.getStartAnimation.Call() > 0x1000;
 
                 if (startanim && !startbreak) {
+                    SaltyController.GatekeeperName = GameHelper.PlayerName.Call(playerID);
+                    SaltyController.PlayerName = GameHelper.PlayerName.Call(1 - playerID);
+
+                    SaltyController.GameStarted();
+
                     MisaMino.Reset(); // this will abort as well
                     misasolved = false;
                     b2b = 1; // Hack that makes MisaMino start like a normal person
@@ -238,6 +245,14 @@ namespace Zetris {
                     queue = (int[])pieces.Clone();
 
                 inMatch = true;
+
+                for (int i = 0; i < 2; i++) {
+                    int id = Convert.ToInt32(playerID != i);
+                    if (prevStars[i] < GameHelper.StarCount.Call(i))
+                        SaltyController.GameFinished(id);
+
+                    prevStars[i] = GameHelper.StarCount.Call(i);
+                }
 
             } else {
                 if (inMatch) {

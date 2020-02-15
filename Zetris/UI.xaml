@@ -33,6 +33,22 @@
             <ComboBox Grid.Column="1" Height="14" x:Name="League" SelectionChanged="LeagueChanged" />
         </Grid>
 
+        <StackPanel x:Name="SaltyInfoPanel">
+            <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+            <TextBlock Margin="0 0 0 5" x:Name="SaltySettings" HorizontalAlignment="Center" />
+
+            <TextBlock Margin="0 0 0 5" x:Name="SaltyScore" HorizontalAlignment="Center" />
+
+            <Grid x:Name="SaltyTimeContainer" MaxHeight="0">
+                <TextBlock Margin="0 0 0 5" x:Name="SaltyTime" HorizontalAlignment="Center" />
+            </Grid>
+
+            <Grid x:Name="SaltyCopyContainer" MaxHeight="0">
+                <Button Margin="0 0 0 5" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" HorizontalAlignment="Center" x:Name="SaltyCopy" Click="CopyClicked" />
+            </Grid>
+        </StackPanel>
+
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
         <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
