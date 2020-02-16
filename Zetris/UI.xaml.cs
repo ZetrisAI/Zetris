@@ -16,28 +16,23 @@ namespace Zetris {
 
             FreezeEvents = false;
 
+            InactiveString = "Inactive";
+            ActiveString = "Active";
+            ConfidenceString = "Confidence:";
+            ThinkingTimeString = "Thinking Time:";
+
+            LeagueText.Text = "League:";
+            foreach (string league in SaltyController.Leagues) 
+                League.Items.Add(league);
+
+            League.SelectedIndex = 0;
+
+            SaltyCopy.Content = "Copy to Clipboard";
+
+            Gamepad.Content = "Gamepad Connected";
+
             Version.Text = $"Zetris-S3-Gatekeeper";
             Version.ToolTip = $"Based on Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
-
-            switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
-                default:
-                    InactiveString = "Inactive";
-                    ActiveString = "Active";
-                    ConfidenceString = "Confidence:";
-                    ThinkingTimeString = "Thinking Time:";
-
-                    LeagueText.Text = "League:";
-                    League.Items.Add("S/A");
-                    League.Items.Add("B/C");
-                    League.Items.Add("D/E");
-                    League.Items.Add("G");
-                    League.SelectedIndex = 0;
-
-                    SaltyCopy.Content = "Copy to Clipboard";
-
-                    Gamepad.Content = "Gamepad Connected";
-                    break;
-            }
 
             UpdateActive();
             SaltyController.Ready(this);
@@ -81,13 +76,13 @@ namespace Zetris {
                 League.IsEnabled = !Active && !SaltyController.Active;
                 SaltyInfoPanel.MaxHeight = (SaltyController.Active || SaltyController.Time > 0)? double.PositiveInfinity : 0;
 
-                SaltySettings.Text = $"{SaltyController.Speed}% / {SaltyController.Previews}prev / {SaltyController.Intelligence}iq";
-                SaltyScore.Text = $"[{SaltyController.PlayerName}] {SaltyController.GetScore(1)} - {SaltyController.GetScore(0)} [Zetris]";
+                SaltyCurrent.Text = SaltyController.Finished? "Finished" : $"Game {SaltyController.Games + 1}";
+                SaltyCurrent.Text += $" {SaltyController.GetScore(1)}-{SaltyController.GetScore(0)} {SaltyController.SettingsString}";
 
                 SaltyTimeContainer.MaxHeight = SaltyController.TimerRunning? 0 : double.PositiveInfinity;
-                SaltyTime.Text = $"{(SaltyController.Time / 60000).ToString("00")}:{(SaltyController.Time / 1000 % 60).ToString("00")}.{(SaltyController.Time % 1000).ToString("000")}";
+                SaltyTime.Text = SaltyController.TimeString;
 
-                SaltyCopyContainer.MaxHeight = (SaltyCopy.IsEnabled = (SaltyController.Time > 0 && !SaltyController.Active && (SaltyController.GetScore(0) == 6 || SaltyController.GetScore(1) == 6)))? double.PositiveInfinity : 0;
+                SaltyCopyContainer.MaxHeight = (SaltyCopy.IsEnabled = SaltyController.Time > 0 && !SaltyController.Active && SaltyController.Finished)? double.PositiveInfinity : 0;
             });
         }
 
@@ -95,8 +90,7 @@ namespace Zetris {
             if (!FreezeEvents) SaltyController.League = League.SelectedIndex;
         }
 
-        void CopyClicked(object sender, RoutedEventArgs e) 
-            => Clipboard.SetText($"[{SaltyController.PlayerName}] {SaltyController.GetScore(1)} - {SaltyController.GetScore(0)} [{League.Items[SaltyController.LeagueUsed]} Gatekeeper {SaltyController.GatekeeperName}]\r\n{SaltyTime.Text}");
+        void CopyClicked(object sender, RoutedEventArgs e) => SaltyController.CopyOutput();
 
         void GamepadChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);

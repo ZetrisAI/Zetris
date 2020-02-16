@@ -113,7 +113,7 @@ namespace Zetris {
                     SaltyController.GatekeeperName = GameHelper.PlayerName.Call(playerID);
                     SaltyController.PlayerName = GameHelper.PlayerName.Call(1 - playerID);
 
-                    SaltyController.GameStarted();
+                    SaltyController.GameStarted(prevStars.SequenceEqual(new int[2] {0, 0}));
 
                     MisaMino.Reset(); // this will abort as well
                     misasolved = false;
@@ -247,12 +247,13 @@ namespace Zetris {
                 inMatch = true;
 
                 for (int i = 0; i < 2; i++) {
-                    int id = Convert.ToInt32(playerID != i);
                     if (prevStars[i] < GameHelper.StarCount.Call(i))
-                        SaltyController.GameFinished(id);
+                        SaltyController.GameFinished(i);
 
                     prevStars[i] = GameHelper.StarCount.Call(i);
                 }
+
+                Console.WriteLine($"{prevStars[0]} {prevStars[1]}");
 
             } else {
                 if (inMatch) {
@@ -550,7 +551,9 @@ namespace Zetris {
 
                 addDown = softdrop;
                 frames = nextFrame;
-            }
+
+            } else if (SaltyController.Active)
+                gamepad.Buttons = globalFrames % 2 == 0 && GameHelper.OutsideMenu.Call() ? X360Buttons.A : X360Buttons.None;
 
             speedTick += SaltyController.Speed / 100M;
 

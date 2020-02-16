@@ -34,11 +34,7 @@
         </Grid>
 
         <StackPanel x:Name="SaltyInfoPanel">
-            <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-            <TextBlock Margin="0 0 0 5" x:Name="SaltySettings" HorizontalAlignment="Center" />
-
-            <TextBlock Margin="0 0 0 5" x:Name="SaltyScore" HorizontalAlignment="Center" />
+            <TextBlock Margin="0 0 0 5" x:Name="SaltyCurrent" HorizontalAlignment="Center" />
 
             <Grid x:Name="SaltyTimeContainer" MaxHeight="0">
                 <TextBlock Margin="0 0 0 5" x:Name="SaltyTime" HorizontalAlignment="Center" />

@@ -453,11 +453,16 @@ namespace Zetris {
             )?? 0
         );
 
-        public static CachedMethod<int, string> PlayerName = new CachedMethod<int, string>((index) =>
-            Game.ReadStringUnicode(
+        public static CachedMethod<int, string> PlayerName = new CachedMethod<int, string>((index) => {
+            string name = Game.ReadStringUnicode(
                 new IntPtr(0x140598BD4 + 0x68 * index),
-                32
-            ).Replace("\0", "")
-        );
+                36
+            );
+
+            int nullTerm = name.IndexOf('\0');
+            if (nullTerm != -1) name = name.Substring(0, nullTerm);
+
+            return name.Substring(0, Math.Min(name.Length, 16));
+        });
     }
 }
