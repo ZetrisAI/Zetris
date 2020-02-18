@@ -31,7 +31,7 @@ namespace Zetris {
 
             Gamepad.Content = "Gamepad Connected";
 
-            Version.Text = $"Zetris-S3-Gatekeeper";
+            Version.Text = $"Zetris-S3-Gatekeeper-2";
             Version.ToolTip = $"Based on Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
 
             UpdateActive();

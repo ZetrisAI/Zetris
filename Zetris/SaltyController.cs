@@ -30,7 +30,7 @@ namespace Zetris {
         public static string TimeString => $"{(Time / 60000).ToString("00")}:{(Time / 1000 % 60).ToString("00")}.{(Time % 1000).ToString("000")}";
         public static bool TimerRunning => timer?.IsRunning ?? false;
         
-        static int[] SpeedMap = new int[4] {33, 25, 18, 12};
+        static int[] SpeedMap = new int[4] {30, 25, 18, 12};
         static int spd;
         public static int Speed {
             get => Math.Max(10, spd);
