@@ -842,6 +842,7 @@ namespace Zetris {
 
             UpdateConfig();
             UpdatePriority();
+            UpdatePCThreads();
 
             while (!Disposing) {
                 bool newFrame = false;
