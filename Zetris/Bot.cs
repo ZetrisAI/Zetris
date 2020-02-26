@@ -804,6 +804,9 @@ namespace Zetris {
                 if (addDown)
                     gamepad.Buttons |= X360Buttons.Down;
 
+                if (gamepad.Buttons.HasFlag(X360Buttons.RightBumper))
+                    gamepad.Buttons = X360Buttons.RightBumper;
+
                 previousInputs = gamepad.Buttons;
             }
 
