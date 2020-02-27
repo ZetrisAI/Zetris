@@ -7,7 +7,7 @@ namespace Zetris {
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
-                    General.Text = "";
+                    General.Text = "제트리스에 에러가 발생했습니다. 아래의 정보를 개발자에게 신고해 주세요.";
                     break;
                     
                 case "ja":
