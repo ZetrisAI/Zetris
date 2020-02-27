@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
@@ -7,6 +10,13 @@ using System.Windows;
 namespace Zetris {
     public partial class App {
         public static readonly string Version = $"Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
+
+        bool DetectMissingDriver(object ex) {
+            if (ex == null || !(ex is Exception e)) return false;
+
+            if (e is IOException && e.Message == "SCP Virtual Bus Device not found" && e.Source == "ScpDriverInterface") return true;
+            return DetectMissingDriver(e.InnerException);
+        }
 
 #if !PUBLIC
         void OverrideLocale(string locale) =>
@@ -19,7 +29,16 @@ namespace Zetris {
 #endif
 
             AppDomain.CurrentDomain.UnhandledException += (s, ex) => {
-                new Error(ex.ExceptionObject.ToString()).ShowDialog();
+                if (!e.Args.Contains("--nodriverinstall") && DetectMissingDriver(ex.ExceptionObject)) {
+
+                    Process.Start(new ProcessStartInfo("ScpDriverInstaller.exe", "--quiet --install") {
+                        WorkingDirectory = "ScpDriver"
+                    }).WaitForExit();
+
+                    Process.Start("Zetris.exe", "--nodriverinstall");
+
+                } else new Error(ex.ExceptionObject.ToString()).ShowDialog();
+                
                 Current.Shutdown();
             };
         }
