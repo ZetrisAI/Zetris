@@ -901,7 +901,7 @@ namespace Zetris {
 
         public static bool Started { get; private set; } = false;
 
-        public static void Start(UI window, int gamepadindex) {
+        public static async void Start(UI window, int gamepadindex) {
             if (Started) return;
 
             Started = true;
@@ -920,7 +920,7 @@ namespace Zetris {
             scp = new ScpBus();
             scp.PlugIn(gamepadIndex = gamepadindex);
 
-            Task.Run(Loop);
+            await Task.Run(Loop);
         }
 
         static bool Disposing = false;
