@@ -11,7 +11,7 @@ namespace Zetris {
                     break;
                     
                 case "ja":
-                    General.Text = "";
+                    General.Text = "エラーが発生しました。以下の情報を開発者に報告してください。";
                     break;
                     
                 default:
