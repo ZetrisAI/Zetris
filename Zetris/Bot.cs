@@ -62,6 +62,7 @@ namespace Zetris {
         static bool shouldHaveRegistered = false;
         static int baseBoardHeight;
         static int old_y;
+        static int misa_lasty;
         static int atk = 0;
 
         static int[,] misaboard = new int[10, 40];
@@ -116,7 +117,7 @@ namespace Zetris {
                     q,
                     current,
                     hold,
-                    21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
+                    misa_lasty = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
                     misaboard,
                     combo + Convert.ToInt32(cleared > 0),
                     Math.Max(
@@ -191,7 +192,7 @@ namespace Zetris {
                     q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                     if (!danger) {
-                        MisaMino.FindMove(q, pieces[0], null, 21, pcboard, 0, b2b, 0);
+                        MisaMino.FindMove(q, pieces[0], null, misa_lasty = 21, pcboard, 0, b2b, 0);
 
                         if (Preferences.PerfectClear) {
                             PerfectClear.Find(
@@ -268,7 +269,30 @@ namespace Zetris {
                         if (!pathSuccess) {
                             LogHelper.LogText("Using Misa!");
 
-                            if (!InputHelper.BoardEquals(misaboard, board) || !misasolved) {
+                            bool misaok = InputHelper.BoardEquals(misaboard, board) && misasolved;
+                            bool misasaved = false;
+
+                            if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
+                                LogHelper.LogText($"Tryna save Misa... {misa_lasty} {baseBoardHeight}");
+
+                                movements = MisaMino.FindPath(
+                                    board,
+                                    baseBoardHeight,
+                                    MisaMino.LastSolution.PieceUsed,
+                                    MisaMino.LastSolution.FinalX,
+                                    MisaMino.LastSolution.FinalY,
+                                    MisaMino.LastSolution.FinalR,
+                                    current != MisaMino.LastSolution.PieceUsed,
+                                    ref spinUsed,
+                                    out misaok
+                                );
+
+                                misasaved = misaok;
+
+                                LogHelper.LogText($"misasaved {misasaved}");
+                            }
+
+                            if (!misaok) {
                                 int[] q = pieces.Concat(GameHelper.getNextFromBags.Call(playerID)).ToArray();
                                 q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
@@ -297,9 +321,9 @@ namespace Zetris {
                                 MisaMino.Abort();
                             }
 
-                            movements = MisaMino.LastSolution.Instructions;
+                            if (!misasaved) movements = MisaMino.LastSolution.Instructions;
                             pieceUsed = MisaMino.LastSolution.PieceUsed;
-                            spinUsed = MisaMino.LastSolution.SpinUsed;
+                            if (!misasaved) spinUsed = MisaMino.LastSolution.SpinUsed;
                             b2b = MisaMino.LastSolution.B2B;
                             atk = MisaMino.LastSolution.Attack;
                             finalX = MisaMino.LastSolution.FinalX;
