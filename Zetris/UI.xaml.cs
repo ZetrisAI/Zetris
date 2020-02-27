@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Reflection;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -47,7 +45,7 @@ namespace Zetris {
             ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
 #endif
 
-            Version.Text = $"Zetris-{Assembly.GetExecutingAssembly().GetName().Version.Minor}";
+            Version.Text = App.Version;
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
                 case "ko":
