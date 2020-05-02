@@ -35,12 +35,12 @@ namespace Zetris {
         static ScpBus scp = new ScpBus();
         static X360Controller gamepad = new X360Controller();
 
-        public static void SetGamepad(bool state) {
+        public static bool SetGamepad(bool state) {
             scp.Unplug(gamepadIndex);
             scp = new ScpBus();
             gamepad = new X360Controller();
 
-            if (state) scp.PlugIn(gamepadIndex);
+            return state? scp.PlugIn(gamepadIndex) : false;
         }
 
         static int currentRating, numplayers, frames, globalFrames;

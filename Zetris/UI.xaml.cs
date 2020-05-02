@@ -230,7 +230,11 @@ namespace Zetris {
         }
 
         void GamepadChanged(object sender, RoutedEventArgs e) {
-            if (!FreezeEvents) Bot.SetGamepad(Gamepad.IsChecked == true);
+            if (!FreezeEvents) {
+                FreezeEvents = true;
+                Gamepad.IsChecked = Bot.SetGamepad(Gamepad.IsChecked == true);
+                FreezeEvents = false;
+            }
         }
 
         void AccurateSyncChanged(object sender, RoutedEventArgs e) {
