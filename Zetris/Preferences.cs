@@ -141,9 +141,7 @@ namespace Zetris {
 #else
             get => false;
 #endif
-            set {
-                _puzzleleague = value;
-            }
+            set => _puzzleleague = value;
         }
 
         static bool _replay = false;
@@ -153,10 +151,17 @@ namespace Zetris {
 #else
             get => false;
 #endif
-            set {
-                _replay = value;
-                Save();
-            }
+            set => _replay = value;
+        }
+
+        static bool _spam = false;
+        public static bool SpamA {
+#if !PUBLIC
+            get => _spam;
+#else
+            get => false;
+#endif
+            set => _spam = value;
         }
 
         static int _player = 1;

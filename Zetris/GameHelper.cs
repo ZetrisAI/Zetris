@@ -21,6 +21,18 @@ namespace Zetris {
             ) == 0x0
         );
 
+        public static CachedMethod<int> GetMenu = new CachedMethod<int>(() =>
+            Game.TraverseInt32(
+                new IntPtr(0x140573A78),
+                new int[] {0xA4 + (
+                    Game.TraverseInt32(
+                        new IntPtr(0x140573A78),
+                        new int[] {0xE8}
+                    )
+                ?? 0) * 0x04}
+            )?? 0
+        );
+
         public static CachedMethod<int> GameEnd = new CachedMethod<int>(() =>
             Game.TraverseByte(
                 new IntPtr(0x140460690),         // 16 if in post game menu
@@ -105,10 +117,9 @@ namespace Zetris {
         );
 
         public static CachedMethod<int> PlayerCount = new CachedMethod<int>(() =>
-            Math.Max(0, Math.Min(4, Game.TraverseInt32(  // Limit this between 0 and 4.
-                new IntPtr(0x140473760),
-                new int[] {0x20, 0xB4}
-            )?? 0))
+            Math.Max(0, Math.Min(4, Game.ReadInt32(   // Limit this between 0 and 4.
+                new IntPtr(LobbyPtr.Call() + 0xB4)
+            )))
         );
 
         public static CachedMethod<int> LocalSteam = new CachedMethod<int>(() =>
@@ -123,6 +134,12 @@ namespace Zetris {
         public static CachedMethod<int, int> PlayerSteam = new CachedMethod<int, int>((index) =>
             Game.ReadInt32(
                 new IntPtr(LobbyPtr.Call() + 0x118 + index * 0x50)
+            )
+        );
+
+        public static CachedMethod<ulong> LobbyID = new CachedMethod<ulong>(() =>
+            Game.ReadUInt64(
+                new IntPtr(LobbyPtr.Call() + 0x378)
             )
         );
 

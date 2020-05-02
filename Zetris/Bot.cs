@@ -745,74 +745,55 @@ namespace Zetris {
                 addDown = softdrop;
                 frames = nextFrame;
 
-            } else if (Preferences.SaveReplay && GameHelper.CanSaveReplay.Call() == 0 && GameHelper.MenuNavigation.Call(0) != 250 && GameHelper.OutsideMenu.Call()) {
+            } else {
                 gamepad.Buttons = X360Buttons.None;
-                if (globalFrames % 2 == 0) { 
-                    if (GameHelper.MenuNavigation.Call(1) == 1) {                 // end of match
-                        if (GameHelper.MenuNavigation.Call(2) != 0) {             // not default position
-                            if (GameHelper.ConfirmingReplay.Call() == 1) {        // in replay confirm sub menu
-                                gamepad.Buttons |= (GameHelper.ReplayMenuSelection.Call() == 1) ? X360Buttons.A : X360Buttons.Right;
-                            } else {
-                                gamepad.Buttons |= X360Buttons.A;
-                            }
-                        } else {
-                            gamepad.Buttons |= X360Buttons.Up;
-                        }
-                    } else {
-                        gamepad.Buttons |= X360Buttons.A;
-                    }
-                }
 
-            } else if (Preferences.PuzzleLeague) {
-                int mode = GameHelper.CurrentMode.Call();
-                gamepad.Buttons = X360Buttons.None;
+                #if !PUBLIC
+                    if (Preferences.SpamA && GameHelper.GetMenu.Call() == 28)
+                        gamepad.Buttons |= globalFrames % 2 == 0? X360Buttons.A : (X360Buttons.LeftBumper | X360Buttons.Down);
+
+                    else
+                #endif
 
                 if (globalFrames % 2 == 0) {
-                    if (GameHelper.OutsideMenu.Call()) {
-                        gamepad.Buttons |= X360Buttons.A;
+                    if (Preferences.SaveReplay && GameHelper.CanSaveReplay.Call() == 0 && GameHelper.MenuNavigation.Call(0) != 250 && GameHelper.OutsideMenu.Call()) {
+                        if (GameHelper.MenuNavigation.Call(1) != 1)        // end of match
+                            gamepad.Buttons |= X360Buttons.A;
 
-                    } else if (mode == 4) {
-                        if (menuStartFrames + 1150 < globalFrames) {
-                            menuStartFrames = globalFrames;
-                        }
+                        else if (GameHelper.MenuNavigation.Call(2) == 0)   // not default position
+                            gamepad.Buttons |= X360Buttons.Up;
 
-                        if (menuStartFrames + 1150 < globalFrames) {
-                            menuStartFrames = globalFrames;
-                        }
+                        else if (GameHelper.ConfirmingReplay.Call() != 1)  // in replay confirm sub menu
+                            gamepad.Buttons |= X360Buttons.A;
 
-                        if (menuStartFrames + 1030 < globalFrames) {
+                        else gamepad.Buttons |= GameHelper.ReplayMenuSelection.Call() == 1? X360Buttons.A : X360Buttons.Right;
+
+                    } else if (Preferences.PuzzleLeague) {
+                        int mode = GameHelper.CurrentMode.Call();
+
+                        if (GameHelper.OutsideMenu.Call())
+                            gamepad.Buttons |= X360Buttons.A;
+
+                        else if (mode == 4) {
+                            if (menuStartFrames + 1150 < globalFrames)
+                                menuStartFrames = globalFrames;
+
+                            gamepad.Buttons |= menuStartFrames + 1030 < globalFrames? X360Buttons.B : X360Buttons.A;
+
+                        } else if (mode == 1)
                             gamepad.Buttons |= X360Buttons.B;
-                        } else {
+
+                        else gamepad.Buttons |= GameHelper.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
+
+                    } else if (GameHelper.InMultiplayer.Call() && GameHelper.OutsideMenu.Call()) {
+                        if (!GameHelper.IsCharacterSelect.Call() || GameHelper.CharSelectIndex.Call(playerID) == 13) // Zed
                             gamepad.Buttons |= X360Buttons.A;
-                        }
 
-                    } else if (mode == 1) {
-                        gamepad.Buttons |= X360Buttons.B;
+                        else if (GameHelper.CharacterSelectState.Call(playerID) > 1) // Picked not Zed on accident
+                            gamepad.Buttons |= X360Buttons.B;
 
-                    } else {
-                        if (GameHelper.MenuHighlighted.Call() != 4) {
-                            gamepad.Buttons |= X360Buttons.Down;
-                        } else {
-                            gamepad.Buttons |= X360Buttons.A;
-                        }
+                        else gamepad.Buttons |= (charindex = ++charindex % 5) == 0? X360Buttons.Down : X360Buttons.Right;
                     }
-                }
-
-            } else if (GameHelper.InMultiplayer.Call()) {
-                gamepad.Buttons = X360Buttons.None;
-
-                if (globalFrames % 2 == 0 && GameHelper.OutsideMenu.Call()) {
-                    if (!GameHelper.IsCharacterSelect.Call()) {
-                        gamepad.Buttons |= X360Buttons.A;
-                    }
-
-                    else if (GameHelper.CharSelectIndex.Call(playerID) == 13)
-                        gamepad.Buttons |= X360Buttons.A;
-
-                    else if (GameHelper.CharacterSelectState.Call(playerID) > 1)
-                        gamepad.Buttons |= X360Buttons.B;
-
-                    else gamepad.Buttons |= ((charindex = ++charindex % 5) == 0) ? X360Buttons.Down : X360Buttons.Right;
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -42,6 +43,7 @@ namespace Zetris {
             AccurateSync.IsChecked = Preferences.AccurateSync;
 
 #if PUBLIC
+            DevPanel.IsEnabled = false;
             ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
 #endif
 
@@ -223,6 +225,17 @@ namespace Zetris {
 
         void SaveReplayChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.SaveReplay = SaveReplay.IsChecked == true;
+        }
+
+        void KickExploit(object sender, RoutedEventArgs e) {
+            #if !PUBLIC
+                if (GameHelper.CheckProcess() && GameHelper.GetMenu.Call() == 27)
+                    Process.Start($"steam://joinlobby/546050/{GameHelper.LobbyID.Call()}/");
+            #endif
+        }
+
+        void SpamAChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.SpamA = SpamA.IsChecked == true;
         }
 
         void PlayerChanged(Dial sender, double NewValue) {
