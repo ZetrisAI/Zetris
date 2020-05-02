@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Zetris {
     public partial class GamepadIndexWindow {
@@ -25,6 +26,11 @@ namespace Zetris {
         }
 
         public int? Ask() {
+            Dispatcher.Invoke(() => {
+                Topmost = true;
+                Activate();
+                Focus();
+            });
             ShowDialog();
             return result;
         }
