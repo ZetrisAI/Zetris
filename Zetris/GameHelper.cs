@@ -21,17 +21,19 @@ namespace Zetris {
             ) == 0x0
         );
 
-        public static CachedMethod<int> GetMenu = new CachedMethod<int>(() =>
-            Game.TraverseInt32(
-                new IntPtr(0x140573A78),
-                new int[] {0xA4 + (
-                    Game.TraverseInt32(
-                        new IntPtr(0x140573A78),
-                        new int[] {0xE8}
-                    )
-                ?? 0) * 0x04}
-            )?? 0
-        );
+        #if !PUBLIC
+            public static CachedMethod<int> GetMenu = new CachedMethod<int>(() =>
+                Game.TraverseInt32(
+                    new IntPtr(0x140573A78),
+                    new int[] {0xA4 + (
+                        Game.TraverseInt32(
+                            new IntPtr(0x140573A78),
+                            new int[] {0xE8}
+                        )
+                    ?? 0) * 0x04}
+                )?? 0
+            );
+        #endif
 
         public static CachedMethod<int> GameEnd = new CachedMethod<int>(() =>
             Game.TraverseByte(
