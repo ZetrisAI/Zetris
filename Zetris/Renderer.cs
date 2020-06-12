@@ -65,7 +65,8 @@ namespace Zetris {
 
         public int[,] board;
         public int[] queue;
-        public int x, r, current, y, hold, cleared, bag;
+        public int x, r, current, y, hold, bag;
+        public int? cleared;
         public bool useHold;
 
         private int ghostY() {
@@ -89,12 +90,14 @@ namespace Zetris {
         public void DrawBackground() {
             canvasBoard.BackgroundImage = new Bitmap(canvasBoard.Width, canvasBoard.Height);
 
+            int clear = cleared?? 0;
+
             using (Graphics gfx = Graphics.FromImage(canvasBoard.BackgroundImage)) {
                 for (int i = 0; i < 10; i++) {
                     for (int j = 0; j < 24; j++) {
                         Rectangle mino = new Rectangle(new Point(i * pxBoard.Width, (23 - j) * pxBoard.Height), pxBoard);
 
-                        gfx.FillRectangle(BackgroundColors[(j + cleared) % 4 + ((cleared + j >= 40) ? 4 : 0)], mino);
+                        gfx.FillRectangle(BackgroundColors[(j + clear) % 4 + ((clear + j >= 40) ? 4 : 0)], mino);
                         gfx.DrawImage(Properties.Resources.grid, mino);
 
                         if (board[i, j] != 255)

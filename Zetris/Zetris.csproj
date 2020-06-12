@@ -7,7 +7,7 @@
     <ProjectGuid>{22CDBDD9-B3ED-4BFB-8221-E49879CC443D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Zetris</RootNamespace>
-    <AssemblyName>Zetris</AssemblyName>
+    <AssemblyName>PPT-TAS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -39,6 +39,13 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMino.dll</HintPath>
+    </Reference>
+    <Reference Include="MisaMinoNET, Version=1.5.4.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMinoNET.dll</HintPath>
+    </Reference>
     <Reference Include="ProcessMemory, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ProcessMemory.1.1.0\lib\net45\ProcessMemory.dll</HintPath>
     </Reference>
@@ -62,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachedMethod.cs" />
     <Compile Include="Dialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +77,8 @@
       <DependentUpon>Dialog.cs</DependentUpon>
     </Compile>
     <Compile Include="GameHelper.cs" />
+    <Compile Include="InputHelper.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,7 +119,6 @@
     <None Include="Resources\grid.png" />
     <None Include="Resources\deco_ghost.png" />
     <None Include="Resources\9_tetris.png" />
-    <None Include="Resources\9_puyo.png" />
     <None Include="Resources\7_mini.png" />
     <None Include="Resources\7_ghost.png" />
     <None Include="Resources\7.png" />

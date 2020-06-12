@@ -33,17 +33,20 @@
             this.canvasBoard = new System.Windows.Forms.PictureBox();
             this.canvasHold = new System.Windows.Forms.PictureBox();
             this.canvasQueue = new System.Windows.Forms.PictureBox();
+            this.garbage = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasBoard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasHold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasQueue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.garbage)).BeginInit();
             this.SuspendLayout();
             // 
             // valueX
             // 
             this.valueX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueX.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.valueX.Enabled = false;
             this.valueX.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueX.Location = new System.Drawing.Point(164, 504);
             this.valueX.Maximum = new decimal(new int[] {
@@ -72,6 +75,7 @@
             // 
             this.valueR.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.valueR.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.valueR.Enabled = false;
             this.valueR.ForeColor = System.Drawing.Color.Gainsboro;
             this.valueR.Location = new System.Drawing.Point(164, 525);
             this.valueR.Maximum = new decimal(new int[] {
@@ -155,12 +159,22 @@
             this.canvasQueue.TabIndex = 21;
             this.canvasQueue.TabStop = false;
             // 
+            // garbage
+            // 
+            this.garbage.BackColor = System.Drawing.Color.Red;
+            this.garbage.Location = new System.Drawing.Point(38, 492);
+            this.garbage.Name = "garbage";
+            this.garbage.Size = new System.Drawing.Size(20, 5);
+            this.garbage.TabIndex = 22;
+            this.garbage.TabStop = false;
+            // 
             // Dialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(276, 573);
+            this.Controls.Add(this.garbage);
             this.Controls.Add(this.canvasQueue);
             this.Controls.Add(this.canvasHold);
             this.Controls.Add(this.canvasBoard);
@@ -174,11 +188,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Location = new System.Drawing.Point(780, 70);
+            this.Location = new System.Drawing.Point(10, 380);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Dialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "TAS Input Window";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Dialog_Closing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Dialog_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.valueX)).EndInit();
@@ -186,6 +202,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.canvasBoard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasHold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.canvasQueue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.garbage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,5 +219,6 @@
         private System.Windows.Forms.PictureBox canvasBoard;
         private System.Windows.Forms.PictureBox canvasHold;
         private System.Windows.Forms.PictureBox canvasQueue;
+        private System.Windows.Forms.PictureBox garbage;
     }
 }

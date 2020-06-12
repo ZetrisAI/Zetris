@@ -303,19 +303,9 @@ namespace Zetris.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _9_puyo {
+        internal static System.Drawing.Bitmap _9 {
             get {
-                object obj = ResourceManager.GetObject("_9_puyo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _9_tetris {
-            get {
-                object obj = ResourceManager.GetObject("_9_tetris", resourceCulture);
+                object obj = ResourceManager.GetObject("_9", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
