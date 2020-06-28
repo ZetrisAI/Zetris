@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
+using Microsoft.Win32;
 
 using MisaMinoNET;
 using PerfectClearNET;
@@ -812,6 +814,12 @@ namespace Zetris {
                 if (gamepad.Buttons.HasFlag(X360Buttons.RightBumper))
                     gamepad.Buttons = X360Buttons.RightBumper;
 
+                if (manualtimer > 0) {
+                    gamepad.Buttons = manualbtn;
+                    manualtimer--;
+                    Interaction.AppActivate("PuyoPuyoTetris");
+                }
+
                 previousInputs = gamepad.Buttons;
             }
 
@@ -820,6 +828,14 @@ namespace Zetris {
 
         static void updateUI() {
             Window?.SetActive(inMatch);
+        }
+
+        static X360Buttons manualbtn;
+        static int manualtimer = 0;
+
+        public static void ManualInput(X360Buttons button) {
+            manualbtn = button;
+            manualtimer = 3;
         }
 
         public static void UpdateConfig() {

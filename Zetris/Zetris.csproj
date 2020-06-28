@@ -70,6 +70,7 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMino.dll</HintPath>
     </Reference>
@@ -109,6 +110,10 @@
     </ApplicationDefinition>
     <Compile Include="Binary.cs" />
     <Compile Include="Bot.cs" />
+    <Page Include="GamepadPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StyleViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,6 +141,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CachedMethod.cs" />
+    <Compile Include="GamepadPanel.xaml.cs">
+      <DependentUpon>GamepadPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
