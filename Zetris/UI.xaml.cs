@@ -73,6 +73,7 @@ namespace Zetris {
                     AccurateSync.ToolTip = "이 항목을 활성화하면, 제트리스는 CPU 사용량을 증가시켜 프레임 스킵없이\n" +
                                            "계속 다음 프레임을 확인합니다.\n" +
                                            "이 항목은 제트리스를 실행할 때 성능문제가 발생할 경우에만 해제해주세요.";
+                    GamepadPanel.RestoreText = "";
                     break;
                     
                 case "ja":
@@ -97,6 +98,7 @@ namespace Zetris {
                     AccurateSync.Content = "同期の最適化";
                     AccurateSync.ToolTip = "ここにチェックをいれると、ZetrisのCPU使用率をあげてフレームスキップを防ぎます。\n" +
                                            "チェックありの方が強いですが、パソコンが重い場合はチェックを外してください";
+                    GamepadPanel.RestoreText = "";
                     break;
                     
                 default:
@@ -122,6 +124,7 @@ namespace Zetris {
                     AccurateSync.ToolTip = "If this is enabled, Zetris will constantly scan for the next game frame to help\n" +
                                            "prevent frame skipping at the cost of increased CPU usage.\n" +
                                            "Uncheck this only if your computer has performance issues while running Zetris.";
+                    GamepadPanel.RestoreText = "Restore Inputs";
                     break;
             }
 
