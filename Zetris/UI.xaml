@@ -80,11 +80,11 @@
             <Button Margin="0 0 0 5" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="Kick Exploit" Click="KickExploit" />
 
             <CheckBox Margin="0 0 0 5" Content="Spam A Button in Lobby" x:Name="SpamA" Click="SpamAChanged" />
-            
-            <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-            <Zetris:GamepadPanel Margin="0 0 0 5" x:Name="GamepadPanel" />
         </StackPanel>
+
+        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+        <Zetris:GamepadPanel Margin="0 0 0 5" x:Name="GamepadPanel" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         
