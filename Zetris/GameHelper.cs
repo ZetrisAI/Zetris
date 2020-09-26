@@ -332,12 +332,7 @@ namespace Zetris {
         public static CachedMethod<int, List<int>> getNextFromBags = new CachedMethod<int, List<int>>((index) => {
             List<int> ret = new List<int>();
 
-            long ptr = Game.TraverseInt64(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x30, 0x300}
-                    : new int[] {0x378 + index * 0x8, 0xA8}
-            )?? 0;
+            long ptr = getPlayerMainAddress.Call(index);
 
             for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++)
                 ret.Add(Game.ReadByte(new IntPtr(
