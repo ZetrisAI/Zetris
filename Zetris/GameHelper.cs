@@ -159,11 +159,28 @@ namespace Zetris {
         });
 
         public static CachedMethod<bool> InSwap = new CachedMethod<bool>(() =>
-            Game.ReadBoolean(new IntPtr(0x14059894C))
-                ? Game.ReadBoolean(new IntPtr(0x1404385C4))
-                    ? Game.ReadByte(new IntPtr(0x140438584)) == 3
-                    : Game.ReadByte(new IntPtr(0x140573794)) == 2
-                : (Game.ReadByte(new IntPtr(0x140451C50)) & 0b11101111) == 4
+            Game.ReadByte(new IntPtr(0x140598BB8)) == 5
+        );
+
+        private static CachedMethod<int, int> getPlayerOffset = new CachedMethod<int, int>((index) =>
+            0x378 + index * 8
+        );
+
+        public static CachedMethod<int, long> getPlayerBaseAddress = new CachedMethod<int, long>((index) =>
+            Game.TraverseInt64(
+                new IntPtr(0x140461B20),
+                InSwap.Call()
+                    ? new int[] { getPlayerOffset.Call(index), 0x1E0 }
+                    : new int[] { getPlayerOffset.Call(index) }
+                ) ?? 0
+        );
+
+        public static CachedMethod<int, long> getPlayerMainAddress = new CachedMethod<int, long>((index) =>
+            Game.ReadInt64(new IntPtr(getPlayerBaseAddress.Call(index) + 0xA8))
+        );
+
+        public static CachedMethod<int, long> getPlayerPieceAddress = new CachedMethod<int, long>((index) =>
+            Game.ReadInt64(new IntPtr(getPlayerMainAddress.Call(index) + 0x3C8))
         );
 
         public static CachedMethod<int> SwapType = new CachedMethod<int>(() =>
@@ -187,11 +204,9 @@ namespace Zetris {
 
         public static CachedMethod<int, long> boardAddress = new CachedMethod<int, long>((index) =>
             Game.TraverseInt64(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C0, 0x18}
-                    : new int[] {0x378 + index * 0x8, 0xC0, 0x10, 0x3C0, 0x18}
-            )?? 0
+                new IntPtr(getPlayerMainAddress.Call(index) + 0x3C0),
+                new int[] { 0x18 }
+            ) ?? 0
         );
 
         public static CachedMethod<int, int[,]> getBoard = new CachedMethod<int, int[,]>((index) => {
@@ -212,21 +227,14 @@ namespace Zetris {
             return ret;
         });
 
-        public static CachedMethod<int, long> piecesAddress = new CachedMethod<int, long>((index) =>
-            (Game.TraverseInt64(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? index == 0
-                        ? new int[] {0x380, 0x18, 0xB8}
-                        : new int[] {0x378 + index * 0x8, 0x1E0, 0xB8}
-                    : new int[] {0x378 + index * 0x8, 0xB8}
-            )?? 0) + 0x15C
+        public static CachedMethod<int, long> queueAddress = new CachedMethod<int, long>((index) =>
+            Game.ReadInt64(new IntPtr(getPlayerBaseAddress.Call(index) + 0xB8)) + 0x15C
         );
 
         public static CachedMethod<int, int[]> getPieces = new CachedMethod<int, int[]>((index) => {
             int[] ret = new int[5];
 
-            long pieceaddr = piecesAddress.Call(index);
+            long pieceaddr = queueAddress.Call(index);
 #if PUBLIC
             pieceaddr += LobbyPtr.Call();
 #endif
@@ -247,52 +255,26 @@ namespace Zetris {
         );
 
         public static CachedMethod<int, int> getPiecePositionX = new CachedMethod<int, int>((index) =>
-            Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0x40, 0x100}
-                    : new int[] {0x378 + index * 0x8, 0xC0, 0x120, 0x1E}
-            )?? 0
+            Game.ReadByte(new IntPtr(getPlayerPieceAddress.Call(index) + 0xC))
         );
 
         public static CachedMethod<int, int> getPiecePositionY = new CachedMethod<int, int>((index) =>
-            Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0x40, 0x101}
-                    : new int[] {0x378 + index * 0x8, 0xC0, 0x120, 0x1F}
-            )?? 0
+            23 - Game.ReadByte(new IntPtr(getPlayerPieceAddress.Call(index) + 0x10))
         );
 
         public static CachedMethod<int, int> getPieceRotation = new CachedMethod<int, int>((index) =>
-            Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C8, 0x18}
-                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3C8, 0x18}
-            )?? 0
+            Game.ReadByte(new IntPtr(getPlayerPieceAddress.Call(index) + 0x18))
         );
 
         public static CachedMethod<int, int> getPieceDropped = new CachedMethod<int, int>((index) => {
 #if PUBLIC
             index += (int)LobbyPtr.Call();
 #endif
-
-            return Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0xA8, 0x300, 0x3C8, 0x1C}
-                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3C8, 0x1C}
-            )?? 0;
+            return Game.ReadByte(new IntPtr(getPlayerPieceAddress.Call(index) + 0x1C));
         });
 
         public static CachedMethod<int, long> getHoldPointer = new CachedMethod<int, long>((index) =>
-            (Game.TraverseInt64(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x30, 0x300, 0x3D0}
-                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3D0}
-            )?? 0) + 0x8
+            Game.ReadInt64(new IntPtr(getPlayerMainAddress.Call(index) + 0x3D0)) + 0x8
         );
 
         public static CachedMethod<int, int?> getHold = new CachedMethod<int, int?>((index) => {
@@ -315,21 +297,11 @@ namespace Zetris {
         );
 
         public static CachedMethod<int, int> getCombo = new CachedMethod<int, int>((index) =>
-            Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xA8, 0x3DC}
-                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3DC}
-            )?? 0
+            Game.ReadByte(new IntPtr(getPlayerMainAddress.Call(index) + 0x3DC))
         );
 
         public static CachedMethod<int, byte> getB2B = new CachedMethod<int, byte>((index) =>
-            Game.TraverseByte(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xA8, 0x3DD}
-                    : new int[] {0x378 + index * 0x8, 0xA8, 0x3DD}
-            )?? 0
+            Game.ReadByte(new IntPtr(getPlayerMainAddress.Call(index) + 0x3DD))
         );
 
         public static CachedMethod<int> getFrameCount = new CachedMethod<int>(() =>
@@ -360,12 +332,7 @@ namespace Zetris {
         public static CachedMethod<int, List<int>> getNextFromBags = new CachedMethod<int, List<int>>((index) => {
             List<int> ret = new List<int>();
 
-            long ptr = Game.TraverseInt64(
-                new IntPtr(0x140461B20),
-                InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x30, 0x300}
-                    : new int[] {0x378 + index * 0x8, 0xA8}
-            )?? 0;
+            long ptr = getPlayerMainAddress.Call(index);
 
             for (int i = Game.ReadByte(new IntPtr(ptr + 0x3D8)); i < 14; i++)
                 ret.Add(Game.ReadByte(new IntPtr(
