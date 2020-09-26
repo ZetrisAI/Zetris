@@ -162,12 +162,16 @@ namespace Zetris {
             Game.ReadByte(new IntPtr(0x140598BB8)) == 5
         );
 
+        private static CachedMethod<int, int> getPlayerOffset = new CachedMethod<int, int>((index) =>
+            0x378 + index * 8
+        );
+
         public static CachedMethod<int, long> getPlayerBaseAddress = new CachedMethod<int, long>((index) =>
             Game.TraverseInt64(
                 new IntPtr(0x140461B20),
                 InSwap.Call()
-                    ? new int[] { 0x378 + index * 8, 0x1E0 }
-                    : new int[] { 0x378 + index * 8 }
+                    ? new int[] { getPlayerOffset.Call(index), 0x1E0 }
+                    : new int[] { getPlayerOffset.Call(index) }
                 ) ?? 0
         );
 
