@@ -10,7 +10,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 
 namespace Zetris {
-    public partial class Editor {
+    partial class Editor {
         public static bool FreezeEvents = true;
 
         public Editor(Window owner) {

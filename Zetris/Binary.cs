@@ -7,13 +7,13 @@ using System.Text;
 using MisaMinoNET;
 
 namespace Zetris {
-    public static class Binary {
-        static readonly int Version = 8;
+    static class Binary {
+        static readonly int Version = 0;
 
-        static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
+        static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZEIO").Concat(BitConverter.GetBytes(Version)).ToArray();
 
         static int DecodeHeader(BinaryReader reader) {
-            if (!reader.ReadChars(4).SequenceEqual(new char[] { 'Z', 'E', 'T', 'R' })) throw new InvalidDataException();
+            if (!reader.ReadChars(4).SequenceEqual(new char[] { 'Z', 'E', 'I', 'O' })) throw new InvalidDataException();
             int version = reader.ReadInt32();
 
             if (version > Version) throw new InvalidDataException();
@@ -32,7 +32,6 @@ namespace Zetris {
                     WriteStyle(writer, style);
 
                 writer.Write(Preferences.StyleIndex);
-                writer.Write(Preferences.Speed);
                 writer.Write(Preferences.Previews);
                 writer.Write(Preferences.Intelligence);
                 writer.Write(Preferences.HoldAllowed);
@@ -42,8 +41,6 @@ namespace Zetris {
                 writer.Write(Preferences.C4W);
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
-                writer.Write(Preferences.Player);
-                writer.Write(Preferences.AccurateSync);
             }
 
             return output;
@@ -53,59 +50,29 @@ namespace Zetris {
             using (BinaryReader reader = new BinaryReader(input)) {
                 int version = DecodeHeader(reader);
 
-                if (version == 0) reader.ReadInt32();
-                else if (version >= 1) {
-                    if (version >= 8)
-                        Preferences.Styles = new List<Style>();
+                if (version >= 0) // Set this to latest version if changing default styles
+                    Preferences.Styles = new List<Style>();
 
-                    int count = reader.ReadInt32();
-                    for (int i = 0; i < count; i++) {
-                        Style style = ReadStyle(reader, version);
+                int count = reader.ReadInt32();
+                for (int i = 0; i < count; i++) {
+                    Style style = ReadStyle(reader, version);
 
-                        if (Preferences.Styles.Select(x => x.Name).Contains(style.Name))
-                            continue;
+                    if (Preferences.Styles.Select(x => x.Name).Contains(style.Name))
+                        continue;
 
-                        Preferences.Styles.Add(style);
-                    }
+                    Preferences.Styles.Add(style);
                 }
 
-                if (version >= 2)
-                    Preferences.StyleIndex = reader.ReadInt32();
-
-                Preferences.Speed = reader.ReadInt32();
-
-                if (version >= 1) {
-                    Preferences.Previews = reader.ReadInt32();
-                }
-
-                if (version >= 6) {
-                    Preferences.Intelligence = reader.ReadInt32();
-                }
-                
-                if (version >= 1) {
-                    Preferences.HoldAllowed = reader.ReadBoolean();
-                }
-
+                Preferences.StyleIndex = reader.ReadInt32();
+                Preferences.Previews = reader.ReadInt32();
+                Preferences.Intelligence = reader.ReadInt32();
+                Preferences.HoldAllowed = reader.ReadBoolean();
                 Preferences.PerfectClear = reader.ReadBoolean();
-
-                if (version >= 5)
-                    Preferences.EnhancePerfect = reader.ReadBoolean();
-
-                if (version >= 7)
-                    Preferences.PCThreads = reader.ReadUInt32();
-
+                Preferences.EnhancePerfect = reader.ReadBoolean();
+                Preferences.PCThreads = reader.ReadUInt32();
                 Preferences.C4W = reader.ReadBoolean();
-
-                if (version >= 4)
-                    Preferences.AllSpins = reader.ReadBoolean();
-
-                if (version >= 2)
-                    Preferences.TSDOnly = reader.ReadBoolean();
-
-                Preferences.Player = reader.ReadInt32();
-
-                if (version >= 4)
-                    Preferences.AccurateSync = reader.ReadBoolean();
+                Preferences.AllSpins = reader.ReadBoolean();
+                Preferences.TSDOnly = reader.ReadBoolean();
             }
         }
 

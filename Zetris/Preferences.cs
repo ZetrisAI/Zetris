@@ -6,13 +6,13 @@ using System.Threading;
 using MisaMinoNET;
 
 namespace Zetris {
-    public static class Preferences {
+    static class Preferences {
         static readonly string UserPath = Path.Combine(
             Environment.GetEnvironmentVariable("USERPROFILE"),
             ".zetris"
         );
 
-        static readonly string FilePath = Path.Combine(UserPath, "Zetris.config");
+        static readonly string FilePath = Path.Combine(UserPath, "Zetris-TETRIO.config");
 
         static bool Initialized = false;
 
@@ -35,15 +35,6 @@ namespace Zetris {
         }
 
         public static Style CurrentStyle => Styles[StyleIndex];
-
-        static int _speed = 100;
-        public static int Speed {
-            get => _speed;
-            set {
-                _speed = Math.Max(10, Math.Min(100, value));
-                Save();
-            }
-        }
 
         static int _previews = 19;
         public static int Previews {
@@ -130,55 +121,6 @@ namespace Zetris {
             set {
                 _tsd = value;
                 Bot.UpdateConfig();
-                Save();
-            }
-        }
-
-        static bool _puzzleleague = false;
-        public static bool PuzzleLeague {
-#if !PUBLIC
-            get => _puzzleleague;
-#else
-            get => false;
-#endif
-            set => _puzzleleague = value;
-        }
-
-        static bool _replay = false;
-        public static bool SaveReplay {
-#if !PUBLIC
-            get => _replay;
-#else
-            get => false;
-#endif
-            set => _replay = value;
-        }
-
-        static bool _spam = false;
-        public static bool SpamA {
-#if !PUBLIC
-            get => _spam;
-#else
-            get => false;
-#endif
-            set => _spam = value;
-        }
-
-        static int _player = 1;
-        public static int Player {
-            get => _player;
-            set {
-                _player = Math.Max(0, Math.Min(3, value));
-                Save();
-            }
-        }
-
-        static bool _accurate = true;
-        public static bool AccurateSync {
-            get => _accurate;
-            set {
-                _accurate = value;
-                Bot.UpdatePriority();
                 Save();
             }
         }

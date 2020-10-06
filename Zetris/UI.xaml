@@ -38,8 +38,6 @@
         
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
-        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="10" Maximum="100" Unit="%" AllowPrecise="False" x:Name="Speed" Changed="SpeedChanged" />
-
         <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="0" Maximum="19" Exponent="1.5" AllowPrecise="False" MaximumOverride="∞" x:Name="Previews" Changed="PreviewsChanged" />
 
         <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="10" Maximum="150" Exponent="1.5" AllowPrecise="False" x:Name="Intelligence" Changed="IntelligenceChanged" />
@@ -61,30 +59,6 @@
         <CheckBox Margin="0 0 0 5" x:Name="AllSpins" Click="AllSpinsChanged" />
 
         <CheckBox Margin="0 0 0 5" x:Name="TSDOnly" Click="TSDOnlyChanged" />
-
-        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" FillStart="False" Default="2" Minimum="1" Maximum="4" Unit="P" AllowPrecise="False" x:Name="Player" Changed="PlayerChanged" />
-
-        <CheckBox Margin="0 0 0 5" IsChecked="True" x:Name="Gamepad" Click="GamepadChanged" />
-
-        <CheckBox Margin="0 0 0 5" x:Name="AccurateSync" Click="AccurateSyncChanged" />
-
-        <StackPanel x:Name="DevPanel">
-            <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-            <CheckBox Margin="0 0 0 5" Content="Auto Puzzle League" x:Name="PuzzleLeague" Click="PuzzleLeagueChanged" />
-
-            <CheckBox Margin="0 0 0 5" Content="Auto Save Replay" x:Name="SaveReplay" Click="SaveReplayChanged" />
-
-            <Button Margin="0 0 0 5" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="Kick Exploit" Click="KickExploit" />
-
-            <CheckBox Margin="0 0 0 5" Content="Spam A Button in Lobby" x:Name="SpamA" Click="SpamAChanged" />
-        </StackPanel>
-
-        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-        <Zetris:GamepadPanel Margin="0 0 0 5" x:Name="GamepadPanel" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
         

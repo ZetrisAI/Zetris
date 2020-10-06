@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 
 namespace Zetris {
-    public partial class StyleViewer: ListBoxItem {
+    partial class StyleViewer: ListBoxItem {
         public Style CustomStyle { get; private set; }
         Editor _editor;
 

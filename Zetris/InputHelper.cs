@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Zetris {
     static class InputHelper {
@@ -355,17 +357,20 @@ namespace Zetris {
             }
         }
 
-        public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
+        public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c, out List<int[]> coords) {
             x--;
             y = 24 - y;
 
             c = 0;
+
+            coords = new List<int[]>();
 
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
                     if (pieces[piece][r][i, j] != -1) {
                         if (x + j < 0 || y - i < 0 || x + j > 9 || y - i > 39 || board[x + j, y - i] != 255) return false;
                         board[x + j, y - i] = pieces[piece][r][i, j];
+                        coords.Add(new [] {x + j, y - i});
                     }
 
             ClearLines(board, out c);
@@ -399,19 +404,17 @@ namespace Zetris {
             board[col, 0] = 255;
         }
 
-        public static void AddGarbage(int[,] board, uint rng, int lines) {
-            if (lines == 0) return;
+        public static void AddGarbage(int[,] board, int[] garbage, out int[] leftover) {
+            leftover = garbage;
 
-            int col = RandomInt(ref rng, 10);
+            if (garbage.Length == 0) return;
 
-            for (int i = 0; i < lines; i++) {
-                if (70 < RandomInt(ref rng, 99)) {
-                    int newCol = RandomInt(ref rng, 9);
-                    col = newCol + Convert.ToInt32(newCol >= col);
-                }
+            int m = Math.Min(7, garbage.Length);
 
-                AddGarbageLine(board, col);
-            }
+            for (int i = 0; i < m; i++)
+                AddGarbageLine(board, garbage[i]);
+
+            leftover = garbage.Skip(m).ToArray();
         }
 
         public static bool FuckItJustDoB2B(int[,] board, int minos) {

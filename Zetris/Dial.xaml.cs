@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Zetris {
-    public partial class Dial: UserControl {
+    partial class Dial: UserControl {
         public delegate void DialChangedEventHandler(Dial sender, double NewValue);
         public event DialChangedEventHandler Changed;
 
