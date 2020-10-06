@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
@@ -15,33 +14,16 @@ using PerfectClearNET;
 
 namespace Zetris {
     static class Bot {
-        const int rngsearch_max = 1000;
-
         static UI Window = null;
 
         static int[,] board = new int[10, 40];
 
-        static bool inMatch = false;
-        static int menuStartFrames = 0;
-        static int ratingSafe = 0;
-
-        static List<Instruction> movements = new List<Instruction>();
-        static int state = 0;
-        static int piece = 0;
-        static int pieceUsed;
-        static bool spinUsed;
-        static int finalX, finalY, finalR;
         static int current;
         static int? hold;
         static int combo;
         static List<int> queue = new List<int>();
-        static bool register = false;
-        static bool shouldHaveRegistered = false;
-        static int baseBoardHeight;
-        static int old_y;
+
         static int misa_lasty;
-        static int atk = 0;
-        static int clear = 0;
         static int b2b = 0;
 
         static int[,] misaboard = new int[10, 40];
@@ -55,9 +37,9 @@ namespace Zetris {
         static List<Operation> executingpc => pcbuffer? cachedpc : PerfectClear.LastSolution;
         static bool searchbufpc = false;
 
-        static bool startbreak = false;
-
         static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
+
+        static int[] getClippedQueue() => queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
 
         static int getPerfectType() => Convert.ToInt32(Preferences.EnhancePerfect) + Convert.ToInt32(Preferences.EnhancePerfect && Preferences.AllSpins) * 2;
 
@@ -70,9 +52,9 @@ namespace Zetris {
             ))
         ));
 
-        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared, int[] garbage) {
+        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared, int[] garbage, int attack) {
             if (cleared == 0 && garbage.Length > 0)
-                InputHelper.AddGarbage(misaboard, garbage, out garbage);
+                InputHelper.AddGarbage(misaboard, garbage, attack, out garbage);
 
             if (MisaMino.Running) MisaMino.Abort();
 
@@ -99,7 +81,7 @@ namespace Zetris {
             return Array.IndexOf(MisaMino.ToChar, p);
         }
 
-        static Dictionary<Instruction, string> ToTetrio = new Dictionary<Instruction, string>() {
+        static readonly Dictionary<Instruction, string> ToTetrio = new Dictionary<Instruction, string>() {
             {Instruction.L, "Left"},
             {Instruction.R, "Right"},
             {Instruction.LL, "DASLeft"},
@@ -110,32 +92,14 @@ namespace Zetris {
             {Instruction.RSPIN, "Cw"},
             {Instruction.HOLD, "Hold"},
         };
-
-        public static void UpdateConfig() {
-            if (!Started) return;
-
-            MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
-            param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
-
-            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence);
-        }
-
-        public static void UpdatePCThreads() {
-            if (!Started) return;
-
-            PerfectClear.SetThreads(Preferences.PCThreads);
-        }
         
-        static Dictionary<string, Func<JToken, object>> handlers = new Dictionary<string, Func<JToken, object>>() {
+        static readonly Dictionary<string, Func<JToken, object>> handlers = new Dictionary<string, Func<JToken, object>>() {
             {"/newGame", e => {
                 handlers["/endGame"].Invoke(null);
 
                 MisaMino.Reset(); // this will abort as well
                 misasolved = false;
                 b2b = 1; // Hack that makes MisaMino start like a normal person
-                atk = 0;
-                register = false;
-                movements.Clear();
 
                 PerfectClear.Abort();
                 pcsolved = false;
@@ -158,14 +122,14 @@ namespace Zetris {
                 hold = null;
                 combo = 0;
 
-                int[] q = queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
+                int[] q = getClippedQueue();
 
-                MisaMino.FindMove(q, current, null, misa_lasty = 21, pcboard, 0, b2b, 0);
+                MisaMino.FindMove(q, current, null, misa_lasty = 21, misaboard, 0, b2b, 0);
 
                 if (Preferences.PerfectClear) {
                     PerfectClear.Find(
                         pcboard, q, current,
-                        null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0, false
+                        null, Preferences.HoldAllowed, 6, true, getPerfectType(), 0, false
                     );
                 }
 
@@ -183,10 +147,13 @@ namespace Zetris {
                 int[] garbage = ((dynamic)e).data.ToObject<int[]>();
 
                 bool pathSuccess = false;
-                baseBoardHeight = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(board, current, 4, 4, 0));
+                int baseBoardHeight = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(board, current, 4, 4, 0));
 
                 if (MisaMino.Running) MisaMino.Abort();
                 if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
+        
+                List<Instruction> movements = new List<Instruction>();
+                int pieceUsed = -10, finalX = -10, finalY = -10, finalR = -10, atk = -10;
 
                 if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
                     LogHelper.LogText("Detected PC");
@@ -204,12 +171,12 @@ namespace Zetris {
                         finalY,
                         finalR,
                         current != pieceUsed,
-                        ref spinUsed,
+                        out _,
                         out pathSuccess
                     );
 
                     if (!pathSuccess)
-                        LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY} => {finalY}, r={finalR}");
+                        LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY}, r={finalR}");
                 }
 
                 if (!pathSuccess) {
@@ -229,7 +196,7 @@ namespace Zetris {
                             MisaMino.LastSolution.FinalY,
                             MisaMino.LastSolution.FinalR,
                             current != MisaMino.LastSolution.PieceUsed,
-                            ref spinUsed,
+                            out _,
                             out misaok
                         );
 
@@ -266,7 +233,6 @@ namespace Zetris {
 
                     if (!misasaved) movements = MisaMino.LastSolution.Instructions;
                     pieceUsed = MisaMino.LastSolution.PieceUsed;
-                    if (!misasaved) spinUsed = MisaMino.LastSolution.SpinUsed;
                     b2b = MisaMino.LastSolution.B2B;
                     atk = MisaMino.LastSolution.Attack;
                     finalX = MisaMino.LastSolution.FinalX;
@@ -304,7 +270,7 @@ namespace Zetris {
 
                 bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
-                bool applied = InputHelper.ApplyPiece(board, pieceUsed, finalX, finalY, finalR, out clear, out List<int[]> coords);
+                bool applied = InputHelper.ApplyPiece(board, pieceUsed, finalX, finalY, finalR, out int clear, out List<int[]> coords);
                 misaboard = (int[,])board.Clone();
 
                 if (applied) {
@@ -316,7 +282,7 @@ namespace Zetris {
                     current = queue[0];
                     queue.RemoveAt(0);
                     
-                    int[] q = queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
+                    int[] q = getClippedQueue();
 
                     if (clear > 0) combo++;
                     else combo = 0;
@@ -324,7 +290,7 @@ namespace Zetris {
                     if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
                     LogHelper.LogText("AOT");
-                    misaPrediction(current, q, hold, combo, clear, garbage);
+                    misaPrediction(current, q, hold, combo, clear, garbage, atk);
 
                     pcboard = (int[,])misaboard.Clone();
 
@@ -350,9 +316,7 @@ namespace Zetris {
                             for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                                 bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                int bufclear;
-
-                                if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out bufclear, out _))
+                                if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear, out _))
                                     break;
 
                                 if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
@@ -373,7 +337,7 @@ namespace Zetris {
                         if (!cancel) {
                             PerfectClear.Find(
                                 bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                                bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo, bufb2b
+                                bufhold, Preferences.HoldAllowed, 6, true, getPerfectType(), bufcombo, bufb2b
                             );
 
                             searchbufpc = false;
@@ -404,7 +368,22 @@ namespace Zetris {
             }},
         };
 
-        static HttpListener server = new HttpListener() {
+        public static void UpdateConfig() {
+            if (!Started) return;
+
+            MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
+            param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
+
+            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence);
+        }
+
+        public static void UpdatePCThreads() {
+            if (!Started) return;
+
+            PerfectClear.SetThreads(Preferences.PCThreads);
+        }
+
+        static readonly HttpListener server = new HttpListener() {
             Prefixes = {"http://127.0.0.1:47326/"},
         };
 
@@ -444,7 +423,6 @@ namespace Zetris {
 
                 if (response != null) {
                     LogHelper.LogText(JToken.FromObject(response).ToString());
-                    LogHelper.LogText(pieceUsed.ToString());
 
                     byte[] data = Encoding.ASCII.GetBytes(JToken.FromObject(response).ToString());
                         

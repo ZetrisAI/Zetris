@@ -231,111 +231,10 @@ namespace Zetris {
             y = 24 - y;
         }
 
-        private static void fixOutput(int piece, ref int x, ref int y, int r) {
-            x++;
-            y = 24 - y;
-
-            switch (piece) {
-                case 5: // O
-                    switch (r) {
-                        case 1:
-                            y--; break;
-                        case 2:
-                            x++; y--; break;
-                        case 3:
-                            x++; break;
-                    }
-                    break;
-
-                case 6: // I
-                    switch (r) {
-                        case 1:
-                            x++; break;
-                        case 2:
-                            x++; y++; break;
-                        case 3:
-                            y++; break;
-                    }
-                    break;
-            }
-        }
-
         public static bool FitPieceWithConvert(int[,] board, int piece, int x, int y, int r) {
             fixInput(piece, ref x, ref y, r);
 
             return FitPiece(board, piece, x, y, r);
-        }
-
-        public static int FindInputGoalX(int[,] board, int piece, int x, int y, int r, int d) {
-            fixInput(piece, ref x, ref y, r);
-
-            while (FitPiece(board, piece, x, y, r))
-                x += d;
-            x -= d;
-
-            fixOutput(piece, ref x, ref y, r);
-            return x;
-        }
-
-        public static int FindInputGoalY(int[,] board, int piece, int x, int y, int r) {
-            fixInput(piece, ref x, ref y, r);
-
-            while (FitPiece(board, piece, x, y, r))
-                y--;
-            y++;
-
-            fixOutput(piece, ref x, ref y, r);
-            return y;
-        }
-
-        public static int FixWall(int[,] board, int piece, int x, int y, int r) {
-            fixInput(piece, ref x, ref y, r);
-
-            int d = (x > 4) ? -1 : 1;
-            while (!FitPiece(board, piece, x, y, r)) {
-                x += d;
-                if (x > 11) {
-                    d = -1;
-                }
-                if (x < -2) {
-                    return -1;
-                }
-            }
-
-            fixOutput(piece, ref x, ref y, r);
-            return x;
-        }
-
-        public static int boardHeight(int[,] board, int height) {
-            int ret = 0;
-            for (int i = 0; i < 10; i++) {
-                for (int j = height - 1; j >= 0; j--) {
-                    if (board[i, j] != 255) {
-                        ret = Math.Max(ret, j + 1);
-                        break;
-                    }
-                }
-            }
-            return ret;
-        }
-
-        public static bool FixTspinMini(int[,] board, int height, int x, int y, int r) {
-            fixInput(4, ref x, ref y, r);
-
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    if (pieces[4][r][i, j] != -1) {
-                        int col = x + j;
-                        for (int row = y - i; row < height; row++) {
-                            if (board[col, row] != 255) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return true;
         }
 
         public static void ClearLines(int[,] board, out int cleared) {
@@ -387,9 +286,6 @@ namespace Zetris {
             return true;
         }
 
-        public static uint NextRNG(uint rng) => rng * 0x5D588B65 + 0x269EC3;
-        public static int RandomInt(ref uint rng, int count) => (int)((((rng = NextRNG(rng)) >> 16) * count) >> 16);
-
         public static void AddGarbageLine(int[,] board, int col) {
             for (int i = 0; i < 10; i++) {
                 for (int j = 30; j >= 0; j--) {
@@ -404,15 +300,15 @@ namespace Zetris {
             board[col, 0] = 255;
         }
 
-        public static void AddGarbage(int[,] board, int[] garbage, out int[] leftover) {
-            leftover = garbage;
+        public static void AddGarbage(int[,] board, int[] garbage, int attack, out int[] leftover) {
+            leftover = garbage.Take(garbage.Length - attack).ToArray();
 
-            if (garbage.Length == 0) return;
+            if (leftover.Length <= 0) return;
 
-            int m = Math.Min(7, garbage.Length);
+            int m = Math.Min(7, leftover.Length);
 
             for (int i = 0; i < m; i++)
-                AddGarbageLine(board, garbage[i]);
+                AddGarbageLine(board, leftover[i]);
 
             leftover = garbage.Skip(m).ToArray();
         }

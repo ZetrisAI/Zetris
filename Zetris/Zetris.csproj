@@ -72,10 +72,10 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMino.dll</HintPath>
+      <HintPath>..\packages\MisaMinoNET.1.6.0\lib\net45\MisaMino.dll</HintPath>
     </Reference>
-    <Reference Include="MisaMinoNET, Version=1.5.4.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMinoNET.dll</HintPath>
+    <Reference Include="MisaMinoNET, Version=1.6.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.6.0\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -84,8 +84,8 @@
       <HintPath>..\packages\PerfectClearNET.1.4.0.2\lib\net45\PerfectClearNET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="ProcessMemory, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ProcessMemory.1.1.0\lib\net45\ProcessMemory.dll</HintPath>
+    <Reference Include="ProcessMemory, Version=1.1.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ProcessMemory.1.1.1\lib\net45\ProcessMemory.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -132,7 +132,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CachedMethod.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
@@ -140,7 +139,6 @@
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameHelper.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Style.cs" />

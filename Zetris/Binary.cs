@@ -84,20 +84,11 @@ namespace Zetris {
         static Style ReadStyle(BinaryReader reader, int version) {
             string name = reader.ReadString();
 
-            int size = (version <= 1)? 16 : 20;
-
-            byte[] bytes = reader.ReadBytes(size * 4);
+            byte[] bytes = reader.ReadBytes(20 * sizeof(int));
             int[] param = new int[21];
 
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < 20; j++)
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
-
-            if (version <= 1) {
-                param[16] = 0;
-                param[17] = 30;
-                param[18] = 0;
-                param[19] = 24;
-            }
 
             return new Style(name, MisaMinoParameters.FromArray(param));
         }
