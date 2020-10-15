@@ -305,7 +305,7 @@ namespace Zetris {
 
             if (leftover.Length <= 0) return;
 
-            int m = Math.Min(7, leftover.Length);
+            int m = Math.Min(8, leftover.Length);
 
             for (int i = 0; i < m; i++)
                 AddGarbageLine(board, leftover[i]);
