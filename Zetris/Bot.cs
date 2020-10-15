@@ -64,7 +64,7 @@ namespace Zetris {
                 q,
                 current,
                 hold,
-                misa_lasty = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
+                misa_lasty = 23,
                 misaboard,
                 combo,
                 Math.Max(
@@ -124,7 +124,7 @@ namespace Zetris {
 
                 int[] q = getClippedQueue();
 
-                MisaMino.FindMove(q, current, null, misa_lasty = 21, misaboard, 0, b2b, 0);
+                MisaMino.FindMove(q, current, null, misa_lasty = 23, misaboard, 0, b2b, 0);
 
                 if (Preferences.PerfectClear) {
                     PerfectClear.Find(
@@ -147,7 +147,7 @@ namespace Zetris {
                 int[] garbage = ((dynamic)e).data.ToObject<int[]>();
 
                 bool pathSuccess = false;
-                int baseBoardHeight = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(board, current, 4, 4, 0));
+                int baseBoardHeight = 23;
 
                 if (MisaMino.Running) MisaMino.Abort();
                 if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
@@ -271,6 +271,8 @@ namespace Zetris {
                 bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
                 bool applied = InputHelper.ApplyPiece(board, pieceUsed, finalX, finalY, finalR, out int clear, out List<int[]> coords);
+                LogHelper.LogText($"Piece applied? {applied}");
+
                 misaboard = (int[,])board.Clone();
 
                 if (applied) {
@@ -344,6 +346,8 @@ namespace Zetris {
                         } else LogHelper.LogText("FUCK but less");
                     }
                 } else LogHelper.LogText("FUCK");
+
+                //LogHelper.LogText(string.Join(", ", movements));
 
                 return new {
                     moves = movements.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray(),

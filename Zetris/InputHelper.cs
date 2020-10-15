@@ -228,7 +228,7 @@ namespace Zetris {
             }
 
             x--;
-            y = 24 - y;
+            y = 26 - y;
         }
 
         public static bool FitPieceWithConvert(int[,] board, int piece, int x, int y, int r) {
@@ -258,7 +258,7 @@ namespace Zetris {
 
         public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c, out List<int[]> coords) {
             x--;
-            y = 24 - y;
+            y = 26 - y;
 
             c = 0;
 
