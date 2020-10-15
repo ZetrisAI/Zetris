@@ -383,9 +383,8 @@ namespace Zetris {
             PerfectClear.SetThreads(Preferences.PCThreads);
         }
 
-        static readonly HttpListener server = new HttpListener() {
-            Prefixes = {"http://127.0.0.1:47326/"},
-        };
+        public static ushort Port = 47326;
+        static HttpListener server;
 
         static void Loop() {
             UpdateConfig();
@@ -445,6 +444,10 @@ namespace Zetris {
             if (Started) return;
 
             Started = true;
+
+            server = new HttpListener() {
+                Prefixes = {$"http://127.0.0.1:{Port}/"},
+            };
 
             MisaMino.Finished += success => misasolved = success;
 

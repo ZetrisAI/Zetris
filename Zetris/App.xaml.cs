@@ -25,6 +25,9 @@ namespace Zetris {
                 new Error(ex.ExceptionObject.ToString()).ShowDialog();
                 Current.Shutdown();
             };
+
+            if (e.Args.Length == 1 && ushort.TryParse(e.Args[0], out ushort port))
+                Bot.Port = port;
         }
 
         void Exiting(object sender, ExitEventArgs e) => Bot.Dispose();
