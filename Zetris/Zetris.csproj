@@ -72,17 +72,17 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MisaMino, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMino.dll</HintPath>
+      <HintPath>..\packages\MisaMinoNET.1.7.0\lib\net45\MisaMino.dll</HintPath>
     </Reference>
-    <Reference Include="MisaMinoNET, Version=1.5.4.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MisaMinoNET.1.5.4\lib\net45\MisaMinoNET.dll</HintPath>
+    <Reference Include="MisaMinoNET, Version=1.7.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\MisaMinoNET.1.7.0\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
     <Reference Include="PerfectClearNET, Version=1.4.0.2, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\PerfectClearNET.1.4.0.2\lib\net45\PerfectClearNET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="ProcessMemory, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ProcessMemory.1.1.0\lib\net45\ProcessMemory.dll</HintPath>
+    <Reference Include="ProcessMemory, Version=1.1.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\ProcessMemory.1.1.1\lib\net45\ProcessMemory.dll</HintPath>
     </Reference>
     <Reference Include="ScpDriverInterface">
       <HintPath>.\ScpDriverInterface.dll</HintPath>

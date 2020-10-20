@@ -262,7 +262,7 @@ namespace Zetris {
                                 finalY,
                                 finalR,
                                 current != pieceUsed,
-                                ref spinUsed,
+                                out spinUsed,
                                 out pathSuccess
                             );
 
@@ -287,7 +287,7 @@ namespace Zetris {
                                     MisaMino.LastSolution.FinalY,
                                     MisaMino.LastSolution.FinalR,
                                     current != MisaMino.LastSolution.PieceUsed,
-                                    ref spinUsed,
+                                    out spinUsed,
                                     out misaok
                                 );
 
@@ -404,9 +404,7 @@ namespace Zetris {
                                     for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                                         bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                        int bufclear;
-
-                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out bufclear))
+                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear))
                                             break;
 
                                         if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
@@ -862,7 +860,7 @@ namespace Zetris {
             MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
 
-            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence);
+            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence, false);
         }
 
         public static void UpdatePriority() {

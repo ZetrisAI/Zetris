@@ -221,7 +221,6 @@ namespace Zetris {
         }
 
         bool mouseHeld = false;
-        double oldValue;
         double lastY;
 
         void Down(object sender, MouseButtonEventArgs e) {
@@ -240,7 +239,6 @@ namespace Zetris {
             e.MouseDevice.Capture(ArcCanvas);
 
             lastY = e.GetPosition(ArcCanvas).Y;
-            oldValue = RawValue;
 
             ArcCanvas.Cursor = Cursors.SizeNS;
         }
