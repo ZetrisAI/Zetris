@@ -160,7 +160,7 @@ namespace Zetris {
 
                     pieceUsed = executingpc[0].Piece;
                     finalX = executingpc[0].X;
-                    finalY = executingpc[0].Y;
+                    finalY = executingpc[0].Y + 2; // old baseboardheight was 21, now it's 23
                     finalR = executingpc[0].R;
                     
                     movements = MisaMino.FindPath(
