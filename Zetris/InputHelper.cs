@@ -317,14 +317,14 @@ namespace Zetris {
             return ret;
         }
 
-        public static bool FixTspinMini(int[,] board, int height, int x, int y, int r) {
+        public static bool FixTspinMini(int[,] board, int x, int y, int r) {
             fixInput(4, ref x, ref y, r);
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
                     if (pieces[4][r][i, j] != -1) {
                         int col = x + j;
-                        for (int row = y - i; row < height; row++) {
+                        for (int row = y - i; row < 22; row++) {  // row < baseBoardHeight
                             if (board[col, row] != 255) {
                                 return false;
                             }
@@ -355,9 +355,9 @@ namespace Zetris {
             }
         }
 
-        public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c) {
+        public static bool ApplyPiece(int[,] board, int piece, int x, int y, int r, out int c, int baseBoardHeight) {
             x--;
-            y = 24 - y;
+            y = baseBoardHeight + 3 - y; // y comes from misa
 
             c = 0;
 

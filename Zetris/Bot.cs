@@ -251,7 +251,7 @@ namespace Zetris {
 
                             pieceUsed = executingpc[0].Piece;
                             finalX = executingpc[0].X;
-                            finalY = executingpc[0].Y;
+                            finalY = executingpc[0].Y + baseBoardHeight - 21; // if baseboardheight happens to be 22, need to +1 this
                             finalR = executingpc[0].R;
                             
                             movements = MisaMino.FindPath(
@@ -367,7 +367,7 @@ namespace Zetris {
 
                         misaboard = (int[,])board.Clone();
 
-                        if (InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear)) {
+                        if (InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear, baseBoardHeight)) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
@@ -404,7 +404,7 @@ namespace Zetris {
                                     for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                                         bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear))
+                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear, baseBoardHeight))
                                             break;
 
                                         if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
@@ -477,7 +477,7 @@ namespace Zetris {
                 int boardHeight = InputHelper.boardHeight(board, baseBoardHeight);
 
                 if (pieceUsed == 4 && inputStarted == 0 && boardHeight < 16) {
-                    if (InputHelper.FixTspinMini(board, baseBoardHeight, finalX, finalY, finalR)) {
+                    if (InputHelper.FixTspinMini(board, finalX, finalY + baseBoardHeight - 21, finalR)) { // Y is baseBoardHeight compensated
                         desiredX = finalX;
                         desiredR = finalR;
                         desiredHold = movements.Contains(Instruction.HOLD);
