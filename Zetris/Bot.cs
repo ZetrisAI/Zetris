@@ -123,7 +123,7 @@ namespace Zetris {
                     hold,
                     misa_lasty = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
                     misaboard,
-                    combo + Convert.ToInt32(cleared > 0),
+                    combo,
                     Math.Max(
                         b2b,
                         Convert.ToInt32(InputHelper.FuckItJustDoB2B(misaboard, 25))
