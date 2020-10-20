@@ -90,6 +90,7 @@ namespace Zetris {
             {Instruction.DD, "SonicDrop"},
             {Instruction.LSPIN, "Ccw"},
             {Instruction.RSPIN, "Cw"},
+            {Instruction.SPIN2, "180"},
             {Instruction.HOLD, "Hold"},
         };
         
@@ -378,7 +379,7 @@ namespace Zetris {
             MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
 
-            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence);
+            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence, true);
         }
 
         public static void UpdatePCThreads() {
