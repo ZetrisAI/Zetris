@@ -860,7 +860,7 @@ namespace Zetris {
             MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
 
-            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence, false);
+            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence, false, false);
         }
 
         public static void UpdatePriority() {
