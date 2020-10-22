@@ -319,7 +319,7 @@ namespace Zetris {
                             for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                                 bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear, out _))
+                                if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y + 2, cachedpc[i].R, out int bufclear, out _))
                                     break;
 
                                 if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
