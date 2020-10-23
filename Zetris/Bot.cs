@@ -60,6 +60,8 @@ namespace Zetris {
 
             misasolved = false;
 
+            LogHelper.LogText("QUEUE FOR AOT: " + string.Join(" ", q));
+
             MisaMino.FindMove(
                 q,
                 current,
@@ -124,6 +126,7 @@ namespace Zetris {
                 combo = 0;
 
                 int[] q = getClippedQueue();
+                LogHelper.LogText("QUEUE FOR START: " + string.Join(" ", q));
 
                 MisaMino.FindMove(q, current, null, misa_lasty = 23, misaboard, 0, b2b, 0);
 
@@ -210,8 +213,12 @@ namespace Zetris {
                         LogHelper.LogText("Rush");
                         LogHelper.LogBoard(misaboard, board);
 
+                        int[] q = getClippedQueue();
+
+                        LogHelper.LogText("QUEUE FOR RUSH: " + string.Join(" ", q));
+
                         MisaMino.FindMove(
-                            queue.ToArray(),
+                            q,
                             current,
                             hold,
                             baseBoardHeight,
