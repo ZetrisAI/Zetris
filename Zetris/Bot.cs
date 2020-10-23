@@ -276,22 +276,22 @@ namespace Zetris {
 
                 misaboard = (int[,])board.Clone();
 
+                if (wasHold) {  // In TETR.IO, advance game state since we manage it internally, even if the piece didn't end up placing...
+                    if (hold == null) queue.RemoveAt(0);
+                    hold = current;
+                }
+
+                current = queue[0];
+                queue.RemoveAt(0);
+
+                int[] q = getClippedQueue();
+
+                if (clear > 0) combo++;
+                else combo = 0;
+
+                if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
+
                 if (applied) {
-                    if (wasHold) {
-                        if (hold == null) queue.RemoveAt(0);
-                        hold = current;
-                    }
-
-                    current = queue[0];
-                    queue.RemoveAt(0);
-                    
-                    int[] q = getClippedQueue();
-
-                    if (clear > 0) combo++;
-                    else combo = 0;
-
-                    if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
-
                     LogHelper.LogText("AOT");
                     misaPrediction(current, q, hold, combo, clear, garbage, atk);
 
