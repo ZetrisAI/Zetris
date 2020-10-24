@@ -213,12 +213,12 @@ namespace Zetris {
                         LogHelper.LogText("Rush");
                         LogHelper.LogBoard(misaboard, board);
 
-                        int[] q = getClippedQueue();
+                        int[] rushq = getClippedQueue();
 
-                        LogHelper.LogText("QUEUE FOR RUSH: " + string.Join(" ", q));
+                        LogHelper.LogText("QUEUE FOR RUSH: " + string.Join(" ", rushq));
 
                         MisaMino.FindMove(
-                            q,
+                            rushq,
                             current,
                             hold,
                             baseBoardHeight,
