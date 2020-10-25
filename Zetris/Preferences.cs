@@ -36,6 +36,15 @@ namespace Zetris {
 
         public static Style CurrentStyle => Styles[StyleIndex];
 
+        static double _speed = 2;
+        public static double Speed {
+            get => _speed;
+            set {
+                _speed = Math.Max(0.01, Math.Min(20, value));
+                Save();
+            }
+        }
+
         static int _previews = 19;
         public static int Previews {
             get => _previews;

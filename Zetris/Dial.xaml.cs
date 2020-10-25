@@ -43,6 +43,17 @@ namespace Zetris {
             }
         }
 
+        int _round = 0;
+        public int Round {
+            get => _round;
+            set {
+                if (_round != value) {
+                    _round = value;
+                    Value = ToValue(_raw);
+                }
+            }
+        }
+
         double _exp = 1;
         public double Exponent {
             get => _exp;
@@ -88,7 +99,7 @@ namespace Zetris {
         public double RawValue {
             get => _raw;
             set {
-                value = Math.Round(Math.Max(_min, Math.Min(_max, value)));
+                value = Math.Round(Math.Max(_min, Math.Min(_max, value)) * Math.Pow(10, _round), 0) / Math.Pow(10, _round);
                 if (!_rawchanging && _raw != value) {
                     _rawchanging = true;
 
@@ -107,7 +118,7 @@ namespace Zetris {
         public double Default {
             get => _default;
             set {
-                Value = ToValue(_raw = _default = Math.Max(_min, Math.Min(_max, value)));
+                Value = ToValue(_raw = _default = Math.Round(Math.Max(_min, Math.Min(_max, value)) * Math.Pow(10, _round), 0) / Math.Pow(10, _round));
             }
         }
 
@@ -175,7 +186,7 @@ namespace Zetris {
             }
         }
 
-        string ValueString => (MaximumOverride != "" && RawValue == Maximum)? MaximumOverride : $"{RawValue}{Unit}";
+        string ValueString => (MaximumOverride != "" && RawValue == Maximum)? MaximumOverride : $"{RawValue.ToString($"N{Round}")}{Unit}";
 
         void DrawArc(Path Arc, double value, bool overrideBase) {
             double angle_starting = FillStart? angle_start : angle_start - Math.Abs(angle_end - angle_start) * value * 0.9;

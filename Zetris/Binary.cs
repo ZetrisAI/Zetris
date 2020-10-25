@@ -32,6 +32,7 @@ namespace Zetris {
                     WriteStyle(writer, style);
 
                 writer.Write(Preferences.StyleIndex);
+                writer.Write(Preferences.Speed);
                 writer.Write(Preferences.Previews);
                 writer.Write(Preferences.Intelligence);
                 writer.Write(Preferences.HoldAllowed);
@@ -64,6 +65,7 @@ namespace Zetris {
                 }
 
                 Preferences.StyleIndex = reader.ReadInt32();
+                Preferences.Speed = reader.ReadDouble();
                 Preferences.Previews = reader.ReadInt32();
                 Preferences.Intelligence = reader.ReadInt32();
                 Preferences.HoldAllowed = reader.ReadBoolean();
