@@ -21,10 +21,12 @@ namespace Zetris {
             OverrideLocale("en-US");
 #endif
 
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (s, ex) => {
                 new Error(ex.ExceptionObject.ToString()).ShowDialog();
                 Current.Shutdown();
             };
+#endif
 
             if (e.Args.Length == 1 && ushort.TryParse(e.Args[0], out ushort port))
                 Bot.Port = port;
