@@ -71,7 +71,7 @@ namespace Zetris {
             {Instruction.HOLD, "Hold"},
         };
 
-        static int pieceCount;
+        static int pieceCount = -1;
         static Stopwatch timer;
         
         static void startThinking(int garbage) {
@@ -201,11 +201,19 @@ namespace Zetris {
             }},
 
             {"/newPieces", e => {
-                queue.AddRange(e.ToObject<string[]>().Select(ConvPiece));
+                if (pieceCount != -1)
+                    queue.AddRange(e.ToObject<string[]>().Select(ConvPiece));
+
                 return null;
             }},
 
             {"/nextMove", e => {
+                if (pieceCount == -1)
+                    return new {
+                        moves = new string[0],
+                        expected_cells = new int[0][]
+                    };
+
                 int garbage = (int)e;
 
                 misaboard = (int[,])board.Clone();
@@ -383,6 +391,8 @@ namespace Zetris {
             }},
 
             {"/resetBoard", _e => {
+                if (pieceCount == -1) return null;
+
                 dynamic e = (dynamic)_e;
                 string[,] reset = e.board.ToObject<string[,]>();
 
@@ -402,6 +412,8 @@ namespace Zetris {
             {"/endGame", e => {
                 MisaMino.Abort();
                 PerfectClear.Abort();
+
+                pieceCount = -1;
                 
                 Window?.SetActive(false);
                 return null;
