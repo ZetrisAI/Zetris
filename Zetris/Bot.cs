@@ -846,7 +846,9 @@ namespace Zetris {
         }
 
         public static void RestoreManual() {
-            Interaction.AppActivate("PuyoPuyoTetris");
+            if (GameHelper.CheckProcess())
+                Interaction.AppActivate("PuyoPuyoTetris");
+
             doingManualInput = false;
 
             Dispatcher.CurrentDispatcher.Invoke(() => {
