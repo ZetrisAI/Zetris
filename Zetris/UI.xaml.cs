@@ -114,26 +114,26 @@ namespace Zetris {
             }
         }
 
-        public void SetConfidence(string confidence) {
-            Dispatcher.InvokeAsync(() => {
+        public void SetConfidence(string confidence)
+            => Dispatcher.InvokeAsync(() => {
                 Confidence.Text = $"{ConfidenceString} {confidence}";
                 Info.MaxHeight = double.PositiveInfinity;
             });
-        }
 
-        public void SetThinkingTime(long time) {
-            Dispatcher.InvokeAsync(() => {
+        public void SetThinkingTime(long time)
+            => Dispatcher.InvokeAsync(() => {
                 ThinkingTime.Text = $"{ThinkingTimeString} {time}ms";
                 Info.MaxHeight = double.PositiveInfinity;
             });
-        }
 
-        public void SetSpeed(double speed) {
-            Dispatcher.InvokeAsync(() => {
+        public void SetSpeed(double speed)
+            => Dispatcher.InvokeAsync(() => {
                 Speed.RawValue = speed;
                 Preferences.Speed = Speed.RawValue;
             });
-        }
+
+        public void SetPortTitle(ushort port)
+            => Dispatcher.InvokeAsync(() => Title = $"Zetris [Port: {port}]");
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;

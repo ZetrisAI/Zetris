@@ -494,10 +494,25 @@ namespace Zetris {
             if (Started) return;
 
             Started = true;
+            Window = window;
 
-            server = new HttpListener() {
-                Prefixes = {$"http://127.0.0.1:{Port}/"},
-            };
+            for (int i = 0; i < 32; i++) {
+                try {
+                    server = new HttpListener() {
+                        Prefixes = { $"http://127.0.0.1:{Port}/" },
+                    };
+                    server.Start();
+
+                } catch (HttpListenerException) {
+                    Port++;
+                    continue;
+                }
+
+                break;
+            }
+
+            if (Port != 47326)
+                Window?.SetPortTitle(Port);
 
             MisaMino.Finished += success => misasolved = success;
 
@@ -505,10 +520,6 @@ namespace Zetris {
                 if (pcbuffer) futurepcsolved = success;
                 else pcsolved = success;
             };
-
-            Window = window;
-
-            server.Start();
 
             await Task.Run(Loop);
         }
