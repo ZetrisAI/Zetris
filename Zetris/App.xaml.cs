@@ -27,7 +27,8 @@ namespace Zetris {
 #if !PUBLIC
             OverrideLocale("en-US");
 #endif
-
+            
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (s, ex) => {
                 if (!e.Args.Contains("--nodriverinstall") && DetectMissingDriver(ex.ExceptionObject)) {
 
@@ -41,6 +42,7 @@ namespace Zetris {
                 
                 Current.Shutdown();
             };
+#endif
         }
 
         void Exiting(object sender, ExitEventArgs e) => Bot.Dispose();
