@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BD58E75E-C306-438B-B16D-BA3BF66BF14E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Zetris</RootNamespace>
-    <AssemblyName>Zetris</AssemblyName>
+    <ProjectGuid>{447E38C7-741F-4815-9C4F-6EFCBE7C2130}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Zetris.PPT</RootNamespace>
+    <AssemblyName>Zetris.PPT</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,8 +50,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>Zetris.PPT.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Verbose|x64'">
     <OutputPath>bin\Verbose\</OutputPath>
@@ -78,15 +77,15 @@
     <Reference Include="MisaMinoNET, Version=1.8.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\MisaMinoNET.1.8.1\lib\net45\MisaMinoNET.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="PerfectClearNET, Version=1.4.0.2, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\PerfectClearNET.1.4.0.2\lib\net45\PerfectClearNET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="ProcessMemory, Version=1.1.1.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\ProcessMemory.1.1.1\lib\net45\ProcessMemory.dll</HintPath>
+    </Reference>
+    <Reference Include="ScpDriverInterface">
+      <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -111,6 +110,10 @@
     </ApplicationDefinition>
     <Compile Include="Binary.cs" />
     <Compile Include="Bot.cs" />
+    <Page Include="GamepadPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="StyleViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -118,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Editor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GamepadIndexWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -133,6 +140,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CachedMethod.cs" />
+    <Compile Include="GamepadPanel.xaml.cs">
+      <DependentUpon>GamepadPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
@@ -140,11 +151,15 @@
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameHelper.cs" />
     <Compile Include="InputHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="Editor.xaml.cs">
       <DependentUpon>Editor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GamepadIndexWindow.xaml.cs">
+      <DependentUpon>GamepadIndexWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Error.xaml.cs">
       <DependentUpon>Error.xaml</DependentUpon>
@@ -177,12 +192,35 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="ScpDriver\Driver\amd64\ScpVBus.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScpDriver\Driver\ScpVBus.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScpDriver\Driver\x86\ScpVBus.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ScpDriver\DIFxAPI\DIFxAPI_x64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScpDriver\DIFxAPI\DIFxAPI_x86.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScpDriver\Driver\ScpVBus.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ScpDriver\ScpDriverInstaller.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PerfectClearNET.1.4.0.2\build\PerfectClearNET.targets" Condition="Exists('..\packages\PerfectClearNET.1.4.0.2\build\PerfectClearNET.targets')" />

@@ -1,0 +1,24 @@
+﻿<Controls:MetroWindow x:Class="Zetris.PPT.Error"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Style="{StaticResource ZetrisWindow}"
+                      Title="Zetris Error" WindowStartupLocation="CenterScreen"
+                      SizeToContent="Manual" Width="600" Height="400">
+
+    <Grid Margin="15 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Margin="0 0 0 5" x:Name="General" />
+
+        <Border Grid.Row="1" Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+        <TextBox Grid.Row="2" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+                 x:Name="Exception" />
+    </Grid>
+</Controls:MetroWindow>
