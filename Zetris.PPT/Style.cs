@@ -19,7 +19,7 @@ namespace Zetris.PPT {
             arr[index] = value;
             Parameters = MisaMinoParameters.FromArray(arr);
 
-            if (Preferences.CurrentStyle == this) Bot.UpdateConfig();
+            if (Preferences.CurrentStyle == this) PPTBot.Instance.UpdateConfig();
 
             Preferences.Save();
         }

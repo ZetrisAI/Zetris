@@ -45,6 +45,6 @@ namespace Zetris.PPT {
 #endif
         }
 
-        void Exiting(object sender, ExitEventArgs e) => Bot.Dispose();
+        void Exiting(object sender, ExitEventArgs e) => PPTBot.Instance.Dispose();
     }
 }

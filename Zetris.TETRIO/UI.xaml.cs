@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Zetris.TETRIO {
-    partial class UI {
+    partial class UI: IUI {
         static bool FreezeEvents = true;
 
         static string InactiveString, ActiveString, ConfidenceString, ThinkingTimeString;
@@ -15,7 +15,7 @@ namespace Zetris.TETRIO {
         public UI() {
             InitializeComponent();
 
-            PCThreads.Maximum = Preferences.PCThreadsMaximum;
+            PCThreads.Maximum = TetrioBot.PCThreadsMaximum;
 
             FreezeEvents = false;
 
@@ -102,7 +102,7 @@ namespace Zetris.TETRIO {
             }
 
             UpdateActive();
-            Bot.Start(this);
+            TetrioBot.Instance.Start(this);
         }
 
         bool Active = false;

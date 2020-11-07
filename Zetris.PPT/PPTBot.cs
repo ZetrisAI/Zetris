@@ -14,13 +14,188 @@ using PerfectClearNET;
 using ScpDriverInterface;
 
 namespace Zetris.PPT {
-    public static class Bot {
-        static Thread BotThread = null;
-
+    class PPTBot: Bot<UI, PPTBot> {
         const int rngsearch_max = 1000;
+        Thread BotThread = null;
 
-        static UI Window = null;
-        static int playerID = 0;
+        #region InputHelper
+        static bool FitPiece(int[,] board, int piece, int x, int y, int r) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (pieces[piece][r][i, j] != -1) {
+                        if (x + j < 0 || 9 < x + j || y - i < 0 || 32 < y - i || board[x + j, y - i] != 255) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        static void fixInput(int piece, ref int x, ref int y, int r) {
+            switch (piece) {
+                case 5: // O
+                    switch (r) {
+                        case 1:
+                            y++; break;
+                        case 2:
+                            x--; y++; break;
+                        case 3:
+                            x--; break;
+                    }
+                    break;
+
+                case 6: // I
+                    switch (r) {
+                        case 1:
+                            x--; break;
+                        case 2:
+                            x--; y--; break;
+                        case 3:
+                            y--; break;
+                    }
+                    break;
+            }
+
+            x--;
+            y = 24 - y;
+        }
+
+        static void fixOutput(int piece, ref int x, ref int y, int r) {
+            x++;
+            y = 24 - y;
+
+            switch (piece) {
+                case 5: // O
+                    switch (r) {
+                        case 1:
+                            y--; break;
+                        case 2:
+                            x++; y--; break;
+                        case 3:
+                            x++; break;
+                    }
+                    break;
+
+                case 6: // I
+                    switch (r) {
+                        case 1:
+                            x++; break;
+                        case 2:
+                            x++; y++; break;
+                        case 3:
+                            y++; break;
+                    }
+                    break;
+            }
+        }
+
+        static bool FitPieceWithConvert(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            return FitPiece(board, piece, x, y, r);
+        }
+
+        static int FindInputGoalX(int[,] board, int piece, int x, int y, int r, int d) {
+            fixInput(piece, ref x, ref y, r);
+
+            while (FitPiece(board, piece, x, y, r))
+                x += d;
+            x -= d;
+
+            fixOutput(piece, ref x, ref y, r);
+            return x;
+        }
+
+        static int FindInputGoalY(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            while (FitPiece(board, piece, x, y, r))
+                y--;
+            y++;
+
+            fixOutput(piece, ref x, ref y, r);
+            return y;
+        }
+
+        static int FixWall(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            int d = (x > 4) ? -1 : 1;
+            while (!FitPiece(board, piece, x, y, r)) {
+                x += d;
+                if (x > 11) {
+                    d = -1;
+                }
+                if (x < -2) {
+                    return -1;
+                }
+            }
+
+            fixOutput(piece, ref x, ref y, r);
+            return x;
+        }
+
+        static int BoardHeight(int[,] board, int height) {
+            int ret = 0;
+            for (int i = 0; i < 10; i++) {
+                for (int j = height - 1; j >= 0; j--) {
+                    if (board[i, j] != 255) {
+                        ret = Math.Max(ret, j + 1);
+                        break;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        static bool FixTspinMini(int[,] board, int x, int y, int r) {
+            fixInput(4, ref x, ref y, r);
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (pieces[4][r][i, j] != -1) {
+                        int col = x + j;
+                        for (int row = y - i; row < 22; row++) {  // row < baseBoardHeight
+                            if (board[col, row] != 255) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        static void AddGarbage(int[,] board, uint rng, int lines) {
+            if (lines == 0) return;
+
+            int col = GameHelper.RandomInt(ref rng, 10);
+
+            for (int i = 0; i < lines; i++) {
+                if (70 < GameHelper.RandomInt(ref rng, 99)) {
+                    int newCol = GameHelper.RandomInt(ref rng, 9);
+                    col = newCol + Convert.ToInt32(newCol >= col);
+                }
+
+                AddGarbageLine(board, col);
+            }
+        }
+        #endregion
+
+        protected override int getPreviews() => (Preferences.Previews > 18) ? int.MaxValue : Preferences.Previews;
+        protected override bool getPerfectClear() => Preferences.PerfectClear;
+        protected override bool getEnhancePerfect() => Preferences.EnhancePerfect;
+        protected override bool HoldAllowed() => Preferences.HoldAllowed;
+        protected override bool AllSpins() => Preferences.AllSpins;
+        protected override MisaMinoParameters CurrentStyle() => Preferences.CurrentStyle.Clone().Parameters;
+        protected override bool C4W() => Preferences.C4W;
+        protected override bool TSDOnly() => Preferences.TSDOnly;
+        protected override int Intelligence() => Preferences.Intelligence;
+        protected override bool Allow180() => false;
+        protected override bool SRSPlus() => false;
+        protected override uint PCThreads() => Preferences.PCThreads;
 
         static void ResetGame() {
 #if !PUBLIC
@@ -31,15 +206,15 @@ namespace Zetris.PPT {
             Stopwatch resetting = new Stopwatch();
             resetting.Start();
 
-            while (resetting.ElapsedMilliseconds < 7000) { }
+            while (resetting.ElapsedMilliseconds < 7000) {}
 #endif
         }
 
-        static int gamepadIndex;
-        static ScpBus scp = new ScpBus();
-        static X360Controller gamepad = new X360Controller();
+        int gamepadIndex = 4;
+        ScpBus scp = new ScpBus();
+        X360Controller gamepad = new X360Controller();
 
-        public static bool SetGamepad(bool state) {
+        public bool SetGamepad(bool state) {
             scp.Unplug(gamepadIndex);
             scp = new ScpBus();
             gamepad = new X360Controller();
@@ -47,66 +222,38 @@ namespace Zetris.PPT {
             return state? scp.PlugIn(gamepadIndex) : false;
         }
 
-        static int currentRating, numplayers, frames, globalFrames;
+        int playerID, currentRating, numplayers, frames, globalFrames;
 
-        static int[,] board = new int[10, 40];
+        bool inMatch = false;
+        int menuStartFrames = 0;
+        int ratingSafe = 0;
 
-        static bool inMatch = false;
-        static int menuStartFrames = 0;
-        static int ratingSafe = 0;
+        List<Instruction> movements = new List<Instruction>();
+        int state = 0;
+        int piece = 0;
+        int pieceUsed;
+        bool spinUsed;
+        int finalX, finalY, finalR;
+        bool register = false;
+        bool shouldHaveRegistered = false;
+        int baseBoardHeight;
+        int old_y;
+        int atk = 0;
 
-        static List<Instruction> movements = new List<Instruction>();
-        static int state = 0;
-        static int piece = 0;
-        static int pieceUsed;
-        static bool spinUsed;
-        static int finalX, finalY, finalR;
-        static int[] queue = new int[5];
-        static bool register = false;
-        static bool shouldHaveRegistered = false;
-        static int baseBoardHeight;
-        static int old_y;
-        static int misa_lasty;
-        static int atk = 0;
+        bool startbreak = false;
 
-        static int[,] misaboard = new int[10, 40];
-        static bool misasolved = false;
-
-        static int[,] pcboard = new int[10, 40];
-        static bool pcsolved = false;
-        static bool futurepcsolved = false;
-        static bool pcbuffer = false;
-        static List<Operation> cachedpc = new List<Operation>();
-        static List<Operation> executingpc => pcbuffer? cachedpc : PerfectClear.LastSolution;
-        static bool searchbufpc = false;
-
-        static bool startbreak = false;
-
-        static bool danger =>
+        bool danger =>
 #if PUBLIC
             GameHelper.Online.Call() || (GameHelper.LobbyPtr.Call() != 0);
 #else
             false;
 #endif
 
-        static int getPreviews() => (Preferences.Previews > 18)? int.MaxValue : Preferences.Previews;
-
-        static int getPerfectType() => Convert.ToInt32(Preferences.EnhancePerfect) + Convert.ToInt32(Preferences.EnhancePerfect && Preferences.AllSpins) * 2;
-
-        static bool isPCB2BEnding(int cleared, int piece, int r) => (cleared >= 4) || (Preferences.AllSpins && (
-            piece == 0 ||
-            piece == 1 ||
-            (r != 2 && (
-                piece == 2 ||
-                piece == 3
-            ))
-        ));
-
-        static void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
+        void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = 0;
 
             if (!GameHelper.InSwap.Call() || cleared == 0) 
-                InputHelper.AddGarbage(
+                AddGarbage(
                     misaboard,
                     GameHelper.RNG.Call(playerID),
                     GameHelper.CalculateGarbage(playerID, atk, out garbage_left)
@@ -121,18 +268,18 @@ namespace Zetris.PPT {
                     q,
                     current,
                     hold,
-                    misa_lasty = 21 + Convert.ToInt32(!InputHelper.FitPieceWithConvert(misaboard, current, 4, 4, 0)),
+                    misa_lasty = 21 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 4, 0)),
                     misaboard,
                     combo,
                     Math.Max(
                         b2b,
-                        Convert.ToInt32(InputHelper.FuckItJustDoB2B(misaboard, 25))
+                        Convert.ToInt32(FuckItJustDoB2B(misaboard, 25))
                     ),
                     garbage_left
                 );
         }
 
-        static void runLogic() {
+        void runLogic() {
             numplayers = GameHelper.PlayerCount.Call();
             playerID = GameHelper.FindPlayer.Call();
 
@@ -218,9 +365,9 @@ namespace Zetris.PPT {
                         old_y = y;
 
                         int[,] clearedboard = (int[,])board.Clone();
-                        InputHelper.ClearLines(clearedboard, out int cleared);
+                        ClearLines(clearedboard, out int cleared);
 
-                        if (!InputHelper.BoardEquals(misaboard, clearedboard)) {
+                        if (!BoardEquals(misaboard, clearedboard)) {
                             LogHelper.LogText("ARE");
                             LogHelper.LogBoard(misaboard, clearedboard);
 
@@ -246,7 +393,7 @@ namespace Zetris.PPT {
                     if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
                     if (!danger) {
-                        if (Preferences.PerfectClear && pcsolved && InputHelper.BoardEquals(board, pcboard)) {
+                        if (Preferences.PerfectClear && pcsolved && BoardEquals(board, pcboard)) {
                             LogHelper.LogText("Detected PC");
 
                             pieceUsed = executingpc[0].Piece;
@@ -273,7 +420,7 @@ namespace Zetris.PPT {
                         if (!pathSuccess) {
                             LogHelper.LogText("Using Misa!");
 
-                            bool misaok = InputHelper.BoardEquals(misaboard, board) && misasolved;
+                            bool misaok = BoardEquals(misaboard, board) && misasolved;
                             bool misasaved = false;
 
                             if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
@@ -312,7 +459,7 @@ namespace Zetris.PPT {
                                     combo,
                                     Math.Max(
                                         GameHelper.getB2B.Call(playerID), // if pc finder interrupted we might have a wrong value. read from game mem here
-                                        Convert.ToInt32(InputHelper.FuckItJustDoB2B(board, 25))
+                                        Convert.ToInt32(FuckItJustDoB2B(board, 25))
                                     ),  
                                     GameHelper.getGarbageDropping.Call(playerID)
                                 );
@@ -367,7 +514,7 @@ namespace Zetris.PPT {
 
                         misaboard = (int[,])board.Clone();
 
-                        if (InputHelper.ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, out clear, baseBoardHeight)) {
+                        if (ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, baseBoardHeight, out clear, out _)) {
                             int start = Convert.ToInt32(wasHold && hold == null);
 
                             int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
@@ -404,7 +551,7 @@ namespace Zetris.PPT {
                                     for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                                         bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                        if (cancel = !InputHelper.ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, out int bufclear, baseBoardHeight))
+                                        if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
                                             break;
 
                                         if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
@@ -419,7 +566,7 @@ namespace Zetris.PPT {
                                         bufcombo += Convert.ToInt32(bufclear > 0);
                                     }
 
-                                    cancel |= !InputHelper.BoardEquals(bufboard, tempboard);
+                                    cancel |= !BoardEquals(bufboard, tempboard);
                                 }
                                 
                                 if (!cancel) {
@@ -441,7 +588,7 @@ namespace Zetris.PPT {
                 piece = current;
 
                 if (!register)
-                    queue = (int[])pieces.Clone();
+                    queue = pieces.ToList();
 
                 inMatch = true;
 
@@ -457,15 +604,14 @@ namespace Zetris.PPT {
             }
         }
 
-        static int clear = 0;
-        static int b2b = 0;
-        static int inputStarted = 0;
-        static int inputGoal = -1;
-        static bool softdrop = false;
-        static int desiredX, desiredR;
-        static bool desiredHold;
+        int clear = 0;
+        int inputStarted = 0;
+        int inputGoal = -1;
+        bool softdrop = false;
+        int desiredX, desiredR;
+        bool desiredHold;
 
-        static void processInput() {
+        void processInput() {
             if (movements.Count > 0) {
                 if (GameHelper.InSwap.Call() && GameHelper.SwapType.Call() == 0) {
                     softdrop = false;
@@ -474,10 +620,10 @@ namespace Zetris.PPT {
                     return;
                 }
 
-                int boardHeight = InputHelper.boardHeight(board, baseBoardHeight);
+                int boardHeight = BoardHeight(board, baseBoardHeight);
 
                 if (pieceUsed == 4 && inputStarted == 0 && boardHeight < 16) {
-                    if (InputHelper.FixTspinMini(board, finalX, finalY + baseBoardHeight - 21, finalR)) { // Y is baseBoardHeight compensated
+                    if (FixTspinMini(board, finalX, finalY + baseBoardHeight - 21, finalR)) { // Y is baseBoardHeight compensated
                         desiredX = finalX;
                         desiredR = finalR;
                         desiredHold = movements.Contains(Instruction.HOLD);
@@ -499,7 +645,7 @@ namespace Zetris.PPT {
                             case Instruction.D:
                                 inputGoal = Math.Min(
                                     GameHelper.getPiecePositionY.Call(playerID) + 1,
-                                    InputHelper.FindInputGoalY(
+                                    FindInputGoalY(
                                         board,
                                         pieceUsed,
                                         GameHelper.getPiecePositionX.Call(playerID),
@@ -510,7 +656,7 @@ namespace Zetris.PPT {
                                 break;
 
                             case Instruction.LL:
-                                inputGoal = InputHelper.FindInputGoalX(
+                                inputGoal = FindInputGoalX(
                                     board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX.Call(playerID),
@@ -526,7 +672,7 @@ namespace Zetris.PPT {
                                 break;
 
                             case Instruction.RR:
-                                inputGoal = InputHelper.FindInputGoalX(
+                                inputGoal = FindInputGoalX(
                                     board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX.Call(playerID),
@@ -542,7 +688,7 @@ namespace Zetris.PPT {
                                 break;
 
                             case Instruction.DD:
-                                inputGoal = InputHelper.FindInputGoalY(
+                                inputGoal = FindInputGoalY(
                                     board,
                                     pieceUsed,
                                     GameHelper.getPiecePositionX.Call(playerID),
@@ -620,7 +766,7 @@ namespace Zetris.PPT {
                                 case Instruction.R: desiredX++; break;
 
                                 case Instruction.LL:
-                                    desiredX = InputHelper.FindInputGoalX(
+                                    desiredX = FindInputGoalX(
                                         board,
                                         pieceUsed,
                                         desiredX,
@@ -631,7 +777,7 @@ namespace Zetris.PPT {
                                     break;
 
                                 case Instruction.RR:
-                                    desiredX = InputHelper.FindInputGoalX(
+                                    desiredX = FindInputGoalX(
                                         board,
                                         pieceUsed,
                                         desiredX,
@@ -652,7 +798,7 @@ namespace Zetris.PPT {
                                         }
                                     }
 
-                                    desiredX = InputHelper.FixWall(
+                                    desiredX = FixWall(
                                         board,
                                         pieceUsed,
                                         desiredX,
@@ -672,7 +818,7 @@ namespace Zetris.PPT {
                                         }
                                     }
 
-                                    desiredX = InputHelper.FixWall(
+                                    desiredX = FixWall(
                                         board,
                                         pieceUsed,
                                         desiredX,
@@ -728,12 +874,12 @@ namespace Zetris.PPT {
             }
         }
 
-        static X360Buttons previousInputs = X360Buttons.None;
-        static decimal speedTick = 0;
+        X360Buttons previousInputs = X360Buttons.None;
+        decimal speedTick = 0;
 
-        static int charindex = 0;
+        int charindex = 0;
 
-        static void applyInputs() {
+        void applyInputs() {
             int nextFrame = GameHelper.getFrameCount.Call();
 
             bool addDown = false;
@@ -827,17 +973,13 @@ namespace Zetris.PPT {
             scp.Report(gamepadIndex, gamepad.GetReport());
         }
 
-        static void updateUI() {
-            Window?.SetActive(inMatch);
-        }
+        X360Buttons manualbtn;
+        int manualtimer = 0;
 
-        static X360Buttons manualbtn;
-        static int manualtimer = 0;
+        bool doingManualInput = false;
+        StackPanel _btn;
 
-        static bool doingManualInput = false;
-        static StackPanel _btn;
-
-        public static void ManualInput(X360Buttons button, StackPanel aaaaaaa) {
+        public void ManualInput(X360Buttons button, StackPanel aaaaaaa) {
             doingManualInput = true;
             (_btn = aaaaaaa).MaxHeight = double.PositiveInfinity;
 
@@ -845,7 +987,7 @@ namespace Zetris.PPT {
             manualtimer = 3;
         }
 
-        public static void RestoreManual() {
+        public void RestoreManual() {
             if (GameHelper.CheckProcess())
                 Interaction.AppActivate("PuyoPuyoTetris");
 
@@ -856,100 +998,56 @@ namespace Zetris.PPT {
             });
         }
 
-        public static void UpdateConfig() {
-            if (!Started) return;
-
-            MisaMinoParameters param = Preferences.CurrentStyle.Clone().Parameters;
-            param.Parameters.strategy_4w = 400 * Convert.ToInt32(Preferences.C4W);
-
-            MisaMino.Configure(param, Preferences.HoldAllowed, Preferences.AllSpins, Preferences.TSDOnly, Preferences.Intelligence, false, false);
-        }
-
-        public static void UpdatePriority() {
+        public void UpdatePriority() {
             if (BotThread != null)
                 BotThread.Priority = Preferences.AccurateSync? ThreadPriority.Normal : ThreadPriority.AboveNormal;
         }
-        
-        public static void UpdatePCThreads() {
-            if (!Started) return;
 
-            PerfectClear.SetThreads(Preferences.PCThreads);
+        protected override void BeforeLoop() {
+            BotThread = Thread.CurrentThread;
+            UpdatePriority();
         }
 
-        static void Loop() {
-            BotThread = Thread.CurrentThread;
+        protected override void LoopIteration() {
+            bool newFrame = false;
 
-            UpdateConfig();
-            UpdatePriority();
-            UpdatePCThreads();
+            if (GameHelper.CheckProcess()) {
+                GameHelper.TrustProcess = true;
 
-            while (!Disposing) {
-                bool newFrame = false;
+                int prev = globalFrames;
+                globalFrames = GameHelper.getMenuFrameCount();
 
-                if (GameHelper.CheckProcess()) {
-                    GameHelper.TrustProcess = true;
+                if (newFrame = globalFrames > prev) {
+                    if (globalFrames != prev + 1)
+                        LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
 
-                    int prev = globalFrames;
-                    globalFrames = GameHelper.getMenuFrameCount();
+                    CachedMethod.InvalidateAll();
 
-                    if (newFrame = globalFrames > prev) {
-                        if (globalFrames != prev + 1)
-                            LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
-
-                        CachedMethod.InvalidateAll();
-
-                        runLogic();
-                        applyInputs();
-                    }
-
-                    GameHelper.TrustProcess = false;
+                    runLogic();
+                    applyInputs();
                 }
 
-                updateUI();
-
-                if (!Preferences.AccurateSync && !newFrame)
-                    Thread.Sleep(10);
+                GameHelper.TrustProcess = false;
             }
 
-            Disposed = true;
+            Window?.SetActive(inMatch);
+
+            if (!Preferences.AccurateSync && !newFrame)
+                Thread.Sleep(10);
         }
 
-        public static bool Started { get; private set; } = false;
-
-        public static async void Start(UI window, int gamepadindex) {
-            if (Started) return;
-
-            Started = true;
-
-            MisaMino.Finished += (bool success) => misasolved = success;
-
-            PerfectClear.Finished += (bool success) => {
-                if (pcbuffer) futurepcsolved = success;
-                else pcsolved = success;
-            };
-
-            Window = window;
-
+        protected override void Starting() {
             scp.UnplugAll();
 
             scp = new ScpBus();
-            scp.PlugIn(gamepadIndex = gamepadindex);
-
-            await Task.Run(Loop);
+            scp.PlugIn(gamepadIndex);
         }
 
-        static bool Disposing = false;
-        public static bool Disposed { get; private set; } = false;
-
-        public static void Dispose() {
-            Disposing = true;
-
-            while (!Disposed && Started) {
-                MisaMino.Abort();
-                PerfectClear.Abort();
-            }
-
-            scp.UnplugAll();
+        public void Start(UI window, int gamepadindex) {
+            gamepadIndex = gamepadindex;
+            Start(window);
         }
+
+        protected override void BeforeDispose() => scp.UnplugAll();
     }
 }

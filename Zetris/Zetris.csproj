@@ -106,53 +106,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
-    <Compile Include="Binary.cs" />
     <Compile Include="Bot.cs" />
-    <Page Include="StyleViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dial.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Error.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="IUI.cs" />
     <Compile Include="LogHelper.cs" />
-    <Compile Include="StyleViewer.xaml.cs">
-      <DependentUpon>StyleViewer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dial.xaml.cs">
-      <DependentUpon>Dial.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="InputHelper.cs" />
-    <Compile Include="Preferences.cs" />
-    <Compile Include="Style.cs" />
-    <Compile Include="Editor.xaml.cs">
-      <DependentUpon>Editor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Error.xaml.cs">
-      <DependentUpon>Error.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI.xaml.cs">
-      <DependentUpon>UI.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -177,9 +133,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.ico" />

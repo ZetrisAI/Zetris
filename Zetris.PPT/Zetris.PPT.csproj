@@ -109,7 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Binary.cs" />
-    <Compile Include="Bot.cs" />
+    <Compile Include="PPTBot.cs" />
     <Page Include="GamepadPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,7 +152,6 @@
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameHelper.cs" />
-    <Compile Include="InputHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="Editor.xaml.cs">
@@ -221,6 +220,12 @@
     <Content Include="ScpDriver\ScpDriverInstaller.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Zetris\Zetris.csproj">
+      <Project>{bd58e75e-c306-438b-b16d-ba3bf66bf14e}</Project>
+      <Name>Zetris</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\PerfectClearNET.1.4.0.2\build\PerfectClearNET.targets" Condition="Exists('..\packages\PerfectClearNET.1.4.0.2\build\PerfectClearNET.targets')" />

@@ -29,7 +29,7 @@ namespace Zetris.TETRIO {
             get => _styleindex;
             set {
                 _styleindex = Math.Max(0, Math.Min(Styles.Count - 1, value));
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -59,7 +59,7 @@ namespace Zetris.TETRIO {
             get => _intelligence;
             set {
                 _intelligence = Math.Max(10, Math.Min(150, value));
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -69,7 +69,7 @@ namespace Zetris.TETRIO {
             get => _hold;
             set {
                 _hold = value;
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -92,14 +92,12 @@ namespace Zetris.TETRIO {
             }
         }
 
-        public static uint PCThreadsMaximum => (uint)Environment.ProcessorCount;
-
         static uint _pcthreads = 1;
         public static uint PCThreads {
             get => _pcthreads;
             set {
-                _pcthreads = Math.Max(1, Math.Min(PCThreadsMaximum, value));
-                Bot.UpdatePCThreads();
+                _pcthreads = Math.Max(1, Math.Min(TetrioBot.PCThreadsMaximum, value));
+                TetrioBot.Instance.UpdatePCThreads();
                 Save();
             }
         }
@@ -109,7 +107,7 @@ namespace Zetris.TETRIO {
             get => _c4w;
             set {
                 _c4w = value;
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -119,7 +117,7 @@ namespace Zetris.TETRIO {
             get => _allspins;
             set {
                 _allspins = value;
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -129,7 +127,7 @@ namespace Zetris.TETRIO {
             get => _tsd;
             set {
                 _tsd = value;
-                Bot.UpdateConfig();
+                TetrioBot.Instance.UpdateConfig();
                 Save();
             }
         }

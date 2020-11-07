@@ -340,6 +340,9 @@ namespace Zetris.PPT {
             return ret;
         });
 
+        public static uint NextRNG(uint rng) => rng * 0x5D588B65 + 0x269EC3;
+        public static int RandomInt(ref uint rng, int count) => (int)((((rng = NextRNG(rng)) >> 16) * count) >> 16);
+
         public static List<int> getNextFromRNG(int index, int amount, int atk) {
             List<int> ret = new List<int>();
 
@@ -348,11 +351,11 @@ namespace Zetris.PPT {
             int garbage_drop = CalculateGarbage(index, atk, out int garbage_left);
 
             while (garbage_drop > 0) {
-                seed = InputHelper.NextRNG(seed);
+                seed = NextRNG(seed);
 
                 for (int i = 0; i < garbage_drop; i++) {
-                    if (70 < InputHelper.RandomInt(ref seed, 99))
-                        seed = InputHelper.NextRNG(seed);
+                    if (70 < RandomInt(ref seed, 99))
+                        seed = NextRNG(seed);
                 }
 
                 garbage_drop = 0;

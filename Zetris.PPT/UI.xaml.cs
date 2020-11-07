@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Zetris.PPT {
-    public partial class UI {
+    public partial class UI: IUI {
         static bool FreezeEvents = true;
 
         static string InactiveString, ActiveString, ConfidenceString, ThinkingTimeString;
@@ -129,7 +129,8 @@ namespace Zetris.PPT {
             }
 
             UpdateActive();
-            Bot.Start(this, gamepadIndex?? 4);
+
+            PPTBot.Instance.Start(this, gamepadIndex?? 4);
         }
 
         bool Active = false;
@@ -248,7 +249,7 @@ namespace Zetris.PPT {
         void GamepadChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) {
                 FreezeEvents = true;
-                Gamepad.IsChecked = Bot.SetGamepad(Gamepad.IsChecked == true);
+                Gamepad.IsChecked = PPTBot.Instance.SetGamepad(Gamepad.IsChecked == true);
                 FreezeEvents = false;
             }
         }

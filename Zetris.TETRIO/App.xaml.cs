@@ -29,9 +29,9 @@ namespace Zetris.TETRIO {
 #endif
 
             if (e.Args.Length == 1 && ushort.TryParse(e.Args[0], out ushort port))
-                Bot.Port = port;
+                TetrioBot.Instance.Port = port;
         }
 
-        void Exiting(object sender, ExitEventArgs e) => Bot.Dispose();
+        void Exiting(object sender, ExitEventArgs e) => TetrioBot.Instance.Dispose();
     }
 }

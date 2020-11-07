@@ -29,7 +29,7 @@ namespace Zetris.PPT {
             get => _styleindex;
             set {
                 _styleindex = Math.Max(0, Math.Min(Styles.Count - 1, value));
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -59,7 +59,7 @@ namespace Zetris.PPT {
             get => _intelligence;
             set {
                 _intelligence = Math.Max(10, Math.Min(150, value));
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -69,7 +69,7 @@ namespace Zetris.PPT {
             get => _hold;
             set {
                 _hold = value;
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -99,7 +99,7 @@ namespace Zetris.PPT {
             get => _pcthreads;
             set {
                 _pcthreads = Math.Max(1, Math.Min(PCThreadsMaximum, value));
-                Bot.UpdatePCThreads();
+                PPTBot.Instance.UpdatePCThreads();
                 Save();
             }
         }
@@ -109,7 +109,7 @@ namespace Zetris.PPT {
             get => _c4w;
             set {
                 _c4w = value;
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -119,7 +119,7 @@ namespace Zetris.PPT {
             get => _allspins;
             set {
                 _allspins = value;
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -129,7 +129,7 @@ namespace Zetris.PPT {
             get => _tsd;
             set {
                 _tsd = value;
-                Bot.UpdateConfig();
+                PPTBot.Instance.UpdateConfig();
                 Save();
             }
         }
@@ -178,7 +178,7 @@ namespace Zetris.PPT {
             get => _accurate;
             set {
                 _accurate = value;
-                Bot.UpdatePriority();
+                PPTBot.Instance.UpdatePriority();
                 Save();
             }
         }

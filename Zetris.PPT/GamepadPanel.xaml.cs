@@ -30,9 +30,9 @@ namespace Zetris.PPT {
 
         void ClickButton(object sender, RoutedEventArgs e) {
             if (!(sender is Button btn)) return;
-            Bot.ManualInput(map[btn.Name], WPFISGAYANDICANTHIDELEMENTS);
+            PPTBot.Instance.ManualInput(map[btn.Name], WPFISGAYANDICANTHIDELEMENTS);
         }
 
-        void RestoreClicked(object sender, RoutedEventArgs e) => Bot.RestoreManual();
+        void RestoreClicked(object sender, RoutedEventArgs e) => PPTBot.Instance.RestoreManual();
     }
 }

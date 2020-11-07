@@ -19,7 +19,7 @@ namespace Zetris.TETRIO {
             arr[index] = value;
             Parameters = MisaMinoParameters.FromArray(arr);
 
-            if (Preferences.CurrentStyle == this) Bot.UpdateConfig();
+            if (Preferences.CurrentStyle == this) TetrioBot.Instance.UpdateConfig();
 
             Preferences.Save();
         }
