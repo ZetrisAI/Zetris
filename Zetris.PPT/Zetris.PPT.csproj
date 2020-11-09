@@ -144,7 +144,6 @@
     <Compile Include="GamepadPanel.xaml.cs">
       <DependentUpon>GamepadPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogHelper.cs" />
     <Compile Include="StyleViewer.xaml.cs">
       <DependentUpon>StyleViewer.xaml</DependentUpon>
     </Compile>
