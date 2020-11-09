@@ -20,7 +20,7 @@ namespace Zetris {
         public static uint PCThreadsMaximum => (uint)Environment.ProcessorCount;
 
         #region InputHelper
-        protected static readonly int[][][,] pieces = new int[7][][,] {
+        protected static readonly int[][][,] piecedefs = new int[7][][,] {
             new int[4][,] { // S
                 new int[,] {
                     {-1, 0, 0, -1},
@@ -233,9 +233,9 @@ namespace Zetris {
 
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 4; j++)
-                    if (pieces[piece][r][i, j] != -1) {
+                    if (piecedefs[piece][r][i, j] != -1) {
                         if (x + j < 0 || y - i < 0 || x + j > 9 || y - i > 39 || board[x + j, y - i] != 255) return false;
-                        board[x + j, y - i] = pieces[piece][r][i, j];
+                        board[x + j, y - i] = piecedefs[piece][r][i, j];
                         coords.Add(new[] { x + j, y - i });
                     }
 
@@ -287,11 +287,20 @@ namespace Zetris {
         protected int? hold;
         protected int combo;
         protected List<int> queue = new List<int>();
+        protected int garbage;
 
         protected int misa_lasty;
+        protected int baseBoardHeight;
         protected int b2b = 0;
 
         protected int[,] misaboard = new int[10, 40];
+        protected List<Instruction> movements = new List<Instruction>();
+        protected int finalX;
+        protected int finalY;
+        protected int finalR;
+        protected int pieceUsed;
+        protected bool spinUsed;
+        protected int atk;
         protected bool misasolved = false;
 
         protected int[,] pcboard = new int[10, 40];
@@ -315,6 +324,8 @@ namespace Zetris {
         protected abstract bool SRSPlus();
         protected abstract uint PCThreads();
         protected abstract bool GarbageBlocking();
+        protected abstract int RushTime();
+
         protected abstract bool Danger(); // set to true if bot is probably being used for cheating, in PUBLIC mode
 
         protected int[] getClippedQueue() => queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
@@ -360,6 +371,158 @@ namespace Zetris {
                     );
                 }
             }
+        }
+
+        protected bool MakeDecision(out bool wasHold, out int clear, out List<int[]> coords) {
+            wasHold = false;
+            clear = 0;
+            coords = null;
+
+            bool pathSuccess = false;
+
+            movements = new List<Instruction>();
+            pieceUsed = finalX = finalY = finalR = atk = -10;
+
+            if (MisaMino.Running) MisaMino.Abort();
+            if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
+
+            if (Danger()) return false;
+
+            if (getPerfectClear() && pcsolved && BoardEquals(board, pcboard)) {
+                LogHelper.LogText("Detected PC");
+
+                pieceUsed = executingpc[0].Piece;
+                finalX = executingpc[0].X;
+                finalY = executingpc[0].Y + baseBoardHeight - 21; // if baseboardheight happens to be 22, need to +1 this
+                finalR = executingpc[0].R;
+
+                movements = MisaMino.FindPath(
+                    board,
+                    baseBoardHeight,
+                    pieceUsed,
+                    finalX,
+                    finalY,
+                    finalR,
+                    current != pieceUsed,
+                    out spinUsed,
+                    out pathSuccess
+                );
+                    
+                if (!pathSuccess)
+                    LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY}, r={finalR}");
+            }
+
+            if (!pathSuccess) {
+                LogHelper.LogText("Using Misa!");
+
+                bool misaok = BoardEquals(misaboard, board) && misasolved;
+                bool misasaved = false;
+
+                if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
+                    LogHelper.LogText($"Tryna save Misa... {misa_lasty} {baseBoardHeight}");
+
+                    movements = MisaMino.FindPath(
+                        board,
+                        baseBoardHeight,
+                        MisaMino.LastSolution.PieceUsed,
+                        MisaMino.LastSolution.FinalX,
+                        MisaMino.LastSolution.FinalY,
+                        MisaMino.LastSolution.FinalR,
+                        current != MisaMino.LastSolution.PieceUsed,
+                        out spinUsed,
+                        out misaok
+                    );
+
+                    misasaved = misaok;
+
+                    LogHelper.LogText($"misasaved {misasaved}");
+                }
+
+                if (!misaok) {
+                    LogHelper.LogText("Rush (SOMETHING JUST WENT REALLY WRONG)");
+                    LogHelper.LogBoard(misaboard, board);
+
+                    int[] q = getClippedQueue();
+
+                    LogHelper.LogText("QUEUE FOR RUSH: " + string.Join(" ", q));
+
+                    MisaMino.FindMove(
+                        q,
+                        current,
+                        hold,
+                        baseBoardHeight,
+                        board,
+                        combo,
+                        Math.Max(
+                            b2b, // ideally this should be read from game mem right before calling
+                            Convert.ToInt32(FuckItJustDoB2B(board, 25))
+                        ),
+                        garbage
+                    );
+
+                    Stopwatch misasearching = new Stopwatch();
+                    misasearching.Start();
+
+                    while (misasearching.ElapsedMilliseconds < RushTime()) { }
+
+                    MisaMino.Abort();
+                }
+
+                if (!misasaved) movements = MisaMino.LastSolution.Instructions;
+                pieceUsed = MisaMino.LastSolution.PieceUsed;
+                if (!misasaved) spinUsed = MisaMino.LastSolution.SpinUsed;
+                b2b = MisaMino.LastSolution.B2B;
+                atk = MisaMino.LastSolution.Attack;
+                finalX = MisaMino.LastSolution.FinalX;
+                finalY = MisaMino.LastSolution.FinalY;
+                finalR = MisaMino.LastSolution.FinalR;
+
+                Window?.SetConfidence($"{MisaMino.LastSolution.Nodes} ({MisaMino.LastSolution.Depth})");
+                Window?.SetThinkingTime(MisaMino.LastSolution.Time);
+
+                pcsolved = false;
+                futurepcsolved = false;
+                pcbuffer = false;
+                searchbufpc = false;
+
+            } else {
+                LogHelper.LogText("Using PC!");
+
+                cachedpc = executingpc.Skip(1).ToList();
+
+                bool prev = pcbuffer;
+                pcbuffer = cachedpc.Count != 0;
+
+                searchbufpc |= !prev && pcbuffer;
+
+                if (!pcbuffer) {
+                    pcsolved = futurepcsolved;
+                    searchbufpc = futurepcsolved = false;
+                }
+
+                Window?.SetConfidence($"[PC] {cachedpc.Count + 1}");
+                Window?.SetThinkingTime(PerfectClear.LastTime);
+            }
+
+            misasolved = false;
+
+            wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
+
+            bool applied = ApplyPiece(board, pieceUsed, finalX, finalY, finalR, 23, out clear, out coords);
+            LogHelper.LogText($"Piece applied? {applied}");
+
+            misaboard = (int[,])board.Clone();
+            pcboard = (int[,])board.Clone();
+
+            if (pathSuccess && !pcsolved)  // pathSuccess here means that I had used PC finder to make the decision
+                b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
+
+            return applied;
+        }
+
+        protected void EndGame() {
+            MisaMino.Abort();
+            PerfectClear.Abort();
         }
 
         public void UpdateConfig() {

@@ -22,7 +22,7 @@ namespace Zetris.PPT {
         static bool FitPiece(int[,] board, int piece, int x, int y, int r) {
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (pieces[piece][r][i, j] != -1) {
+                    if (piecedefs[piece][r][i, j] != -1) {
                         if (x + j < 0 || 9 < x + j || y - i < 0 || 32 < y - i || board[x + j, y - i] != 255) {
                             return false;
                         }
@@ -154,7 +154,7 @@ namespace Zetris.PPT {
 
             for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (pieces[4][r][i, j] != -1) {
+                    if (piecedefs[4][r][i, j] != -1) {
                         int col = x + j;
                         for (int row = y - i; row < 22; row++) {  // row < baseBoardHeight
                             if (board[col, row] != 255) {
@@ -197,6 +197,7 @@ namespace Zetris.PPT {
         protected override bool SRSPlus() => false;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => GameHelper.InSwap.Call();
+        protected override int RushTime() => 12;
 
         protected override bool Danger() =>
 #if PUBLIC
@@ -235,18 +236,12 @@ namespace Zetris.PPT {
         bool inMatch = false;
         int menuStartFrames = 0;
         int ratingSafe = 0;
-
-        List<Instruction> movements = new List<Instruction>();
+        
         int state = 0;
         int piece = 0;
-        int pieceUsed;
-        bool spinUsed;
-        int finalX, finalY, finalR;
         bool register = false;
         bool shouldHaveRegistered = false;
-        int baseBoardHeight;
         int old_y;
-        int atk = 0;
 
         bool startbreak = false;
 
@@ -299,6 +294,7 @@ namespace Zetris.PPT {
             baseBoardHeight = 25 - y;
 
             board = GameHelper.getBoard.Call(playerID);
+            int[,] oboard = (int[,])board.Clone();
 
             if (GameHelper.OutsideMenu.Call() && GameHelper.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.GameEnd.Call() != 16 || GameHelper.GameEnd.Call() != 36)) {
                 ResetGame();
@@ -361,213 +357,91 @@ namespace Zetris.PPT {
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
-                if (((register && !pieces.SequenceEqual(queue) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y)) {
+                bool itstimetomove = ((register && !pieces.SequenceEqual(queue.Take(pieces.Length)) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y);
+
+                if (itstimetomove) register = false;
+
+                if (!register)
+                    queue = pieces.Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
+
+                if (itstimetomove) {
                     shouldHaveRegistered = false;
                     inputStarted = 0;
                     softdrop = false;
 
-                    bool pathSuccess = false;
+                    b2b = GameHelper.getB2B.Call(playerID);
+                    garbage = GameHelper.getGarbageDropping.Call(playerID);
 
-                    if (MisaMino.Running) MisaMino.Abort();
-                    if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
+                    if (MakeDecision(out bool wasHold, out _, out _)) {
+                        int start = Convert.ToInt32(wasHold && hold == null);
 
-                    if (!Danger()) {
-                        if (Preferences.PerfectClear && pcsolved && BoardEquals(board, pcboard)) {
-                            LogHelper.LogText("Detected PC");
+                        int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
 
-                            pieceUsed = executingpc[0].Piece;
-                            finalX = executingpc[0].X;
-                            finalY = executingpc[0].Y + baseBoardHeight - 21; // if baseboardheight happens to be 22, need to +1 this
-                            finalR = executingpc[0].R;
-                            
-                            movements = MisaMino.FindPath(
-                                board,
-                                baseBoardHeight,
-                                pieceUsed,
-                                finalX,
-                                finalY,
-                                finalR,
-                                current != pieceUsed,
-                                out spinUsed,
-                                out pathSuccess
-                            );
+                        int futureCurrent = pieces[start];
+                        int? futureHold = wasHold? current : hold;
+                        int futureCombo = combo + Convert.ToInt32(clear > 0);
 
-                            if (!pathSuccess)
-                                LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY} => {finalY}, r={finalR}");
-                        }
+                        LogHelper.LogText("AOT");
+                        misaPrediction(futureCurrent, q.Take(Math.Min(q.Length, getPreviews())).ToArray(), futureHold, futureCombo, clear);
 
-                        if (!pathSuccess) {
-                            LogHelper.LogText("Using Misa!");
+                        pcboard = (int[,])misaboard.Clone();
 
-                            bool misaok = BoardEquals(misaboard, board) && misasolved;
-                            bool misasaved = false;
+                        if (Preferences.PerfectClear && movements.Count > 0 && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
+                            bool cancel = false;
 
-                            if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
-                                LogHelper.LogText($"Tryna save Misa... {misa_lasty} {baseBoardHeight}");
-
-                                movements = MisaMino.FindPath(
-                                    board,
-                                    baseBoardHeight,
-                                    MisaMino.LastSolution.PieceUsed,
-                                    MisaMino.LastSolution.FinalX,
-                                    MisaMino.LastSolution.FinalY,
-                                    MisaMino.LastSolution.FinalR,
-                                    current != MisaMino.LastSolution.PieceUsed,
-                                    out spinUsed,
-                                    out misaok
-                                );
-
-                                misasaved = misaok;
-
-                                LogHelper.LogText($"misasaved {misasaved}");
-                            }
-
-                            if (!misaok) {
-                                int[] q = pieces.Concat(GameHelper.getNextFromBags.Call(playerID)).ToArray();
-                                q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
-
-                                LogHelper.LogText("Rush");
-                                LogHelper.LogBoard(misaboard, board);
-
-                                MisaMino.FindMove(
-                                    q,
-                                    current,
-                                    hold,
-                                    baseBoardHeight,
-                                    board,
-                                    combo,
-                                    Math.Max(
-                                        GameHelper.getB2B.Call(playerID), // if pc finder interrupted we might have a wrong value. read from game mem here
-                                        Convert.ToInt32(FuckItJustDoB2B(board, 25))
-                                    ),  
-                                    GameHelper.getGarbageDropping.Call(playerID)
-                                );
-
-                                Stopwatch misasearching = new Stopwatch();
-                                misasearching.Start();
-
-                                while (misasearching.ElapsedMilliseconds < 12) {}
-
-                                MisaMino.Abort();
-                            }
-
-                            if (!misasaved) movements = MisaMino.LastSolution.Instructions;
-                            pieceUsed = MisaMino.LastSolution.PieceUsed;
-                            if (!misasaved) spinUsed = MisaMino.LastSolution.SpinUsed;
-                            b2b = MisaMino.LastSolution.B2B;
-                            atk = MisaMino.LastSolution.Attack;
-                            finalX = MisaMino.LastSolution.FinalX;
-                            finalY = MisaMino.LastSolution.FinalY;
-                            finalR = MisaMino.LastSolution.FinalR;
-
-                            Window?.SetConfidence($"{MisaMino.LastSolution.Nodes} ({MisaMino.LastSolution.Depth})");
-                            Window?.SetThinkingTime(MisaMino.LastSolution.Time);
-
-                            pcsolved = false;
-                            futurepcsolved = false;
-                            pcbuffer = false;
-                            searchbufpc = false;
-
-                        } else {
-                            LogHelper.LogText("Using PC!");
-
-                            cachedpc = executingpc.Skip(1).ToList();
-
-                            bool prev = pcbuffer;
-                            pcbuffer = cachedpc.Count != 0;
-
-                            searchbufpc |= !prev && pcbuffer;
-
-                            if (!pcbuffer) {
-                                pcsolved = futurepcsolved;
-                                searchbufpc = futurepcsolved = false;
-                            }
-
-                            Window?.SetConfidence($"[PC] {cachedpc.Count + 1}");
-                            Window?.SetThinkingTime(PerfectClear.LastTime);
-                        }
-
-                        misasolved = false;
-
-                        bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
-
-                        misaboard = (int[,])board.Clone();
-
-                        if (ApplyPiece(misaboard, pieceUsed, finalX, finalY, finalR, baseBoardHeight, out clear, out _)) {
-                            int start = Convert.ToInt32(wasHold && hold == null);
-
-                            int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
-
-                            int futureCurrent = pieces[start];
-                            int? futureHold = wasHold? current : hold;
-                            int futureCombo = combo + Convert.ToInt32(clear > 0);
-                            if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
-
-                            LogHelper.LogText("AOT");
-                            misaPrediction(futureCurrent, q.Take(Math.Min(q.Length, getPreviews())).ToArray(), futureHold, futureCombo, clear);
-
-                            pcboard = (int[,])misaboard.Clone();
-
-                            if (Preferences.PerfectClear && movements.Count > 0 && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
-                                bool cancel = false;
-
-                                int[,] bufboard = pcboard;
-                                int[] bufq = q;
-                                int bufcurrent = futureCurrent;
-                                int? bufhold = futureHold;
-                                int bufcombo = futureCombo;
-                                bool bufb2b = b2b > 0;
+                            int[,] bufboard = pcboard;
+                            int[] bufq = q;
+                            int bufcurrent = futureCurrent;
+                            int? bufhold = futureHold;
+                            int bufcombo = futureCombo;
+                            bool bufb2b = b2b > 0;
                                 
-                                if (searchbufpc) {
-                                    bufboard = new int[10, 40];
+                            if (searchbufpc) {
+                                bufboard = new int[10, 40];
 
-                                    for (int i = 0; i < 10; i++)
-                                        for (int j = 0; j < 40; j++)
-                                            bufboard[i, j] = 255;
+                                for (int i = 0; i < 10; i++)
+                                    for (int j = 0; j < 40; j++)
+                                        bufboard[i, j] = 255;
                                     
-                                    int[,] tempboard = (int[,])pcboard.Clone();
+                                int[,] tempboard = (int[,])pcboard.Clone();
 
-                                    for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
-                                        bool bufwasHold = bufcurrent != cachedpc[i].Piece;
+                                for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
+                                    bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                                        if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
-                                            break;
+                                    if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
+                                        break;
 
-                                        if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
-                                            bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
+                                    if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
+                                        bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
 
-                                        int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
+                                    int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
                                             
-                                        bufhold = bufwasHold? bufcurrent : bufhold;
-                                        bufcurrent = bufq[bufstart];
-                                        bufq = bufq.Skip(bufstart + 1).ToArray();
+                                    bufhold = bufwasHold? bufcurrent : bufhold;
+                                    bufcurrent = bufq[bufstart];
+                                    bufq = bufq.Skip(bufstart + 1).ToArray();
 
-                                        bufcombo += Convert.ToInt32(bufclear > 0);
-                                    }
-
-                                    cancel |= !BoardEquals(bufboard, tempboard);
+                                    bufcombo += Convert.ToInt32(bufclear > 0);
                                 }
-                                
-                                if (!cancel) {
-                                    PerfectClear.Find(
-                                        bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                                        bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo, bufb2b
-                                    );
 
-                                    searchbufpc = false;
-                                } else LogHelper.LogText("FUCK but less");
+                                cancel |= !BoardEquals(bufboard, tempboard);
                             }
-                        } else LogHelper.LogText("FUCK");
-                    }
+                                
+                            if (!cancel) {
+                                PerfectClear.Find(
+                                    bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
+                                    bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo, bufb2b
+                                );
+
+                                searchbufpc = false;
+                            } else LogHelper.LogText("FUCK but less");
+                        }
+                    } else LogHelper.LogText("FUCK");
 
                     register = false;
                 }
 
                 state = drop;
                 piece = current;
-
-                if (!register)
-                    queue = pieces.ToList();
 
                 inMatch = true;
 
@@ -577,10 +451,11 @@ namespace Zetris.PPT {
 
                     menuStartFrames = globalFrames;
 
-                    MisaMino.Abort();
-                    PerfectClear.Abort();
+                    EndGame();
                 }
             }
+
+            board = (int[,])oboard.Clone();
         }
 
         int clear = 0;

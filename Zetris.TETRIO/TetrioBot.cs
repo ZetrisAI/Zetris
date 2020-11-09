@@ -42,6 +42,7 @@ namespace Zetris.TETRIO {
         protected override bool SRSPlus() => true;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => true;
+        protected override int RushTime() => 40;
         protected override bool Danger() => false; // there is no PUBLIC version due to TETR.IO not having local multiplayer
 
         static int ConvPiece(string p) {
@@ -251,7 +252,7 @@ namespace Zetris.TETRIO {
                             expected_cells = new int[0][]
                         };
 
-                    int garbage = (int)e;
+                    garbage = (int)e;
 
                     misaboard = (int[,])board.Clone();
                     pcboard = (int[,])board.Clone();
@@ -268,140 +269,9 @@ namespace Zetris.TETRIO {
                     }
 
                     pieceCount++;
+                    baseBoardHeight = 23;
 
-                    bool pathSuccess = false;
-                    int baseBoardHeight = 23;
-
-                    if (MisaMino.Running) MisaMino.Abort();
-                    if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
-
-                    List<Instruction> movements = new List<Instruction>();
-                    int pieceUsed = -10, finalX = -10, finalY = -10, finalR = -10, atk = -10;
-
-                    if (Preferences.PerfectClear && pcsolved && BoardEquals(board, pcboard)) {
-                        LogHelper.LogText("Detected PC");
-
-                        pieceUsed = executingpc[0].Piece;
-                        finalX = executingpc[0].X;
-                        finalY = executingpc[0].Y + 2; // old baseboardheight was 21, now it's 23
-                        finalR = executingpc[0].R;
-
-                        movements = MisaMino.FindPath(
-                            board,
-                            baseBoardHeight,
-                            pieceUsed,
-                            finalX,
-                            finalY,
-                            finalR,
-                            current != pieceUsed,
-                            out _,
-                            out pathSuccess
-                        );
-
-                        if (!pathSuccess)
-                            LogHelper.LogText($"PC PATHFINDER FAILED! piece={pieceUsed}, x={finalX}, y={finalY}, r={finalR}");
-                    }
-
-                    if (!pathSuccess) {
-                        LogHelper.LogText("Using Misa!");
-
-                        bool misaok = BoardEquals(misaboard, board) && misasolved;
-                        bool misasaved = false;
-
-                        if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
-                            LogHelper.LogText($"Tryna save Misa... {misa_lasty} {baseBoardHeight}");
-
-                            movements = MisaMino.FindPath(
-                                board,
-                                baseBoardHeight,
-                                MisaMino.LastSolution.PieceUsed,
-                                MisaMino.LastSolution.FinalX,
-                                MisaMino.LastSolution.FinalY,
-                                MisaMino.LastSolution.FinalR,
-                                current != MisaMino.LastSolution.PieceUsed,
-                                out _,
-                                out misaok
-                            );
-
-                            misasaved = misaok;
-
-                            LogHelper.LogText($"misasaved {misasaved}");
-                        }
-
-                        if (!misaok) {
-                            LogHelper.LogText("Rush (SOMETHING JUST WENT REALLY WRONG)");
-                            LogHelper.LogBoard(misaboard, board);
-
-                            int[] rushq = getClippedQueue();
-
-                            LogHelper.LogText("QUEUE FOR RUSH: " + string.Join(" ", rushq));
-
-                            MisaMino.FindMove(
-                                rushq,
-                                current,
-                                hold,
-                                baseBoardHeight,
-                                board,
-                                combo,
-                                Math.Max(
-                                    b2b, // can't read b2b, but yeah this value *might* be wrong idk
-                                    Convert.ToInt32(FuckItJustDoB2B(board, 40))
-                                ),
-                                garbage
-                            );
-
-                            Stopwatch misasearching = new Stopwatch();
-                            misasearching.Start();
-
-                            while (misasearching.ElapsedMilliseconds < 40) {}
-
-                            MisaMino.Abort();
-                        }
-
-                        if (!misasaved) movements = MisaMino.LastSolution.Instructions;
-                        pieceUsed = MisaMino.LastSolution.PieceUsed;
-                        b2b = MisaMino.LastSolution.B2B;
-                        atk = MisaMino.LastSolution.Attack;
-                        finalX = MisaMino.LastSolution.FinalX;
-                        finalY = MisaMino.LastSolution.FinalY;
-                        finalR = MisaMino.LastSolution.FinalR;
-
-                        Window?.SetConfidence($"{MisaMino.LastSolution.Nodes} ({MisaMino.LastSolution.Depth})");
-                        Window?.SetThinkingTime(MisaMino.LastSolution.Time);
-
-                        pcsolved = false;
-                        futurepcsolved = false;
-                        pcbuffer = false;
-                        searchbufpc = false;
-
-                    } else {
-                        LogHelper.LogText("Using PC!");
-
-                        cachedpc = executingpc.Skip(1).ToList();
-
-                        bool prev = pcbuffer;
-                        pcbuffer = cachedpc.Count != 0;
-
-                        searchbufpc |= !prev && pcbuffer;
-
-                        if (!pcbuffer) {
-                            pcsolved = futurepcsolved;
-                            searchbufpc = futurepcsolved = false;
-                        }
-
-                        Window?.SetConfidence($"[PC] {cachedpc.Count + 1}");
-                        Window?.SetThinkingTime(PerfectClear.LastTime);
-                    }
-
-                    misasolved = false;
-
-                    bool wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
-
-                    bool applied = ApplyPiece(board, pieceUsed, finalX, finalY, finalR, 23, out int clear, out List<int[]> coords);
-                    LogHelper.LogText($"Piece applied? {applied}");
-
-                    misaboard = (int[,])board.Clone();
-                    pcboard = (int[,])board.Clone();
+                    bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
 
                     if (wasHold) {  // In TETR.IO, advance game state since we manage it internally, even if the piece didn't end up placing...
                         if (hold == null) queue.RemoveAt(0);
@@ -413,8 +283,6 @@ namespace Zetris.TETRIO {
 
                     if (clear > 0) combo++;
                     else combo = 0;
-
-                    if (pathSuccess && !pcsolved) b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
                     if (applied) {
                         LogHelper.LogText("Thinking...");
@@ -447,8 +315,7 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/endGame", e => {
-                    MisaMino.Abort();
-                    PerfectClear.Abort();
+                    EndGame();
 
                     pieceCount = -1;
 
