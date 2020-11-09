@@ -41,6 +41,8 @@ namespace Zetris.TETRIO {
         protected override bool Allow180() => true;
         protected override bool SRSPlus() => true;
         protected override uint PCThreads() => Preferences.PCThreads;
+        protected override bool GarbageBlocking() => true;
+        protected override bool Danger() => false; // there is no PUBLIC version due to TETR.IO not having local multiplayer
 
         static int ConvPiece(string p) {
             if (p == null) return 255;
@@ -215,42 +217,18 @@ namespace Zetris.TETRIO {
                 {"/newGame", e => {
                     handlers["/endGame"].Invoke(null);
 
-                    MisaMino.Reset(); // this will abort as well
-                    misasolved = false;
-                    b2b = 1; // Hack that makes MisaMino start like a normal person
+                    NewGame(() => {
+                        board = new int[10, 40];
+                            for (int i = 0; i < 10; i++)
+                                for (int j = 0; j < 40; j++)
+                                    board[i, j] = 255;
 
-                    PerfectClear.Abort();
-                    pcsolved = false;
-                    futurepcsolved = false;
-                    pcbuffer = false;
-                    cachedpc = new List<Operation>();
-                    searchbufpc = false;
-
-                    board = new int[10, 40];
-                    for (int i = 0; i < 10; i++)
-                        for (int j = 0; j < 40; j++)
-                            board[i, j] = 255;
-
-                    misaboard = (int[,])board.Clone();
-                    pcboard = (int[,])board.Clone();
-
-                    IEnumerable<int> incoming = e.ToObject<string[]>().Select(ConvPiece);
-                    current = incoming.First();
-                    queue = incoming.Skip(1).ToList();
-                    hold = null;
-                    combo = 0;
-
-                    int[] q = getClippedQueue();
-                    LogHelper.LogText("QUEUE FOR START: " + string.Join(" ", q));
-
-                    MisaMino.FindMove(q, current, null, misa_lasty = 23, misaboard, 0, b2b, 0);
-
-                    if (Preferences.PerfectClear) {
-                        PerfectClear.Find(
-                            pcboard, q, current,
-                            null, Preferences.HoldAllowed, 6, true, getPerfectType(), 0, false
-                        );
-                    }
+                        IEnumerable<int> incoming = e.ToObject<string[]>().Select(ConvPiece);
+                        current = incoming.First();
+                        queue = incoming.Skip(1).ToList();
+                        hold = null;
+                        combo = 0;
+                    }, 23);
 
                     pieceCount = 0;
 

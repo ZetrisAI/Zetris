@@ -196,6 +196,14 @@ namespace Zetris.PPT {
         protected override bool Allow180() => false;
         protected override bool SRSPlus() => false;
         protected override uint PCThreads() => Preferences.PCThreads;
+        protected override bool GarbageBlocking() => GameHelper.InSwap.Call();
+
+        protected override bool Danger() =>
+#if PUBLIC
+            GameHelper.Online.Call() || (GameHelper.LobbyPtr.Call() != 0);
+#else
+            false;
+#endif
 
         static void ResetGame() {
 #if !PUBLIC
@@ -242,13 +250,6 @@ namespace Zetris.PPT {
 
         bool startbreak = false;
 
-        bool danger =>
-#if PUBLIC
-            GameHelper.Online.Call() || (GameHelper.LobbyPtr.Call() != 0);
-#else
-            false;
-#endif
-
         void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = 0;
 
@@ -263,7 +264,7 @@ namespace Zetris.PPT {
 
             misasolved = false;
 
-            if (!danger)
+            if (!Danger())
                 MisaMino.FindMove(
                     q,
                     current,
@@ -312,47 +313,25 @@ namespace Zetris.PPT {
 
                 int drop = GameHelper.getPieceDropped.Call(playerID);
 
-                int current = GameHelper.getCurrentPiece.Call(playerID);
-
                 int[] pieces = GameHelper.getPieces.Call(playerID);
 
                 bool startanim = GameHelper.getStartAnimation.Call() > 0x1000;
 
                 if (startanim && !startbreak) {
-                    MisaMino.Reset(); // this will abort as well
-                    misasolved = false;
-                    b2b = 1; // Hack that makes MisaMino start like a normal person
-                    atk = 0;
-                    register = false;
-                    movements.Clear();
-                    inputStarted = 0;
-                    softdrop = false;
-                    speedTick = 0;
+                    NewGame(() => {
+                        atk = 0;
+                        register = false;
+                        movements.Clear();
+                        inputStarted = 0;
+                        softdrop = false;
+                        speedTick = 0;
 
-                    PerfectClear.Abort();
-                    pcsolved = false;
-                    futurepcsolved = false;
-                    pcbuffer = false;
-                    cachedpc = new List<Operation>();
-                    searchbufpc = false;
-
-                    misaboard = (int[,])board.Clone();
-                    pcboard = (int[,])board.Clone();
-
-                    int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToArray();
-                    q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
-
-                    if (!danger) {
-                        MisaMino.FindMove(q, pieces[0], null, misa_lasty = 21, pcboard, 0, b2b, 0);
-
-                        if (Preferences.PerfectClear) {
-                            PerfectClear.Find(
-                                pcboard, q, pieces[0],
-                                null, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), 0, false
-                            );
-                        }
-                    }
+                        current = pieces[0];
+                        queue = pieces.Skip(1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
+                    }, 21);
                 }
+
+                current = GameHelper.getCurrentPiece.Call(playerID);
 
                 startbreak = startanim;
 
@@ -392,7 +371,7 @@ namespace Zetris.PPT {
                     if (MisaMino.Running) MisaMino.Abort();
                     if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
-                    if (!danger) {
+                    if (!Danger()) {
                         if (Preferences.PerfectClear && pcsolved && BoardEquals(board, pcboard)) {
                             LogHelper.LogText("Detected PC");
 

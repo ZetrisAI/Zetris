@@ -314,6 +314,8 @@ namespace Zetris {
         protected abstract bool Allow180();
         protected abstract bool SRSPlus();
         protected abstract uint PCThreads();
+        protected abstract bool GarbageBlocking();
+        protected abstract bool Danger(); // set to true if bot is probably being used for cheating, in PUBLIC mode
 
         protected int[] getClippedQueue() => queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
         
@@ -327,6 +329,38 @@ namespace Zetris {
                 piece == 3
             ))
         ));
+
+        protected void NewGame(Action setup, int baseBoardHeight) {
+            MisaMino.Reset(); // this will abort as well
+            misasolved = false;
+            b2b = 1; // Hack that makes MisaMino start like a normal person
+
+            PerfectClear.Abort();
+            pcsolved = false;
+            futurepcsolved = false;
+            pcbuffer = false;
+            cachedpc = new List<Operation>();
+            searchbufpc = false;
+
+            setup?.Invoke();
+
+            misaboard = (int[,])board.Clone();
+            pcboard = (int[,])board.Clone();
+
+            int[] q = getClippedQueue();
+            LogHelper.LogText("QUEUE FOR START: " + string.Join(" ", q));
+
+            if (!Danger()) {
+                MisaMino.FindMove(q, current, null, misa_lasty = baseBoardHeight, misaboard, 0, b2b, 0);
+
+                if (getPerfectClear()) {
+                    PerfectClear.Find(
+                        pcboard, q, current,
+                        null, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), 0, false
+                    );
+                }
+            }
+        }
 
         public void UpdateConfig() {
             if (!Started) return;
