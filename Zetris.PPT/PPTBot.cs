@@ -246,7 +246,7 @@ namespace Zetris.PPT {
         bool startbreak = false;
 
         void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
-            int garbage_left = 0;
+            int garbage_left = GameHelper.getGarbageDropping.Call(playerID);
 
             if (!GameHelper.InSwap.Call() || cleared == 0) 
                 AddGarbage(
