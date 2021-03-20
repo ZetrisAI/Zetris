@@ -508,7 +508,7 @@ namespace Zetris {
 
             wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
-            bool applied = ApplyPiece(board, pieceUsed, finalX, finalY, finalR, 23, out clear, out coords);
+            bool applied = ApplyPiece(board, pieceUsed, finalX, finalY, finalR, baseBoardHeight, out clear, out coords);
             LogHelper.LogText($"Piece applied? {applied}");
 
             misaboard = (int[,])board.Clone();
