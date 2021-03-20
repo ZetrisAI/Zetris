@@ -381,7 +381,8 @@ namespace Zetris {
             bool pathSuccess = false;
 
             movements = new List<Instruction>();
-            pieceUsed = finalX = finalY = finalR = atk = -10;
+            pieceUsed = finalX = finalY = finalR = -10;
+            atk = 0;
 
             if (MisaMino.Running) MisaMino.Abort();
             if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
