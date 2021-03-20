@@ -255,24 +255,7 @@ namespace Zetris.PPT {
                     GameHelper.CalculateGarbage(playerID, atk, out garbage_left)
                 );
 
-            if (MisaMino.Running) MisaMino.Abort();
-
-            misasolved = false;
-
-            if (!Danger())
-                MisaMino.FindMove(
-                    q,
-                    current,
-                    hold,
-                    misa_lasty = 21 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 4, 0)),
-                    misaboard,
-                    combo,
-                    Math.Max(
-                        b2b,
-                        Convert.ToInt32(FuckItJustDoB2B(misaboard, 25))
-                    ),
-                    garbage_left
-                );
+            MisaMinoAOT(current, q, hold, combo, garbage_left, 21 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 4, 0)));
         }
 
         void runLogic() {
@@ -386,55 +369,9 @@ namespace Zetris.PPT {
 
                         pcboard = (int[,])misaboard.Clone();
 
-                        if (Preferences.PerfectClear && movements.Count > 0 && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
-                            bool cancel = false;
+                        if (movements.Count > 0)
+                            PerfectClearAOT(futureCurrent, q, futureHold, futureCombo);
 
-                            int[,] bufboard = pcboard;
-                            int[] bufq = q;
-                            int bufcurrent = futureCurrent;
-                            int? bufhold = futureHold;
-                            int bufcombo = futureCombo;
-                            bool bufb2b = b2b > 0;
-                                
-                            if (searchbufpc) {
-                                bufboard = new int[10, 40];
-
-                                for (int i = 0; i < 10; i++)
-                                    for (int j = 0; j < 40; j++)
-                                        bufboard[i, j] = 255;
-                                    
-                                int[,] tempboard = (int[,])pcboard.Clone();
-
-                                for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
-                                    bool bufwasHold = bufcurrent != cachedpc[i].Piece;
-
-                                    if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
-                                        break;
-
-                                    if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
-                                        bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
-
-                                    int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
-                                            
-                                    bufhold = bufwasHold? bufcurrent : bufhold;
-                                    bufcurrent = bufq[bufstart];
-                                    bufq = bufq.Skip(bufstart + 1).ToArray();
-
-                                    bufcombo += Convert.ToInt32(bufclear > 0);
-                                }
-
-                                cancel |= !BoardEquals(bufboard, tempboard);
-                            }
-                                
-                            if (!cancel) {
-                                PerfectClear.Find(
-                                    bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                                    bufhold, Preferences.HoldAllowed, 6, GameHelper.InSwap.Call(), getPerfectType(), bufcombo, bufb2b
-                                );
-
-                                searchbufpc = false;
-                            } else LogHelper.LogText("FUCK but less");
-                        }
                     } else LogHelper.LogText("FUCK");
 
                     register = false;

@@ -520,6 +520,80 @@ namespace Zetris {
             return applied;
         }
 
+        protected void MisaMinoAOT(int current, int[] q, int? hold, int combo, int garbage, int spawn_pos) {
+            if (MisaMino.Running) MisaMino.Abort();
+
+            misasolved = false;
+
+            if (!Danger())
+                MisaMino.FindMove(
+                    q,
+                    current,
+                    hold,
+                    misa_lasty = spawn_pos,
+                    misaboard,
+                    combo,
+                    Math.Max(
+                        b2b,
+                        Convert.ToInt32(FuckItJustDoB2B(misaboard, 25))
+                    ),
+                    garbage
+                );
+        }
+
+        protected void PerfectClearAOT(int current, int[] q, int? hold, int combo) {
+            if (getPerfectClear() && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
+                bool cancel = false;
+
+                int[,] bufboard = pcboard;
+                int[] bufq = q;
+                int bufcurrent = current;
+                int? bufhold = hold;
+                int bufcombo = combo;
+                bool bufb2b = b2b > 0;
+
+                if (searchbufpc) {
+                    bufboard = new int[10, 40];
+
+                    for (int i = 0; i < 10; i++)
+                        for (int j = 0; j < 40; j++)
+                            bufboard[i, j] = 255;
+
+                    int[,] tempboard = (int[,])pcboard.Clone();
+
+                    for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
+                        bool bufwasHold = bufcurrent != cachedpc[i].Piece;
+
+                        if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
+                            break;
+
+                        if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
+                            bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
+
+                        int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
+
+                        bufhold = bufwasHold ? bufcurrent : bufhold;
+                        bufcurrent = bufq[bufstart];
+                        bufq = bufq.Skip(bufstart + 1).ToArray();
+
+                        bufcombo += Convert.ToInt32(bufclear > 0);
+                    }
+
+                    cancel |= !BoardEquals(bufboard, tempboard);
+                }
+
+                if (!cancel) {
+                    PerfectClear.Find(
+                        bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
+                        bufhold, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), bufcombo, bufb2b
+                    );
+
+                    searchbufpc = false;
+
+                } else LogHelper.LogText("FUCK but less");
+            }
+        }
+
         protected void EndGame() {
             MisaMino.Abort();
             PerfectClear.Abort();

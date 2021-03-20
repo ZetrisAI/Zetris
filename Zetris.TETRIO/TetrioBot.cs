@@ -68,81 +68,15 @@ namespace Zetris.TETRIO {
         Stopwatch timer;
         
         void startThinking(int garbage) {
-            if (MisaMino.Running) MisaMino.Abort();
-            if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
-
-            misasolved = false;
-
             int[] q = getClippedQueue();
 
             LogHelper.LogText("QUEUE FOR AOT: " + string.Join(" ", q));
 
-            MisaMino.FindMove(
-                q,
-                current,
-                hold,
-                misa_lasty = 23,
-                misaboard,
-                combo,
-                Math.Max(
-                    b2b,
-                    Convert.ToInt32(FuckItJustDoB2B(misaboard, 25))
-                ),
-                garbage
-            );
+            MisaMinoAOT(current, q, hold, combo, garbage, 23);
 
-            if (Preferences.PerfectClear && (!pcsolved || searchbufpc) && !PerfectClear.Running) {
-                bool cancel = false;
+            if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
-                int[,] bufboard = pcboard;
-                int[] bufq = q;
-                int bufcurrent = current;
-                int? bufhold = hold;
-                int bufcombo = combo;
-                bool bufb2b = b2b > 0;
-
-                if (searchbufpc) {
-                    LogHelper.LogText("searchbufpc start");
-
-                    bufboard = new int[10, 40];
-
-                    for (int i = 0; i < 10; i++)
-                        for (int j = 0; j < 40; j++)
-                            bufboard[i, j] = 255;
-
-                    int[,] tempboard = (int[,])pcboard.Clone();
-
-                    for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
-                        bool bufwasHold = bufcurrent != cachedpc[i].Piece;
-
-                        if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y + 2, cachedpc[i].R, 23, out int bufclear, out _))
-                            break;
-
-                        if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
-                            bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
-
-                        int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
-
-                        bufhold = bufwasHold ? bufcurrent : bufhold;
-                        bufcurrent = bufq[bufstart];
-                        bufq = bufq.Skip(bufstart + 1).ToArray();
-
-                        bufcombo += Convert.ToInt32(bufclear > 0);
-                    }
-
-                    cancel |= !BoardEquals(bufboard, tempboard);
-                }
-
-                if (!cancel) {
-                    PerfectClear.Find(
-                        bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                        bufhold, Preferences.HoldAllowed, 6, true, getPerfectType(), bufcombo, bufb2b
-                    );
-
-                    searchbufpc = false;
-
-                } else LogHelper.LogText("FUCK but less");
-            }
+            PerfectClearAOT(current, q, hold, combo);
         }
 
         Dictionary<string, Func<JToken, object>> handlers;
