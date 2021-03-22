@@ -309,6 +309,83 @@ namespace Zetris {
 
             return true;
         }
+
+        protected static bool FitPiece(int[,] board, int piece, int x, int y, int r) {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    if (piecedefs[piece][r][i, j] != -1) {
+                        if (x + j < 0 || 9 < x + j || y - i < 0 || 32 < y - i || board[x + j, y - i] != 255) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        protected static void fixInput(int piece, ref int x, ref int y, int r) {
+            switch (piece) {
+                case 5: // O
+                    switch (r) {
+                        case 1:
+                            y++; break;
+                        case 2:
+                            x--; y++; break;
+                        case 3:
+                            x--; break;
+                    }
+                    break;
+
+                case 6: // I
+                    switch (r) {
+                        case 1:
+                            x--; break;
+                        case 2:
+                            x--; y--; break;
+                        case 3:
+                            y--; break;
+                    }
+                    break;
+            }
+
+            x--;
+            y = 24 - y;
+        }
+
+        protected static void fixOutput(int piece, ref int x, ref int y, int r) {
+            x++;
+            y = 24 - y;
+
+            switch (piece) {
+                case 5: // O
+                    switch (r) {
+                        case 1:
+                            y--; break;
+                        case 2:
+                            x++; y--; break;
+                        case 3:
+                            x++; break;
+                    }
+                    break;
+
+                case 6: // I
+                    switch (r) {
+                        case 1:
+                            x++; break;
+                        case 2:
+                            x++; y++; break;
+                        case 3:
+                            y++; break;
+                    }
+                    break;
+            }
+        }
+
+        protected static bool FitPieceWithConvert(int[,] board, int piece, int x, int y, int r) {
+            fixInput(piece, ref x, ref y, r);
+
+            return FitPiece(board, piece, x, y, r);
+        }
         #endregion
 
         protected UI Window;

@@ -72,7 +72,7 @@ namespace Zetris.TETRIO {
 
             LogHelper.LogText("QUEUE FOR AOT: " + string.Join(" ", q));
 
-            MisaMinoAOT(current, q, hold, combo, garbage, 23);
+            MisaMinoAOT(current, q, hold, combo, garbage, 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0)));
 
             if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
@@ -163,8 +163,9 @@ namespace Zetris.TETRIO {
                         queue = incoming.Skip(1).ToList();
                         hold = null;
                         combo = 0;
-                    }, 23);
+                    }, 22);
 
+                    baseBoardHeight = 22;
                     pieceCount = 0;
 
                     Window?.SetActive(true);
@@ -203,9 +204,14 @@ namespace Zetris.TETRIO {
                     }
 
                     pieceCount++;
-                    baseBoardHeight = 23;
+
+                    // ideally this should take gravity into account...  i'm too lazy
+                    // or make bot wait before harddropping, but then can't go under 2pps (lock is 500ms)
+                    baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
 
                     bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
+
+                    LogHelper.LogText($"Placed {pieceUsed}");
 
                     if (wasHold) {  // In TETR.IO, advance game state since we manage it internally, even if the piece didn't end up placing...
                         if (hold == null) queue.RemoveAt(0);
