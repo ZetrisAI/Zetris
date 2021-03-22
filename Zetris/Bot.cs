@@ -253,6 +253,38 @@ namespace Zetris {
             return true;
         }
 
+        static int FirstNonGarbageLine(int[,] a) {
+            for (int i = 0; i < 24; i++) {
+                bool garbage = false;
+
+                for (int j = 0; j < 10; j++)
+                    if (a[j, i] == 9) {
+                        garbage = true;
+                        break;
+                    }
+
+                if (!garbage)
+                    return i;
+            }
+
+            return 24;
+        }
+
+        protected static bool BoardEquivalent(int[,] a, int[,] b, out int diff) {
+            int g = FirstNonGarbageLine(a);
+            int h = FirstNonGarbageLine(b);
+            int top = 24 - Math.Max(g, h);
+
+            diff = h - g;
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < top; j++)
+                    if ((a[i, j + g] == 255) != (b[i, j + h] == 255))
+                        return false;
+
+            return true;
+        }
+
         protected static void AddGarbageLine(int[,] board, int col) {
             for (int i = 0; i < 10; i++) {
                 for (int j = 30; j >= 0; j--) {
@@ -416,18 +448,28 @@ namespace Zetris {
             if (!pathSuccess) {
                 LogHelper.LogText("Using Misa!");
 
-                bool misaok = BoardEquals(misaboard, board) && misasolved;
+                bool equals = BoardEquals(misaboard, board);
+                bool equivalent = BoardEquivalent(misaboard, board, out int diff);
+
+                int tempY = MisaMino.LastSolution.FinalY;
+
+                if (!equals && equivalent) {
+                    LogHelper.LogText("GARBAGE FIX ATTEMPT");
+                    tempY -= diff;
+                }
+
+                bool misaok = equivalent && misasolved;
                 bool misasaved = false;
 
-                if (misaok && misa_lasty != baseBoardHeight) { // oops we spawned on wrong y pos
-                    LogHelper.LogText($"Tryna save Misa... {misa_lasty} {baseBoardHeight}");
+                if (misaok && (misa_lasty != baseBoardHeight || (!equals && equivalent))) { // oops wrong y pos
+                    LogHelper.LogText($"Tryna save Misa... lasty={misa_lasty} baseH={baseBoardHeight} finalY={MisaMino.LastSolution.FinalY} tempY={tempY}");
 
                     movements = MisaMino.FindPath(
                         board,
                         baseBoardHeight,
                         MisaMino.LastSolution.PieceUsed,
                         MisaMino.LastSolution.FinalX,
-                        MisaMino.LastSolution.FinalY,
+                        tempY,
                         MisaMino.LastSolution.FinalR,
                         current != MisaMino.LastSolution.PieceUsed,
                         out spinUsed,
@@ -475,7 +517,7 @@ namespace Zetris {
                 b2b = MisaMino.LastSolution.B2B;
                 atk = MisaMino.LastSolution.Attack;
                 finalX = MisaMino.LastSolution.FinalX;
-                finalY = MisaMino.LastSolution.FinalY;
+                finalY = tempY;
                 finalR = MisaMino.LastSolution.FinalR;
 
                 Window?.SetConfidence($"{MisaMino.LastSolution.Nodes} ({MisaMino.LastSolution.Depth})");

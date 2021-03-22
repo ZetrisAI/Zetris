@@ -325,7 +325,7 @@ namespace Zetris.PPT {
                         int[,] clearedboard = (int[,])board.Clone();
                         ClearLines(clearedboard, out int cleared);
 
-                        if (!BoardEquals(misaboard, clearedboard)) {
+                        if (!BoardEquivalent(misaboard, clearedboard, out _)) {
                             LogHelper.LogText("ARE");
                             LogHelper.LogBoard(misaboard, clearedboard);
 
