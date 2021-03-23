@@ -2,7 +2,7 @@
 using System.Diagnostics;
 
 namespace Zetris {
-    static class LogHelper {
+    public static class LogHelper {
         [Conditional("VERBOSE")]
         public static void LogText(string text) {
             Console.WriteLine(text);

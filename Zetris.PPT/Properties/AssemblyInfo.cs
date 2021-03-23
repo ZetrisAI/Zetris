@@ -5,8 +5,8 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Zetris")]
-[assembly: AssemblyDescription("Zetris AI")]
+[assembly: AssemblyTitle("Zetris.PPT")]
+[assembly: AssemblyDescription("Zetris AI for Puyo Puyo Tetris")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("mat1jaczyyy")]
 [assembly: AssemblyProduct("Zetris")]

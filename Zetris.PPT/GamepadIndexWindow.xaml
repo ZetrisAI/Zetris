@@ -1,0 +1,14 @@
+﻿<Controls:MetroWindow x:Class="Zetris.PPT.GamepadIndexWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      Style="{StaticResource ZetrisWindow}"
+                      WindowStartupLocation="CenterScreen" Width="300">
+
+    <UniformGrid Rows="1" Columns="4" x:Name="Root">
+        <Button Margin="5" Height="30" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="1" Click="Resolve" />
+        <Button Margin="5" Height="30" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="2" Click="Resolve" />
+        <Button Margin="5" Height="30" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="3" Click="Resolve" />
+        <Button Margin="5" Height="30" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="4" Click="Resolve" />
+    </UniformGrid>
+</Controls:MetroWindow>

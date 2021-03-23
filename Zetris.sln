@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29403.142
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{BD58E75E-C306-438B-B16D-BA3BF66BF14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.PPT", "Zetris.PPT\Zetris.PPT.csproj", "{447E38C7-741F-4815-9C4F-6EFCBE7C2130}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.TETRIO", "Zetris.TETRIO\Zetris.TETRIO.csproj", "{FABD70B6-F598-4668-8B56-AA27F27F6525}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +25,22 @@ Global
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Release|x64.Build.0 = Release|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.ActiveCfg = Verbose|x64
 		{BD58E75E-C306-438B-B16D-BA3BF66BF14E}.Verbose|x64.Build.0 = Verbose|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Debug|x64.ActiveCfg = Debug|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Debug|x64.Build.0 = Debug|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Public|x64.ActiveCfg = Public|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Public|x64.Build.0 = Public|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Release|x64.ActiveCfg = Release|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Release|x64.Build.0 = Release|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Verbose|x64.ActiveCfg = Verbose|x64
+		{447E38C7-741F-4815-9C4F-6EFCBE7C2130}.Verbose|x64.Build.0 = Verbose|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Debug|x64.ActiveCfg = Debug|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Debug|x64.Build.0 = Debug|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Public|x64.ActiveCfg = Public|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Public|x64.Build.0 = Public|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Release|x64.ActiveCfg = Release|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Release|x64.Build.0 = Release|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Verbose|x64.ActiveCfg = Verbose|x64
+		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Verbose|x64.Build.0 = Verbose|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
