@@ -35,11 +35,6 @@ namespace Zetris.TETRIO {
             AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
 
-#if PUBLIC
-            DevPanel.IsEnabled = false;
-            ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
-#endif
-
             Version.Text = App.Version;
 
             switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
