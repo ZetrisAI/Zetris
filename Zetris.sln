@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.PPT", "Zetris.PPT\Ze
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.TETRIO", "Zetris.TETRIO\Zetris.TETRIO.csproj", "{FABD70B6-F598-4668-8B56-AA27F27F6525}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.PPT.Memory", "..\Zetris.PPT.Memory\Zetris.PPT.Memory\Zetris.PPT.Memory.csproj", "{B4C0167E-967F-482D-A53C-23509D3CE71C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Release|x64.Build.0 = Release|x64
 		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Verbose|x64.ActiveCfg = Verbose|x64
 		{FABD70B6-F598-4668-8B56-AA27F27F6525}.Verbose|x64.Build.0 = Verbose|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Debug|x64.ActiveCfg = Debug|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Debug|x64.Build.0 = Debug|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Public|x64.ActiveCfg = Public|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Public|x64.Build.0 = Public|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Release|x64.ActiveCfg = Release|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Release|x64.Build.0 = Release|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Verbose|x64.ActiveCfg = Verbose|x64
+		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Verbose|x64.Build.0 = Verbose|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -81,9 +81,6 @@
       <HintPath>..\packages\PerfectClearNET.1.4.0.2\lib\net45\PerfectClearNET.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
-    <Reference Include="ProcessMemory, Version=1.1.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\ProcessMemory.1.1.1\lib\net45\ProcessMemory.dll</HintPath>
-    </Reference>
     <Reference Include="ScpDriverInterface">
       <HintPath>.\ScpDriverInterface.dll</HintPath>
     </Reference>
@@ -140,7 +137,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CachedMethod.cs" />
     <Compile Include="GamepadPanel.xaml.cs">
       <DependentUpon>GamepadPanel.xaml</DependentUpon>
     </Compile>
@@ -150,7 +146,6 @@
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="Editor.xaml.cs">
@@ -221,6 +216,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Zetris.PPT.Memory\Zetris.PPT.Memory\Zetris.PPT.Memory.csproj">
+      <Project>{b4c0167e-967f-482d-a53c-23509d3ce71c}</Project>
+      <Name>Zetris.PPT.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zetris\Zetris.csproj">
       <Project>{bd58e75e-c306-438b-b16d-ba3bf66bf14e}</Project>
       <Name>Zetris</Name>

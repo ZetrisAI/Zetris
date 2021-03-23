@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.VisualBasic;
 
+using Zetris.PPT.Memory;
+
 using MisaMinoNET;
 using PerfectClearNET;
 using ScpDriverInterface;
@@ -94,11 +96,11 @@ namespace Zetris.PPT {
         static void AddGarbage(int[,] board, uint rng, int lines) {
             if (lines == 0) return;
 
-            int col = GameHelper.RandomInt(ref rng, 10);
+            int col = GameHelper.Instance.RandomInt(ref rng, 10);
 
             for (int i = 0; i < lines; i++) {
-                if (70 < GameHelper.RandomInt(ref rng, 99)) {
-                    int newCol = GameHelper.RandomInt(ref rng, 9);
+                if (70 < GameHelper.Instance.RandomInt(ref rng, 99)) {
+                    int newCol = GameHelper.Instance.RandomInt(ref rng, 9);
                     col = newCol + Convert.ToInt32(newCol >= col);
                 }
 
@@ -119,19 +121,19 @@ namespace Zetris.PPT {
         protected override bool Allow180() => false;
         protected override bool SRSPlus() => false;
         protected override uint PCThreads() => Preferences.PCThreads;
-        protected override bool GarbageBlocking() => GameHelper.InSwap.Call();
+        protected override bool GarbageBlocking() => GameHelper.Instance.InSwap.Call();
         protected override int RushTime() => 12;
 
         protected override bool Danger() =>
 #if PUBLIC
-            GameHelper.Online.Call() || (GameHelper.LobbyPtr.Call() != 0);
+            GameHelper.Instance.Online.Call() || (GameHelper.Instance.LobbyPtr.Call() != 0);
 #else
             false;
 #endif
 
         static void ResetGame() {
 #if !PUBLIC
-            if (GameHelper.InSwap.Call() || !Preferences.PuzzleLeague) return;
+            if (GameHelper.Instance.InSwap.Call() || !Preferences.PuzzleLeague) return;
 
             Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
 
@@ -169,26 +171,26 @@ namespace Zetris.PPT {
         bool startbreak = false;
 
         void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
-            int garbage_left = GameHelper.getGarbageDropping.Call(playerID);
+            int garbage_left = GameHelper.Instance.getGarbageDropping.Call(playerID);
 
-            if (!GameHelper.InSwap.Call() || cleared == 0) 
+            if (!GameHelper.Instance.InSwap.Call() || cleared == 0) 
                 AddGarbage(
                     misaboard,
-                    GameHelper.RNG.Call(playerID),
-                    GameHelper.CalculateGarbage(playerID, atk, out garbage_left)
+                    GameHelper.Instance.RNG.Call(playerID),
+                    GameHelper.Instance.CalculateGarbage(playerID, atk, out garbage_left)
                 );
 
             MisaMinoAOT(current, q, hold, combo, garbage_left, 21 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 4, 0)));
         }
 
         void runLogic() {
-            numplayers = GameHelper.PlayerCount.Call();
-            playerID = GameHelper.FindPlayer.Call();
+            numplayers = GameHelper.Instance.PlayerCount.Call();
+            playerID = GameHelper.Instance.FindPlayer.Call();
 
-            if (GameHelper.InMultiplayer.Call())
+            if (GameHelper.Instance.InMultiplayer.Call())
                 playerID = Preferences.Player;
 
-            int temp = GameHelper.getRating.Call();
+            int temp = GameHelper.Instance.getRating.Call();
 
             if (temp != currentRating) {
                 ratingSafe = globalFrames;
@@ -196,28 +198,28 @@ namespace Zetris.PPT {
 
             currentRating = temp;
 
-            int y = GameHelper.getPiecePositionY.Call(playerID);
+            int y = GameHelper.Instance.getPiecePositionY.Call(playerID);
             baseBoardHeight = 25 - y;
 
-            board = GameHelper.getBoard.Call(playerID);
+            board = GameHelper.Instance.getBoard.Call(playerID);
             int[,] oboard = (int[,])board.Clone();
 
-            if (GameHelper.OutsideMenu.Call() && GameHelper.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.GameEnd.Call() != 16 || GameHelper.GameEnd.Call() != 36)) {
+            if (GameHelper.Instance.OutsideMenu.Call() && GameHelper.Instance.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.Instance.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
                 ResetGame();
                 return;
             }
 
-            if (GameHelper.boardAddress.Call(playerID) > 0x1000 && GameHelper.OutsideMenu.Call() && GameHelper.getPlayer1Base.Call() > 0x1000) {
-                if (numplayers < 2 && GameHelper.CurrentMode.Call() == 4 && GameHelper.Online.Call() && !(GameHelper.GameEnd.Call() != 16 || GameHelper.GameEnd.Call() != 36)) {
+            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && GameHelper.Instance.getPlayer1Base.Call() > 0x1000) {
+                if (numplayers < 2 && GameHelper.Instance.CurrentMode.Call() == 4 && GameHelper.Instance.Online.Call() && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
                     ResetGame();
                     return;
                 }
 
-                int drop = GameHelper.getPieceDropped.Call(playerID);
+                int drop = GameHelper.Instance.getPieceDropped.Call(playerID);
 
-                int[] pieces = GameHelper.getPieces.Call(playerID);
+                int[] pieces = GameHelper.Instance.getPieces.Call(playerID);
 
-                bool startanim = GameHelper.getStartAnimation.Call() > 0x1000;
+                bool startanim = GameHelper.Instance.getStartAnimation.Call() > 0x1000;
 
                 if (startanim && !startbreak) {
                     NewGame(() => {
@@ -229,16 +231,16 @@ namespace Zetris.PPT {
                         speedTick = 0;
 
                         current = pieces[0];
-                        queue = pieces.Skip(1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
+                        queue = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
                     }, 21);
                 }
 
-                current = GameHelper.getCurrentPiece.Call(playerID);
+                current = GameHelper.Instance.getCurrentPiece.Call(playerID);
 
                 startbreak = startanim;
 
-                int? hold = GameHelper.getHold.Call(playerID);
-                int combo = GameHelper.getCombo.Call(playerID);
+                int? hold = GameHelper.Instance.getHold.Call(playerID);
+                int combo = GameHelper.Instance.getCombo.Call(playerID);
 
                 if (drop != state) {
                     if (drop == 1) {
@@ -254,7 +256,7 @@ namespace Zetris.PPT {
 
                             misaboard = clearedboard;
 
-                            int[] q = pieces.Skip(1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
+                            int[] q = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
                             q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
                             misaPrediction(pieces[0], q, hold, combo, cleared);
@@ -268,20 +270,20 @@ namespace Zetris.PPT {
                 if (itstimetomove) register = false;
 
                 if (!register)
-                    queue = pieces.Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
+                    queue = pieces.Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
 
                 if (itstimetomove) {
                     shouldHaveRegistered = false;
                     inputStarted = 0;
                     softdrop = false;
 
-                    b2b = GameHelper.getB2B.Call(playerID);
-                    garbage = GameHelper.getGarbageDropping.Call(playerID);
+                    b2b = GameHelper.Instance.getB2B.Call(playerID);
+                    garbage = GameHelper.Instance.getGarbageDropping.Call(playerID);
 
                     if (MakeDecision(out bool wasHold, out _, out _)) {
                         int start = Convert.ToInt32(wasHold && hold == null);
 
-                        int[] q = pieces.Skip(start + 1).Concat(GameHelper.getNextFromBags.Call(playerID)).Concat(GameHelper.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
+                        int[] q = pieces.Skip(start + 1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
 
                         int futureCurrent = pieces[start];
                         int? futureHold = wasHold? current : hold;
@@ -327,7 +329,7 @@ namespace Zetris.PPT {
 
         void processInput() {
             if (movements.Count > 0) {
-                if (GameHelper.InSwap.Call() && GameHelper.SwapType.Call() == 0) {
+                if (GameHelper.Instance.InSwap.Call() && GameHelper.Instance.SwapType.Call() == 0) {
                     softdrop = false;
                     movements.Clear();
                     inputStarted = 0;
@@ -351,20 +353,20 @@ namespace Zetris.PPT {
                     if (inputStarted == 0 || inputStarted == 2) {
                         switch (movements[0]) {
                             case Instruction.NULL: inputGoal = -1; break;
-                            case Instruction.L: inputGoal = GameHelper.getPiecePositionX.Call(playerID) - 1; break;
-                            case Instruction.R: inputGoal = GameHelper.getPiecePositionX.Call(playerID) + 1; break;
+                            case Instruction.L: inputGoal = GameHelper.Instance.getPiecePositionX.Call(playerID) - 1; break;
+                            case Instruction.R: inputGoal = GameHelper.Instance.getPiecePositionX.Call(playerID) + 1; break;
                             case Instruction.DROP: inputGoal = 1; break;
-                            case Instruction.HOLD: inputGoal = (int)GameHelper.getHoldPointer.Call(playerID); break;
+                            case Instruction.HOLD: inputGoal = (int)GameHelper.Instance.getHoldPointer.Call(playerID); break;
 
                             case Instruction.D:
                                 inputGoal = Math.Min(
-                                    GameHelper.getPiecePositionY.Call(playerID) + 1,
+                                    GameHelper.Instance.getPiecePositionY.Call(playerID) + 1,
                                     FindInputGoalY(
                                         board,
                                         pieceUsed,
-                                        GameHelper.getPiecePositionX.Call(playerID),
-                                        GameHelper.getPiecePositionY.Call(playerID),
-                                        GameHelper.getPieceRotation.Call(playerID)
+                                        GameHelper.Instance.getPiecePositionX.Call(playerID),
+                                        GameHelper.Instance.getPiecePositionY.Call(playerID),
+                                        GameHelper.Instance.getPieceRotation.Call(playerID)
                                     )
                                 );
                                 break;
@@ -373,9 +375,9 @@ namespace Zetris.PPT {
                                 inputGoal = FindInputGoalX(
                                     board,
                                     pieceUsed,
-                                    GameHelper.getPiecePositionX.Call(playerID),
-                                    GameHelper.getPiecePositionY.Call(playerID),
-                                    GameHelper.getPieceRotation.Call(playerID),
+                                    GameHelper.Instance.getPiecePositionX.Call(playerID),
+                                    GameHelper.Instance.getPiecePositionY.Call(playerID),
+                                    GameHelper.Instance.getPieceRotation.Call(playerID),
                                     -1
                                 );
 
@@ -389,9 +391,9 @@ namespace Zetris.PPT {
                                 inputGoal = FindInputGoalX(
                                     board,
                                     pieceUsed,
-                                    GameHelper.getPiecePositionX.Call(playerID),
-                                    GameHelper.getPiecePositionY.Call(playerID),
-                                    GameHelper.getPieceRotation.Call(playerID),
+                                    GameHelper.Instance.getPiecePositionX.Call(playerID),
+                                    GameHelper.Instance.getPiecePositionY.Call(playerID),
+                                    GameHelper.Instance.getPieceRotation.Call(playerID),
                                     1
                                 );
 
@@ -405,19 +407,19 @@ namespace Zetris.PPT {
                                 inputGoal = FindInputGoalY(
                                     board,
                                     pieceUsed,
-                                    GameHelper.getPiecePositionX.Call(playerID),
-                                    GameHelper.getPiecePositionY.Call(playerID),
-                                    GameHelper.getPieceRotation.Call(playerID)
+                                    GameHelper.Instance.getPiecePositionX.Call(playerID),
+                                    GameHelper.Instance.getPiecePositionY.Call(playerID),
+                                    GameHelper.Instance.getPieceRotation.Call(playerID)
                                 );
                                 break;
 
                             case Instruction.LSPIN:
-                                inputGoal = GameHelper.getPieceRotation.Call(playerID) - 1;
+                                inputGoal = GameHelper.Instance.getPieceRotation.Call(playerID) - 1;
                                 if (inputGoal < 0) inputGoal = 3;
                                 break;
 
                             case Instruction.RSPIN:
-                                inputGoal = GameHelper.getPieceRotation.Call(playerID) + 1;
+                                inputGoal = GameHelper.Instance.getPieceRotation.Call(playerID) + 1;
                                 if (inputGoal > 3) inputGoal = 0;
                                 break;
                         }
@@ -431,13 +433,13 @@ namespace Zetris.PPT {
                         case Instruction.L:
                         case Instruction.R:
                         case Instruction.LL:
-                        case Instruction.RR: inputCurrent = GameHelper.getPiecePositionX.Call(playerID); break;
+                        case Instruction.RR: inputCurrent = GameHelper.Instance.getPiecePositionX.Call(playerID); break;
                         case Instruction.D:
-                        case Instruction.DD: inputCurrent = GameHelper.getPiecePositionY.Call(playerID); break;
+                        case Instruction.DD: inputCurrent = GameHelper.Instance.getPiecePositionY.Call(playerID); break;
                         case Instruction.LSPIN:
-                        case Instruction.RSPIN: inputCurrent = GameHelper.getPieceRotation.Call(playerID); break;
-                        case Instruction.DROP: inputCurrent = GameHelper.getPieceDropped.Call(playerID); break;
-                        case Instruction.HOLD: inputCurrent = (GameHelper.getHoldPointer.Call(playerID) != inputGoal && GameHelper.getHoldPointer.Call(playerID) > 0x08000000) ? inputGoal : 0; break;
+                        case Instruction.RSPIN: inputCurrent = GameHelper.Instance.getPieceRotation.Call(playerID); break;
+                        case Instruction.DROP: inputCurrent = GameHelper.Instance.getPieceDropped.Call(playerID); break;
+                        case Instruction.HOLD: inputCurrent = (GameHelper.Instance.getHoldPointer.Call(playerID) != inputGoal && GameHelper.Instance.getHoldPointer.Call(playerID) > 0x08000000) ? inputGoal : 0; break;
                     }
 
                     if (inputCurrent == inputGoal || (softdrop && inputCurrent >= inputGoal)) {
@@ -466,8 +468,8 @@ namespace Zetris.PPT {
                     }
 
                 } else if (inputStarted != 1 && inputStarted != 2) { // Desire mode = faster due to rotation/movement mixing, but can't softdrop/spin
-                    int pieceX = GameHelper.getPiecePositionX.Call(playerID);
-                    int pieceR = GameHelper.getPieceRotation.Call(playerID);
+                    int pieceX = GameHelper.Instance.getPiecePositionX.Call(playerID);
+                    int pieceR = GameHelper.Instance.getPieceRotation.Call(playerID);
 
                     if (inputStarted == 0) {
                         desiredX = pieceX;
@@ -484,7 +486,7 @@ namespace Zetris.PPT {
                                         board,
                                         pieceUsed,
                                         desiredX,
-                                        GameHelper.getPiecePositionY.Call(playerID),
+                                        GameHelper.Instance.getPiecePositionY.Call(playerID),
                                         desiredR,
                                         -1
                                     );
@@ -495,7 +497,7 @@ namespace Zetris.PPT {
                                         board,
                                         pieceUsed,
                                         desiredX,
-                                        GameHelper.getPiecePositionY.Call(playerID),
+                                        GameHelper.Instance.getPiecePositionY.Call(playerID),
                                         desiredR,
                                         1
                                     );
@@ -516,7 +518,7 @@ namespace Zetris.PPT {
                                         board,
                                         pieceUsed,
                                         desiredX,
-                                        GameHelper.getPiecePositionY.Call(playerID),
+                                        GameHelper.Instance.getPiecePositionY.Call(playerID),
                                         desiredR
                                     );
                                     break;
@@ -536,7 +538,7 @@ namespace Zetris.PPT {
                                         board,
                                         pieceUsed,
                                         desiredX,
-                                        GameHelper.getPiecePositionY.Call(playerID),
+                                        GameHelper.Instance.getPiecePositionY.Call(playerID),
                                         desiredR
                                     );
                                     break;
@@ -548,7 +550,7 @@ namespace Zetris.PPT {
                         inputStarted = 3;
                     }
 
-                    if (GameHelper.getPieceDropped.Call(playerID) == 1) {
+                    if (GameHelper.Instance.getPieceDropped.Call(playerID) == 1) {
                         inputStarted = 0;
                         movements.Clear();
                         return;
@@ -594,11 +596,11 @@ namespace Zetris.PPT {
         int charindex = 0;
 
         void applyInputs() {
-            int nextFrame = GameHelper.getFrameCount.Call();
+            int nextFrame = GameHelper.Instance.getFrameCount.Call();
 
             bool addDown = false;
 
-            if (GameHelper.boardAddress.Call(playerID) > 0x1000 && GameHelper.OutsideMenu.Call() && nextFrame > 0 && GameHelper.getPlayer1Base.Call() > 0x1000 && GameHelper.GameEnd.Call() != 16 && GameHelper.GameEnd.Call() != 36) {
+            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && nextFrame > 0 && GameHelper.Instance.getPlayer1Base.Call() > 0x1000 && GameHelper.Instance.GameEnd.Call() != 16 && GameHelper.Instance.GameEnd.Call() != 36) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
@@ -611,29 +613,29 @@ namespace Zetris.PPT {
                 gamepad.Buttons = X360Buttons.None;
 
                 #if !PUBLIC
-                    if (Preferences.SpamA && GameHelper.GetMenu.Call() == 28)
+                    if (Preferences.SpamA && GameHelper.Instance.GetMenu.Call() == 28)
                         gamepad.Buttons |= globalFrames % 2 == 0? X360Buttons.A : (X360Buttons.LeftBumper | X360Buttons.Down);
 
                     else
                 #endif
 
                 if (globalFrames % 2 == 0) {
-                    if (Preferences.SaveReplay && GameHelper.CanSaveReplay.Call() == 0 && GameHelper.MenuNavigation.Call(0) != 250 && GameHelper.OutsideMenu.Call()) {
-                        if (GameHelper.MenuNavigation.Call(1) != 1)        // end of match
+                    if (Preferences.SaveReplay && GameHelper.Instance.CanSaveReplay.Call() == 0 && GameHelper.Instance.MenuNavigation.Call(0) != 250 && GameHelper.Instance.OutsideMenu.Call()) {
+                        if (GameHelper.Instance.MenuNavigation.Call(1) != 1)        // end of match
                             gamepad.Buttons |= X360Buttons.A;
 
-                        else if (GameHelper.MenuNavigation.Call(2) == 0)   // not default position
+                        else if (GameHelper.Instance.MenuNavigation.Call(2) == 0)   // not default position
                             gamepad.Buttons |= X360Buttons.Up;
 
-                        else if (GameHelper.ConfirmingReplay.Call() != 1)  // in replay confirm sub menu
+                        else if (GameHelper.Instance.ConfirmingReplay.Call() != 1)  // in replay confirm sub menu
                             gamepad.Buttons |= X360Buttons.A;
 
-                        else gamepad.Buttons |= GameHelper.ReplayMenuSelection.Call() == 1? X360Buttons.A : X360Buttons.Right;
+                        else gamepad.Buttons |= GameHelper.Instance.ReplayMenuSelection.Call() == 1? X360Buttons.A : X360Buttons.Right;
 
                     } else if (Preferences.PuzzleLeague) {
-                        int mode = GameHelper.CurrentMode.Call();
+                        int mode = GameHelper.Instance.CurrentMode.Call();
 
-                        if (GameHelper.OutsideMenu.Call())
+                        if (GameHelper.Instance.OutsideMenu.Call())
                             gamepad.Buttons |= X360Buttons.A;
 
                         else if (mode == 4) {
@@ -645,13 +647,13 @@ namespace Zetris.PPT {
                         } else if (mode == 1)
                             gamepad.Buttons |= X360Buttons.B;
 
-                        else gamepad.Buttons |= GameHelper.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
+                        else gamepad.Buttons |= GameHelper.Instance.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
 
-                    } else if (GameHelper.InMultiplayer.Call() && GameHelper.OutsideMenu.Call()) {
-                        if (!GameHelper.IsCharacterSelect.Call() || GameHelper.CharSelectIndex.Call(playerID) == 13) // Zed
+                    } else if (GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
+                        if (!GameHelper.Instance.IsCharacterSelect.Call() || GameHelper.Instance.CharSelectIndex.Call(playerID) == 13) // Zed
                             gamepad.Buttons |= X360Buttons.A;
 
-                        else if (GameHelper.CharacterSelectState.Call(playerID) > 1) // Picked not Zed on accident
+                        else if (GameHelper.Instance.CharacterSelectState.Call(playerID) > 1) // Picked not Zed on accident
                             gamepad.Buttons |= X360Buttons.B;
 
                         else gamepad.Buttons |= (charindex = ++charindex % 5) == 0? X360Buttons.Down : X360Buttons.Right;
@@ -729,19 +731,23 @@ namespace Zetris.PPT {
                 GameHelper.TrustProcess = true;
 
                 int prev = globalFrames;
-                globalFrames = GameHelper.getMenuFrameCount();
+                globalFrames = GameHelper.Instance.getMenuFrameCount();
 
                 if (newFrame = globalFrames > prev) {
                     if (globalFrames != prev + 1)
                         LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
 
-                    CachedMethod.InvalidateAll();
+                    GameHelper.InvalidateCache();
 
                     runLogic();
                     applyInputs();
                 }
 
                 GameHelper.TrustProcess = false;
+            
+            } else {
+                MisaMino.Abort();
+                PerfectClear.Abort();
             }
 
             Window?.SetActive(inMatch);

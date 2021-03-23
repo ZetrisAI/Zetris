@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
+
+using Zetris.PPT.Memory;
 
 using MisaMinoNET;
 
@@ -179,6 +180,19 @@ namespace Zetris.PPT {
             set {
                 _accurate = value;
                 PPTBot.Instance.UpdatePriority();
+                Save();
+            }
+        }
+
+        static int _game = 0;
+        public static int Game {
+            get => _game;
+            set {
+                _game = value;
+                
+                if (_game == 0) GameHelper.UsePPT();
+                else if (_game == 1) GameHelper.UsePPT2();
+
                 Save();
             }
         }

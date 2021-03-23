@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+using Zetris.PPT.Memory;
+
 namespace Zetris.PPT {
     public partial class UI: IUI {
         static bool FreezeEvents = true;
@@ -41,6 +43,7 @@ namespace Zetris.PPT {
             TSDOnly.IsChecked = Preferences.TSDOnly;
             Player.RawValue = Preferences.Player + 1;
             AccurateSync.IsChecked = Preferences.AccurateSync;
+            Game.SelectedIndex = Preferences.Game;
 
 #if PUBLIC
             DevPanel.IsEnabled = false;
@@ -74,6 +77,8 @@ namespace Zetris.PPT {
                                            "계속 다음 프레임을 확인합니다.\n" +
                                            "이 항목은 제트리스를 실행할 때 성능문제가 발생할 경우에만 해제해주세요.";
                     GamepadPanel.RestoreText = "입력 복구";
+                    Game.Items.Add("뿌요뿌요™테트리스®");
+                    Game.Items.Add("뿌요뿌요™테트리스®２");
                     break;
                     
                 case "ja":
@@ -99,6 +104,8 @@ namespace Zetris.PPT {
                     AccurateSync.ToolTip = "ここにチェックをいれると、ZetrisのCPU使用率をあげてフレームスキップを防ぎます。\n" +
                                            "チェックありの方が強いですが、パソコンが重い場合はチェックを外してください";
                     GamepadPanel.RestoreText = "操作権を返す";
+                    Game.Items.Add("ぷよぷよ™テトリス®");
+                    Game.Items.Add("ぷよぷよ™テトリス®２");
                     break;
                     
                 default:
@@ -125,6 +132,8 @@ namespace Zetris.PPT {
                                            "prevent frame skipping at the cost of increased CPU usage.\n" +
                                            "Uncheck this only if your computer has performance issues while running Zetris.";
                     GamepadPanel.RestoreText = "Restore Inputs";
+                    Game.Items.Add("Puyo Puyo™ Tetris®");
+                    Game.Items.Add("Puyo Puyo™ Tetris® 2");
                     break;
             }
 
@@ -233,8 +242,8 @@ namespace Zetris.PPT {
 
         void KickExploit(object sender, RoutedEventArgs e) {
             #if !PUBLIC
-                if (GameHelper.CheckProcess() && GameHelper.GetMenu.Call() == 27)
-                    Process.Start($"steam://joinlobby/546050/{GameHelper.LobbyID.Call()}/");
+                if (GameHelper.CheckProcess() && GameHelper.Instance.GetMenu.Call() == 27)
+                    Process.Start($"steam://joinlobby/546050/{GameHelper.Instance.LobbyID.Call()}/");
             #endif
         }
 
@@ -256,6 +265,10 @@ namespace Zetris.PPT {
 
         void AccurateSyncChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.AccurateSync = AccurateSync.IsChecked == true;
+        }
+
+        void GameChanged(object sender, SelectionChangedEventArgs e) {
+            if (!FreezeEvents) Preferences.Game = Game.SelectedIndex;
         }
     }
 }

@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris.PPT {
     public static class Binary {
-        static readonly int Version = 8;
+        static readonly int Version = 9;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -44,6 +44,7 @@ namespace Zetris.PPT {
                 writer.Write(Preferences.TSDOnly);
                 writer.Write(Preferences.Player);
                 writer.Write(Preferences.AccurateSync);
+                writer.Write(Preferences.Game);
             }
 
             return output;
@@ -106,6 +107,9 @@ namespace Zetris.PPT {
 
                 if (version >= 4)
                     Preferences.AccurateSync = reader.ReadBoolean();
+
+                if (version >= 9)
+                    Preferences.Game = reader.ReadInt32();
             }
         }
 
