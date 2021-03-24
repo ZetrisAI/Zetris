@@ -243,7 +243,7 @@ namespace Zetris.PPT {
         void KickExploit(object sender, RoutedEventArgs e) {
             #if !PUBLIC
                 if (GameHelper.CheckProcess() && GameHelper.Instance.GetMenu.Call() == 27)
-                    Process.Start($"steam://joinlobby/546050/{GameHelper.Instance.LobbyID.Call()}/");
+                    Process.Start($"steam://joinlobby/{GameHelper.GameID}/{GameHelper.Instance.LobbyID.Call()}/");
             #endif
         }
 
