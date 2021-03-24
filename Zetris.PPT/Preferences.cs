@@ -148,7 +148,7 @@ namespace Zetris.PPT {
         static bool _replay = false;
         public static bool SaveReplay {
 #if !PUBLIC
-            get => _replay;
+            get => Game == 1? false : _replay;
 #else
             get => false;
 #endif
@@ -158,7 +158,7 @@ namespace Zetris.PPT {
         static bool _spam = false;
         public static bool SpamA {
 #if !PUBLIC
-            get => _spam;
+            get => Game == 1? false : _spam;
 #else
             get => false;
 #endif

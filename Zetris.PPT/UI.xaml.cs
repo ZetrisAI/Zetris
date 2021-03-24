@@ -45,6 +45,8 @@ namespace Zetris.PPT {
             AccurateSync.IsChecked = Preferences.AccurateSync;
             Game.SelectedIndex = Preferences.Game;
 
+            UpdateGame();
+
 #if PUBLIC
             DevPanel.IsEnabled = false;
             ((StackPanel)DevPanel.Parent).Children.Remove(DevPanel);
@@ -172,6 +174,10 @@ namespace Zetris.PPT {
             if (Active) Editor?.Close();
             else Info.MaxHeight = 0;
         }
+
+        void UpdateGame() {
+            NoPPT2Panel.Height = (NoPPT2Panel.IsEnabled = (Preferences.Game != 1))? double.NaN : 0;
+        }
         
         void StyleChanged(object sender, SelectionChangedEventArgs e) {
             if (!FreezeEvents) Preferences.StyleIndex = Style.SelectedIndex;
@@ -269,6 +275,7 @@ namespace Zetris.PPT {
 
         void GameChanged(object sender, SelectionChangedEventArgs e) {
             if (!FreezeEvents) Preferences.Game = Game.SelectedIndex;
+            UpdateGame();
         }
     }
 }
