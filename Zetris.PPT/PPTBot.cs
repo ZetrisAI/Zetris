@@ -135,7 +135,7 @@ namespace Zetris.PPT {
 #if !PUBLIC
             if (GameHelper.Instance.InSwap.Call() || !Preferences.PuzzleLeague) return;
 
-            Process.Start("steam://joinlobby/546050/109775241058543776/76561198802063829");
+            GameHelper.Instance.ResetGame();
 
             Stopwatch resetting = new Stopwatch();
             resetting.Start();
@@ -613,14 +613,14 @@ namespace Zetris.PPT {
                 gamepad.Buttons = X360Buttons.None;
 
                 #if !PUBLIC
-                    if (Preferences.SpamA && GameHelper.Instance.GetMenu.Call() == 28)
+                    if (GameHelper.Instance is Memory.PPT && Preferences.SpamA && GameHelper.Instance.GetMenu.Call() == 28)
                         gamepad.Buttons |= globalFrames % 2 == 0? X360Buttons.A : (X360Buttons.LeftBumper | X360Buttons.Down);
 
                     else
                 #endif
 
                 if (globalFrames % 2 == 0) {
-                    if (Preferences.SaveReplay && GameHelper.Instance.CanSaveReplay.Call() == 0 && GameHelper.Instance.MenuNavigation.Call(0) != 250 && GameHelper.Instance.OutsideMenu.Call()) {
+                    if (GameHelper.Instance is Memory.PPT && Preferences.SaveReplay && GameHelper.Instance.CanSaveReplay.Call() == 0 && GameHelper.Instance.MenuNavigation.Call(0) != 250 && GameHelper.Instance.OutsideMenu.Call()) {
                         if (GameHelper.Instance.MenuNavigation.Call(1) != 1)        // end of match
                             gamepad.Buttons |= X360Buttons.A;
 

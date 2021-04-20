@@ -248,8 +248,8 @@ namespace Zetris.PPT {
 
         void KickExploit(object sender, RoutedEventArgs e) {
             #if !PUBLIC
-                if (GameHelper.CheckProcess() && GameHelper.Instance.GetMenu.Call() == 27)
-                    Process.Start($"steam://joinlobby/{GameHelper.GameID}/{GameHelper.Instance.LobbyID.Call()}/");
+                if (GameHelper.CheckProcess() && GameHelper.Instance is Memory.PPT && GameHelper.Instance.GetMenu.Call() == 27)
+                    Process.Start($"steam://joinlobby/{GameHelper.GameID}/{GameHelper.Instance.LobbyID.Call()}/");  // patched for ppt2 :(
             #endif
         }
 
