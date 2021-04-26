@@ -133,7 +133,7 @@ namespace Zetris.PPT {
 
         static void ResetGame() {
 #if !PUBLIC
-            if (GameHelper.Instance.InSwap.Call() || !Preferences.PuzzleLeague) return;
+            if (!(GameHelper.Instance is Memory.PPT) || GameHelper.Instance.InSwap.Call() || !Preferences.PuzzleLeague) return;
 
             GameHelper.Instance.ResetGame();
 
@@ -204,13 +204,14 @@ namespace Zetris.PPT {
             board = GameHelper.Instance.getBoard.Call(playerID);
             int[,] oboard = (int[,])board.Clone();
 
-            if (GameHelper.Instance.OutsideMenu.Call() && GameHelper.Instance.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.Instance.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
+            if (GameHelper.Instance is Memory.PPT && GameHelper.Instance.OutsideMenu.Call() && GameHelper.Instance.CurrentMode.Call() == 4 && numplayers < 2 && GameHelper.Instance.boardAddress.Call(playerID) < 0x1000 && ratingSafe + 1500 < globalFrames && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
+                // ResetGame only implemented on PPT1
                 ResetGame();
                 return;
             }
 
             if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && GameHelper.Instance.getPlayer1Base.Call() > 0x1000) {
-                if (numplayers < 2 && GameHelper.Instance.CurrentMode.Call() == 4 && GameHelper.Instance.Online.Call() && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
+                if (GameHelper.Instance is Memory.PPT && numplayers < 2 && GameHelper.Instance.CurrentMode.Call() == 4 && GameHelper.Instance.Online.Call() && !(GameHelper.Instance.GameEnd.Call() != 16 || GameHelper.Instance.GameEnd.Call() != 36)) {
                     ResetGame();
                     return;
                 }
@@ -600,7 +601,7 @@ namespace Zetris.PPT {
 
             bool addDown = false;
 
-            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && nextFrame > 0 && GameHelper.Instance.getPlayer1Base.Call() > 0x1000 && GameHelper.Instance.GameEnd.Call() != 16 && GameHelper.Instance.GameEnd.Call() != 36) {
+            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && nextFrame > 0 && GameHelper.Instance.getPlayer1Base.Call() > 0x1000 && (GameHelper.Instance is Memory.PPT? GameHelper.Instance.GameEnd.Call() != 16 && GameHelper.Instance.GameEnd.Call() != 36 : true)) {
                 if (nextFrame != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
@@ -632,7 +633,7 @@ namespace Zetris.PPT {
 
                         else gamepad.Buttons |= GameHelper.Instance.ReplayMenuSelection.Call() == 1? X360Buttons.A : X360Buttons.Right;
 
-                    } else if (Preferences.PuzzleLeague) {
+                    } else if (GameHelper.Instance is Memory.PPT && Preferences.PuzzleLeague) {
                         int mode = GameHelper.Instance.CurrentMode.Call();
 
                         if (GameHelper.Instance.OutsideMenu.Call())
@@ -649,7 +650,8 @@ namespace Zetris.PPT {
 
                         else gamepad.Buttons |= GameHelper.Instance.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
 
-                    } else if (GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
+                    // In PPT2, Character Select is really gay, and the user will need to pick character using manual input mode
+                    } else if (GameHelper.Instance is PPT2 && GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
                         if (!GameHelper.Instance.IsCharacterSelect.Call() || GameHelper.Instance.CharSelectIndex.Call(playerID) == 13) // Zed
                             gamepad.Buttons |= X360Buttons.A;
 

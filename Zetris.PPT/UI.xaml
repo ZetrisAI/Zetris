@@ -71,11 +71,11 @@
         <CheckBox Margin="0 0 0 5" x:Name="AccurateSync" Click="AccurateSyncChanged" />
 
         <StackPanel x:Name="DevPanel">
-            <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-            <CheckBox Margin="0 0 0 5" Content="Auto Puzzle League" x:Name="PuzzleLeague" Click="PuzzleLeagueChanged" />
-
             <StackPanel x:Name="NoPPT2Panel">
+                <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
+
+                <CheckBox Margin="0 0 0 5" Content="Auto Puzzle League" x:Name="PuzzleLeague" Click="PuzzleLeagueChanged" />
+
                 <CheckBox Margin="0 0 0 5" Content="Auto Save Replay" x:Name="SaveReplay" Click="SaveReplayChanged" />
 
                 <Button Margin="0 0 0 5" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" Content="Kick Exploit" Click="KickExploit" />
