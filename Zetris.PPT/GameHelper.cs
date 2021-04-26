@@ -285,13 +285,22 @@ namespace Zetris.PPT {
             ));
         });
 
+        public static CachedMethod<int, long> garbageAddress = new CachedMethod<int, long>((index) =>
+            Game.ReadInt64(new IntPtr(getPlayerBaseAddress.Call(index) + 0xD0))
+        );
+
         public static CachedMethod<int, int> getGarbageDropping = new CachedMethod<int, int>((index) =>
-            Game.TraverseInt32(
-                new IntPtr(0x140461B20),
+            Game.ReadInt32(
+                new IntPtr(garbageAddress.Call(index) + (
+                    InSwap.Call()
+                        ? 0x84 // Swap garbage from Puyo
+                        : 0x60 // VS garbage
+                )
+            )) + (
                 InSwap.Call()
-                    ? new int[] {0x378 + index * 0x8, 0x1E0, 0xD0, 0xA8}
-                    : new int[] {0x378 + index * 0x8, 0xD0, 0x3C}
-            )?? 0
+                    ? Game.ReadInt32(new IntPtr(garbageAddress.Call(index) + 0xA8)) // Swap garbage from Tetris
+                    : 0
+            )
         );
 
         public static CachedMethod<int, int> getCombo = new CachedMethod<int, int>((index) =>
