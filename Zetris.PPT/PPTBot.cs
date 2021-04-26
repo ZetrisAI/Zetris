@@ -323,7 +323,7 @@ namespace Zetris.PPT {
 
         int clear = 0;
         int inputStarted = 0;
-        int inputGoal = -1;
+        long inputGoal = -1;
         bool softdrop = false;
         int desiredX, desiredR;
         bool desiredHold;
@@ -357,7 +357,7 @@ namespace Zetris.PPT {
                             case Instruction.L: inputGoal = GameHelper.Instance.getPiecePositionX.Call(playerID) - 1; break;
                             case Instruction.R: inputGoal = GameHelper.Instance.getPiecePositionX.Call(playerID) + 1; break;
                             case Instruction.DROP: inputGoal = 1; break;
-                            case Instruction.HOLD: inputGoal = (int)GameHelper.Instance.getHoldPointer.Call(playerID); break;
+                            case Instruction.HOLD: inputGoal = GameHelper.Instance.getHoldPointer.Call(playerID); break;
 
                             case Instruction.D:
                                 inputGoal = Math.Min(
@@ -428,7 +428,7 @@ namespace Zetris.PPT {
                         inputStarted = 1;
                     }
 
-                    int inputCurrent = -1;
+                    long inputCurrent = -1;
                     switch (movements[0]) {
                         case Instruction.NULL: inputCurrent = -1; break;
                         case Instruction.L:
