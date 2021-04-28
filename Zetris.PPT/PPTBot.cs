@@ -156,7 +156,7 @@ namespace Zetris.PPT {
             return state? scp.PlugIn(gamepadIndex) : false;
         }
 
-        int playerID, currentRating, numplayers, frames, globalFrames;
+        int playerID, currentRating, numplayers, frames, globalFrames, engineFrames;
 
         bool inMatch = false;
         int menuStartFrames = 0;
@@ -234,6 +234,9 @@ namespace Zetris.PPT {
                         current = pieces[0];
                         queue = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
                     }, 21);
+
+                    useEngineFrames();
+                    refreshEngineTimeout();
                 }
 
                 current = GameHelper.Instance.getCurrentPiece.Call(playerID);
@@ -597,18 +600,16 @@ namespace Zetris.PPT {
         int charindex = 0;
 
         void applyInputs() {
-            int nextFrame = GameHelper.Instance.getFrameCount.Call();
-
             bool addDown = false;
 
-            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && nextFrame > 0 && GameHelper.Instance.getPlayer1Base.Call() > 0x1000 && (GameHelper.Instance is Memory.PPT? GameHelper.Instance.GameEnd.Call() != 16 && GameHelper.Instance.GameEnd.Call() != 36 : true)) {
-                if (nextFrame != frames) {
+            if (GameHelper.Instance.boardAddress.Call(playerID) > 0x1000 && GameHelper.Instance.OutsideMenu.Call() && engineFrames > 0 && GameHelper.Instance.getPlayer1Base.Call() > 0x1000 && (GameHelper.Instance is Memory.PPT? GameHelper.Instance.GameEnd.Call() != 16 && GameHelper.Instance.GameEnd.Call() != 36 : true)) {
+                if (engineFrames != frames) {
                     gamepad.Buttons = X360Buttons.None;
                     processInput();
                 }
 
                 addDown = softdrop;
-                frames = nextFrame;
+                frames = engineFrames;
 
             } else {
                 gamepad.Buttons = X360Buttons.None;
@@ -726,23 +727,69 @@ namespace Zetris.PPT {
             UpdatePriority();
         }
 
+        int e_prev = 0;
+        bool usingEngineFrames = false;
+        Stopwatch engineFramesTimeout;
+
+        void refreshEngineTimeout() {
+            if (!usingEngineFrames) return;
+
+            engineFramesTimeout?.Stop();
+            engineFramesTimeout = new Stopwatch();
+            engineFramesTimeout.Start();
+        }
+
+        void useEngineFrames() {
+            if (usingEngineFrames) return;
+                
+            usingEngineFrames = true;
+            LogHelper.LogText("[Framesync] Switched to Engine Frames");
+        }
+
+        void useGlobalFrames() {
+            if (!usingEngineFrames) return;
+
+            engineFramesTimeout?.Stop();
+            engineFramesTimeout = null;
+
+            usingEngineFrames = false;
+            LogHelper.LogText("[Framesync] Switched to Global/Menu Frames");
+        }
+
         protected override void LoopIteration() {
             bool newFrame = false;
 
             if (GameHelper.CheckProcess()) {
                 GameHelper.TrustProcess = true;
+                
+                e_prev = engineFrames;
+                engineFrames = GameHelper.Instance.getEngineFrameCount();
 
+                if (!usingEngineFrames && engineFrames > 6 && engineFrames != e_prev)
+                    useEngineFrames();
+
+                else if (usingEngineFrames && engineFrames == e_prev && (engineFramesTimeout?.ElapsedMilliseconds?? 1337L) > 3000L)
+                    useGlobalFrames();
+                
                 int prev = globalFrames;
                 globalFrames = GameHelper.Instance.getMenuFrameCount();
 
-                if (newFrame = globalFrames > prev) {
-                    if (globalFrames != prev + 1)
-                        LogHelper.LogText("Skipped " + (globalFrames - prev - 1) + " frames");
+                ref int f = ref globalFrames, p = ref prev;
+                if (usingEngineFrames) {
+                    f = engineFrames;
+                    p = e_prev;
+                }
+
+                if (newFrame = f != p) {
+                    if (f != p + 1)
+                        LogHelper.LogText("Skipped " + (f - p - 1) + $" {(usingEngineFrames? "engine" : "global")} frames");
 
                     GameHelper.InvalidateCache();
 
                     runLogic();
                     applyInputs();
+
+                    refreshEngineTimeout();
                 }
 
                 GameHelper.TrustProcess = false;
