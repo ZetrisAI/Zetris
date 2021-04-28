@@ -666,7 +666,7 @@ namespace Zetris.PPT {
                         else gamepad.Buttons |= GameHelper.Instance.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
 
                     // In PPT2, Character Select is really gay, and the user will need to pick character using manual input mode
-                    } else if (GameHelper.Instance is PPT2 && GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
+                    } else if (!(GameHelper.Instance is PPT2) && GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
                         if (!GameHelper.Instance.IsCharacterSelect.Call() || GameHelper.Instance.CharSelectIndex.Call(playerID) == 13) // Zed
                             gamepad.Buttons |= X360Buttons.A;
 
