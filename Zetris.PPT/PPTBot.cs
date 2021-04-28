@@ -327,6 +327,8 @@ namespace Zetris.PPT {
                 if (inMatch) {
                     inMatch = false;
 
+                    useGlobalFrames();
+
                     menuStartFrames = globalFrames;
 
                     EndGame();
