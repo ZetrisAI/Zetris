@@ -274,6 +274,9 @@ namespace Zetris.PPT {
                     } else if (drop == 0) shouldHaveRegistered = true;
                 }
 
+                if (queue.Count == 0)
+                    queue = pieces.ToList();
+
                 bool itstimetomove = ((register && !pieces.SequenceEqual(queue.Take(pieces.Length)) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y);
 
                 if (itstimetomove) {
