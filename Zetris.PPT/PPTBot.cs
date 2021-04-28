@@ -169,6 +169,7 @@ namespace Zetris.PPT {
         int old_y;
 
         bool startbreak = false;
+        bool ppt2arewait1f = false;
 
         void misaPrediction(int current, int[] q, int? hold, int combo, int cleared) {
             int garbage_left = GameHelper.Instance.getGarbageDropping.Call(playerID);
@@ -230,6 +231,7 @@ namespace Zetris.PPT {
                         inputStarted = 0;
                         softdrop = false;
                         speedTick = 0;
+                        ppt2arewait1f = false;
 
                         current = pieces[0];
                         queue = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
@@ -252,15 +254,18 @@ namespace Zetris.PPT {
                         ClearLines(clearedboard, out int cleared);
 
                         if (!BoardEquivalent(misaboard, clearedboard, out _)) {
-                            LogHelper.LogText("ARE");
-                            LogHelper.LogBoard(misaboard, clearedboard);
+                            if (!(GameHelper.Instance is PPT2) || ppt2arewait1f) {
+                                LogHelper.LogText("ARE");
+                                LogHelper.LogBoard(misaboard, clearedboard);
 
-                            misaboard = clearedboard;
+                                misaboard = clearedboard;
 
-                            int[] q = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
-                            q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
+                                int[] q = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
+                                q = q.Take(Math.Min(q.Length, getPreviews())).ToArray();
 
-                            misaPrediction(pieces[0], q, hold, combo, cleared);
+                                misaPrediction(pieces[0], q, hold, combo, cleared);
+
+                            } else ppt2arewait1f = true;
                         }
                         
                     } else if (drop == 0) shouldHaveRegistered = true;
@@ -268,7 +273,10 @@ namespace Zetris.PPT {
 
                 bool itstimetomove = ((register && !pieces.SequenceEqual(queue.Take(pieces.Length)) && current == queue[0]) || (current != piece && piece == 255)) && y < Math.Max(6, old_y);
 
-                if (itstimetomove) register = false;
+                if (itstimetomove) {
+                    register = false;
+                    ppt2arewait1f = false;
+                }
 
                 if (!register)
                     queue = pieces.Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
@@ -303,7 +311,9 @@ namespace Zetris.PPT {
                     register = false;
                 }
 
-                state = drop;
+                if (!ppt2arewait1f)
+                    state = drop;
+
                 piece = current;
 
                 inMatch = true;
@@ -595,9 +605,11 @@ namespace Zetris.PPT {
         decimal speedTick = 0;
 
         int charindex = 0;
-
+        
         void applyInputs() {
             int nextFrame = GameHelper.Instance.getFrameCount.Call();
+
+            LogHelper.LogText($"nextFrame {nextFrame}");
 
             bool addDown = false;
 
