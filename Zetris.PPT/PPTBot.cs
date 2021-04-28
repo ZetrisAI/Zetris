@@ -293,6 +293,8 @@ namespace Zetris.PPT {
                     garbage = GameHelper.Instance.getGarbageDropping.Call(playerID);
 
                     if (MakeDecision(out bool wasHold, out _, out _)) {
+                        //LogHelper.LogText($"[Decision] {string.Join(", ", movements)}");
+
                         int start = Convert.ToInt32(wasHold && hold == null);
 
                         int[] q = pieces.Skip(start + 1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, atk)).ToArray();
@@ -700,6 +702,8 @@ namespace Zetris.PPT {
             }
 
             scp.Report(gamepadIndex, gamepad.GetReport());
+
+            //LogHelper.LogText($"[Inputs] Frame {engineFrames} {gamepad.Buttons}");
         }
 
         X360Buttons manualbtn;
