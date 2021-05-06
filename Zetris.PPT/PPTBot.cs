@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Microsoft.VisualBasic;
 
 using Zetris.PPT.Memory;
 
@@ -699,7 +698,7 @@ namespace Zetris.PPT {
                 if (manualtimer > 0) {
                     gamepad.Buttons = manualbtn;
                     manualtimer--;
-                    Interaction.AppActivate("PuyoPuyoTetris");
+                    GameHelper.Instance.ShiftFocus();
 
                 } else if (doingManualInput) gamepad.Buttons = X360Buttons.None;
 
@@ -727,7 +726,7 @@ namespace Zetris.PPT {
 
         public void RestoreManual() {
             if (GameHelper.CheckProcess())
-                Interaction.AppActivate("PuyoPuyoTetris");
+                GameHelper.Instance.ShiftFocus();
 
             doingManualInput = false;
 
