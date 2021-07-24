@@ -132,6 +132,15 @@ namespace Zetris.TETRIO {
             }
         }
 
+        static bool _chatcmd = false;
+        public static bool ChatCommands {
+            get => _chatcmd;
+            set {
+                _chatcmd = value;
+                Save();
+            }
+        }
+
         public static void Save() {
             if (!Initialized) return;
 

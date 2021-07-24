@@ -35,6 +35,7 @@ namespace Zetris.TETRIO {
             C4W.IsChecked = Preferences.C4W;
             AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
+            ChatCommands.IsChecked = Preferences.ChatCommands;
 
             Version.Text = App.Version;
 
@@ -56,6 +57,7 @@ namespace Zetris.TETRIO {
                     C4W.Content = "센터 포와이드";
                     AllSpins.Content = "올 스핀";
                     TSDOnly.Content = "TSD만 (20 TSD)";
+                    ChatCommands.Content = "채팅 명령 처리";
                     break;
                     
                 case "ja":
@@ -75,6 +77,7 @@ namespace Zetris.TETRIO {
                     C4W.Content = "中開けREN";
                     AllSpins.Content = "特殊回転テトリス";
                     TSDOnly.Content = "TSDのみ (TSD20発用)";
+                    ChatCommands.Content = "チャットコマンドの処理";
                     break;
                     
                 default:
@@ -94,6 +97,7 @@ namespace Zetris.TETRIO {
                     C4W.Content = "Center 4-Wide";
                     AllSpins.Content = "All Spins";
                     TSDOnly.Content = "TSD Only (for 20 TSD)";
+                    ChatCommands.Content = "Process Chat Commands";
                     break;
             }
 
@@ -202,6 +206,10 @@ namespace Zetris.TETRIO {
 
         void AllSpinsChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.AllSpins = AllSpins.IsChecked == true;
+        }
+
+        void ChatCommandsChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.ChatCommands = ChatCommands.IsChecked == true;
         }
     }
 }

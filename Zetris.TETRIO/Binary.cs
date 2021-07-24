@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris.TETRIO {
     static class Binary {
-        static readonly int Version = 0;
+        static readonly int Version = 1;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZEIO").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -42,6 +42,7 @@ namespace Zetris.TETRIO {
                 writer.Write(Preferences.C4W);
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
+                writer.Write(Preferences.ChatCommands);
             }
 
             return output;
@@ -75,6 +76,7 @@ namespace Zetris.TETRIO {
                 Preferences.C4W = reader.ReadBoolean();
                 Preferences.AllSpins = reader.ReadBoolean();
                 Preferences.TSDOnly = reader.ReadBoolean();
+                Preferences.ChatCommands = reader.ReadBoolean();
             }
         }
 

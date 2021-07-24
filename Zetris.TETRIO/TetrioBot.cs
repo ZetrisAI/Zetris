@@ -275,6 +275,8 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/chatCommand", e => {
+                    if (!Preferences.ChatCommands) return new { response = "Chat commands are disabled at the moment." };
+
                     IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
 
                     string command = split.First();
@@ -284,7 +286,7 @@ namespace Zetris.TETRIO {
                         if (i.Key == command)
                             return i.Value.Process(args);
 
-                    return new { response = $"Unknown command." };
+                    return new { response = "Unknown command." };
                 }}
             };
 
