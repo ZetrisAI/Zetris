@@ -275,12 +275,16 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/chatCommand", e => {
-                    if (!Preferences.ChatCommands) return new { response = "Chat commands are disabled at the moment." };
-
                     IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
 
                     string command = split.First();
                     string[] args = split.Skip(1).ToArray();
+
+                    if (command.Length == 0 || command.Any(i => !char.IsLetter(i))) 
+                        return new { };
+
+                    if (!Preferences.ChatCommands)
+                        return new { response = "Chat commands are disabled at the moment." };
 
                     foreach (var i in chatCommands)
                         if (i.Key == command)
