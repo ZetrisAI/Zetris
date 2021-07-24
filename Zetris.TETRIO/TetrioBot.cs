@@ -80,6 +80,7 @@ namespace Zetris.TETRIO {
         }
 
         Dictionary<string, Func<JToken, object>> handlers;
+        Dictionary<string, ChatCommandBase> chatCommands;
 
         public ushort Port = 47326;
         HttpListener server;
@@ -271,7 +272,30 @@ namespace Zetris.TETRIO {
                 {"/speedUp", e => {
                     Window?.SetSpeed(Preferences.Speed / 10 * 11);
                     return null;
+                }},
+
+                {"/chatCommand", e => {
+                    IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
+
+                    string command = split.First();
+                    string[] args = split.Skip(1).ToArray();
+
+                    foreach (var i in chatCommands)
+                        if (i.Key == command)
+                            return i.Value.Process(args);
+
+                    return new { response = $"Unknown command." };
                 }}
+            };
+
+            chatCommands = new Dictionary<string, ChatCommandBase>() {
+                {"help", new ChatCommand(
+                    "Displays all available commands.",
+                    () => new { 
+                        response = "Available commands:\n" + 
+                            string.Join("\n", chatCommands.Select(i => $".{i.Key} {string.Join("", i.Value.Hints.Select(j => $"<{j}> "))}- {i.Value.HelpText}"))
+                    }
+                )}
             };
         }
 

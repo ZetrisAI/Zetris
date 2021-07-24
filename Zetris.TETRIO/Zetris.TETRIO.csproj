@@ -109,6 +109,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Binary.cs" />
+    <Compile Include="ChatCommand.cs" />
     <Compile Include="TetrioBot.cs" />
     <Page Include="StyleViewer.xaml">
       <Generator>MSBuild:Compile</Generator>

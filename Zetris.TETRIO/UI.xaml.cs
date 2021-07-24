@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Zetris.TETRIO {
     partial class UI: IUI {
@@ -121,10 +122,16 @@ namespace Zetris.TETRIO {
                 Info.MaxHeight = double.PositiveInfinity;
             });
 
-        public void SetSpeed(double speed)
+        public DispatcherOperation SetSpeed(double speed)
             => Dispatcher.InvokeAsync(() => {
                 Speed.RawValue = speed;
                 Preferences.Speed = Speed.RawValue;
+            });
+
+        public DispatcherOperation SetPerfectClear(bool pcf)
+            => Dispatcher.InvokeAsync(() => {
+                Preferences.PerfectClear = (PerfectClear.IsChecked = pcf).Value;
+                Preferences.EnhancePerfect = (EnhancePerfect.IsChecked = pcf).Value;
             });
 
         public void SetPortTitle(ushort port)
