@@ -295,6 +295,38 @@ namespace Zetris.TETRIO {
                         response = "Available commands:\n" + 
                             string.Join("\n", chatCommands.Select(i => $".{i.Key} {string.Join("", i.Value.Hints.Select(j => $"<{j}> "))}- {i.Value.HelpText}"))
                     }
+                )},
+
+                {"pps", new ChatCommand<double>(
+                    "Sets the speed (PPS).",
+                    "speed",
+                    s => s.ToLower() == "inf"? (double?)20 : null,
+                    e => {
+                        if (e < 0.1)
+                            return new { response = "Invalid parameters." };
+
+                        Window?.SetSpeed(Math.Round(e, 1)).Wait();
+                        return new { response = $"pps = {(Preferences.Speed >= 20? "inf" : Preferences.Speed.ToString())}"};
+                    }
+                )},
+
+                {"pcf", new ChatCommand<bool>(
+                    "Toggles the Perfect Clear Finder.",
+                    "on/off",
+                    s => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result)? (bool?)result : null,
+                    e => {
+                        Window?.SetPerfectClear(e).Wait();
+                        return new { response = $"pcf = {Preferences.PerfectClear}"};
+                    }
+                )},
+
+                {"start", new ChatCommand(
+                    "Starts the game.",
+                    () => new {
+                        action = "start",
+                        response = "glhf",
+                        response_delay = 3000
+                    }
                 )}
             };
         }
