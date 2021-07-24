@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Zetris {
     public interface IUI {
-        void SetActive(bool state);
+        bool Active { get; set; }
         void SetConfidence(string confidence);
         void SetThinkingTime(long time);
     }

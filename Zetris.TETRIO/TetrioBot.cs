@@ -169,8 +169,7 @@ namespace Zetris.TETRIO {
                     baseBoardHeight = 22;
                     pieceCount = 0;
 
-                    Window?.SetActive(true);
-
+                    Window.Active = true;
                     return null;
                 }},
 
@@ -260,7 +259,7 @@ namespace Zetris.TETRIO {
 
                     pieceCount = -1;
 
-                    Window?.SetActive(false);
+                    Window.Active = false;
                     return null;
                 }},
 
@@ -275,6 +274,8 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/chatCommand", e => {
+                    if (Window.Active) return new { };
+
                     IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
 
                     string command = split.First();
@@ -322,7 +323,7 @@ namespace Zetris.TETRIO {
                     s => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result)? (bool?)result : null,
                     e => {
                         Window?.SetPerfectClear(e).Wait();
-                        return new { response = $"pcf = {Preferences.PerfectClear}"};
+                        return new { response = $"pcf = {Preferences.PerfectClear.ToString().ToLower()}"};
                     }
                 )},
 

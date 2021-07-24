@@ -105,11 +105,13 @@ namespace Zetris.TETRIO {
             TetrioBot.Instance.Start(this);
         }
 
-        bool Active = false;
-        public void SetActive(bool state) {
-            if (Active != state) {
-                Active = state;
+        bool _active;
+        public bool Active {
+            get => _active;
+            set {
+                if (_active == value) return;
 
+                _active = value;
                 Dispatcher.InvokeAsync(UpdateActive);
             }
         }

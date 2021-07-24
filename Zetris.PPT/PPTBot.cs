@@ -817,7 +817,7 @@ namespace Zetris.PPT {
                 PerfectClear.Abort();
             }
 
-            Window?.SetActive(inMatch);
+            Window.Active = inMatch;
 
             if (!Preferences.AccurateSync && !newFrame)
                 Thread.Sleep(10);
