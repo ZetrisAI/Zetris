@@ -310,11 +310,12 @@ namespace Zetris.TETRIO {
                     s => s.ToLower() == "inf"? (double?)20 : null,
                     e => {
                         if (e < 0.1)
-                            return new { response = "Invalid parameters." };
+                            return ChatCommandBase.InvalidParameters;
 
                         Window?.SetSpeed(Math.Round(e, 1)).Wait();
-                        return new { response = $"pps = {(Preferences.Speed >= 20? "inf" : Preferences.Speed.ToString())}"};
-                    }
+                        return null;
+                    },
+                    () => new { response = $"pps = {(Preferences.Speed >= 20? "inf" : Preferences.Speed.ToString())}" }
                 )},
 
                 {"pcf", new ChatCommand<bool>(
@@ -323,7 +324,22 @@ namespace Zetris.TETRIO {
                     s => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result)? (bool?)result : null,
                     e => {
                         Window?.SetPerfectClear(e).Wait();
-                        return new { response = $"pcf = {Preferences.PerfectClear.ToString().ToLower()}"};
+                        return null;
+                    },
+                    () => new { response = $"pcf = {Preferences.PerfectClear.ToString().ToLower()}" }
+                )},
+
+                {"ft", new ChatCommand<int>(
+                    "Sets the amount of rounds to win the game.",
+                    "rounds",
+                    s => null,
+                    e => {
+                        if (e < 1)
+                            return ChatCommandBase.InvalidParameters;
+
+                        if (e > 15) e = 15;
+                           
+                        return new { response = $"/set meta.match.ft={e}\nft = {e}" };
                     }
                 )},
 

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Zetris.TETRIO {
     abstract class ChatCommandBase {
+        public static object InvalidParameters => new { response = "Invalid parameters." };
+
         public readonly string HelpText;
         public readonly string[] Hints;
 
@@ -30,15 +32,21 @@ namespace Zetris.TETRIO {
     class ChatCommand<T> : ChatCommandBase where T : struct {
         readonly Func<string, T?> CustomConvert;
         readonly Func<T, object> Processor;
+        readonly Func<object> Readback;
 
-        public ChatCommand(string help, string hint, Func<string, T?> custom, Func<T, object> processor)
+        object GetReadback() => Readback?.Invoke()?? InvalidParameters;
+
+        public ChatCommand(string help, string hint, Func<string, T?> custom, Func<T, object> processor, Func<object> readback = null)
         : base(help, new string[1] { hint }) {
             CustomConvert = custom;
             Processor = processor;
+            Readback = readback;
         }
 
         public override object Process(string[] args) {
-            if (args.Length != 1) return new { response = "Invalid parameters." };
+            if (args.Length == 0) return GetReadback();
+
+            if (args.Length != 1) return InvalidParameters;
 
             T arg;
             try {
@@ -48,12 +56,12 @@ namespace Zetris.TETRIO {
                 T? attempt = CustomConvert(args[0]);
 
                 if (!attempt.HasValue)
-                    return new { response = "Invalid parameters." };
+                    return InvalidParameters;
 
                 arg = attempt.Value;
             }
 
-            return Processor(arg);
+            return Processor(arg)?? GetReadback();
         }
     }
 }
