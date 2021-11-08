@@ -54,6 +54,8 @@ namespace Zetris.TETRIO {
             }
         }
 
+        public int? RightClickRound { get; set; } = null;
+
         double _exp = 1;
         public double Exponent {
             get => _exp;
@@ -235,23 +237,30 @@ namespace Zetris.TETRIO {
         double lastY;
 
         void Down(object sender, MouseButtonEventArgs e) {
-            if (!Enabled || e.ChangedButton != MouseButton.Left) return;
+            if (!Enabled) return;
 
-            if (e.ClickCount == 2 && AllowPrecise) {
-                DisplayPressed(sender, e);
-                return;
+            if (e.ChangedButton == MouseButton.Left) {
+                if (e.ClickCount == 2 && AllowPrecise) {
+                    DisplayPressed(sender, e);
+                    return;
+                }
+
+                // Kill Rename TextBox
+                FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), null);
+                Keyboard.ClearFocus();
+
+                mouseHeld = true;
+                e.MouseDevice.Capture(ArcCanvas);
+
+                lastY = e.GetPosition(ArcCanvas).Y;
+
+                ArcCanvas.Cursor = Cursors.SizeNS;
+            
+            } else if (e.ChangedButton == MouseButton.Right && RightClickRound.HasValue) {
+                int round = RightClickRound.Value - Math.Min(2, e.ClickCount) + 1;
+
+                RawValue = Math.Round(Math.Max(_min, Math.Min(_max, RawValue)) * Math.Pow(10, round), 0) / Math.Pow(10, round);
             }
-
-            // Kill Rename TextBox
-            FocusManager.SetFocusedElement(FocusManager.GetFocusScope(this), null);
-            Keyboard.ClearFocus();
-
-            mouseHeld = true;
-            e.MouseDevice.Capture(ArcCanvas);
-
-            lastY = e.GetPosition(ArcCanvas).Y;
-
-            ArcCanvas.Cursor = Cursors.SizeNS;
         }
 
         void Up(object sender, MouseButtonEventArgs e) {

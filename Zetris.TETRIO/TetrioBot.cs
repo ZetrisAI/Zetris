@@ -312,7 +312,7 @@ namespace Zetris.TETRIO {
                         if (e < 0.1)
                             return ChatCommandBase.InvalidParameters;
 
-                        Window?.SetSpeed(Math.Round(e, 1)).Wait();
+                        Window?.SetSpeed(Math.Round(e, 2)).Wait();
                         return null;
                     },
                     () => new { response = $"pps = {(Preferences.Speed >= 20? "inf" : Preferences.Speed.ToString())}" }
