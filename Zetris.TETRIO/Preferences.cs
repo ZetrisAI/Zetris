@@ -40,7 +40,7 @@ namespace Zetris.TETRIO {
         public static double Speed {
             get => _speed;
             set {
-                _speed = Math.Max(0.01, Math.Min(20, value));
+                _speed = Math.Max(0.01, Math.Min(30, value));
                 Save();
             }
         }

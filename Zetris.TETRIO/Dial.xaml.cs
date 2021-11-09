@@ -18,8 +18,12 @@ namespace Zetris.TETRIO {
         const double angle_start = 4 * Math.PI / 3;
         const double angle_end = -1 * Math.PI / 3;
 
-        double ToValue(double rawValue) => Math.Pow((rawValue - _min) / (_max - _min), 1 / _exp);
-        double ToRawValue(double value) => _min + (_max - _min) * Math.Pow(value, _exp);
+        double ToValue(double rawValue) {
+            double normal = (rawValue - _min) / (_max - _min);
+            return CustomToValue?.Invoke(normal)?? Math.Pow(normal, 1 / _exp);
+        }
+        double ToRawValue(double value)
+            => _min + (_max - _min) * (CustomToRawValue?.Invoke(value)?? Math.Pow(value, _exp));
 
         double _min = 0;
         public double Minimum {
@@ -66,6 +70,9 @@ namespace Zetris.TETRIO {
                 }
             }
         }
+
+        public Func<double, double> CustomToValue { get; set; } = null;
+        public Func<double, double> CustomToRawValue { get; set; } = null;
 
         string _maxoverride = "";
         public string MaximumOverride {

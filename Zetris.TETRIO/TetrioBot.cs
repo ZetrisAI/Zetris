@@ -200,7 +200,7 @@ namespace Zetris.TETRIO {
                         if (!MisaMino.Running)
                             startThinking(garbage);
 
-                        while (timer.ElapsedMilliseconds < (Preferences.Speed >= 20? 0 : pieceCount * 1000.0 / Preferences.Speed));
+                        while (timer.ElapsedMilliseconds < (Preferences.Speed >= 30? 0 : (pieceCount * 1000.0 / Preferences.Speed)));
                     }
 
                     pieceCount++;
@@ -223,7 +223,7 @@ namespace Zetris.TETRIO {
 
                     if (clear > 0) combo++;
                     else combo = 0;
-
+                     
                     if (applied) {
                         LogHelper.LogText("Thinking...");
                         startThinking(clear > 0? garbage - atk : Math.Max(0, garbage - 8));
@@ -307,7 +307,7 @@ namespace Zetris.TETRIO {
                 {"pps", new ChatCommand<double>(
                     "Sets the speed (PPS).",
                     "speed",
-                    s => s.ToLower() == "inf"? (double?)20 : null,
+                    s => s.ToLower() == "inf"? (double?)30 : null,
                     e => {
                         if (e < 0.1)
                             return ChatCommandBase.InvalidParameters;
@@ -315,7 +315,7 @@ namespace Zetris.TETRIO {
                         Window?.SetSpeed(Math.Round(e, 2)).Wait();
                         return null;
                     },
-                    () => new { response = $"pps = {(Preferences.Speed >= 20? "inf" : Preferences.Speed.ToString())}" }
+                    () => new { response = $"pps = {(Preferences.Speed >= 30? "inf" : Preferences.Speed.ToString())}" }
                 )},
 
                 {"pcf", new ChatCommand<bool>(

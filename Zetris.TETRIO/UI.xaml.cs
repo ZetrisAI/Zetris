@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,6 +17,18 @@ namespace Zetris.TETRIO {
         public UI() {
             InitializeComponent();
 
+            Speed.CustomToValue = v => {     // https://www.desmos.com/calculator/srv6d67o19
+                if (v < 1 / 15) return 45 * v * v;
+                else if (v < 0.1) return (45 * v - 2) / 5;
+                else if (v < 0.15) return (60 * v - 1) / 10;
+                else return 1 - (Math.Pow(60 * (1 - v) / 51, 2) / 5);
+            };
+            Speed.CustomToRawValue = v => {  // https://www.desmos.com/calculator/iik6yqqmde
+                if (v < 0.2) return Math.Sqrt(5 * v) / 15;
+                else if (v < 0.5) return (5 * v + 2) / 45;
+                else if (v < 0.8) return (10 * v + 1) / 60;
+                else return 1 - (51 * Math.Sqrt(5 - 5 * v) / 60);
+            };
             PCThreads.Maximum = TetrioBot.PCThreadsMaximum;
 
             FreezeEvents = false;

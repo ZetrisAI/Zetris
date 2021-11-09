@@ -6,7 +6,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="60" />
         </Grid.ColumnDefinitions>
         
         <TextBlock VerticalAlignment="Center" x:Name="TitleText" />
