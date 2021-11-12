@@ -19,7 +19,7 @@ namespace Zetris.TETRIO {
         public abstract object Process(string[] args);
     }
 
-    class ChatCommand : ChatCommandBase {
+    class ChatCommand: ChatCommandBase {
         readonly Func<object> Processor;
 
         public ChatCommand(string help, Func<object> processor)
@@ -29,7 +29,7 @@ namespace Zetris.TETRIO {
             => args.Length == 0 ? Processor() : new { };
     }
 
-    class ChatCommand<T> : ChatCommandBase where T : struct {
+    class ChatCommand<T>: ChatCommandBase where T: struct {
         readonly Func<string, T?> CustomConvert;
         readonly Func<T, object> Processor;
         readonly Func<object> Readback;
@@ -63,5 +63,13 @@ namespace Zetris.TETRIO {
 
             return Processor(arg)?? GetReadback();
         }
+    }
+
+    class OnOffChatCommand: ChatCommand<bool> {
+        static bool? OnOffToBool(string s)
+            => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result) ? (bool?)result : null;
+
+        public OnOffChatCommand(string help, Func<bool, object> processor, Func<object> readback = null)
+        : base(help, "on/off", OnOffToBool, processor, readback) {}
     }
 }

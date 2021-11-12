@@ -318,10 +318,8 @@ namespace Zetris.TETRIO {
                     () => new { response = $"pps = {(Preferences.Speed >= 30? "inf" : Preferences.Speed.ToString())}" }
                 )},
 
-                {"pcf", new ChatCommand<bool>(
+                {"pcf", new OnOffChatCommand(
                     "Toggles the Perfect Clear Finder.",
-                    "on/off",
-                    s => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result)? (bool?)result : null,
                     e => {
                         Window?.SetPerfectClear(e).Wait();
                         return null;
@@ -341,6 +339,16 @@ namespace Zetris.TETRIO {
                            
                         return new { response = $"/set meta.match.ft={e}\nft = {e}" };
                     }
+                )},
+
+                {"pt", new OnOffChatCommand(
+                    "Toggles garbage passthrough.",
+                    e => new { response = $"/set game.options.passthrough={Convert.ToInt32(e)}\npt = {e.ToString().ToLower()}" }
+                )},
+
+                {"gravity", new OnOffChatCommand(
+                    "Toggles gravity.",
+                    e => new { response = $"/set game.options.g={(e? 0.02 : 0)};game.options.gincrease={(e ? 0.0025 : 0)}\ngravity = {e.ToString().ToLower()}" }
                 )},
 
                 {"start", new ChatCommand(
