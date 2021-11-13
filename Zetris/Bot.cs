@@ -637,6 +637,19 @@ namespace Zetris {
             if (pathSuccess && !pcsolved)  // pathSuccess here means that I had used PC finder to make the decision
                 b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
+            // Filter L->R and R->L
+            if (movements.Count >= 2) {
+                for (int i = movements.Count - 2; i >= 0; i--) {
+                    if ((movements[i] == Instruction.L && movements[i + 1] == Instruction.R) || (movements[i] == Instruction.R && movements[i + 1] == Instruction.L)) {
+                        movements.RemoveAt(i);
+                        movements.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+
+            LogHelper.LogText($"Movements generated for piece {pieceUsed} ({finalX}, {finalY}, {finalR}) => {string.Join(", ", movements)}");
+
             return applied;
         }
 
