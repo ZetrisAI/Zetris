@@ -62,6 +62,7 @@ namespace Zetris.TETRIO {
             {Instruction.RSPIN, "Cw"},
             {Instruction.SPIN2, "180"},
             {Instruction.HOLD, "Hold"},
+            {Instruction.DROP, "HardDrop"}
         };
 
         int pieceCount = -1;
