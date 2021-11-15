@@ -268,7 +268,6 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/endGame", e => {
-                    Console.WriteLine("endGame called");
                     EndGame();
 
                     pieceCount = -1;
