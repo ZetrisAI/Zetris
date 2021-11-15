@@ -45,11 +45,17 @@ namespace Zetris.TETRIO {
         protected override int RushTime() => 40;
         protected override bool Danger() => false; // there is no PUBLIC version due to TETR.IO not having local multiplayer
 
-        static int ConvPiece(string p) {
-            if (p == null) return 255;
+        static int? ConvPiece(string p) {
+            if (p == null) return null;
             if (p == "GB") return 9;
-            return Array.IndexOf(MisaMino.ToChar, p);
+            
+            int i = Array.IndexOf(MisaMino.ToChar, p);
+
+            if (i == -1) throw new Exception($"Invalid piece {p}");
+            return i;
         }
+
+        static int ConvPiece255(string p) => ConvPiece(p)?? 255;
 
         static readonly Dictionary<Instruction, string> ToTetrio = new Dictionary<Instruction, string>() {
             {Instruction.L, "Left"},
@@ -79,6 +85,16 @@ namespace Zetris.TETRIO {
 
             PerfectClearAOT(current, q, hold, combo);
         }
+
+        void loadBoardFromJSON(JToken json) {
+            string[,] reset = json.ToObject<string[,]>();
+
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 40; j++)
+                    board[i, j] = ConvPiece255(reset[39 - j, i]?.ToUpper());
+        }
+
+        int? game_session_id = null;
 
         Dictionary<string, Func<JToken, object>> handlers;
         Dictionary<string, ChatCommandBase> chatCommands;
@@ -154,16 +170,15 @@ namespace Zetris.TETRIO {
                 {"/newGame", e => {
                     handlers["/endGame"].Invoke(null);
 
-                    NewGame(() => {
-                        board = new int[10, 40];
-                            for (int i = 0; i < 10; i++)
-                                for (int j = 0; j < 40; j++)
-                                    board[i, j] = 255;
+                    game_session_id = e["id"].ToObject<int?>();
 
-                        IEnumerable<int> incoming = e.ToObject<string[]>().Select(ConvPiece);
+                    NewGame(() => {
+                        loadBoardFromJSON(e["board"]);
+
+                        IEnumerable<int> incoming = e["pieces"].ToObject<string[]>().Select(ConvPiece255);
                         current = incoming.First();
                         queue = incoming.Skip(1).ToList();
-                        hold = null;
+                        hold = ConvPiece(e["hold"].ToObject<string>());
                         combo = 0;
                     }, 22);
 
@@ -176,7 +191,7 @@ namespace Zetris.TETRIO {
 
                 {"/newPieces", e => {
                     if (pieceCount != -1)
-                        queue.AddRange(e.ToObject<string[]>().Select(ConvPiece));
+                        queue.AddRange(e.ToObject<string[]>().Select(ConvPiece255));
 
                     return null;
                 }},
@@ -231,6 +246,7 @@ namespace Zetris.TETRIO {
                     }
 
                     return new {
+                        id = game_session_id,
                         moves = movements.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray(),
                         expected_cells = coords.ToArray()
                     };
@@ -240,11 +256,7 @@ namespace Zetris.TETRIO {
                     if (pieceCount == -1) return null;
 
                     dynamic e = (dynamic)_e;
-                    string[,] reset = e.board.ToObject<string[,]>();
-
-                    for (int i = 0; i < 10; i++)
-                        for (int j = 0; j < 40; j++)
-                            board[i, j] = ConvPiece(reset[39 - j, i]?.ToUpper());
+                    loadBoardFromJSON(e.board);
 
                     misaboard = (int[,])board.Clone();
                     pcboard = (int[,])board.Clone();
@@ -256,6 +268,7 @@ namespace Zetris.TETRIO {
                 }},
 
                 {"/endGame", e => {
+                    Console.WriteLine("endGame called");
                     EndGame();
 
                     pieceCount = -1;
