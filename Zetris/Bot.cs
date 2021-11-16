@@ -697,8 +697,18 @@ namespace Zetris {
                     for (int i = 0; i < cachedpc.Count; i++) {    // yes i copy pasted code, no i don't care, they're different enough to not generalize into a func
                         bool bufwasHold = bufcurrent != cachedpc[i].Piece;
 
-                        if (cancel = !ApplyPiece(tempboard, cachedpc[i].Piece, cachedpc[i].X, cachedpc[i].Y, cachedpc[i].R, baseBoardHeight, out int bufclear, out _))
-                            break;
+                        cancel = !ApplyPiece(
+                            tempboard,
+                            cachedpc[i].Piece,
+                            cachedpc[i].X,
+                            cachedpc[i].Y + baseBoardHeight - 21, // if baseboardheight happens to be 22, need to +1 this (TETR.IO)
+                            cachedpc[i].R,
+                            baseBoardHeight,
+                            out int bufclear,
+                            out _
+                        );
+
+                        if (cancel) break;
 
                         if (i == cachedpc.Count - 1) // last piece always clears a line, so don't have to track b2b all the time
                             bufb2b = isPCB2BEnding(bufclear, cachedpc[i].Piece, cachedpc[i].R);
