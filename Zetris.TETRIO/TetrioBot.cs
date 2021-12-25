@@ -368,7 +368,7 @@ namespace Zetris.TETRIO {
                     "Starts the game.",
                     () => new {
                         action = "start",
-                        response = "glhf",
+                        response = ":glhf:",
                         response_delay = 3000
                     }
                 )}
