@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("mat1jaczyyy")]
 [assembly: AssemblyProduct("Zetris")]
-[assembly: AssemblyCopyright("Copyright © 2018-2021")]
+[assembly: AssemblyCopyright("Copyright © 2018-2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
