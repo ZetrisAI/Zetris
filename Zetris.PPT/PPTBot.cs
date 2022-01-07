@@ -238,6 +238,8 @@ namespace Zetris.PPT {
 
                     useEngineFrames();
                     refreshEngineTimeout();
+
+                    RestoreManual();
                 }
 
                 current = GameHelper.Instance.getCurrentPiece.Call(playerID);
@@ -730,7 +732,7 @@ namespace Zetris.PPT {
 
             doingManualInput = false;
 
-            Dispatcher.CurrentDispatcher.Invoke(() => {
+            Window?.Dispatcher.InvokeAsync(() => {
                 if (_btn != null) _btn.MaxHeight = 0;
             });
         }
