@@ -350,18 +350,18 @@ namespace Zetris.TETRIO {
 
                         if (e > 15) e = 15;
                            
-                        return new { response = $"/set meta.match.ft={e}\nft = {e}" };
+                        return new { response = $"/set match.ft={e}\nft = {e}" };
                     }
                 )},
 
-                {"pt", new OnOffChatCommand(
-                    "Toggles garbage passthrough.",
-                    e => new { response = $"/set game.options.passthrough={Convert.ToInt32(e)}\npt = {e.ToString().ToLower()}" }
+                {"tl", new ChatCommand(
+                    "Loads Tetra League settings.",
+                    () => new { response = $"/set options.presets=tetra league\nTL settings loaded" }
                 )},
 
-                {"gravity", new OnOffChatCommand(
+                {"grav", new OnOffChatCommand(
                     "Toggles gravity.",
-                    e => new { response = $"/set game.options.g={(e? 0.02 : 0)};game.options.gincrease={(e ? 0.0025 : 0)}\ngravity = {e.ToString().ToLower()}" }
+                    e => new { response = $"/set options.g={(e? 0.02 : 0)};options.gincrease={(e ? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}" }
                 )},
 
                 {"start", new ChatCommand(
