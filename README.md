@@ -1,5 +1,4 @@
 # Zetris
-[![Discord - Join Chat](https://img.shields.io/badge/discord-join%20chat-blue)](https://discord.gg/vfrmzUV)
 
 Zetris - a MisaMino-based Tetris AI for Puyo Puyo Tetris
 
