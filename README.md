@@ -1,8 +1,10 @@
 # Zetris
 
-Zetris - a MisaMino-based Tetris AI for Puyo Puyo Tetris
+Zetris - a MisaMino-based Tetris AI for Puyo Puyo Tetris and TETR.IO
 
-## Installation
+[Zetris highlights on YouTube](https://www.youtube.com/@Zetris)
+
+## Local Installation with Puyo Puyo Tetris
 
 Zetris sends input to the game via a virtual gamepad. You need to install the driver for the virtual gamepad from [here](https://github.com/mogzol/ScpDriverInterface/releases/download/1.1/ScpDriverInterface_v1.1.zip) before using Zetris. If you're using Windows 7 (64-bit), you also need the Xbox 360 controller driver from [here](https://www.microsoft.com/accessories/en-au/d/xbox-360-controller-for-windows).
 
