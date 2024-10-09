@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using MisaMinoNET;
@@ -94,6 +94,12 @@ namespace Zetris.TETRIO {
                     board[i, j] = ConvPiece255(reset[39 - j, i]?.ToUpper());
         }
 
+        public bool IsZETRIO = false;
+
+        public void ToZETRIO(string command, object data) {
+            Console.WriteLine($"zetrio:{JToken.FromObject(new { command, data }).ToString(Formatting.None)}");
+        }
+
         int? game_session_id = null;
 
         Dictionary<string, Func<JToken, object>> handlers;
@@ -165,6 +171,9 @@ namespace Zetris.TETRIO {
 
             if (Port != 47326)
                 Window?.SetPortTitle(Port);
+
+            if (IsZETRIO)
+                ToZETRIO("port", Port);
 
             handlers = new Dictionary<string, Func<JToken, object>>() {
                 {"/newGame", e => {
