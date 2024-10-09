@@ -28,8 +28,14 @@ namespace Zetris.TETRIO {
             };
 #endif
 
-            if (e.Args.Length == 1 && ushort.TryParse(e.Args[0], out ushort port))
-                TetrioBot.Instance.Port = port;
+            if (e.Args.Length == 1) {
+                if (ushort.TryParse(e.Args[0], out ushort port)) {
+                    TetrioBot.Instance.Port = port;
+                
+                } else if (e.Args[0] == "--zetrio") {
+                    TetrioBot.Instance.IsZETRIO = true;
+                }
+            }
         }
 
         void Exiting(object sender, ExitEventArgs e) => TetrioBot.Instance.Dispose();
