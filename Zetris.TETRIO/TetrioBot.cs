@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -102,66 +99,22 @@ namespace Zetris.TETRIO {
 
         int? game_session_id = null;
 
-        Dictionary<string, Func<JToken, object>> handlers;
-        Dictionary<string, ChatCommandBase> chatCommands;
+        const ushort DefaultPort = 9387;
+        public ushort Port = DefaultPort;
 
-        public ushort Port = 47326;
-        HttpListener server;
+        public bool UseLegacyHTTP = false;
+        TetrioClientConnection server;
 
-        protected override void LoopIteration() {
-            HttpListenerContext e;
-
-            try {
-                e = server.GetContext();
-
-            } catch (HttpListenerException ex) {
-                LogHelper.LogText(ex.Message);
-                return;
-            }
-
-            object response = null;
-
-            // CORS
-            if (e.Request.HttpMethod == "OPTIONS") {
-                e.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With");
-                e.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
-                e.Response.AddHeader("Access-Control-Max-Age", "1728000");
-
-            } else {
-                string content = new StreamReader(e.Request.InputStream).ReadToEnd();
-                LogHelper.LogText($"{e.Request.RawUrl} {content}");
-
-                if (handlers.TryGetValue(e.Request.RawUrl, out var handler))
-                    response = handler.Invoke(JToken.Parse(content));
-            }
-
-            e.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-            e.Response.StatusCode = 200;
-
-            if (response != null) {
-                LogHelper.LogText(JToken.FromObject(response).ToString());
-
-                byte[] data = Encoding.ASCII.GetBytes(JToken.FromObject(response).ToString());
-
-                e.Response.ContentType = "application/json";
-                e.Response.ContentLength64 = data.Length;
-
-                e.Response.OutputStream.Write(data, 0, data.Length);
-                e.Response.OutputStream.Flush();
-            }
-
-            e.Response.Close();
-        }
+        protected override void LoopIteration()
+            => server.LoopIteration();
 
         protected override void Starting() {
             for (int i = 0; i < 32; i++) {
-                try {
-                    server = new HttpListener() {
-                        Prefixes = { $"http://127.0.0.1:{Port}/" },
-                    };
-                    server.Start();
+                var result = UseLegacyHTTP
+                    ? TetrioClientConnectionHTTP.Start(Port, out server)
+                    : TetrioClientConnectionWS.Start(Port, out server);
 
-                } catch (HttpListenerException) {
+                if (!result) {
                     Port++;
                     continue;
                 }
@@ -169,159 +122,159 @@ namespace Zetris.TETRIO {
                 break;
             }
 
-            if (Port != 47326)
-                Window?.SetPortTitle(Port);
+            if (Port != DefaultPort)
+                Window?.SetPortTitle(UseLegacyHTTP, Port);
 
             if (IsZETRIO)
                 ToZETRIO("port", Port);
 
-            handlers = new Dictionary<string, Func<JToken, object>>() {
-                {"/newGame", e => {
-                    handlers["/endGame"].Invoke(null);
+            server.RegisterHandler("newGame", e => {
+                server.InvokeHandler("endGame", null);
 
-                    game_session_id = e["id"].ToObject<int?>();
+                game_session_id = e["id"].ToObject<int?>();
 
-                    NewGame(() => {
-                        loadBoardFromJSON(e["board"]);
+                NewGame(() => {
+                    loadBoardFromJSON(e["board"]);
 
-                        IEnumerable<int> incoming = e["pieces"].ToObject<string[]>().Select(ConvPiece255);
-                        current = incoming.First();
-                        queue = incoming.Skip(1).ToList();
-                        hold = ConvPiece(e["hold"].ToObject<string>());
-                        combo = 0;
-                    }, 22);
+                    IEnumerable<int> incoming = e["pieces"].ToObject<string[]>().Select(ConvPiece255);
+                    current = incoming.First();
+                    queue = incoming.Skip(1).ToList();
+                    hold = ConvPiece(e["hold"].ToObject<string>());
+                    combo = 0;
+                }, 22);
 
-                    baseBoardHeight = 22;
-                    pieceCount = 0;
+                baseBoardHeight = 22;
+                pieceCount = 0;
 
-                    Window.Active = true;
-                    return null;
-                }},
+                Window.Active = true;
+                return null;
+            });
 
-                {"/newPieces", e => {
-                    if (pieceCount != -1)
-                        queue.AddRange(e.ToObject<string[]>().Select(ConvPiece255));
+            server.RegisterHandler("newPieces", e => {
+                if (pieceCount != -1)
+                    queue.AddRange(e.ToObject<string[]>().Select(ConvPiece255));
 
-                    return null;
-                }},
+                return null;
+            });
 
-                {"/nextMove", e => {
-                    if (pieceCount == -1)
-                        return new {
-                            moves = new string[0],
-                            expected_cells = new int[0][]
-                        };
-
-                    garbage = (int)e;
-
-                    misaboard = (int[,])board.Clone();
-                    pcboard = (int[,])board.Clone();
-
-                    if (pieceCount == 0) {
-                        timer?.Stop();
-                        timer = Stopwatch.StartNew();
-
-                    } else {
-                        if (!MisaMino.Running)
-                            startThinking(garbage);
-
-                        while (timer.ElapsedMilliseconds < (Preferences.Speed >= 30? 0 : (pieceCount * 1000.0 / Preferences.Speed)));
-                    }
-
-                    pieceCount++;
-
-                    // ideally this should take gravity into account...  i'm too lazy
-                    // or make bot wait before harddropping, but then can't go under 2pps (lock is 500ms)
-                    baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
-
-                    bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
-
-                    LogHelper.LogText($"Placed {pieceUsed}");
-
-                    if (wasHold) {  // In TETR.IO, advance game state since we manage it internally, even if the piece didn't end up placing...
-                        if (hold == null) queue.RemoveAt(0);
-                        hold = current;
-                    }
-
-                    current = queue[0];
-                    queue.RemoveAt(0);
-
-                    if (clear > 0) combo++;
-                    else combo = 0;
-                     
-                    if (applied) {
-                        LogHelper.LogText("Thinking...");
-                        startThinking(clear > 0? garbage - atk : Math.Max(0, garbage - 8));
-                    }
-
+            server.RegisterHandler("nextMove", e => {
+                if (pieceCount == -1)
                     return new {
-                        id = game_session_id,
-                        moves = movements.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray(),
-                        expected_cells = coords.ToArray()
+                        moves = new string[0],
+                        expected_cells = new int[0][]
                     };
-                }},
 
-                {"/resetBoard", _e => {
-                    if (pieceCount == -1) return null;
+                garbage = (int)e;
 
-                    dynamic e = (dynamic)_e;
-                    loadBoardFromJSON(e.board);
+                misaboard = (int[,])board.Clone();
+                pcboard = (int[,])board.Clone();
 
-                    misaboard = (int[,])board.Clone();
-                    pcboard = (int[,])board.Clone();
+                if (pieceCount == 0) {
+                    timer?.Stop();
+                    timer = Stopwatch.StartNew();
 
-                    LogHelper.LogText("ResetBoard thinking...");
-                    startThinking((int)e.garbage);
+                } else {
+                    if (!MisaMino.Running)
+                        startThinking(garbage);
 
-                    return null;
-                }},
+                    while (timer.ElapsedMilliseconds < (Preferences.Speed >= 30? 0 : (pieceCount * 1000.0 / Preferences.Speed)));
+                }
 
-                {"/endGame", e => {
-                    EndGame();
+                pieceCount++;
 
-                    pieceCount = -1;
+                // ideally this should take gravity into account...  i'm too lazy
+                // or make bot wait before harddropping, but then can't go under 2pps (lock is 500ms)
+                baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
 
-                    Window.Active = false;
-                    return null;
-                }},
+                bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
 
-                {"/speedDown", e => {
-                    Window?.SetSpeed(Preferences.Speed * 10 / 11);
-                    return null;
-                }},
+                LogHelper.LogText($"Placed {pieceUsed}");
 
-                {"/speedUp", e => {
-                    Window?.SetSpeed(Preferences.Speed / 10 * 11);
-                    return null;
-                }},
+                if (wasHold) {  // In TETR.IO, advance game state since we manage it internally, even if the piece didn't end up placing...
+                    if (hold == null) queue.RemoveAt(0);
+                    hold = current;
+                }
 
-                {"/chatCommand", e => {
-                    if (Window.Active) return new { };
+                current = queue[0];
+                queue.RemoveAt(0);
 
-                    IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
+                if (clear > 0) combo++;
+                else combo = 0;
+                     
+                if (applied) {
+                    LogHelper.LogText("Thinking...");
+                    startThinking(clear > 0? garbage - atk : Math.Max(0, garbage - 8));
+                }
 
-                    string command = split.First();
-                    string[] args = split.Skip(1).ToArray();
+                return new {
+                    id = game_session_id,
+                    moves = movements.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray(),
+                    expected_cells = coords.ToArray()
+                };
+            });
 
-                    if (command.Length == 0 || command.Any(i => !char.IsLetter(i))) 
-                        return new { };
+            server.RegisterHandler("resetBoard", _e => {
+                if (pieceCount == -1) return null;
 
-                    if (!Preferences.ChatCommands)
-                        return new { response = "Chat commands are disabled at the moment." };
+                dynamic e = (dynamic)_e;
+                loadBoardFromJSON(e.board);
 
-                    foreach (var i in chatCommands)
-                        if (i.Key == command)
-                            return i.Value.Process(args);
+                misaboard = (int[,])board.Clone();
+                pcboard = (int[,])board.Clone();
 
-                    return new { response = "Unknown command." };
-                }}
-            };
+                LogHelper.LogText("ResetBoard thinking...");
+                startThinking((int)e.garbage);
+
+                return null;
+            });
+
+            server.RegisterHandler("endGame", e => {
+                EndGame();
+
+                pieceCount = -1;
+
+                Window.Active = false;
+                return null;
+            });
+
+            server.RegisterHandler("speedDown", e => {
+                Window?.SetSpeed(Preferences.Speed * 10 / 11);
+                return null;
+            });
+
+            server.RegisterHandler("speedUp", e => {
+                Window?.SetSpeed(Preferences.Speed / 10 * 11);
+                return null;
+            });
+
+            Dictionary<string, ChatCommandBase> chatCommands = null;
+
+            server.RegisterHandler("chatCommand", e => {
+                if (Window.Active) return new { };
+
+                IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
+
+                string command = split.First();
+                string[] args = split.Skip(1).ToArray();
+
+                if (command.Length == 0 || command.Any(i => !char.IsLetter(i)))
+                    return new { };
+
+                if (!Preferences.ChatCommands)
+                    return new { response = "Chat commands are disabled at the moment." };
+
+                foreach (var i in chatCommands)
+                    if (i.Key == command)
+                        return i.Value.Process(args);
+
+                return new { response = "Unknown command." };
+            });
 
             chatCommands = new Dictionary<string, ChatCommandBase>() {
                 {"help", new ChatCommand(
                     "Displays all available commands.",
-                    () => new { 
-                        response = "Available commands:\n" + 
+                    () => new {
+                        response = "Available commands:\n" +
                             string.Join("\n", chatCommands.Select(i => $".{i.Key} {string.Join("", i.Value.Hints.Select(j => $"<{j}> "))}- {i.Value.HelpText}"))
                     }
                 )},
@@ -386,7 +339,6 @@ namespace Zetris.TETRIO {
 
         protected override void BeforeDispose() {
             server.Stop();
-            server.Close();
         }
     }
 }
