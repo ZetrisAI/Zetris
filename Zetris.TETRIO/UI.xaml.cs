@@ -153,8 +153,8 @@ namespace Zetris.TETRIO {
                 Preferences.EnhancePerfect = (EnhancePerfect.IsChecked = pcf).Value;
             });
 
-        public void SetPortTitle(ushort port)
-            => Dispatcher.InvokeAsync(() => Title = $"Zetris [Port: {port}]");
+        public void SetPortTitle(bool http, ushort port)
+            => Dispatcher.InvokeAsync(() => Title = $"Zetris [{(http? "HTTP" : "WS")} {port}]");
 
         void UpdateActive() {
             State.Text = Active? ActiveString : InactiveString;
