@@ -203,4 +203,14 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\PerfectClearNET.1.4.0.3\build\PerfectClearNET.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PerfectClearNET.1.4.0.3\build\PerfectClearNET.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if exist "$(TargetDir)*.xml" (
+    del "$(TargetDir)*.xml"
+)
+
+if exist "D:\Code\ZETR.IO\res\" (
+    xcopy "$(TargetDir)*.*" "D:\Code\ZETR.IO\res\" /E /I /Y
+)
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>
