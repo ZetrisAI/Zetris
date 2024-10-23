@@ -419,13 +419,13 @@ namespace Zetris {
         protected abstract bool getPerfectClear();
         protected abstract bool getEnhancePerfect();
         protected abstract bool HoldAllowed();
-        protected abstract bool AllSpins();
+        protected abstract AllowedSpins getAllowedSpins();
         protected abstract MisaMinoParameters CurrentStyle();
         protected abstract bool C4W();
         protected abstract bool TSDOnly();
         protected abstract int Intelligence();
         protected abstract bool Allow180();
-        protected abstract bool SRSPlus();
+        protected abstract TetrisGame getTetrisGame();
         protected abstract uint PCThreads();
         protected abstract bool GarbageBlocking();
         protected abstract int RushTime();
@@ -434,16 +434,30 @@ namespace Zetris {
 
         protected int[] getClippedQueue() => queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
         
-        protected int getPerfectType() => Convert.ToInt32(getEnhancePerfect()) + Convert.ToInt32(getEnhancePerfect() && AllSpins()) * 2;
+        protected int getPerfectType() {
+            if (!getEnhancePerfect()) {
+                return 0; // Fast
+            }
+            if (getAllowedSpins().IsAllSpins()) {
+                return 3; // All-spin Attack (mini is zero attack)
+                // TODO: Implement All-spin attack without T-immobiles
+            }
+            return 1; // T-spin Attack
+        }
 
-        protected bool isPCB2BEnding(int cleared, int piece, int r) => (cleared >= 4) || (AllSpins() && (
-            piece == 0 ||
-            piece == 1 ||
-            (r != 2 && (
-                piece == 2 ||
-                piece == 3
-            ))
-        ));
+        protected bool isPCB2BEnding(int cleared, int piece, int r) {
+            if (getTetrisGame() == TetrisGame.TETRIOS2) {
+                return true;
+            }
+            return (cleared >= 4) || (getAllowedSpins().IsAllSpins() && (
+                piece == 0 ||
+                piece == 1 ||
+                (r != 2 && (
+                    piece == 2 ||
+                    piece == 3
+                ))
+            ));
+        }
 
         protected void NewGame(Action setup, int baseBoardHeight) {
             MisaMino.Reset(); // this will abort as well
@@ -743,7 +757,7 @@ namespace Zetris {
             MisaMinoParameters param = CurrentStyle();
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(C4W());
 
-            MisaMino.Configure(param, HoldAllowed(), AllSpins(), TSDOnly(), Intelligence(), Allow180(), SRSPlus());
+            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins().IsAllSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame().IsSRSPlus());
         }
 
         public void UpdatePCThreads() {

@@ -30,13 +30,13 @@ namespace Zetris.TETRIO {
         protected override bool getPerfectClear() => Preferences.PerfectClear;
         protected override bool getEnhancePerfect() => Preferences.EnhancePerfect;
         protected override bool HoldAllowed() => Preferences.HoldAllowed;
-        protected override bool AllSpins() => Preferences.AllSpins;
+        protected override AllowedSpins getAllowedSpins() => Preferences.AllSpins? AllowedSpins.AllSpins : AllowedSpins.TSpins;
         protected override MisaMinoParameters CurrentStyle() => Preferences.CurrentStyle.Clone().Parameters;
         protected override bool C4W() => Preferences.C4W;
         protected override bool TSDOnly() => Preferences.TSDOnly;
         protected override int Intelligence() => Preferences.Intelligence;
         protected override bool Allow180() => true;
-        protected override bool SRSPlus() => true;
+        protected override TetrisGame getTetrisGame() => TetrisGame.TETRIO;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => true;
         protected override int RushTime() => 40;
