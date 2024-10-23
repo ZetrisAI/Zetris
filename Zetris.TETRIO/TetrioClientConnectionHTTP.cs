@@ -51,10 +51,15 @@ namespace Zetris.TETRIO {
 
             } else {
                 string content = new StreamReader(e.Request.InputStream).ReadToEnd();
-                LogHelper.LogText($"{e.Request.RawUrl} {content}");
+                string path = e.Request.RawUrl;
 
-                if (CheckHandler(e.Request.RawUrl))
-                    response = InvokeHandler(e.Request.RawUrl, JToken.Parse(content));
+                if (path.StartsWith("/"))
+                    path = path.Substring(1);
+
+                LogHelper.LogText($"{path} {content}");
+
+                if (CheckHandler(path))
+                    response = InvokeHandler(path, JToken.Parse(content));
             }
 
             e.Response.AppendHeader("Access-Control-Allow-Origin", "*");
