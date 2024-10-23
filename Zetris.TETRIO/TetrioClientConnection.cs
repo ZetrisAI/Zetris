@@ -8,7 +8,7 @@ namespace Zetris.TETRIO {
         protected Dictionary<string, Func<JToken, object>> handlers = new Dictionary<string, Func<JToken, object>>();
 
         public void RegisterHandler(string path, Func<JToken, object> handler)
-            => handlers.Add($"/{path}", handler);
+            => handlers.Add(path, handler);
 
         public bool CheckHandler(string path)
             => path == null? false : handlers.ContainsKey(path);
