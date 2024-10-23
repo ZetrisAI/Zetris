@@ -27,23 +27,22 @@ namespace Zetris.TETRIO {
                 Current.Shutdown();
             };
 #endif
-
-            if (e.Args.Length >= 1) {
-                if (e.Args[0] == "zetrio") {
+            for (int i = 0; i < e.Args.Length; i++) {
+                if (e.Args[i] == "--zetrio") {
                     TetrioBot.Instance.IsZETRIO = true;
 
-                } else if (e.Args[0] == "http") {
+                } else if (e.Args[i] == "--http") {
                     TetrioBot.Instance.UseLegacyHTTP = true;
                     TetrioBot.Instance.Port = 47326;
 
-                    if (e.Args.Length >= 2 && ushort.TryParse(e.Args[1], out ushort port))
+                    if (i + 1 < e.Args.Length && ushort.TryParse(e.Args[i + 1], out ushort port))
                         TetrioBot.Instance.Port = port;
 
-                } else if (e.Args[0] == "ws") {
-                    if (e.Args.Length >= 2 && ushort.TryParse(e.Args[1], out ushort port))
+                } else if (e.Args[i] == "--ws") {
+                    if (i + 1 < e.Args.Length && ushort.TryParse(e.Args[i + 1], out ushort port))
                         TetrioBot.Instance.Port = port;
-                
-                } else if (ushort.TryParse(e.Args[0], out ushort port))
+
+                } else if (i == 0 && ushort.TryParse(e.Args[0], out ushort port))
                     TetrioBot.Instance.Port = port;
             }
         }
