@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29403.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris", "Zetris\Zetris.csproj", "{BD58E75E-C306-438B-B16D-BA3BF66BF14E}"
 EndProject
@@ -10,6 +10,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.TETRIO", "Zetris.TETRIO\Zetris.TETRIO.csproj", "{FABD70B6-F598-4668-8B56-AA27F27F6525}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetris.PPT.Memory", "..\Zetris.PPT.Memory\Zetris.PPT.Memory\Zetris.PPT.Memory.csproj", "{B4C0167E-967F-482D-A53C-23509D3CE71C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MisaMinoNET", "..\MisaMinoNET\MisaMinoNET\MisaMinoNET\MisaMinoNET.csproj", "{AA5BA1EC-C51B-49F2-BE93-B018601E8111}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MisaMino", "..\MisaMinoNET\MisaMinoNET\MisaMino\MisaMino.vcxproj", "{9B91BF39-F215-4609-B4BD-B203C8C4A70D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectClearNET", "..\PerfectClearNET\PerfectClearNET\PerfectClearNET\PerfectClearNET.csproj", "{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfinder-dll", "..\PerfectClearNET\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj", "{F71BF46C-2C69-40AF-A5DF-A73E25A21997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +59,38 @@ Global
 		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Release|x64.Build.0 = Release|x64
 		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Verbose|x64.ActiveCfg = Verbose|x64
 		{B4C0167E-967F-482D-A53C-23509D3CE71C}.Verbose|x64.Build.0 = Verbose|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.ActiveCfg = Debug|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Debug|x64.Build.0 = Debug|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.ActiveCfg = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Public|x64.Build.0 = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.ActiveCfg = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Release|x64.Build.0 = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Verbose|x64.ActiveCfg = Release|x64
+		{AA5BA1EC-C51B-49F2-BE93-B018601E8111}.Verbose|x64.Build.0 = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.ActiveCfg = Debug|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Debug|x64.Build.0 = Debug|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.ActiveCfg = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Public|x64.Build.0 = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.ActiveCfg = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Release|x64.Build.0 = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Verbose|x64.ActiveCfg = Release|x64
+		{9B91BF39-F215-4609-B4BD-B203C8C4A70D}.Verbose|x64.Build.0 = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.ActiveCfg = Debug|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Debug|x64.Build.0 = Debug|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.ActiveCfg = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Public|x64.Build.0 = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.ActiveCfg = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Release|x64.Build.0 = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Verbose|x64.ActiveCfg = Release|x64
+		{12AC9064-FAF9-4714-8E9F-9EC11D897DAF}.Verbose|x64.Build.0 = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.ActiveCfg = Debug|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Debug|x64.Build.0 = Debug|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.ActiveCfg = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Public|x64.Build.0 = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.ActiveCfg = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Verbose|x64.ActiveCfg = Release|x64
+		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Verbose|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
