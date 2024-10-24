@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Fleck;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Zetris.TETRIO {
@@ -69,7 +70,7 @@ namespace Zetris.TETRIO {
                 response = InvokeHandler(path, JToken.Parse(content));
 
             if (response != null) {
-                string res = JToken.FromObject(response).ToString();
+                string res = JToken.FromObject(response).ToString(Formatting.None);
                 res = $"{id} {res}";
 
                 LogHelper.LogText(res);
