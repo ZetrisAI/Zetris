@@ -316,9 +316,14 @@ namespace Zetris.TETRIO {
                     }
                 )},
 
-                {"tl", new ChatCommand(
-                    "Loads Tetra League settings.",
-                    () => new { response = $"/set options.presets=tetra league\nTL settings loaded" }
+                {"tls1", new ChatCommand(
+                    "Loads Tetra League Season 1 settings.",
+                    () => new { response = $"/set options.presets=tetra league (season 1)\nTL S1 settings loaded" }
+                )},
+
+                {"tls2", new ChatCommand(
+                    "Loads Tetra League Season 2 settings.",
+                    () => new { response = $"/set options.presets=tetra league\nTL S2 settings loaded" }
                 )},
 
                 {"grav", new OnOffChatCommand(
