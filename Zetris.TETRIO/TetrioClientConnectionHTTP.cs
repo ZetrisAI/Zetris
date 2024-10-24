@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Zetris.TETRIO {
@@ -66,7 +67,7 @@ namespace Zetris.TETRIO {
             e.Response.StatusCode = 200;
 
             if (response != null) {
-                string res = JToken.FromObject(response).ToString();
+                string res = JToken.FromObject(response).ToString(Formatting.None);
 
                 LogHelper.LogText(res);
                 byte[] data = Encoding.ASCII.GetBytes(res);
