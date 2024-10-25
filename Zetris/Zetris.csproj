@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
-    <Compile Include="Enums.cs" />
     <Compile Include="IUI.cs" />
     <Compile Include="LogHelper.cs" />
   </ItemGroup>

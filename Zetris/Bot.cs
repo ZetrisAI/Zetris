@@ -757,7 +757,7 @@ namespace Zetris {
             MisaMinoParameters param = CurrentStyle();
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(C4W());
 
-            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins().IsAllSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame().IsSRSPlus());
+            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame());
         }
 
         public void UpdatePCThreads() {
