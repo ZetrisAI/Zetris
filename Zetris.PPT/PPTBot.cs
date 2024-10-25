@@ -119,6 +119,7 @@ namespace Zetris.PPT {
         protected override int Intelligence() => Preferences.Intelligence;
         protected override bool Allow180() => false;
         protected override TetrisGame getTetrisGame() => TetrisGame.PPT;
+        protected override bool getAllowTmini() => false;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => GameHelper.Instance.InSwap.Call();
         protected override int RushTime() => 12;

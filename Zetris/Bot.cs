@@ -426,6 +426,7 @@ namespace Zetris {
         protected abstract int Intelligence();
         protected abstract bool Allow180();
         protected abstract TetrisGame getTetrisGame();
+        protected abstract bool getAllowTmini();
         protected abstract uint PCThreads();
         protected abstract bool GarbageBlocking();
         protected abstract int RushTime();
@@ -757,7 +758,7 @@ namespace Zetris {
             MisaMinoParameters param = CurrentStyle();
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(C4W());
 
-            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame());
+            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame(), getAllowTmini());
         }
 
         public void UpdatePCThreads() {
