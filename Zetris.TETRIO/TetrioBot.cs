@@ -258,7 +258,7 @@ namespace Zetris.TETRIO {
                 string command = split.First();
                 string[] args = split.Skip(1).ToArray();
 
-                if (command.Length == 0 || command.Any(i => !char.IsLetter(i)))
+                if (command.Length == 0 || command.Any(i => !"0123456789abcdefghijklmnopqrstuvwxyz".Contains(i)))
                     return new { };
 
                 if (!Preferences.ChatCommands)
