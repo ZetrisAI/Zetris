@@ -204,8 +204,8 @@
     del "$(TargetDir)*.xml"
 )
 
-if exist "D:\Code\ZETR.IO\res\" (
-    xcopy "$(TargetDir)*.*" "D:\Code\ZETR.IO\res\" /E /I /Y
+if exist "D:\Code\ZETR.IO\zetris-csharp\" (
+    xcopy "$(TargetDir)*.*" "D:\Code\ZETR.IO\zetris-csharp\" /E /I /Y
 )
 </PostBuildEvent>
   </PropertyGroup>

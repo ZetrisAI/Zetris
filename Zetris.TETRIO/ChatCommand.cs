@@ -1,49 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zetris.TETRIO {
     abstract class ChatCommandBase {
-        public static object InvalidParameters => new { response = "Invalid parameters." };
+        public const string InvalidParameters = "Invalid parameters.";
 
+        public readonly bool EvenWhileActive;
         public readonly string HelpText;
         public readonly string[] Hints;
 
-        public ChatCommandBase(string help, string[] hints = null) {
+        public ChatCommandBase(string help, string[] hints = null, bool evenWhileActive = false) {
             HelpText = help;
-            Hints = hints ?? new string[0];
+            Hints = hints?? new string[0];
+            EvenWhileActive = evenWhileActive;
         }
 
-        public abstract object Process(string[] args);
+        public abstract string Process(string[] args);
     }
 
     class ChatCommand: ChatCommandBase {
-        readonly Func<object> Processor;
+        readonly Func<string> Processor;
 
-        public ChatCommand(string help, Func<object> processor)
-        : base(help) => Processor = processor;
+        public ChatCommand(string help, Func<string> processor, bool evenWhileActive = false)
+        : base(help, evenWhileActive: evenWhileActive) => Processor = processor;
 
-        public override object Process(string[] args)
-            => args.Length == 0 ? Processor() : new { };
+        public override string Process(string[] args)
+            => args.Length == 0? Processor() : null;
     }
 
     class ChatCommand<T>: ChatCommandBase where T: struct {
         readonly Func<string, T?> CustomConvert;
-        readonly Func<T, object> Processor;
-        readonly Func<object> Readback;
+        readonly Func<T, string> Processor;
+        readonly Func<string> Readback;
 
-        object GetReadback() => Readback?.Invoke()?? InvalidParameters;
+        string GetReadback() => Readback?.Invoke()?? InvalidParameters;
 
-        public ChatCommand(string help, string hint, Func<string, T?> custom, Func<T, object> processor, Func<object> readback = null)
-        : base(help, new string[1] { hint }) {
+        public ChatCommand(string help, string hint, Func<string, T?> custom, Func<T, string> processor, Func<string> readback = null, bool evenWhileActive = false)
+        : base(help, new string[1] { hint }, evenWhileActive) {
             CustomConvert = custom;
             Processor = processor;
             Readback = readback;
         }
 
-        public override object Process(string[] args) {
+        public override string Process(string[] args) {
             if (args.Length == 0) return GetReadback();
 
             if (args.Length != 1) return InvalidParameters;
@@ -69,7 +68,7 @@ namespace Zetris.TETRIO {
         static bool? OnOffToBool(string s)
             => new Dictionary<string, bool>() {{"on", true}, {"off", false}}.TryGetValue(s.ToLower(), out bool result) ? (bool?)result : null;
 
-        public OnOffChatCommand(string help, Func<bool, object> processor, Func<object> readback = null)
-        : base(help, "on/off", OnOffToBool, processor, readback) {}
+        public OnOffChatCommand(string help, Func<bool, string> processor, Func<string> readback = null, bool evenWhileActive = false)
+        : base(help, "on/off", OnOffToBool, processor, readback, evenWhileActive) {}
     }
 }

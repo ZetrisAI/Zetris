@@ -251,33 +251,38 @@ namespace Zetris.TETRIO {
             Dictionary<string, ChatCommandBase> chatCommands = null;
 
             server.RegisterHandler("chatCommand", e => {
-                if (Window.Active) return new { };
-
                 IEnumerable<string> split = ((string)e).Trim().Split(' ').Select(i => i.Trim());
 
                 string command = split.First();
                 string[] args = split.Skip(1).ToArray();
 
                 if (command.Length == 0 || command.Any(i => !"0123456789abcdefghijklmnopqrstuvwxyz".Contains(i)))
-                    return new { };
+                    return null;
 
                 if (!Preferences.ChatCommands)
-                    return new { response = "Chat commands are disabled at the moment." };
+                    return "Chat commands are disabled at the moment.";
 
                 foreach (var i in chatCommands)
-                    if (i.Key == command)
-                        return i.Value.Process(args);
+                    if (i.Key == command) {
+                        if (Window.Active && !i.Value.EvenWhileActive)
+                            return "Can't do that while in-game.";
 
-                return new { response = "Unknown command." };
+                        return i.Value.Process(args);
+                    }
+
+                return Window.Active? null : "Unknown command.";
             });
 
             chatCommands = new Dictionary<string, ChatCommandBase>() {
                 {"help", new ChatCommand(
                     "Displays all available commands.",
-                    () => new {
-                        response = "Available commands:\n" +
-                            string.Join("\n", chatCommands.Select(i => $".{i.Key} {string.Join("", i.Value.Hints.Select(j => $"<{j}> "))}- {i.Value.HelpText}"))
-                    }
+                    () => "Available commands:\n" +
+                        string.Join("\n",
+                            chatCommands
+                                .Where(i => !Window.Active || i.Value.EvenWhileActive)
+                                .Select(i => $".{i.Key} {string.Join("", i.Value.Hints.Select(j => $"<{j}> "))}- {i.Value.HelpText}")
+                        ),
+                    true
                 )},
 
                 {"pps", new ChatCommand<double>(
@@ -291,7 +296,7 @@ namespace Zetris.TETRIO {
                         Window?.SetSpeed(Math.Round(e, 2)).Wait();
                         return null;
                     },
-                    () => new { response = $"pps = {(Preferences.Speed >= 30? "inf" : Preferences.Speed.ToString())}" }
+                    () => $"pps = {(Preferences.Speed >= 30? "inf" : Preferences.Speed.ToString())}"
                 )},
 
                 {"pcf", new OnOffChatCommand(
@@ -300,7 +305,7 @@ namespace Zetris.TETRIO {
                         Window?.SetPerfectClear(e).Wait();
                         return null;
                     },
-                    () => new { response = $"pcf = {Preferences.PerfectClear.ToString().ToLower()}" }
+                    () => $"pcf = {Preferences.PerfectClear.ToString().ToLower()}"
                 )},
 
                 {"ft", new ChatCommand<int>(
@@ -313,32 +318,34 @@ namespace Zetris.TETRIO {
 
                         if (e > 15) e = 15;
                            
-                        return new { response = $"/set match.ft={e}\nft = {e}" };
+                        return $"/set match.ft={e}\nft = {e}";
                     }
                 )},
 
                 {"tls1", new ChatCommand(
                     "Loads Tetra League Season 1 settings.",
-                    () => new { response = $"/set options.presets=tetra league (season 1)\nTL S1 settings loaded" }
+                    () => $"/set options.presets=tetra league (season 1)\nTetra League Season 1 settings loaded"
                 )},
 
                 {"tls2", new ChatCommand(
                     "Loads Tetra League Season 2 settings.",
-                    () => new { response = $"/set options.presets=tetra league\nTL S2 settings loaded" }
+                    () => $"/set options.presets=tetra league\nTetra League Season 2 settings loaded"
                 )},
 
                 {"grav", new OnOffChatCommand(
                     "Toggles gravity.",
-                    e => new { response = $"/set options.g={(e? 0.02 : 0)};options.gincrease={(e ? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}" }
+                    e => $"/set options.g={(e? 0.02 : 0)};options.gincrease={(e? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}"
                 )},
 
                 {"start", new ChatCommand(
                     "Starts the game.",
-                    () => new {
-                        action = "start",
-                        response = ":glhf:",
-                        response_delay = 3000
-                    }
+                    () => "/start\n#3000\n:glhf:"
+                )},
+
+                {"abort", new ChatCommand(
+                    "Aborts a running game.",
+                    () => "/abort\nGame aborted.",
+                    true
                 )}
             };
         }
