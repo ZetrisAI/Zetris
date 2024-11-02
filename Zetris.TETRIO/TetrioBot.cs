@@ -30,7 +30,7 @@ namespace Zetris.TETRIO {
         protected override bool getPerfectClear() => Preferences.PerfectClear;
         protected override bool getEnhancePerfect() => Preferences.EnhancePerfect;
         protected override bool HoldAllowed() => Preferences.HoldAllowed;
-        protected override AllowedSpins getAllowedSpins() => Preferences.AllSpins? AllowedSpins.AllSpins : AllowedSpins.TSpins;
+        protected override AllowedSpins getAllowedSpins() => Preferences.AllSpins? AllowedSpins.AllSpinsRegularTSpins : AllowedSpins.TSpins;
         protected override MisaMinoParameters CurrentStyle() => Preferences.CurrentStyle.Clone().Parameters;
         protected override bool C4W() => Preferences.C4W;
         protected override bool TSDOnly() => Preferences.TSDOnly;
