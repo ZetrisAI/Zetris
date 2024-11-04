@@ -333,8 +333,8 @@ namespace Zetris.TETRIO {
                 )},
 
                 {"grav", new OnOffChatCommand(
-                    "Toggles gravity.",
-                    e => $"/set options.g={(e? 0.02 : 0)};options.gincrease={(e? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}"
+                    "Toggles gravity increase.",
+                    e => $"/set options.gincrease={(e? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}"
                 )},
 
                 {"start", new ChatCommand(
