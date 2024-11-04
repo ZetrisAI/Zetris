@@ -1,11 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Zetris {
     public static class LogHelper {
         [Conditional("VERBOSE")]
         public static void LogText(string text) {
-            Console.WriteLine(text);
+            Trace.WriteLine(text);
         }
 
         [Conditional("VERBOSE")]
@@ -19,7 +18,7 @@ namespace Zetris {
                     }
                 }
 
-                Console.WriteLine(String.Join("   ", o));
+                Trace.WriteLine(string.Join("   ", o));
             }
         }
     }
