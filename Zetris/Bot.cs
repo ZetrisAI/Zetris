@@ -435,15 +435,21 @@ namespace Zetris {
 
         protected int[] getClippedQueue() => queue.Take(Math.Min(queue.Count, getPreviews())).ToArray();
         
-        protected int getPerfectType() {
+        protected SearchType getPerfectType() {
             if (!getEnhancePerfect()) {
-                return 0; // Fast
+                return SearchType.Fast;
+            }
+            if (getAllowedSpins() == AllowedSpins.AllSpinsRegularTSpins && getTetrisGame() == TetrisGame.TETRIOS2) {
+                return SearchType.TETRIOSeason2;
             }
             if (getAllowedSpins().IsAllSpins()) {
-                return 3; // All-spin Attack (mini is zero attack)
-                // TODO: Implement All-spin attack without T-immobiles
+                if (getTetrisGame().IsSRSPlus()) {
+                    return SearchType.AllSpins;
+                } else {
+                    return SearchType.AllSpinsNoMini;
+                }
             }
-            return 1; // T-spin Attack
+            return SearchType.TSpins;
         }
 
         protected bool isPCB2BEnding(int cleared, int piece, int r) {
