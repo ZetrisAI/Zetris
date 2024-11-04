@@ -92,6 +92,22 @@ namespace Zetris.TETRIO {
                     board[i, j] = ConvPiece255(reset[39 - j, i]?.ToUpper());
         }
 
+        void receivedGame(JToken e) {
+            game_session_id = e["id"].ToObject<int?>();
+
+            NewGame(() => {
+                loadBoardFromJSON(e["board"]);
+
+                IEnumerable<int> incoming = e["pieces"].ToObject<string[]>().Select(ConvPiece255);
+                current = incoming.First();
+                queue = incoming.Skip(1).ToList();
+                hold = ConvPiece(e["hold"].ToObject<string>());
+                combo = 0;
+            }, 22);
+
+            baseBoardHeight = 22;
+        }
+
         public bool IsZETRIO = false;
 
         public void ToZETRIO(string command, object data) {
@@ -132,22 +148,18 @@ namespace Zetris.TETRIO {
             server.RegisterHandler("newGame", e => {
                 server.InvokeHandler("endGame", null);
 
-                game_session_id = e["id"].ToObject<int?>();
-
-                NewGame(() => {
-                    loadBoardFromJSON(e["board"]);
-
-                    IEnumerable<int> incoming = e["pieces"].ToObject<string[]>().Select(ConvPiece255);
-                    current = incoming.First();
-                    queue = incoming.Skip(1).ToList();
-                    hold = ConvPiece(e["hold"].ToObject<string>());
-                    combo = 0;
-                }, 22);
-
-                baseBoardHeight = 22;
+                receivedGame(e);
                 pieceCount = 0;
 
                 Window.Active = true;
+                return null;
+            });
+
+            server.RegisterHandler("resetGame", e => {
+                if (pieceCount == -1)
+                    return null;
+
+                receivedGame(e);
                 return null;
             });
 
