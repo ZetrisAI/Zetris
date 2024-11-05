@@ -71,6 +71,8 @@ namespace Zetris.TETRIO {
 
         int pieceCount = -1;
         Stopwatch timer;
+
+        long startedThinkingAt = 0;
         
         void startThinking(int garbage) {
             int[] q = getClippedQueue();
@@ -82,6 +84,8 @@ namespace Zetris.TETRIO {
             if (PerfectClear.Running && !pcbuffer) PerfectClear.Abort();
 
             PerfectClearAOT(current, q, hold, combo);
+
+            startedThinkingAt = timer.ElapsedMilliseconds;
         }
 
         void loadBoardFromJSON(JToken json) {
@@ -107,6 +111,9 @@ namespace Zetris.TETRIO {
 
             baseBoardHeight = 22;
         }
+
+        static string[] InstructionsToMovesArray(List<Instruction> ins)
+            => ins.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray();
 
         public bool IsZETRIO = false;
 
@@ -185,18 +192,22 @@ namespace Zetris.TETRIO {
                 if (pieceCount == 0) {
                     timer?.Stop();
                     timer = Stopwatch.StartNew();
+                    startedThinkingAt = 0;
 
                 } else {
                     if (!MisaMino.Running)
                         startThinking(garbage);
+                    
+                    double minWait = startedThinkingAt + (Preferences.Speed >= 10? 0 : Math.Max(RushTime(), 1000.0 / Preferences.Speed / 2));
+                    double nextPiece = Preferences.Speed >= 30 ? 0 : (pieceCount * 1000.0 / Preferences.Speed);
+                    double waitUntil = Math.Max(nextPiece, minWait);
 
-                    while (timer.ElapsedMilliseconds < (Preferences.Speed >= 30? 0 : (pieceCount * 1000.0 / Preferences.Speed)));
+                    while (timer.ElapsedMilliseconds < (pieceCount <= 0? 0 : waitUntil));
                 }
 
                 pieceCount++;
 
                 // ideally this should take gravity into account...  i'm too lazy
-                // or make bot wait before harddropping, but then can't go under 2pps (lock is 500ms)
                 baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
 
                 bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
@@ -221,8 +232,27 @@ namespace Zetris.TETRIO {
 
                 return new {
                     id = game_session_id,
-                    moves = movements.Where(i => ToTetrio.ContainsKey(i)).Select(i => ToTetrio[i]).ToArray(),
+                    moves = InstructionsToMovesArray(movements),
                     expected_cells = coords.ToArray()
+                };
+            });
+
+            server.RegisterHandler("recovery", e => {
+                if (pieceCount == -1)
+                    return new {
+                        moves = new string[0]
+                    };
+
+                var recovery = Recovery(
+                    (int)e["x"],
+                    (int)Math.Floor((double)e["y"]) - 14,
+                    (int)e["r"],
+                    out bool recovered
+                );
+
+                return new {
+                    id = game_session_id,
+                    moves = InstructionsToMovesArray(recovery)
                 };
             });
 
