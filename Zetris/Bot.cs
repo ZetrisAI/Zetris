@@ -386,6 +386,7 @@ namespace Zetris {
         protected UI Window;
 
         protected int[,] board = new int[10, 40];
+        protected int[,] recoveryboard = new int[10, 40];
 
         protected int current;
         protected int? hold;
@@ -465,6 +466,19 @@ namespace Zetris {
                 ))
             ));
         }
+
+        protected void FilterLtoR(List<Instruction> a) {
+            // Filter L->R and R->L
+            if (a.Count >= 2) {
+                for (int i = a.Count - 2; i >= 0; i--) {
+                    if ((a[i] == Instruction.L && a[i + 1] == Instruction.R) || (a[i] == Instruction.R && a[i + 1] == Instruction.L)) {
+                        a.RemoveAt(i);
+                        a.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+        }   
 
         protected void NewGame(Action setup, int baseBoardHeight) {
             MisaMino.Reset(); // this will abort as well
@@ -644,6 +658,8 @@ namespace Zetris {
 
             wasHold = movements.Count > 0 && movements[0] == Instruction.HOLD;
 
+            recoveryboard = (int[,])board.Clone();
+
             bool applied = ApplyPiece(board, pieceUsed, finalX, finalY, finalR, baseBoardHeight, out clear, out coords);
             LogHelper.LogText($"Piece applied? {applied}");
 
@@ -653,16 +669,7 @@ namespace Zetris {
             if (pathSuccess && !pcsolved)  // pathSuccess here means that I had used PC finder to make the decision
                 b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
-            // Filter L->R and R->L
-            if (movements.Count >= 2) {
-                for (int i = movements.Count - 2; i >= 0; i--) {
-                    if ((movements[i] == Instruction.L && movements[i + 1] == Instruction.R) || (movements[i] == Instruction.R && movements[i + 1] == Instruction.L)) {
-                        movements.RemoveAt(i);
-                        movements.RemoveAt(i);
-                        i--;
-                    }
-                }
-            }
+            FilterLtoR(movements);
 
             LogHelper.LogText($"Movements generated for piece {pieceUsed} ({finalX}, {finalY}, {finalR}) => {string.Join(", ", movements)}");
 
@@ -751,6 +758,33 @@ namespace Zetris {
 
                 } else LogHelper.LogText("FUCK but less");
             }
+        }
+
+        protected List<Instruction> Recovery(int x, int y, int r, out bool recovered) {
+            var justHarddrop = new List<Instruction>() { Instruction.DROP };
+
+            if (x == finalX && y == finalY && r == finalR) {
+                recovered = true;
+                return justHarddrop;
+            }
+
+            LogHelper.LogText($"RECOVERY with piece {pieceUsed}:");
+            LogHelper.LogText($"From {x} {y} {r} to {finalX} {finalY} {finalR}");
+
+            var ins = MisaMino.FindPathFrom(
+                recoveryboard, baseBoardHeight, pieceUsed,
+                x, y, r, finalX, finalY, finalR,
+                out spinUsed, out recovered
+            );
+
+            if (!recovered) {
+                LogHelper.LogText("Recovery failed");
+                return justHarddrop;
+            }
+
+            FilterLtoR(ins);
+            LogHelper.LogText($"Recovered with movements {string.Join(", ", ins)}");
+            return ins;
         }
 
         protected void EndGame() {
