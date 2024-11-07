@@ -1,0 +1,31 @@
+﻿<Application x:Class="Zetris.BotrisBattle.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             StartupUri="UI.xaml"
+             Startup="Main" Exit="Exiting">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
+
+                <ResourceDictionary>
+                    <Style x:Key="ZetrisWindow" TargetType="Controls:MetroWindow">
+                        <Setter Property="TitleCharacterCasing" Value="Normal" />
+                        <Setter Property="ResizeMode" Value="NoResize" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="#0A0A0A" />
+                        <Setter Property="Foreground" Value="#DCDCDC" />
+                        <Setter Property="GlowBrush" Value="{DynamicResource AccentColorBrush}" />
+                        <Setter Property="SizeToContent" Value="Height" />
+                    </Style>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
