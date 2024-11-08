@@ -82,7 +82,7 @@ namespace Zetris.BotrisBattle.Types {
         public string held { get; set; }
         public PieceData current { get; set; }
         public bool canHold { get; set; }
-        public double combo { get; set; }
+        public int combo { get; set; }
         public bool b2b { get; set; }
         public double score { get; set; }
         public double piecesPlaced { get; set; }
@@ -91,7 +91,7 @@ namespace Zetris.BotrisBattle.Types {
 
     class GameEvent {
         /// <summary>
-        /// "piece_placed" | "damage_tanked" | "clear" | "game_over";
+        /// "piece_placed" | "damage_tanked" | "clear" | "queue_added" | "game_over";
         /// </summary>
         public string type { get; set; }
         public JToken payload { get; set; }
@@ -119,6 +119,13 @@ namespace Zetris.BotrisBattle.Types {
         public double cancelled { get; set; }
         public PieceData piece { get; set; }
         public ClearedLine[] clearedLines { get; set; }
+    }
+
+    class QueueAddedGameEventPayload {
+        /// <summary>
+        /// type Piece = "I" | "O" | "J" | "L" | "S" | "Z" | "T";
+        /// </summary>
+        public string piece { get; set; }
     }
 
     class ClearedLine {
