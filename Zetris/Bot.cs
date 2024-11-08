@@ -739,6 +739,12 @@ namespace Zetris {
                         int bufstart = Convert.ToInt32(bufwasHold && bufhold == null);
 
                         bufhold = bufwasHold ? bufcurrent : bufhold;
+
+                        if (bufstart >= bufq.Length) {
+                            cancel = true;
+                            break;
+                        }
+
                         bufcurrent = bufq[bufstart];
                         bufq = bufq.Skip(bufstart + 1).ToArray();
 

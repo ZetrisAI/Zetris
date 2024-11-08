@@ -195,7 +195,7 @@ namespace Zetris.TETRIO {
                     startedThinkingAt = 0;
 
                 } else {
-                    if (!MisaMino.Running)
+                    if (!MisaMino.Running && MisaMino.LastSolution == null)
                         startThinking(garbage);
                     
                     double minWait = startedThinkingAt + (Preferences.Speed >= 10? 0 : Math.Max(RushTime(), 1000.0 / Preferences.Speed / 2));
@@ -211,6 +211,7 @@ namespace Zetris.TETRIO {
                 baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
 
                 bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
+                MisaMino.LastSolution = null;
 
                 LogHelper.LogText($"Placed {pieceUsed}");
 
