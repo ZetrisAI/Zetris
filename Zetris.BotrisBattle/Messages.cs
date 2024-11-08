@@ -7,6 +7,12 @@ namespace Zetris.BotrisBattle.Messages {
         /// </summary>
         public string type { get; set; }
         public JToken payload { get; set; }
+
+        public static Message Create(string type, object payload)
+            => new Message() {
+                type = type,
+                payload = JToken.FromObject(payload)
+            };
     }
 
     class RoomDataPayload {
@@ -100,5 +106,12 @@ namespace Zetris.BotrisBattle.Messages {
 
     class PingPayload {
         public double timestamp { get; set; }
+    }
+
+    class ActionPayload {
+        /// <summary>
+        /// type Command = "hold" | "move_left" | "move_right" | "sonic_left" | "sonic_right" | "rotate_cw" | "rotate_ccw" | "drop" | "sonic_drop" | "none";
+        /// </summary>
+        public string[] commands { get; set; }
     }
 }
