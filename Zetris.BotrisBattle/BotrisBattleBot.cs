@@ -70,7 +70,8 @@ namespace Zetris.BotrisBattle {
 
         Stopwatch timer;
         long startedThinkingAt = 0;
-        double pps;
+        double pps = 2.5;
+        int qAhead = 0;
 
         void StartThinking(int garbage) {
             int[] q = getClippedQueue();
@@ -167,8 +168,10 @@ namespace Zetris.BotrisBattle {
 
                 {"round_started", payload => {
                     var data = payload.ToObject<RoundStartedPayload>();
+
                     var gameState = data.roomData.players.Single(i => i.sessionId == self).gameState;
                     pps = data.roomData.settings.pps;
+                    qAhead = 0;
 
                     RoundOver();
 
@@ -232,7 +235,16 @@ namespace Zetris.BotrisBattle {
 
                     if (data.sessionId == self) {
                         foreach (var i in data.events.Where(i => i.type == "queue_added")) {
-                            queue.Add(ConvertBlock255(i.payload.ToObject<Types.QueueAddedGameEventPayload>().piece));
+                            if (qAhead > 0) {
+                                qAhead--;
+                            } else {
+                                queue.Add(ConvertBlock255(i.payload.ToObject<Types.QueueAddedGameEventPayload>().piece));
+                            }
+                        }
+
+                        if (data.events.Any(i => i.type == "queue_added") && data.gameState.bag.Length == 1) {
+                            qAhead++;
+                            queue.Add(ConvertBlock255(data.gameState.bag[0]));
                         }
 
                         if (data.events.Any(i => i.type == "damage_tanked") ||
