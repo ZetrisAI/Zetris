@@ -19,20 +19,20 @@ using Zetris.BotrisBattle.Messages;
 namespace Zetris.BotrisBattle {
     class BotrisBattleBot: Bot<UI, BotrisBattleBot> {
         protected override int getPreviews() => int.MaxValue;
-        protected override bool getPerfectClear() => Preferences.PerfectClear;
-        protected override bool getEnhancePerfect() => Preferences.PerfectClear;
+        protected override bool getPerfectClear() => true;
+        protected override bool getEnhancePerfect() => true;
         protected override bool HoldAllowed() => true;
         protected override AllowedSpins getAllowedSpins() => AllowedSpins.AllSpins;
-        protected override MisaMinoParameters CurrentStyle() => Preferences.CurrentStyle.Clone().Parameters;
+        protected override MisaMinoParameters CurrentStyle() => new MisaMinoParameters();
         protected override bool C4W() => false;
         protected override bool TSDOnly() => false;
-        protected override int Intelligence() => Preferences.Intelligence;
+        protected override int Intelligence() => 100;
         protected override bool Allow180() => false;
         protected override TetrisGame getTetrisGame() => TetrisGame.BotrisBattle;
         protected override bool getAllowTmini() => true;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => true;
-        protected override int RushTime() => 80;
+        protected override int RushTime() => 40;
         protected override bool Danger() => false; // there is no PUBLIC version of BotrisBattle bot
 
         const int SpawnPos = 21;
@@ -70,7 +70,7 @@ namespace Zetris.BotrisBattle {
 
         Stopwatch timer;
         long startedThinkingAt = 0;
-        Types.RoomSettings settings;
+        double pps;
 
         void StartThinking(int garbage) {
             int[] q = getClippedQueue();
@@ -127,10 +127,12 @@ namespace Zetris.BotrisBattle {
                 return;
             }
 
-            var response = handlers[msg.type](msg.payload);
+            if (handlers.ContainsKey(msg.type)) {
+                var response = handlers[msg.type](msg.payload);
 
-            if (response != null)
-                ws.Send(JsonConvert.SerializeObject(response));
+                if (response != null)
+                    ws.Send(JsonConvert.SerializeObject(response));
+            }
         }
 
         protected override void Starting() {
@@ -158,54 +160,15 @@ namespace Zetris.BotrisBattle {
             };
 
             handlers = new Dictionary<string, Func<JToken, Message>> {
-                {"room_data", payload => {
-                    var roomData = payload.ToObject<RoomDataPayload>().roomData;
-                    return null;
-                }},
-
                 {"authenticated", payload => {
                     self = payload.ToObject<AuthenticatedPayload>().sessionId;
-                    return null;
-                }},
-
-                {"error", payload => {
-                    var error = payload.ToObject<string>();
-                    return null;
-                }},
-
-                {"player_joined", payload => {
-                    var playerData = payload.ToObject<PlayerJoinedPayload>().playerData;
-                    return null;
-                }},
-
-                {"player_left", payload => {
-                    var sessionId = payload.ToObject<PlayerLeftPayload>().sessionId;
-                    return null;
-                }},
-
-                {"player_banned", payload => {
-                    var botInfo = payload.ToObject<PlayerBannedPayload>().botInfo;
-                    return null;
-                }},
-
-                {"player_unbanned", payload => {
-                    var botInfo = payload.ToObject<PlayerUnbannedPayload>().botInfo;
-                    return null;
-                }},
-
-                {"settings_changed", payload => {
-                    var roomData = payload.ToObject<SettingsChangedPayload>().roomData;
-                    return null;
-                }},
-
-                {"game_started", _ => {
                     return null;
                 }},
 
                 {"round_started", payload => {
                     var data = payload.ToObject<RoundStartedPayload>();
                     var gameState = data.roomData.players.Single(i => i.sessionId == self).gameState;
-                    settings = data.roomData.settings;
+                    pps = data.roomData.settings.pps;
 
                     RoundOver();
 
@@ -230,9 +193,7 @@ namespace Zetris.BotrisBattle {
                 {"request_move", payload => {
                     if (!Window.Active) return null;
 
-                    var data = payload.ToObject<RequestMovePayload>();
-
-                    garbage = data.gameState.garbageQueued?.Length?? 0;
+                    garbage = payload.ToObject<RequestMovePayload>().gameState.garbageQueued?.Length?? 0;
 
                     misaboard = (int[,])board.Clone();
                     pcboard = (int[,])board.Clone();
@@ -240,7 +201,7 @@ namespace Zetris.BotrisBattle {
                     if (!MisaMino.Running && MisaMino.LastSolution == null)
                         StartThinking(garbage);
 
-                    double minWait = startedThinkingAt + (settings.pps >= 10? 0: Math.Max(RushTime(), 1000.0 / settings.pps / 2));
+                    double minWait = startedThinkingAt + (pps >= 10? 0: Math.Max(RushTime(), 1000.0 / pps / 2));
 
                     while (timer.ElapsedMilliseconds < minWait);
 
@@ -289,32 +250,10 @@ namespace Zetris.BotrisBattle {
                     return null;
                 }},
 
-                {"player_damage_received", payload => {
-                    var data = payload.ToObject<PlayerDamageReceivedPayload>();
-                    return null;
-                }},
-
                 {"round_over", payload => {
-                    var data = payload.ToObject<RoundOverPayload>();
-
                     RoundOver();
                     return null;
                 }},
-
-                {"game_over", payload => {
-                    var data = payload.ToObject<GameOverPayload>();
-                    return null;
-                }},
-
-                {"game_reset", payload => {
-                    var roomData = payload.ToObject<RoomDataPayload>().roomData;
-                    return null;
-                }},
-
-                {"ping", payload => {
-                    var timestamp = payload.ToObject<PingPayload>().timestamp;
-                    return null;
-                }}
             };
 
             ws.Connect();

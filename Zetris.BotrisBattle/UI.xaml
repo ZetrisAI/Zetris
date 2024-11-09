@@ -22,28 +22,7 @@
                 <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
             </StackPanel>
         </Grid>
-
-        <Grid Margin="0 0 0 5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Margin="0 0 5 0" VerticalAlignment="Center" x:Name="StyleText" />
-
-            <ComboBox Grid.Column="1" Height="14" x:Name="Style" SelectionChanged="StyleChanged" />
-        </Grid>
-
-        <Button Margin="0 0 0 5" Style="{StaticResource SquareButtonStyle}" BorderBrush="#DCDCDC" Controls:ButtonHelper.PreserveTextCase="True" x:Name="Edit" Click="EditClicked" />
         
-        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-        <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="10" Maximum="150" Exponent="1.5" AllowPrecise="False" x:Name="Intelligence" Changed="IntelligenceChanged" />
-
-        <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
-
-        <CheckBox Margin="0 0 0 5" x:Name="PerfectClear" Click="PerfectClearChanged" />
-
         <Zetris:Dial Margin="0 0 0 5" Scale="0.5" Minimum="1" Maximum="1" Exponent="1.5" AllowPrecise="False" x:Name="PCThreads" Changed="PCThreadsChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />

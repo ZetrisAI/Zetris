@@ -15,10 +15,6 @@ namespace Zetris.BotrisBattle.Messages {
             };
     }
 
-    class RoomDataPayload {
-        public Types.RoomData roomData { get; set; }
-    }
-
     class AuthenticatedPayload {
         /// <summary>
         /// type SessionId = string;
@@ -26,37 +22,12 @@ namespace Zetris.BotrisBattle.Messages {
         public string sessionId { get; set; }
     }
 
-    class PlayerJoinedPayload {
-        public Types.PlayerData playerData { get; set; }
-    }
-
-    class PlayerLeftPayload {
-        /// <summary>
-        /// type SessionId = string;
-        /// </summary>
-        public string sessionId { get; set; }
-    }
-
-    class PlayerBannedPayload {
-        public Types.BotInfo botInfo { get; set; }
-    }
-
-    class PlayerUnbannedPayload {
-        public Types.BotInfo botInfo { get; set; }
-    }
-
-    class SettingsChangedPayload {
-        public Types.RoomData roomData { get; set; }
-    }
-
     class RoundStartedPayload {
-        public double startsAt { get; set; }
         public Types.RoomData roomData { get; set; }
     }
 
     class RequestMovePayload {
         public Types.GameState gameState { get; set; }
-        public Types.PlayerData[] players { get; set; }
     }
 
     class PlayerActionPayload {
@@ -64,48 +35,8 @@ namespace Zetris.BotrisBattle.Messages {
         /// type SessionId = string;
         /// </summary>
         public string sessionId { get; set; }
-        /// <summary>
-        /// type Command = "hold" | "move_left" | "move_right" | "sonic_left" | "sonic_right" | "rotate_cw" | "rotate_ccw" | "drop" | "sonic_drop" | "none";
-        /// </summary>
-        public string[] commands { get; set; }
         public Types.GameState gameState { get; set; }
-        public Types.GameState prevGameState { get; set; }
         public Types.GameEvent[] events { get; set; }
-    }
-
-    class PlayerDamageReceivedPayload {
-        /// <summary>
-        /// type SessionId = string;
-        /// </summary>
-        public string sessionId { get; set; }
-        public double damage { get; set; }
-        public Types.GameState gameState { get; set; }
-    }
-
-    class RoundOverPayload {
-        /// <summary>
-        /// type SessionId = string;
-        /// </summary>
-        public string winnerId { get; set; }
-        public Types.BotInfo winnerInfo { get; set; }
-        public Types.RoomData roomData { get; set; }
-    }
-
-    class GameOverPayload {
-        /// <summary>
-        /// type SessionId = string;
-        /// </summary>
-        public string winnerId { get; set; }
-        public Types.BotInfo winnerInfo { get; set; }
-        public Types.RoomData roomData { get; set; }
-    }
-
-    class GameResetPayload {
-        public Types.RoomData roomData { get; set; }
-    }
-
-    class PingPayload {
-        public double timestamp { get; set; }
     }
 
     class ActionPayload {
