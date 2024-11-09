@@ -102,15 +102,8 @@
     </ApplicationDefinition>
     <Compile Include="Binary.cs" />
     <Compile Include="BotrisBattleBot.cs" />
-    <Page Include="StyleViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dial.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Editor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Error.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -126,17 +119,10 @@
     </Compile>
     <Compile Include="Types.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="StyleViewer.xaml.cs">
-      <DependentUpon>StyleViewer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dial.xaml.cs">
       <DependentUpon>Dial.xaml</DependentUpon>
     </Compile>
     <Compile Include="Preferences.cs" />
-    <Compile Include="Style.cs" />
-    <Compile Include="Editor.xaml.cs">
-      <DependentUpon>Editor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Error.xaml.cs">
       <DependentUpon>Error.xaml</DependentUpon>
     </Compile>
