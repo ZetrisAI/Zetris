@@ -223,7 +223,7 @@ namespace Zetris.BotrisBattle {
                     else combo = 0;
                      
                     if (applied)
-                        StartThinking(clear > 0? garbage - atk : Math.Max(0, garbage - 8));
+                        StartThinking(clear > 0? garbage - atk : 0);
 
                     return Message.Create("action", new ActionPayload() {
                         commands = InstructionsToCommands(movements)
