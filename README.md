@@ -24,7 +24,7 @@ The Previews setting configures how many future pieces Zetris will consider whil
 
 The Hold Allowed, Perfect Clear Finder, Center 4-Wide and TSD only checkboxes allow you to additionally enable these specific strategies when fighting against Zetris.
 
-The Gamepad Connected checkbox can be used to reconnect the gamepad if the game is not receiving any inputs from Zetris.
+The Gamepad Connected checkbox can be used to reconnect the gamepad if the game is not receiving any inputs from Zetris. To change Gamepad slots, hold Shift while launching Zetris.
 
 ## Training
 
