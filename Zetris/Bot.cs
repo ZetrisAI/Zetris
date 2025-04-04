@@ -440,21 +440,17 @@ namespace Zetris {
             if (!getEnhancePerfect()) {
                 return SearchType.Fast;
             }
-            if (getAllowedSpins() == AllowedSpins.AllSpinsRegularTSpins && getTetrisGame() == TetrisGame.TETRIOS2) {
-                return SearchType.TETRIOSeason2;
-            }
             if (getAllowedSpins().IsAllSpins()) {
-                if (getTetrisGame().IsSRSPlus()) {
-                    return SearchType.AllSpins;
-                } else {
-                    return SearchType.AllSpinsNoMini;
+                if (getTetrisGame() == TetrisGame.TETRIOS2) {
+                    return SearchType.TETRIOSeason2;
                 }
+                return SearchType.AllSpins;
             }
             return SearchType.TSpins;
         }
 
         protected bool getPerfectTwoLine() {
-            return getPerfectType() >= SearchType.AllSpins && getTetrisGame() == TetrisGame.TETRIOS2;
+            return !(getPerfectType() >= SearchType.AllSpins && getTetrisGame() == TetrisGame.TETRIOS2);
         }
 
         protected bool isPCB2BEnding(int cleared, int piece, int r) {
