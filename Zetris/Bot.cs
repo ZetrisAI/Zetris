@@ -453,6 +453,10 @@ namespace Zetris {
             return SearchType.TSpins;
         }
 
+        protected bool getPerfectTwoLine() {
+            return getPerfectType() >= SearchType.AllSpins && getTetrisGame() == TetrisGame.TETRIOS2;
+        }
+
         protected bool isPCB2BEnding(int cleared, int piece, int r) {
             if (getTetrisGame() == TetrisGame.TETRIOS2) {
                 return true;
@@ -506,7 +510,7 @@ namespace Zetris {
                 if (getPerfectClear()) {
                     PerfectClear.Find(
                         pcboard, q, current,
-                        null, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), 0, false
+                        null, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), 0, false, getPerfectTwoLine()
                     );
                 }
             }
@@ -757,7 +761,7 @@ namespace Zetris {
                 if (!cancel) {
                     PerfectClear.Find(
                         bufboard, bufq.Take(Math.Min(bufq.Length, getPreviews())).ToArray(), bufcurrent,
-                        bufhold, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), bufcombo, bufb2b
+                        bufhold, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), bufcombo, bufb2b, getPerfectTwoLine()
                     );
 
                     searchbufpc = false;
