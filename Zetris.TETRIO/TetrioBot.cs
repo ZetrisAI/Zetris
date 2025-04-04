@@ -36,7 +36,7 @@ namespace Zetris.TETRIO {
         protected override bool TSDOnly() => Preferences.TSDOnly;
         protected override int Intelligence() => Preferences.Intelligence;
         protected override bool Allow180() => true;
-        protected override TetrisGame getTetrisGame() => TetrisGame.TETRIO;
+        protected override TetrisGame getTetrisGame() => Preferences.AllSpins? TetrisGame.TETRIOS2 : TetrisGame.TETRIO;
         protected override bool getAllowTmini() => true;
         protected override uint PCThreads() => Preferences.PCThreads;
         protected override bool GarbageBlocking() => true;
