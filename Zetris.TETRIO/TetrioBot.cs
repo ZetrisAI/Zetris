@@ -367,12 +367,18 @@ namespace Zetris.TETRIO {
 
                 {"tls1", new ChatCommand(
                     "Loads Tetra League Season 1 settings.",
-                    () => $"/set options.presets=tetra league (season 1)\nTetra League Season 1 settings loaded"
+                    () => {
+                        Window?.SetAllSpins(false).Wait();
+                        return $"/set options.presets=tetra league (season 1)\nTetra League Season 1 settings loaded";
+                    }
                 )},
 
                 {"tls2", new ChatCommand(
                     "Loads Tetra League Season 2 settings.",
-                    () => $"/set options.presets=tetra league\nTetra League Season 2 settings loaded"
+                    () => {
+                        Window?.SetAllSpins(true).Wait();
+                        return $"/set options.presets=tetra league\nTetra League Season 2 settings loaded";
+                    }
                 )},
 
                 {"grav", new OnOffChatCommand(

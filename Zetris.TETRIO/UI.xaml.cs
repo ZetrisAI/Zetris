@@ -152,6 +152,11 @@ namespace Zetris.TETRIO {
                 Preferences.PerfectClear = (PerfectClear.IsChecked = pcf).Value;
                 Preferences.EnhancePerfect = (EnhancePerfect.IsChecked = pcf).Value;
             });
+        
+        public DispatcherOperation SetAllSpins(bool allspins)
+            => Dispatcher.InvokeAsync(() => {
+                Preferences.AllSpins = (AllSpins.IsChecked = allspins).Value;
+            });
 
         public void SetPortTitle(bool http, ushort port)
             => Dispatcher.InvokeAsync(() => Title = $"Zetris [{(http? "HTTP" : "WS")} {port}]");
