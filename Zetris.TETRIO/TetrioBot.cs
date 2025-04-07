@@ -382,7 +382,7 @@ namespace Zetris.TETRIO {
 
                 {"start", new ChatCommand(
                     "Starts the game.",
-                    () => "/start\n#3000\n:glhf:"
+                    () => "/start\n#3000\nglhf"
                 )},
 
                 {"abort", new ChatCommand(
