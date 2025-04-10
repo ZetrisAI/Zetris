@@ -235,6 +235,7 @@ namespace Zetris.PPT {
 
                         current = pieces[0];
                         queue = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
+                        base.hold = null;
                     }, 21);
 
                     useEngineFrames();
@@ -296,6 +297,7 @@ namespace Zetris.PPT {
 
                     b2b = GameHelper.Instance.getB2B.Call(playerID);
                     garbage = GameHelper.Instance.getGarbageDropping.Call(playerID);
+                    base.hold = GameHelper.Instance.getHold.Call(playerID);
 
                     if (MakeDecision(out bool wasHold, out _, out _)) {
                         //LogHelper.LogText($"[Decision] {string.Join(", ", movements)}");

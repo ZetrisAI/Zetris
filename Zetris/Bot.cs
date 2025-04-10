@@ -501,12 +501,12 @@ namespace Zetris {
             LogHelper.LogText("QUEUE FOR START: " + string.Join(" ", q));
 
             if (!Danger()) {
-                MisaMino.FindMove(q, current, null, misa_lasty = baseBoardHeight, misaboard, 0, b2b, 0);
+                MisaMino.FindMove(q, current, hold, misa_lasty = baseBoardHeight, misaboard, 0, b2b, 0);
 
                 if (getPerfectClear()) {
                     PerfectClear.Find(
                         pcboard, q, current,
-                        null, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), 0, false, getPerfectTwoLine()
+                        hold, HoldAllowed(), 6, GarbageBlocking(), getPerfectType(), 0, false, getPerfectTwoLine()
                     );
                 }
             }
