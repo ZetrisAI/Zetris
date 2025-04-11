@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfectClearNET", "..\Perfe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sfinder-dll", "..\PerfectClearNET\PerfectClearNET\sfinder-dll\sfinder-dll.vcxproj", "{F71BF46C-2C69-40AF-A5DF-A73E25A21997}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "..\PerfectClearNET\PerfectClearNET\Tester\Tester.csproj", "{4B48BC83-A776-498D-BF97-EF494575BA24}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -91,6 +93,14 @@ Global
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Release|x64.Build.0 = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Verbose|x64.ActiveCfg = Release|x64
 		{F71BF46C-2C69-40AF-A5DF-A73E25A21997}.Verbose|x64.Build.0 = Release|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Debug|x64.ActiveCfg = Debug|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Debug|x64.Build.0 = Debug|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Public|x64.ActiveCfg = Debug|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Public|x64.Build.0 = Debug|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Release|x64.ActiveCfg = Release|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Release|x64.Build.0 = Release|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Verbose|x64.ActiveCfg = Debug|x64
+		{4B48BC83-A776-498D-BF97-EF494575BA24}.Verbose|x64.Build.0 = Debug|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
