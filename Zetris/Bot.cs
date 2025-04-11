@@ -453,6 +453,19 @@ namespace Zetris {
             return !(getPerfectType() >= SearchType.AllSpins && getTetrisGame() == TetrisGame.TETRIOS2);
         }
 
+        protected PerfectClearGame getPerfectClearGame() {
+            TetrisGame game = getTetrisGame();
+
+            if (game == TetrisGame.PPT) {
+                return PerfectClearGame.PPT;
+            }
+            if (game.IsSRSPlus()) {
+                return PerfectClearGame.TETRIO;
+            }
+
+            throw new Exception("Invalid TetrisGame for PerfectClearGame");
+        }
+
         protected bool isPCB2BEnding(int cleared, int piece, int r) {
             if (getTetrisGame() == TetrisGame.TETRIOS2) {
                 return true;
@@ -825,6 +838,8 @@ namespace Zetris {
 
             Started = true;
             Window = window;
+
+            PerfectClear.Initialize(getPerfectClearGame());
 
             Starting();
 
