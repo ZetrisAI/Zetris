@@ -69,6 +69,17 @@ namespace Zetris.TETRIO {
             {Instruction.DROP, "HardDrop"}
         };
 
+        void updateBaseBoardHeight() {
+            // ideally this should take gravity into account...  i'm too lazy
+            baseBoardHeight = 22;
+
+            // assume the piece can always be spawned due to clutch clears. if we're dead we'll get an endGame so it's fine
+            for (int spawny = 3; spawny >= -2; spawny--) {
+                if (FitPieceWithConvert(misaboard, current, 4, spawny, 0)) continue;
+                baseBoardHeight++;
+            }
+        }
+
         int pieceCount = -1;
         Stopwatch timer;
 
@@ -208,8 +219,7 @@ namespace Zetris.TETRIO {
 
                 pieceCount++;
 
-                // ideally this should take gravity into account...  i'm too lazy
-                baseBoardHeight = 22 + Convert.ToInt32(!FitPieceWithConvert(misaboard, current, 4, 3, 0));
+                updateBaseBoardHeight();
 
                 bool applied = MakeDecision(out bool wasHold, out int clear, out List<int[]> coords);
                 MisaMino.LastSolution = null;
@@ -226,8 +236,11 @@ namespace Zetris.TETRIO {
 
                 if (clear > 0) combo++;
                 else combo = 0;
-                     
+                
                 if (applied) {
+                    // need to recalculate baseBoardHeight
+                    updateBaseBoardHeight();
+
                     LogHelper.LogText("Thinking...");
                     startThinking(clear > 0? garbage - atk : Math.Max(0, garbage - 8));
                 }
