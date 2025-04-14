@@ -155,10 +155,11 @@ namespace Zetris.TETRIO {
             server.RegisterHandler("newGame", e => {
                 server.InvokeHandler("endGame", null);
 
-                receivedGame(e);
+                Window.Active = true;
                 pieceCount = 0;
 
-                Window.Active = true;
+                receivedGame(e);
+
                 return null;
             });
 
