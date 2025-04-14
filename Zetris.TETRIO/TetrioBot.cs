@@ -305,6 +305,13 @@ namespace Zetris.TETRIO {
                 return null;
             });
 
+            server.RegisterHandler("preferences", e => {
+                return new {
+                    pps = Preferences.Speed
+                    // add stuff as necessary
+                };
+            });
+
             Dictionary<string, ChatCommandBase> chatCommands = null;
 
             server.RegisterHandler("chatCommand", e => {
