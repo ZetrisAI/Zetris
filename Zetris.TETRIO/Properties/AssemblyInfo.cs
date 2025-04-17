@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("mat1jaczyyy")]
 [assembly: AssemblyProduct("Zetris")]
-[assembly: AssemblyCopyright("Copyright © 2018-2022")]
+[assembly: AssemblyCopyright("Copyright © 2018-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,5 +49,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.37.0.0")]
-[assembly: AssemblyFileVersion("0.37.0.0")]
+[assembly: AssemblyVersion("0.38.0.0")]
+[assembly: AssemblyFileVersion("0.38.0.0")]

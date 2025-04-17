@@ -65,7 +65,7 @@ namespace Zetris.TETRIO {
                 return;
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 21; i++)
                 ((Dial)Layout.Children[i]).RawValue = Preferences.Styles[StyleList.SelectedIndex].GetParameter(i);
 
             lastSelected = StyleList.SelectedIndex;

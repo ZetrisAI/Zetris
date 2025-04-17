@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris.PPT {
     public static class Binary {
-        static readonly int Version = 9;
+        static readonly int Version = 10;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZETR").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -115,16 +115,21 @@ namespace Zetris.PPT {
 
         static void WriteStyle(BinaryWriter writer, Style style) {
             writer.Write(style.Name);
-            writer.Write(style.Parameters.ToArray().Take(20).SelectMany(BitConverter.GetBytes).ToArray());
+            writer.Write(style.Parameters.ToArray().Take(21).SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         static Style ReadStyle(BinaryReader reader, int version) {
             string name = reader.ReadString();
 
-            int size = (version <= 1)? 16 : 20;
+            int size = 21;
+            if (version <= 1) {
+                size = 16;
+            } else if (version <= 9) {
+                size = 20;
+            }
 
             byte[] bytes = reader.ReadBytes(size * 4);
-            int[] param = new int[21];
+            int[] param = new int[22];
 
             for (int j = 0; j < size; j++)
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
@@ -134,6 +139,9 @@ namespace Zetris.PPT {
                 param[17] = 30;
                 param[18] = 0;
                 param[19] = 24;
+            }
+            if (version <= 9) {
+                param[20] = 0;
             }
 
             return new Style(name, MisaMinoParameters.FromArray(param));

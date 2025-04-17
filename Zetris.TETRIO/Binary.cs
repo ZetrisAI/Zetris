@@ -8,7 +8,7 @@ using MisaMinoNET;
 
 namespace Zetris.TETRIO {
     static class Binary {
-        static readonly int Version = 1;
+        static readonly int Version = 2;
 
         static byte[] CreateHeader() => Encoding.ASCII.GetBytes("ZEIO").Concat(BitConverter.GetBytes(Version)).ToArray();
 
@@ -52,7 +52,7 @@ namespace Zetris.TETRIO {
             using (BinaryReader reader = new BinaryReader(input)) {
                 int version = DecodeHeader(reader);
 
-                if (version >= 0) // Set this to latest version if changing default styles
+                if (version >= 2) // Set this to latest version if changing default styles
                     Preferences.Styles = new List<Style>();
 
                 int count = reader.ReadInt32();
@@ -82,17 +82,26 @@ namespace Zetris.TETRIO {
 
         static void WriteStyle(BinaryWriter writer, Style style) {
             writer.Write(style.Name);
-            writer.Write(style.Parameters.ToArray().Take(20).SelectMany(BitConverter.GetBytes).ToArray());
+            writer.Write(style.Parameters.ToArray().Take(21).SelectMany(BitConverter.GetBytes).ToArray());
         }
 
         static Style ReadStyle(BinaryReader reader, int version) {
             string name = reader.ReadString();
 
-            byte[] bytes = reader.ReadBytes(20 * sizeof(int));
-            int[] param = new int[21];
+            int size = 21;
+            if (version <= 1) {
+                size = 20;
+            }
 
-            for (int j = 0; j < 20; j++)
+            byte[] bytes = reader.ReadBytes(size * 4);
+            int[] param = new int[22];
+
+            for (int j = 0; j < size; j++)
                 param[j] = BitConverter.ToInt32(bytes, j * 4);
+
+            if (version <= 1) {
+                param[20] = 0;
+            }
 
             return new Style(name, MisaMinoParameters.FromArray(param));
         }

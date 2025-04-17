@@ -71,7 +71,6 @@ namespace Zetris.PPT {
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     AllSpins.Content = "올 스핀";
-                    TSDOnly.Content = "TSD만 (20 TSD)";
                     Player.Title = "멀티아케이드:";
                     Gamepad.Content = "게임패드 연결";
                     AccurateSync.Content = "게임싱크보정";
@@ -99,7 +98,6 @@ namespace Zetris.PPT {
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     AllSpins.Content = "特殊回転テトリス";
-                    TSDOnly.Content = "TSDのみ (TSD20発用)";
                     Player.Title = "ドリームアーケード みんなで:";
                     Gamepad.Content = "コントローラー接続中";
                     AccurateSync.Content = "同期の最適化";
@@ -126,7 +124,6 @@ namespace Zetris.PPT {
                     PCThreads.Title = "Threads:";
                     C4W.Content = "Center 4-Wide";
                     AllSpins.Content = "All Spins";
-                    TSDOnly.Content = "TSD Only (for 20 TSD)";
                     Player.Title = "MP Arcade Player:";
                     Gamepad.Content = "Gamepad Connected";
                     AccurateSync.Content = "Accurate Game Sync";
@@ -139,9 +136,26 @@ namespace Zetris.PPT {
                     break;
             }
 
-            UpdateActive();
+            UpdateTSDOnlyText();
 
+            UpdateActive();
             PPTBot.Instance.Start(this, gamepadIndex?? 4);
+        }
+
+        void UpdateTSDOnlyText() {
+            switch (CultureInfo.CurrentCulture.TwoLetterISOLanguageName) {
+                case "ko":
+                    TSDOnly.Content = Preferences.AllSpins? "올스핀 싱글만" : "TSD만 (20 TSD)";
+                    break;
+
+                case "ja":
+                    TSDOnly.Content = Preferences.AllSpins? "All-Spin Single のみ" : "TSDのみ (TSD20発用)";
+                    break;
+
+                default:
+                    TSDOnly.Content = Preferences.AllSpins? "All-Spin Single Only" : "TSD Only (for 20 TSD)";
+                    break;
+            }
         }
 
         bool _active;
@@ -238,6 +252,7 @@ namespace Zetris.PPT {
 
         void AllSpinsChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.AllSpins = AllSpins.IsChecked == true;
+            UpdateTSDOnlyText();
         }
 
         void PuzzleLeagueChanged(object sender, RoutedEventArgs e) {
