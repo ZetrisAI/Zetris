@@ -163,6 +163,8 @@ namespace Zetris.TETRIO {
             if (IsZETRIO)
                 ToZETRIO("port", Port);
 
+            LogHelper.StartLoggingToFile(Port.ToString());
+
             server.RegisterHandler("newGame", e => {
                 server.InvokeHandler("endGame", null);
 

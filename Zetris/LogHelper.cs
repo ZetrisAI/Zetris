@@ -1,10 +1,41 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Zetris {
     public static class LogHelper {
+        static TextWriterTraceListener fileListener;
+
+        [Conditional("VERBOSE")]
+        public static void StartLoggingToFile(string id) {
+            if (fileListener != null) return;
+
+            var logDir = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "log"
+            );
+            Directory.CreateDirectory(logDir);
+
+            var logFile = Path.Combine(
+                logDir,
+                $"{DateTime.Now:yyyyMMdd-HHmmss}{(string.IsNullOrWhiteSpace(id)? "" : $"-{id}")}.log"
+            );
+            fileListener = new TextWriterTraceListener(logFile);
+            Trace.Listeners.Add(fileListener);
+            Trace.AutoFlush = true;
+        }
+
+        [Conditional("VERBOSE")]
+        public static void StopLoggingToFile() {
+            if (fileListener == null) return;
+
+            fileListener.Close();
+            fileListener = null;
+        }
+
         [Conditional("VERBOSE")]
         public static void LogText(string text) {
-            Trace.WriteLine(text);
+            Trace.WriteLine($"{DateTime.Now:yyyyMMdd-HHmmss.fff} {text}");
         }
 
         [Conditional("VERBOSE")]
@@ -18,7 +49,7 @@ namespace Zetris {
                     }
                 }
 
-                Trace.WriteLine(string.Join("   ", o));
+                LogText(string.Join("   ", o));
             }
         }
     }

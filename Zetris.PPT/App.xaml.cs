@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Zetris.PPT {
@@ -27,9 +28,21 @@ namespace Zetris.PPT {
 #if !PUBLIC
             OverrideLocale("en-US");
 #endif
-            
+
 #if !DEBUG
+            // UI thread exceptions
+            DispatcherUnhandledException += (s, ex) => {
+                LogHelper.LogText("Unhandled UI exception:");
+                LogHelper.LogText(ex.Exception.ToString());
+                //new Error(ex.Exception.ToString()).ShowDialog();
+                //Current.Shutdown();
+            };
+
+            // Non-UI thread exceptions
             AppDomain.CurrentDomain.UnhandledException += (s, ex) => {
+                LogHelper.LogText("Unhandled non-UI exception:");
+                LogHelper.LogText(ex.ExceptionObject.ToString());
+
                 if (!e.Args.Contains("--nodriverinstall") && DetectMissingDriver(ex.ExceptionObject)) {
 
                     Process.Start(new ProcessStartInfo("ScpDriverInstaller.exe", "--quiet --install") {
@@ -39,8 +52,16 @@ namespace Zetris.PPT {
                     Process.Start("Zetris.exe", "--nodriverinstall");
 
                 } else new Error(ex.ExceptionObject.ToString()).ShowDialog();
-                
+
                 Current.Shutdown();
+            };
+
+            TaskScheduler.UnobservedTaskException += (s, ex) => {
+                LogHelper.LogText("Unhandled unobserved task exception:");
+                LogHelper.LogText(ex.Exception.ToString());
+                ex.SetObserved();
+                //new Error(ex.Exception.ToString()).ShowDialog();
+                //Current.Shutdown();
             };
 #endif
         }

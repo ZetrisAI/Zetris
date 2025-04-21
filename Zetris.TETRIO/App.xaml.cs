@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Zetris.TETRIO {
@@ -22,11 +20,31 @@ namespace Zetris.TETRIO {
 #endif
 
 #if !DEBUG
+            // UI thread exceptions
+            DispatcherUnhandledException += (s, ex) => {
+                LogHelper.LogText("Unhandled UI exception:");
+                LogHelper.LogText(ex.Exception.ToString());
+                //new Error(ex.Exception.ToString()).ShowDialog();
+                //Current.Shutdown();
+            };
+
+            // Non-UI thread exceptions
             AppDomain.CurrentDomain.UnhandledException += (s, ex) => {
+                LogHelper.LogText("Unhandled non-UI exception:");
+                LogHelper.LogText(ex.ExceptionObject.ToString());
                 new Error(ex.ExceptionObject.ToString()).ShowDialog();
                 Current.Shutdown();
             };
+
+            TaskScheduler.UnobservedTaskException += (s, ex) => {
+                LogHelper.LogText("Unhandled unobserved task exception:");
+                LogHelper.LogText(ex.Exception.ToString());
+                ex.SetObserved();
+                //new Error(ex.Exception.ToString()).ShowDialog();
+                //Current.Shutdown();
+            };
 #endif
+
             for (int i = 0; i < e.Args.Length; i++) {
                 if (e.Args[i] == "--zetrio") {
                     TetrioBot.Instance.IsZETRIO = true;

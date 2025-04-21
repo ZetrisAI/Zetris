@@ -829,6 +829,8 @@ namespace Zetris.PPT {
         }
 
         protected override void Starting() {
+            LogHelper.StartLoggingToFile($"[{gamepadIndex}]");
+
             scp.UnplugAll();
 
             scp = new ScpBus();

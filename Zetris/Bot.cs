@@ -876,6 +876,8 @@ namespace Zetris {
                 MisaMino.Abort();
                 PerfectClear.Abort();
             }
+
+            LogHelper.StopLoggingToFile();
         }
     }
 }
