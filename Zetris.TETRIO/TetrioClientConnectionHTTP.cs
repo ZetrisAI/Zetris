@@ -42,6 +42,7 @@ namespace Zetris.TETRIO {
                 return;
             }
 
+            string path = null;
             object response = null;
 
             // CORS
@@ -50,14 +51,16 @@ namespace Zetris.TETRIO {
                 e.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST");
                 e.Response.AddHeader("Access-Control-Max-Age", "1728000");
 
+                path = "OPTIONS";
+
             } else {
                 string content = new StreamReader(e.Request.InputStream).ReadToEnd();
-                string path = e.Request.RawUrl;
+                path = e.Request.RawUrl;
 
                 if (path.StartsWith("/"))
                     path = path.Substring(1);
 
-                LogHelper.LogText($"{path} {content}");
+                LogHelper.LogText($"[REQ] {path} {content}");
 
                 if (CheckHandler(path))
                     response = InvokeHandler(path, JToken.Parse(content));
@@ -69,7 +72,7 @@ namespace Zetris.TETRIO {
             if (response != null) {
                 string res = JToken.FromObject(response).ToString(Formatting.None);
 
-                LogHelper.LogText(res);
+                LogHelper.LogText($"[RES] {path} {res}");
                 byte[] data = Encoding.ASCII.GetBytes(res);
 
                 e.Response.ContentType = "application/json";

@@ -58,13 +58,24 @@ namespace Zetris.TETRIO {
 
             object response = null;
 
-            LogHelper.LogText(e.Item1);
+            string[] parts = null;
+            string id = null;
+            string path = null;
+            string content = null;
 
-            string[] parts = e.Item1.Split(new char[] { ' ' }, 3);
+            try {
+                parts = e.Item1.Split(new char[] { ' ' }, 3);
 
-            string id = parts.Length > 0? parts[0] : null;
-            string path = parts.Length > 1? parts[1] : null;
-            string content = parts.Length > 2? parts[2] : null;
+                id = parts.Length > 0? parts[0] : null;
+                path = parts.Length > 1? parts[1] : null;
+                content = parts.Length > 2? parts[2] : null;
+
+            } catch {
+                LogHelper.LogText($"[REQ-ERR] {e.Item1}");
+                throw;
+            }
+
+            LogHelper.LogText($"[REQ] {path} {content}");
 
             if (CheckHandler(path))
                 response = InvokeHandler(path, JToken.Parse(content));
@@ -73,7 +84,7 @@ namespace Zetris.TETRIO {
                 string res = JToken.FromObject(response).ToString(Formatting.None);
                 res = $"{id} {res}";
 
-                LogHelper.LogText(res);
+                LogHelper.LogText($"[RES] {path} {res}");
                 e.Item2(res);
             }
         }

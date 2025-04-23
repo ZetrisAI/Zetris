@@ -817,7 +817,7 @@ namespace Zetris {
             MisaMinoParameters param = CurrentStyle();
             param.Parameters.strategy_4w = 400 * Convert.ToInt32(C4W());
 
-            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame(), getAllowTmini());
+            MisaMino.Configure(param, HoldAllowed(), getAllowedSpins(), TSDOnly(), Intelligence(), Allow180(), getTetrisGame(), getAllowTmini(), s => LogHelper.LogText(s));
         }
 
         public void UpdatePCThreads() {
@@ -843,9 +843,13 @@ namespace Zetris {
 
             Starting();
 
-            MisaMino.Finished += success => misasolved = success;
+            MisaMino.Finished += success => {
+                LogHelper.LogText($"MisaMino.Finished {success}");
+                misasolved = success;
+            };
 
             PerfectClear.Finished += success => {
+                LogHelper.LogText($"PerfectClear.Finished {success}");
                 if (pcbuffer) futurepcsolved = success;
                 else pcsolved = success;
             };

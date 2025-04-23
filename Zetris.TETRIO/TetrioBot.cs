@@ -216,8 +216,12 @@ namespace Zetris.TETRIO {
                     double nextPiece = Preferences.Speed >= 30 ? 0 : (pieceCount * 1000.0 / Preferences.Speed);
                     double waitUntil = Math.Max(nextPiece, minWait);
 
+                    // This wait is synchronous and will block. So no other request can be handled, no side-effects are ensured.
+                    // TODO: Add option for disabling Accurate Sync? Might have to run this unattended on a quad-core soon
                     while (timer.ElapsedMilliseconds < (pieceCount <= 0? 0 : waitUntil));
                 }
+
+                LogHelper.LogText("time's up for thinking");
 
                 pieceCount++;
 
