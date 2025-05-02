@@ -680,7 +680,7 @@ namespace Zetris {
             pcboard = (int[,])board.Clone();
 
             if (pathSuccess && !pcsolved)  // pathSuccess here means that I had used PC finder to make the decision
-                b2b = Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
+                b2b += Convert.ToInt32(isPCB2BEnding(clear, pieceUsed, finalR));
 
             FilterLtoR(movements);
 
