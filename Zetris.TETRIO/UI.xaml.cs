@@ -48,6 +48,7 @@ namespace Zetris.TETRIO {
             C4W.IsChecked = Preferences.C4W;
             AllSpins.IsChecked = Preferences.AllSpins;
             TSDOnly.IsChecked = Preferences.TSDOnly;
+            AccurateSync.IsChecked = Preferences.AccurateSync;
             ChatCommands.IsChecked = Preferences.ChatCommands;
 
             Version.Text = App.Version;
@@ -69,6 +70,7 @@ namespace Zetris.TETRIO {
                     HoldAllowed.Content = "홀드 사용";
                     C4W.Content = "센터 포와이드";
                     AllSpins.Content = "올스핀";
+                    AccurateSync.Content = "게임싱크보정";
                     ChatCommands.Content = "채팅 명령 처리";
                     break;
                     
@@ -88,6 +90,7 @@ namespace Zetris.TETRIO {
                     HoldAllowed.Content = "ホールド使用";
                     C4W.Content = "中開けREN";
                     AllSpins.Content = "特殊回転テトリス";
+                    AccurateSync.Content = "同期の最適化";
                     ChatCommands.Content = "チャットコマンドの処理";
                     break;
                     
@@ -107,6 +110,9 @@ namespace Zetris.TETRIO {
                     PCThreads.Title = "Threads:";
                     C4W.Content = "Center 4-Wide";
                     AllSpins.Content = "All Spins";
+                    AccurateSync.Content = "Accurate Sync";
+                    AccurateSync.ToolTip = "If this is enabled, Zetris will waste a CPU core trying to perfectly match the target PPS.\n" +
+                                           "Uncheck this only if your computer has performance issues while running Zetris.";
                     ChatCommands.Content = "Process Chat Commands";
                     break;
             }
@@ -243,6 +249,10 @@ namespace Zetris.TETRIO {
         void AllSpinsChanged(object sender, RoutedEventArgs e) {
             if (!FreezeEvents) Preferences.AllSpins = AllSpins.IsChecked == true;
             UpdateTSDOnlyText();
+        }
+
+        void AccurateSyncChanged(object sender, RoutedEventArgs e) {
+            if (!FreezeEvents) Preferences.AccurateSync = AccurateSync.IsChecked == true;
         }
 
         void ChatCommandsChanged(object sender, RoutedEventArgs e) {

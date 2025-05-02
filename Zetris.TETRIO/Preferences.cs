@@ -131,6 +131,15 @@ namespace Zetris.TETRIO {
             }
         }
 
+        static bool _accurate = true;
+        public static bool AccurateSync {
+            get => _accurate;
+            set {
+                _accurate = value;
+                Save();
+            }
+        }
+
         static bool _chatcmd = false;
         public static bool ChatCommands {
             get => _chatcmd;

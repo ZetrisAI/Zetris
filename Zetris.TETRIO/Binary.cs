@@ -42,6 +42,7 @@ namespace Zetris.TETRIO {
                 writer.Write(Preferences.C4W);
                 writer.Write(Preferences.AllSpins);
                 writer.Write(Preferences.TSDOnly);
+                writer.Write(Preferences.AccurateSync);
                 writer.Write(Preferences.ChatCommands);
             }
 
@@ -76,6 +77,10 @@ namespace Zetris.TETRIO {
                 Preferences.C4W = reader.ReadBoolean();
                 Preferences.AllSpins = reader.ReadBoolean();
                 Preferences.TSDOnly = reader.ReadBoolean();
+
+                if (version >= 2)
+                    Preferences.AccurateSync = reader.ReadBoolean();
+
                 Preferences.ChatCommands = reader.ReadBoolean();
             }
         }

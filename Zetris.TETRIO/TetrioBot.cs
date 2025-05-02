@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -82,6 +84,7 @@ namespace Zetris.TETRIO {
 
         int pieceCount = -1;
         Stopwatch timer;
+        CancellationTokenSource timerWaitCTS = null;
 
         long startedThinkingAt = 0;
         
@@ -216,9 +219,22 @@ namespace Zetris.TETRIO {
                     double nextPiece = Preferences.Speed >= 30 ? 0 : (pieceCount * 1000.0 / Preferences.Speed);
                     double waitUntil = Math.Max(nextPiece, minWait);
 
+                    // Wait until it's time to start placing the next move (PPS limit)
                     // This wait is synchronous and will block. So no other request can be handled, no side-effects are ensured.
-                    // TODO: Add option for disabling Accurate Sync? Might have to run this unattended on a quad-core soon
-                    while (timer.ElapsedMilliseconds < (pieceCount <= 0? 0 : waitUntil));
+                    if (!Preferences.AccurateSync && waitUntil - timer.ElapsedMilliseconds > 16) {
+                        timerWaitCTS = new CancellationTokenSource();
+                        try {
+                            Task.Delay((int)(waitUntil - timer.ElapsedMilliseconds), timerWaitCTS.Token).Wait(timerWaitCTS.Token);
+                        } catch (OperationCanceledException) {
+                            // aborted early, pieceCount should be -1
+                        }
+                        timerWaitCTS.Dispose();
+                        timerWaitCTS = null;
+                    }
+
+                    // spinwait (accurate sync)
+                    // or handle the last few ms if thread woke up early (inaccurate sync)
+                    while (timer.ElapsedMilliseconds < (pieceCount <= 0 ? 0 : waitUntil));
                 }
 
                 LogHelper.LogText("time's up for thinking");
@@ -296,6 +312,7 @@ namespace Zetris.TETRIO {
                 EndGame();
 
                 pieceCount = -1;
+                timerWaitCTS?.Cancel();
 
                 Window.Active = false;
                 return null;

@@ -64,6 +64,8 @@
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
 
+        <CheckBox Margin="0 0 0 5" x:Name="AccurateSync" Click="AccurateSyncChanged" />
+
         <CheckBox Margin="0 0 0 5" x:Name="ChatCommands" Click="ChatCommandsChanged" />
 
         <Border Margin="0 0 0 5" BorderBrush="#202020" Height="1" BorderThickness="0 0 0 1" />
