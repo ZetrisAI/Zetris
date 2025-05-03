@@ -236,7 +236,7 @@ namespace Zetris.PPT {
                         current = pieces[0];
                         queue = pieces.Skip(1).Concat(GameHelper.Instance.getNextFromBags.Call(playerID)).Concat(GameHelper.Instance.getNextFromRNG(playerID, rngsearch_max, 0)).ToList();
                         base.hold = null;
-                    }, 21);
+                    }, 21, false);
 
                     useEngineFrames();
                     refreshEngineTimeout();

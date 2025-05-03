@@ -493,7 +493,7 @@ namespace Zetris {
             }
         }   
 
-        protected void NewGame(Action setup, int baseBoardHeight) {
+        protected void NewGame(Action setup, int baseBoardHeight, bool second_choice) {
             MisaMino.Reset(); // this will abort as well
             misasolved = false;
             b2b = 1; // Hack that makes MisaMino start like a normal person
@@ -514,7 +514,7 @@ namespace Zetris {
             LogHelper.LogText("QUEUE FOR START: " + string.Join(" ", q));
 
             if (!Danger()) {
-                MisaMino.FindMove(q, current, hold, misa_lasty = baseBoardHeight, misaboard, 0, b2b, 0);
+                MisaMino.FindMove(q, current, hold, misa_lasty = baseBoardHeight, misaboard, 0, b2b, 0, second_choice);
 
                 if (getPerfectClear()) {
                     PerfectClear.Find(
@@ -620,7 +620,8 @@ namespace Zetris {
                             b2b, // ideally this should be read from game mem right before calling
                             Convert.ToInt32(FuckItJustDoB2B(board, 25))
                         ),
-                        garbage
+                        garbage,
+                        false
                     );
 
                     Stopwatch misasearching = new Stopwatch();
@@ -706,7 +707,8 @@ namespace Zetris {
                         b2b,
                         Convert.ToInt32(FuckItJustDoB2B(misaboard, 25))
                     ),
-                    garbage
+                    garbage,
+                    false
                 );
         }
 

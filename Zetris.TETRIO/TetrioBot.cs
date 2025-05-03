@@ -112,6 +112,7 @@ namespace Zetris.TETRIO {
 
         void receivedGame(JToken e) {
             game_session_id = e["id"].ToObject<int?>();
+            bool second_choice = e["second_choice"].ToObject<bool?>() == true;
 
             NewGame(() => {
                 loadBoardFromJSON(e["board"]);
@@ -121,7 +122,7 @@ namespace Zetris.TETRIO {
                 queue = incoming.Skip(1).ToList();
                 hold = ConvPiece(e["hold"].ToObject<string>());
                 combo = 0;
-            }, 22);
+            }, 22, second_choice);
 
             baseBoardHeight = 22;
         }
