@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 using Zetris.PPT.Memory;
 
@@ -260,7 +256,7 @@ namespace Zetris.PPT {
                         ClearLines(clearedboard, out int cleared);
 
                         if (!BoardEquivalent(misaboard, clearedboard, out _)) {
-                            if (!(GameHelper.Instance is PPT2) || ppt2arewait1f) {
+                            if (!(GameHelper.Instance is Memory.PPT2) || ppt2arewait1f) {
                                 LogHelper.LogText("ARE");
                                 LogHelper.LogBoard(misaboard, clearedboard);
 
@@ -672,8 +668,7 @@ namespace Zetris.PPT {
 
                         else gamepad.Buttons |= GameHelper.Instance.MenuHighlighted.Call() == 4? X360Buttons.A : X360Buttons.Down;
 
-                    // In PPT2, Character Select is really gay, and the user will need to pick character using manual input mode
-                    } else if (!(GameHelper.Instance is PPT2) && GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
+                    } else if (GameHelper.Instance.InMultiplayer.Call() && GameHelper.Instance.OutsideMenu.Call()) {
                         if (!GameHelper.Instance.IsCharacterSelect.Call() || GameHelper.Instance.CharSelectIndex.Call(playerID) == 13) // Zed
                             gamepad.Buttons |= X360Buttons.A;
 
