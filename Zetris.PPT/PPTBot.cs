@@ -613,8 +613,6 @@ namespace Zetris.PPT {
 
         X360Buttons previousInputs = X360Buttons.None;
         decimal speedTick = 0;
-
-        int charindex = 0;
         
         void applyInputs() {
             bool addDown = false;
@@ -675,7 +673,10 @@ namespace Zetris.PPT {
                         else if (GameHelper.Instance.CharacterSelectState.Call(playerID) > (GameHelper.Instance is Memory.PPT2? 0 : 1)) // Picked not Zed on accident
                             gamepad.Buttons |= X360Buttons.B;
 
-                        else gamepad.Buttons |= (charindex = ++charindex % 5) == 0? X360Buttons.Down : X360Buttons.Right;
+                        // Navigate to Zed. First get into the correct row, then move to the correct column
+                        else gamepad.Buttons |= (GameHelper.Instance.CharSelectIndex.Call(playerID) / GameHelper.Instance.CharacterSelectCols != GameHelper.Instance.Zed / GameHelper.Instance.CharacterSelectCols)
+                            ? X360Buttons.Down
+                            : X360Buttons.Right;
                     }
                 }
             }
