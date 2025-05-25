@@ -353,7 +353,7 @@ namespace Zetris.TETRIO {
                 foreach (var i in chatCommands)
                     if (i.Key == command) {
                         if (Window.Active && !i.Value.EvenWhileActive)
-                            return "Can't do that while in-game.";
+                            return "Can't do that while in-game, please .abort first.";
 
                         return i.Value.Process(args);
                     }
@@ -428,18 +428,37 @@ namespace Zetris.TETRIO {
 
                 {"grav", new OnOffChatCommand(
                     "Toggles gravity increase.",
-                    e => $"/set options.gincrease={(e? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}"
+                    e => $"/set options.g={(e? 0.02 : 0)};options.gincrease={(e? 0.0035 : 0)}\ngravity = {e.ToString().ToLower()}"
                 )},
 
-                {"start", new ChatCommand(
-                    "Starts the game.",
-                    () => "/start\n#3000\nglhf"
+                {"discord", new ChatCommand(
+                    "Displays the Discord server link.",
+                    () => "https://discord.gg/MGpTFsMDeh",
+                    true
+                )},
+
+                {"youtube", new ChatCommand(
+                    "Displays the YouTube channel link.",
+                    () => "https://www.youtube.com/@Zetris",
+                    true
                 )},
 
                 {"abort", new ChatCommand(
                     "Aborts a running game.",
                     () => "/abort\nGame aborted.",
                     true
+                )},
+
+                {"start", new ChatCommand(
+                    "Starts the game.",
+                    () =>
+                        "/start\n" +
+                        "#1500\n" +
+                        "By playing Zetris, you accept we may upload your match to our YouTube channel if we find it interesting.\n" +
+                        "#100\n" +
+                        "If you do not consent to this, use .abort now.\n" +
+                        "#3000\n" +
+                        "glhf"
                 )}
             };
         }
