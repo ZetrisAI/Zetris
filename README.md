@@ -1,18 +1,22 @@
 # Zetris
 
-Zetris - a MisaMino-based Tetris AI for Puyo Puyo Tetris and TETR.IO
+### MisaMino-based TETR.IO and Puyo Puyo Tetris bot
 
-[Zetris highlights on YouTube](https://www.youtube.com/@Zetris)
+- [Discord](https://discord.gg/MGpTFsMDeh)
+- [YouTube](https://www.youtube.com/@Zetris)
+- [Twitch](https://www.twitch.tv/zetris_ppt)
+
+maintained by [mat1jaczyyy](https://github.com/mat1jaczyyy)
 
 ## Local Installation with Puyo Puyo Tetris
 
-Zetris sends input to the game via a virtual gamepad. You need to install the driver for the virtual gamepad from [here](https://github.com/mogzol/ScpDriverInterface/releases/download/1.1/ScpDriverInterface_v1.1.zip) before using Zetris. If you're using Windows 7 (64-bit), you also need the Xbox 360 controller driver from [here](https://www.microsoft.com/accessories/en-au/d/xbox-360-controller-for-windows).
+The [Visual C++ 2022 Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) is required to run Zetris.
 
 Extract the latest Zetris ZIP archive anywhere. Keep all of the files from the zip in the same place, as Zetris depends on those to work properly.
 
-Launch Zetris and it will connect to Puyo Puyo Tetris. To watch Zetris play, use Solo Arcade modes. To play against Zetris, use Multiplayer Arcade Versus. **Online is not supported to prevent cheating.**
+If this is your first time running Zetris, it will likely ask you for administrative rights in order to install ScpDriverInterface, a driver which simulates a virtual gamepad which Zetris uses to play the game. If you're using Windows 7 (64-bit), you also need the Xbox 360 controller driver from [here](https://www.microsoft.com/accessories/en-au/d/xbox-360-controller-for-windows).
 
-If you're playing with a gamepad yourself, you can tweak the MP Arcade Player parameter of Zetris to switch it to the other side of the screen if necessary.
+Launch Zetris and it will connect to Puyo Puyo Tetris. To watch Zetris play, use Solo Arcade modes. To play against Zetris, use Multiplayer Arcade Versus. **Online is not supported to prevent cheating.**
 
 ## Usage
 
@@ -22,9 +26,17 @@ The Speed setting configures how fast Zetris will play.
 
 The Previews setting configures how many future pieces Zetris will consider while making a decision.
 
-The Hold Allowed, Perfect Clear Finder, Center 4-Wide and TSD only checkboxes allow you to additionally enable these specific strategies when fighting against Zetris.
+The Intelligence setting configures how many less obvious placements Zetris will explore (search width).
 
-The Gamepad Connected checkbox can be used to reconnect the gamepad if the game is not receiving any inputs from Zetris. To change Gamepad slots, hold Shift while launching Zetris.
+Other options found below allow you to additionally enable and configure additional specific strategies when fighting against Zetris.
+
+The Gamepad Connected checkbox can be used to reconnect the gamepad if the game is not receiving any inputs from Zetris.
+
+If you're playing with a gamepad yourself, you can tweak the MP Arcade Player parameter of Zetris to switch it to the other side of the screen if necessary.
+
+To run multiple instances of Zetris, hold the Shift key while launching the program to select a different virtual gamepad for it to use (default is 4). Once you have multiple Zetris instances running on different controllers, all you need to do is correctly set the "MP Arcade Player" dial to make sure each bot is looking at the correct player.
+
+If Accurate Game Sync is enabled, Zetris will constantly scan for the next game frame to help prevent frame skipping at the cost of increased CPU usage. Uncheck this only if your computer has performance issues while running Zetris.
 
 ## Training
 
