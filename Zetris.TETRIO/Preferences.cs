@@ -16,7 +16,6 @@ namespace Zetris.TETRIO {
         static bool Initialized = false;
 
         public static List<Style> Styles = new List<Style>() {
-            new Style("All-Mini+ B2B", new MisaMinoParameters(16, 3, 4, 25, 17, 25, 39, 2, 12, 19, 7, 24, 18, 7, 7, 19, 120, 14, 1, 0, 20)),
             new Style("T-Spin+ B2B"),
             new Style("T-Spin+", new MisaMinoParameters(13, 9, 17, 10, 29, 25, 39, 2, 12, 19, 7, 24, 21, 16, 14, 19, 0, 30, 0, 24, 0)),
             new Style("TST", new MisaMinoParameters(16, 9, 11, 17, 500, 25, 39, 2, 12, 19, 7, 1, 18, 7, 14, 19, 25, 30, 18, 19, 0)),

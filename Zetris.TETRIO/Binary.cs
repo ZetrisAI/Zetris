@@ -53,7 +53,7 @@ namespace Zetris.TETRIO {
             using (BinaryReader reader = new BinaryReader(input)) {
                 int version = DecodeHeader(reader);
 
-                if (version >= 2) // Set this to latest version if changing default styles
+                if (version >= 0) // Set this to latest version if changing default styles
                     Preferences.Styles = new List<Style>();
 
                 int count = reader.ReadInt32();
