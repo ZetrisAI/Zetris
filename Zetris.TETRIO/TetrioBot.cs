@@ -143,6 +143,7 @@ namespace Zetris.TETRIO {
 
         public bool UseLegacyHTTP = false;
         TetrioClientConnection server;
+        string Service = null;
 
         protected override void LoopIteration()
             => server.LoopIteration();
@@ -168,6 +169,11 @@ namespace Zetris.TETRIO {
                 ToZETRIO("port", Port);
 
             LogHelper.StartLoggingToFile(Port.ToString());
+
+            server.RegisterHandler("service", e => {
+                Service = (string)e;
+                return null;
+            });
 
             server.RegisterHandler("newGame", e => {
                 server.InvokeHandler("endGame", null);
@@ -378,9 +384,19 @@ namespace Zetris.TETRIO {
                     "speed",
                     s => s.ToLower() == "inf"? (double?)30 : null,
                     e => {
-                        if (e < 0.1)
-                            return ChatCommandBase.InvalidParameters;
+                        if (Service == null) {
+                            if (e < 0.1)
+                                return ChatCommandBase.InvalidParameters;
+                        
+                        } else if (Service == "MAT1-LAPTOP") {
+                            if (e < 0.5 || e > 7.5)
+                                return ChatCommandBase.InvalidParameters;
 
+                        } else {
+                            if (e < 0.5)
+                                return ChatCommandBase.InvalidParameters;
+                        }
+                        
                         Window?.SetSpeed(Math.Round(e, 2)).Wait();
                         return null;
                     },
@@ -453,11 +469,16 @@ namespace Zetris.TETRIO {
                     "Starts the game.",
                     () =>
                         "/start\n" +
-                        "#1500\n" +
-                        "By playing Zetris, you accept we may upload your match to our YouTube channel if we find it interesting.\n" +
-                        "#100\n" +
-                        "If you do not consent to this, use .abort now.\n" +
-                        "#3000\n" +
+                        (Service != null
+                            ?
+                                "#1500\n" +
+                                "By playing Zetris, you accept we may upload your match to our YouTube channel if we find it interesting.\n" +
+                                "#100\n" +
+                                "If you do not consent to this, use .abort now.\n" +
+                                "#3000\n"
+                            :
+                                "#4500\n"
+                        ) +
                         "glhf"
                 )}
             };
